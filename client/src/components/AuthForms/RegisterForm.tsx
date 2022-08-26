@@ -57,13 +57,13 @@ const RegisterForm: React.FC<Props> = ({ handleFormChange }) => {
 
             <Grid container>
                 <Grid item xs>
-                    <Link href="#" variant="body2">
+                    <Link href='#' variant='body2'>
                         Forgot password?
                     </Link>
                 </Grid>
 
                 <Grid item>
-                    <Link component='button' onClick={handleFormChange}>
+                    <Link component='button' variant='body2' onClick={handleFormChange}>
                         Already have an account? Sign In
                     </Link>
                 </Grid>

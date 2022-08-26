@@ -3,7 +3,7 @@ import { Box, Container } from '@mui/material'
 
 import LoginForm from '../components/AuthForms/LoginForm'
 import RegisterForm from '../components/AuthForms/RegisterForm'
-import Logo from '../app/Logo'
+import Logo from '../app/theme/Logo'
 
 const AuthPage: React.FC = () => {
     const [isMember, setIsMember] = useState<boolean>(true)
@@ -20,11 +20,14 @@ const AuthPage: React.FC = () => {
                 justifyContent='center'
                 alignItems='center'
                 minHeight='100vh'
+                sx={{ mt: -10 }}
 
             >
                 <Logo />
-                {isMember && <LoginForm handleFormChange={handleFormChange} />}
-                {!isMember && <RegisterForm handleFormChange={handleFormChange} />}
+                <Box sx={{ mt: 5 }}>
+                    {isMember && <LoginForm handleFormChange={handleFormChange} />}
+                    {!isMember && <RegisterForm handleFormChange={handleFormChange} />}
+                </Box>
             </Box>
         </Container>
     )
