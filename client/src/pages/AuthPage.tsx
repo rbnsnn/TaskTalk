@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Box, Container } from '@mui/material'
 
-import LoginForm from '../components/AuthForms/LoginForm'
-import RegisterForm from '../components/AuthForms/RegisterForm'
+import LoginForm from '../components/Auth/LoginForm'
+import RegisterForm from '../components/Auth/RegisterForm'
 import Logo from '../app/theme/Logo'
 
 const AuthPage: React.FC = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Grid, Link, TextField } from '@mui/material';
 import { useAppDispatch } from '../../hooks/redux-hooks';
-import { authActions } from '../Auth/authSlice'
+import { authActions } from './authSlice'
 
 
 interface Props {
