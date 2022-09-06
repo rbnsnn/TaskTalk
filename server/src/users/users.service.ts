@@ -11,11 +11,13 @@ export class UsersService {
     async create(createUserDto: CreateUserDto) {
         const createdUser = await new this.userModel(createUserDto)
 
-        return createdUser.save()
+        createdUser.save()
+        return true
     }
 
     async findOne(username: string): Promise<User[]> {
         const user = await this.userModel.find({ username }).lean()
+
         return user
     }
 }

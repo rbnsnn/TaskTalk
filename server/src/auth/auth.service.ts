@@ -1,13 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ConflictException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
+import ShortUniqueId from 'short-unique-id';
 import * as bcrypt from 'bcrypt'
 import { CreateUserDto } from 'src/users/dtos/create-user.dto';
+import { CompaniesService } from 'src/companies/companies.service';
 
 @Injectable()
 export class AuthService {
     constructor(
         private userService: UsersService,
+        private companiesService: CompaniesService,
         private jwtService: JwtService
     ) { }
 
@@ -22,7 +25,7 @@ export class AuthService {
     }
 
     async login(user: any): Promise<any> {
-        const payload = { username: user.username, sub: user._id.toString() }
+        const payload = { username: user.username, sub: user.userId }
 
         return {
             access_token: this.jwtService.sign(payload)
@@ -30,14 +33,39 @@ export class AuthService {
     }
 
     async register(user: CreateUserDto) {
-        const hash = await bcrypt.hash(user.password, 10)
-
-        const newUser = {
-            username: user.username,
-            password: hash
+        const [userInDb] = await this.userService.findOne(user.username)
+        if (userInDb) {
+            throw new ConflictException('Username in use')
         }
 
-        this.userService.create(newUser)
+        const [companyInDb] = await this.companiesService.findOne(user.companyName)
+        if (companyInDb) {
+            throw new ConflictException('Company already in use')
+        }
+
+        const userUid = new ShortUniqueId({ length: 10 })
+        const generatedUserUid = userUid()
+        const companyUid = new ShortUniqueId({ length: 6 })
+        const generatedCompanyUid = companyUid()
+
+        const newCompany = {
+            companyId: generatedCompanyUid,
+            companyName: user.companyName,
+            users: [generatedUserUid]
+        }
+
+        this.companiesService.create(newCompany)
+
+        const hashedPassword = await bcrypt.hash(user.password, 10)
+        const newUser = {
+            userId: generatedUserUid,
+            companyId: generatedCompanyUid,
+            companyName: user.companyName,
+            username: user.username,
+            password: hashedPassword
+        }
+
+        return this.userService.create(newUser)
     }
 
 }

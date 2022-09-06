@@ -2,14 +2,15 @@ import { Module } from '@nestjs/common';
 import { UsersModule } from 'src/users/users.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { LocalStrategy } from './local.strategy';
+import { LocalStrategy } from './guards/local.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './jwt.strategy';
+import { JwtStrategy } from './guards/jwt.strategy';
 import { ConfigService, ConfigModule } from '@nestjs/config';
+import { CompaniesModule } from 'src/companies/companies.module';
 
 @Module({
-  imports: [UsersModule,
+  imports: [UsersModule, CompaniesModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
