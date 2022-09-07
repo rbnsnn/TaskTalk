@@ -17,8 +17,9 @@ export class AuthService {
     async validateUser(username: string, password: string): Promise<any> {
         const [user] = await this.userService.findOne(username)
 
-        if (user && bcrypt.compare(password, user.password)) {
+        if (user && await bcrypt.compare(password, user.password)) {
             const { password, ...result } = user
+
             return result
         }
         return null
@@ -28,19 +29,19 @@ export class AuthService {
         const payload = { username: user.username, sub: user.userId }
 
         return {
-            access_token: this.jwtService.sign(payload)
+            authToken: this.jwtService.sign(payload)
         }
     }
 
     async register(user: CreateUserDto) {
-        const [userInDb] = await this.userService.findOne(user.username)
-        if (userInDb) {
-            throw new ConflictException('Username in use')
-        }
-
         const [companyInDb] = await this.companiesService.findOne(user.companyName)
         if (companyInDb) {
             throw new ConflictException('Company already in use')
+        }
+
+        const [userInDb] = await this.userService.findOne(user.username)
+        if (userInDb) {
+            throw new ConflictException('Username in use')
         }
 
         const userUid = new ShortUniqueId({ length: 10 })
