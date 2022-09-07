@@ -1,62 +1,46 @@
-import React, { useRef, useState } from 'react';
-import axios from 'axios';
-import { Box, Button, CircularProgress, Grid, Link, TextField } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Alert, Box, Button, CircularProgress, Grid, Link as MuiLink, TextField } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/redux-hooks';
-import { UserAuth } from '../../types/user-auth-type'
+import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/redux-hooks';
+import { authLogin } from './actions/loginAction';
+import { authActions } from './authSlice';
 
 
-interface Props {
-    handleFormChange: () => void
-}
+const LoginForm: React.FC = () => {
+    const [username, handleUsername] = useState<string>('')
+    const [password, handlePassword] = useState<string>('')
 
-const LoginForm: React.FC<Props> = ({ handleFormChange }) => {
-    const [isLoading, setIsLoading] = useState<boolean>(false)
-
-    const emailInputRef = useRef<HTMLInputElement>(null)
-    const passwordInputRef = useRef<HTMLInputElement>(null)
+    const { isLoggedIn, loading, error } = useAppSelector(state => state.auth)
 
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
 
-    const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
-        e.preventDefault()
-
-        const email = emailInputRef.current?.value
-        const password = passwordInputRef.current?.value
-
-        const API_URL: string = (process.env.REACT_APP_API_URL as string)
-
-        setIsLoading(true)
-
-        try {
-            const { data, status } = await axios.post<UserAuth>(
-                `${API_URL}/login`,
-                { email, password },
-                {
-                    headers: {
-                        Accept: 'application/json'
-                    }
-                }
-            )
-            console.log(data, status)
-            setIsLoading(false)
-        } catch (err) {
-            setIsLoading(false)
-            console.log(err)
-        }
+    const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
+        event.preventDefault()
+        dispatch(authLogin({ username, password }))
     }
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            navigate('/dashboard')
+        }
+    }, [isLoggedIn, navigate])
 
     return (
         <>
+            {error && <Alert severity='error'>{error}</Alert>}
             <form onSubmit={handleSubmit}>
                 <TextField
                     margin='normal'
-                    id='email'
-                    label='Email'
+                    id='username'
+                    label='Username'
                     variant='outlined'
-                    autoComplete='email'
+                    autoComplete='username'
                     fullWidth
-                    ref={emailInputRef}
-                    disabled={isLoading}
+                    disabled={loading}
+                    onChange={(e) => handleUsername(e.target.value)}
                 />
 
                 <TextField
@@ -65,11 +49,11 @@ const LoginForm: React.FC<Props> = ({ handleFormChange }) => {
                     variant='outlined' type='password'
                     autoComplete='password'
                     fullWidth
-                    ref={passwordInputRef}
-                    disabled={isLoading}
+                    disabled={loading}
+                    onChange={(e) => handlePassword(e.target.value)}
                 />
 
-                {isLoading && <Box
+                {loading && <Box
                     display='flex'
                     flexDirection='column'
                     justifyContent='center'
@@ -84,7 +68,7 @@ const LoginForm: React.FC<Props> = ({ handleFormChange }) => {
                     sx={{ mt: 3, mb: 2 }}
                     variant='contained'
                     fullWidth
-                    disabled={isLoading}
+                    disabled={loading || (!username || !password)}
                 >
                     Signin
                 </Button>
@@ -92,15 +76,21 @@ const LoginForm: React.FC<Props> = ({ handleFormChange }) => {
 
             <Grid container>
                 <Grid item xs>
-                    <Link href='#' variant='body2'>
-                        Forgot password?
+                    <Link to='../resetpassword'>
+                        <MuiLink component='button' variant='body2'>
+                            Forgot password?
+                        </MuiLink>
                     </Link>
                 </Grid>
 
                 <Grid item>
-                    <Link component='button' variant='body2' onClick={handleFormChange}>
-                        Don't have an account? Sign Up
+
+                    <Link to='../register' onClick={() => dispatch(authActions.removeErrAndSucc())} >
+                        <MuiLink component='button' variant='body2'>
+                            Don't have an account? Sign Up
+                        </MuiLink>
                     </Link>
+
                 </Grid>
             </Grid>
         </>

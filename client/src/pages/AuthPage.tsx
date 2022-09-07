@@ -1,16 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Box, Container } from '@mui/material'
-
-import LoginForm from '../components/Auth/LoginForm'
-import RegisterForm from '../components/Auth/RegisterForm'
+import LoginForm from '../components/Auth/LoginForm';
+import RegisterForm from '../components/Auth/RegisterForm';
 import Logo from '../app/theme/Logo'
+import { Routes, Route } from 'react-router-dom'
 
 const AuthPage: React.FC = () => {
-    const [isMember, setIsMember] = useState<boolean>(true)
-
-    const handleFormChange = (): void => {
-        setIsMember(prev => !prev)
-    }
 
     return (
         <Container maxWidth='xs'>
@@ -25,8 +20,12 @@ const AuthPage: React.FC = () => {
             >
                 <Logo />
                 <Box sx={{ mt: 5 }}>
-                    {isMember && <LoginForm handleFormChange={handleFormChange} />}
-                    {!isMember && <RegisterForm handleFormChange={handleFormChange} />}
+                    <Routes>
+                        <Route path='login' element={<LoginForm />} />
+                        <Route path='register' element={<RegisterForm />} />
+                        <Route path='resetpassword' element={<div>Reseet</div>} />
+
+                    </Routes>
                 </Box>
             </Box>
         </Container>
