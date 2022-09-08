@@ -6,6 +6,8 @@ import { useAppSelector } from '../hooks/redux-hooks';
 import AuthPage from '../pages/AuthPage';
 import DashboardPage from '../pages/DashboardPage';
 import ProfilePage from '../pages/ProfilePage';
+import LoginForm from '../components/Auth/LoginForm';
+import RegisterForm from '../components/Auth/RegisterForm';
 
 
 const App = () => {
@@ -15,20 +17,25 @@ const App = () => {
             <CssBaseline />
 
             <Routes>
-                <Route path='/' element={isLoggedIn ? <Navigate to='dashboard' replace /> : <Navigate to='auth/login' replace />} />
-                <Route path='auth' element={<Navigate to='login' />} />
-                <Route path='auth/*' element={<AuthPage />} />
-                {isLoggedIn ?
-                    <>
-                        <Route path='dashboard'>
-                            <Route index element={<DashboardPage />} />
-                            <Route path='profile' element={<ProfilePage />} />
-                        </Route>
-                        <Route path='*' element={<Navigate to='dashboard' />} />
-                    </>
-                    : <Route path='*' element={<Navigate to='auth/login' />} />}
+                {isLoggedIn &&
+                    <Route path='/' element={<DashboardPage />}>
+                        <Route path='*' element={<Navigate to='/' />} />
+                    </Route>
+                }
 
+                {!isLoggedIn &&
+                    <>
+                        <Route path='/' element={<Navigate to='auth' />} />
+                        <Route path='auth' element={<AuthPage />}>
+                            <Route path='login' element={<LoginForm />} />
+                            <Route path='register' element={<RegisterForm />} />
+                            <Route path='*' element={<Navigate to='login' />} />
+                        </Route>
+                        <Route path='/*' element={<Navigate to='auth/login' />} />
+                    </>
+                }
             </Routes>
+
         </div >
     );
 }

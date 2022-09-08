@@ -1,36 +1,24 @@
-import React, { useEffect } from 'react'
-import { Box, Button, Container } from '@mui/material'
-import { Link } from 'react-router-dom'
-import { useAppDispatch } from '../hooks/redux-hooks'
-import { authActions } from '../components/Auth/authSlice'
+import React from 'react'
+import { Box } from '@mui/material'
 
+import AppMainBar from '../components/Dashboard/AppMainBar/AppMainBar'
+import AppDrawer from '../components/Dashboard/Drawer/AppDrawer'
+
+const drawerWidth = 240;
 
 const DashboardPage: React.FC = () => {
 
-    const dispatch = useAppDispatch()
+    const [mobileOpen, setMobileOpen] = React.useState(false);
 
-    const handleLogout = () => {
-        dispatch(authActions.logout())
-    }
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+    };
 
     return (
-        <Container maxWidth='xs'>
-            <Box
-                display='flex'
-                flexDirection='column'
-                justifyContent='center'
-                alignItems='center'
-                minHeight='100vh'
-                sx={{ mt: -10 }}
-
-            >
-                <Box sx={{ mt: 5 }}>
-                    Welcome
-                    <Link to={'profile'}>profile</Link>
-                    <Button onClick={handleLogout}>Logout</Button>
-                </Box>
-            </Box>
-        </Container>
+        <Box sx={{ display: 'flex' }}>
+            <AppMainBar drawerWidth={drawerWidth} handleDrawerToggle={handleDrawerToggle} />
+            <AppDrawer drawerWidth={drawerWidth} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+        </Box>
     )
 }
 

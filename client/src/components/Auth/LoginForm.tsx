@@ -23,8 +23,10 @@ const LoginForm: React.FC = () => {
     }
 
     useEffect(() => {
+        console.log('not')
         if (isLoggedIn) {
-            navigate('/dashboard')
+            console.log('test')
+            navigate('../')
         }
     }, [isLoggedIn, navigate])
 

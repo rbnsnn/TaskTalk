@@ -3,7 +3,7 @@ import { Box, Container } from '@mui/material'
 import LoginForm from '../components/Auth/LoginForm';
 import RegisterForm from '../components/Auth/RegisterForm';
 import Logo from '../app/theme/Logo'
-import { Routes, Route } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 
 const AuthPage: React.FC = () => {
 
@@ -20,12 +20,7 @@ const AuthPage: React.FC = () => {
             >
                 <Logo />
                 <Box sx={{ mt: 5 }}>
-                    <Routes>
-                        <Route path='login' element={<LoginForm />} />
-                        <Route path='register' element={<RegisterForm />} />
-                        <Route path='resetpassword' element={<div>Reseet</div>} />
-
-                    </Routes>
+                    <Outlet />
                 </Box>
             </Box>
         </Container>
