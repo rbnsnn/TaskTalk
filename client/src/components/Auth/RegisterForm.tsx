@@ -1,10 +1,11 @@
-import { Box, Button, Grid, Link as MuiLink, TextField, Alert, CircularProgress } from '@mui/material'
-import { Link, useNavigate } from 'react-router-dom'
+import { Box, Button, Grid, TextField, Alert, CircularProgress } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 import { useInput } from '../../hooks/useInput'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { authRegister } from './actions/registerAction'
 import { useEffect } from 'react'
 import { authActions } from './authSlice'
+import TextLink from '../TextLink'
 
 const RegisterForm: React.FC = () => {
     const isLongerThan = (value: string) => value.length >= 4
@@ -59,6 +60,8 @@ const RegisterForm: React.FC = () => {
 
         dispatch(authRegister(data))
     }
+
+    const handleRemoveErrAndSucc = () => dispatch(authActions.removeErrAndSucc())
 
     const error = useAppSelector(state => state.auth.error)
     const success = useAppSelector(state => state.auth.success)
@@ -156,21 +159,15 @@ const RegisterForm: React.FC = () => {
 
             <Grid container>
                 <Grid item xs>
-                    <Link to='../resetpassword'>
-                        <MuiLink component='button' variant='body2'>
-                            Forgot password?
-                        </MuiLink>
-                    </Link>
+                    <TextLink to={'../resetpassword'} onClick={handleRemoveErrAndSucc}>
+                        Forgot password?
+                    </TextLink>
                 </Grid>
 
                 <Grid item>
-
-                    <Link to='../login' onClick={() => dispatch(authActions.removeErrAndSucc())}>
-                        <MuiLink component='button' variant='body2'>
-                            Already have an account? Sign In
-                        </MuiLink>
-                    </Link>
-
+                    <TextLink to={'../login'} onClick={handleRemoveErrAndSucc}>
+                        Already have an account? Sign In
+                    </TextLink>
                 </Grid>
             </Grid>
         </>

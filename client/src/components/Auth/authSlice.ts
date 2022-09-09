@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { storeToken } from "../../helpers/auth/token-helper";
 import { UserData } from "../../types/user-data.type";
 import { authLogin } from "./actions/loginAction";
 import { authRegister } from "./actions/registerAction";
@@ -20,7 +21,8 @@ const initialAuthState: AuthInterface = {
         username: '',
         email: '',
         roles: [],
-        authToken: ''
+        authToken: '',
+        expiration: ''
     }
 }
 
@@ -28,13 +30,18 @@ const authSlice = createSlice({
     name: 'auth',
     initialState: initialAuthState,
     reducers: {
+        retrieve(state, payload) {
+            state.isLoggedIn = true
+            state.user = {
+                ...state.user,
+                ...payload
+            }
+        },
         removeErrAndSucc(state) {
             state.success = false
             state.error = null
         },
-        logout(state) {
-            state = initialAuthState
-        },
+        logout: () => initialAuthState,
 
     },
     extraReducers: (builder) => {
@@ -42,14 +49,18 @@ const authSlice = createSlice({
             state.loading = true
         })
 
-        builder.addCase(authLogin.fulfilled, (state, { payload }) => {
+        builder.addCase(authLogin.fulfilled, (state, { payload }: any) => {
+            const expiration = storeToken(payload.authToken)
+
             state.isLoggedIn = true
             state.loading = false
             state.error = null
             state.user = {
                 ...state.user,
-                authToken: payload
+                ...payload,
+                expiration
             }
+
         })
 
         builder.addCase(authLogin.rejected, (state, { payload }) => {

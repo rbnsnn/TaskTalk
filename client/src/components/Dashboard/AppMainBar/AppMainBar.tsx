@@ -35,7 +35,7 @@ const AppMainBar: React.FC<Props> = ({ drawerWidth, handleDrawerToggle }) => {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         News
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    <Button color="inherit">Logout</Button>
                 </Toolbar>
             </AppBar>
         </Box>

@@ -7,7 +7,7 @@ export const authLogin = createAsyncThunk(
     async ({ username, password }: UserAuth, { rejectWithValue }) => {
         const URL: string = `${(process.env.REACT_APP_API_URL as string)}/auth/login`
         try {
-            const { data } = await axios.post<string>(
+            const { data } = await axios.post<object>(
                 URL,
                 { username, password },
                 {

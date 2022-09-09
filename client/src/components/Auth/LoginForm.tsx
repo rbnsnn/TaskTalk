@@ -1,34 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { Alert, Box, Button, CircularProgress, Grid, Link as MuiLink, TextField } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks/redux-hooks';
-import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/redux-hooks';
+import React, { useState } from 'react';
+import { Alert, Box, Button, CircularProgress, Grid, TextField } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { authLogin } from './actions/loginAction';
 import { authActions } from './authSlice';
+import TextLink from '../TextLink';
 
 
 const LoginForm: React.FC = () => {
     const [username, handleUsername] = useState<string>('')
     const [password, handlePassword] = useState<string>('')
 
-    const { isLoggedIn, loading, error } = useAppSelector(state => state.auth)
+    const { loading, error } = useAppSelector(state => state.auth)
 
     const dispatch = useAppDispatch()
-    const navigate = useNavigate()
 
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
         event.preventDefault()
         dispatch(authLogin({ username, password }))
     }
 
-    useEffect(() => {
-        console.log('not')
-        if (isLoggedIn) {
-            console.log('test')
-            navigate('../')
-        }
-    }, [isLoggedIn, navigate])
+    const handleRemoveErrAndSucc = () => dispatch(authActions.removeErrAndSucc())
 
     return (
         <>
@@ -78,21 +69,15 @@ const LoginForm: React.FC = () => {
 
             <Grid container>
                 <Grid item xs>
-                    <Link to='../resetpassword'>
-                        <MuiLink component='button' variant='body2'>
-                            Forgot password?
-                        </MuiLink>
-                    </Link>
+                    <TextLink to={'../resetpassword'} onClick={handleRemoveErrAndSucc}>
+                        Forgot password?
+                    </TextLink>
                 </Grid>
 
                 <Grid item>
-
-                    <Link to='../register' onClick={() => dispatch(authActions.removeErrAndSucc())} >
-                        <MuiLink component='button' variant='body2'>
-                            Don't have an account? Sign Up
-                        </MuiLink>
-                    </Link>
-
+                    <TextLink to={'../register'} onClick={handleRemoveErrAndSucc}>
+                        Don't have an account? Sign Up
+                    </TextLink>
                 </Grid>
             </Grid>
         </>

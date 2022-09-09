@@ -1,52 +1,36 @@
 import React from 'react';
-import { CssBaseline } from '@mui/material';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useAppSelector } from '../hooks/redux-hooks';
-
-import AuthPage from '../pages/AuthPage';
 import DashboardPage from '../pages/DashboardPage';
-import ProfilePage from '../pages/ProfilePage';
-import LoginForm from '../components/Auth/LoginForm';
+import LoginPage from '../pages/Auth/LoginPage'
+import RegisterPage from '../pages/Auth/RegisterPage'
+import LogoutPage from '../pages/Auth/LogoutPage'
 
 
-const AppRoutes = () => {
+const AppRoutes: React.FC = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     return (
-        <div className='App'>
-            <CssBaseline />
-
-            <Routes>
-                {isLoggedIn &&
-                    <Route path='/' element={<DashboardPage />}>
-                        <Route path='*' element={<Navigate to='/' />} />
+        <Routes>
+            {isLoggedIn &&
+                <>
+                    <Route path='/' element={<Navigate to='dashboard' />} />
+                    <Route path='dashboard' element={<DashboardPage />}>
+                        <Route path='test' element={<p>test</p>} />
                     </Route>
-                }
+                    <Route path='logout' element={<LogoutPage />} />
+                    <Route path='/*' element={<Navigate to='/' />} />
+                </>
+            }
 
-                {!isLoggedIn &&
-                    <Route path='/' element={<Navigate to='login' />}>
-                        <Route path='login' element={<AuthPage />} />
-                        <Route path='register' element={<AuthPage />} />
-                        <Route path='*' element={<Navigate to='login' />} />
-                    </Route>
-                }
-            </Routes>
-
-            {/* <Routes>
-                <Route path='/' element={isLoggedIn ? <Navigate to='dashboard' replace /> : <Navigate to='auth/login' replace />} />
-                <Route path='' element={<Navigate to='login' />} />
-                <Route path='auth/*' element={<AuthPage />} />
-                {isLoggedIn ?
-                    <>
-                        <Route path='dashboard'>
-                            <Route index element={<DashboardPage />} />
-                            <Route path='profile' element={<ProfilePage />} />
-                        </Route>
-                        <Route path='*' element={<Navigate to='dashboard' />} />
-                    </>
-                    : <Route path='*' element={<Navigate to='auth/login' />} />}
-
-            </Routes> */}
-        </div >
+            {!isLoggedIn &&
+                <>
+                    <Route path='/' element={<Navigate to='login' />} />
+                    <Route path='login' element={<LoginPage />} />
+                    <Route path='register' element={<RegisterPage />} />
+                    <Route path='/*' element={<Navigate to='login' />} />
+                </>
+            }
+        </Routes>
     );
 }
 

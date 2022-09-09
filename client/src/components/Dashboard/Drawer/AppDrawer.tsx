@@ -10,7 +10,6 @@ interface Props {
 }
 const AppDrawer: React.FC<Props> = ({ drawerWidth, mobileOpen, handleDrawerToggle }) => {
 
-
     return (
         <Box
             component="nav"
