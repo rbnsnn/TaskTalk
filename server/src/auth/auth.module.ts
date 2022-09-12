@@ -16,7 +16,10 @@ import { CompaniesModule } from 'src/companies/companies.module';
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
         return {
-          secret: configService.get<string>('JWT_SECRET')
+          secret: configService.get<string>('JWT_SECRET'),
+          signOptions: {
+            expiresIn: configService.get<string>('JWT_EXPIRATION_TIME')
+          }
         };
       },
       inject: [ConfigService]
