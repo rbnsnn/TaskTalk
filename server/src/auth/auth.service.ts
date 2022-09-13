@@ -1,17 +1,19 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Injectable, ConflictException, ForbiddenException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import ShortUniqueId from 'short-unique-id';
 import * as bcrypt from 'bcrypt'
 import { CreateUserDto } from 'src/users/dtos/create-user.dto';
 import { CompaniesService } from 'src/companies/companies.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
     constructor(
         private userService: UsersService,
         private companiesService: CompaniesService,
-        private jwtService: JwtService
+        private jwtService: JwtService,
+        private configService: ConfigService
     ) { }
 
     async validateUser(username: string, password: string): Promise<any> {
@@ -25,12 +27,25 @@ export class AuthService {
         return null
     }
 
-    async login(user: any): Promise<any> {
-        const payload = { username: user.username, sub: user.userId }
+    async login(user: any) {
+        const payload = {
+            username: user.username,
+            sub: user.userId
+        }
+
+        const authToken = await this.getAuthToken(payload)
+        const refreshToken = await this.getRefreshToken(payload)
+
+        await this.updateRefreshToken(user.username, refreshToken)
 
         return {
-            authToken: this.jwtService.sign(payload)
+            authToken,
+            refreshToken
         }
+    }
+
+    async logout(user: any) {
+        await this.updateRefreshToken(user.username, null)
     }
 
     async register(user: CreateUserDto) {
@@ -69,4 +84,53 @@ export class AuthService {
         return this.userService.create(newUser)
     }
 
+    async getAuthToken(payload: any) {
+        const authToken = await this.jwtService.sign(payload, {
+            secret: this.configService.get<string>('JWT_SECRET'),
+            expiresIn: this.configService.get<string>('JWT_EXPIRATION_TIME')
+        })
+        return authToken
+    }
+
+    async getRefreshToken(payload: any) {
+        const authToken = await this.jwtService.sign(payload, {
+            secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
+            expiresIn: this.configService.get<string>('JWT_REFRESH_EXPIRATION_TIME')
+        })
+        return authToken
+    }
+
+    async updateRefreshToken(username: string, token: string) {
+        if (token) {
+            const cryptedToken = await bcrypt.hash(token, 10)
+            await this.userService.findOneAndUpdate(username, { refreshToken: cryptedToken })
+        } else {
+            await this.userService.findOneAndUpdate(username, { refreshToken: null })
+        }
+    }
+
+    async refreshTokens(username: string, refreshToken: string) {
+        const [user] = await this.userService.findOne(username)
+
+        if (!user || !user.refreshToken) {
+            throw new ForbiddenException('Access Denied!')
+        }
+
+        const tokenMatches = await bcrypt.compare(refreshToken, user.refreshToken)
+
+        if (!tokenMatches) throw new ForbiddenException('Access Denied')
+
+        const payload = {
+            username: user.username,
+            sub: user.userId
+        }
+
+        const newAuthToken = await this.getAuthToken(payload)
+        const newRefreshToken = await this.getAuthToken(payload)
+
+        return {
+            authToken: newAuthToken,
+            refreshToken: newRefreshToken
+        }
+    }
 }

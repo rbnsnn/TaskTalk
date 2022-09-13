@@ -5,27 +5,15 @@ import { AuthService } from './auth.service';
 import { LocalStrategy } from './guards/local.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './guards/jwt.strategy';
-import { ConfigService, ConfigModule } from '@nestjs/config';
+import { JwtStrategy } from './guards/jwt-auth.strategy';
 import { CompaniesModule } from 'src/companies/companies.module';
+import { RefreshTokenStrategy } from './guards/jwt-refresh.strategy';
 
 @Module({
   imports: [UsersModule, CompaniesModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => {
-        return {
-          secret: configService.get<string>('JWT_SECRET'),
-          signOptions: {
-            expiresIn: configService.get<string>('JWT_EXPIRATION_TIME')
-          }
-        };
-      },
-      inject: [ConfigService]
-    }),
-    ConfigModule],
+    JwtModule.register({})],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy]
+  providers: [AuthService, LocalStrategy, JwtStrategy, RefreshTokenStrategy]
 })
 export class AuthModule { }
