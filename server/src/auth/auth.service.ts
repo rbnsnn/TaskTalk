@@ -79,6 +79,7 @@ export class AuthService {
             companyId: generatedCompanyUid,
             companyName: user.companyName,
             username: user.username,
+            email: user.email,
             password: hashedPassword
         }
 

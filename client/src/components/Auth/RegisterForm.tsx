@@ -88,7 +88,6 @@ const RegisterForm: React.FC = () => {
             {success && <Alert severity='success'>User created successfully!</Alert>}
             <form onSubmit={handleSubmit}>
                 <TextField
-                    inputProps={{ pattern: "[a-z]" }}
                     margin='normal'
                     id='company'
                     label='Company'
