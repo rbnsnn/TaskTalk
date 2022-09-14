@@ -4,12 +4,13 @@ interface AuthToken {
     exp: number
 }
 
-export const storeToken = (authToken: string): string => {
+export const storeToken = (authToken: string, refreshToken: string): string => {
     const decoded = jwtDecode<AuthToken>(authToken)
     const expiration = (decoded.exp * 1000).toString()
 
     localStorage.setItem('authToken', authToken)
     localStorage.setItem('expiration', expiration)
+    localStorage.setItem('refreshToken', refreshToken)
 
     return expiration
 }
@@ -17,6 +18,7 @@ export const storeToken = (authToken: string): string => {
 export const removeToken = (): void => {
     localStorage.removeItem('authToken')
     localStorage.removeItem('expiration')
+    localStorage.removeItem('refreshToken')
 }
 
 export const calculateRemainingTime = (expirationTime: string): number => {
@@ -27,17 +29,19 @@ export const calculateRemainingTime = (expirationTime: string): number => {
 }
 
 export const retrieveStoredToken = () => {
-    const storedToken = localStorage.getItem('authToken');
-    const expirationTime = localStorage.getItem('expiration');
+    const authToken = localStorage.getItem('authToken')
+    const expiration = localStorage.getItem('expiration')
+    const refreshToken = localStorage.getItem('refreshToken')
 
-    const remainingTime = calculateRemainingTime(expirationTime!);
-    if (!storedToken || remainingTime <= 3600) {
+    const remainingTime = calculateRemainingTime(expiration!)
+    if (!authToken || remainingTime <= 3600) {
         removeToken()
-        return null;
+        return null
     }
 
     return {
-        authToken: storedToken,
+        authToken,
         expiration: remainingTime,
-    };
-};
+        refreshToken
+    }
+}

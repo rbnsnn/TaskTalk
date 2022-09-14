@@ -30,7 +30,8 @@ const authSlice = createSlice({
     name: 'auth',
     initialState: initialAuthState,
     reducers: {
-        retrieve(state, payload) {
+        retrieve(state, { payload }: any) {
+            console.log(payload)
             state.isLoggedIn = true
             state.user = {
                 ...state.user,
@@ -50,7 +51,7 @@ const authSlice = createSlice({
         })
 
         builder.addCase(authLogin.fulfilled, (state, { payload }: any) => {
-            const expiration = storeToken(payload.authToken)
+            const expiration = storeToken(payload.authToken, payload.refreshToken)
 
             state.isLoggedIn = true
             state.loading = false
