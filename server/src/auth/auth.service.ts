@@ -113,7 +113,6 @@ export class AuthService {
 
     async refreshTokens(username: string, refreshToken: string) {
         const [user] = await this.userService.findOne(username)
-
         if (!user || !user.refreshToken) {
             throw new ForbiddenException('Access Denied!')
         }

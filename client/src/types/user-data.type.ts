@@ -4,5 +4,4 @@ export interface UserData {
     email: string,
     roles: string[],
     authToken: string,
-    expiration: string,
 }

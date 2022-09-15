@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { storeToken } from "../../helpers/auth/token-helper";
+import { storeTokens } from "../../helpers/auth/token-helper";
 import { UserData } from "../../types/user-data.type";
 import { authLogin } from "./actions/loginAction";
 import { authRegister } from "./actions/registerAction";
@@ -22,7 +22,6 @@ const initialAuthState: AuthInterface = {
         email: '',
         roles: [],
         authToken: '',
-        expiration: ''
     }
 }
 
@@ -31,7 +30,6 @@ const authSlice = createSlice({
     initialState: initialAuthState,
     reducers: {
         retrieve(state, { payload }: any) {
-            console.log(payload)
             state.isLoggedIn = true
             state.user = {
                 ...state.user,
@@ -51,7 +49,7 @@ const authSlice = createSlice({
         })
 
         builder.addCase(authLogin.fulfilled, (state, { payload }: any) => {
-            const expiration = storeToken(payload.authToken, payload.refreshToken)
+            storeTokens(payload)
 
             state.isLoggedIn = true
             state.loading = false
@@ -59,7 +57,6 @@ const authSlice = createSlice({
             state.user = {
                 ...state.user,
                 ...payload,
-                expiration
             }
 
         })
