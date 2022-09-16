@@ -1,9 +1,11 @@
 import axios from "axios";
+import { authActions } from "../../components/Auth/authSlice";
+import { useAppDispatch } from "../../hooks/redux-hooks";
 import { retrieveStoredTokens, storeTokens } from "../auth/token-helper";
 
 const baseURL = (process.env.REACT_APP_API_URL as string)
 
-const axiosInstance = axios.create({
+const axiosApi = axios.create({
     baseURL,
     headers: {
         "Content-Type": "application/json",
@@ -11,14 +13,17 @@ const axiosInstance = axios.create({
 });
 
 const refreshTokens = (refreshToken: string) => {
-    return axiosInstance.post('/auth/refresh', {
-        "refreshToken": refreshToken
+    return axios.get(`${baseURL}/auth/refresh`, {
+        headers: {
+            'Authorization': `Bearer ${refreshToken}`,
+            'Content-Type': 'application/json'
+        },
     })
 }
 
-axiosInstance.interceptors.request.use(
+axiosApi.interceptors.request.use(
     async (config) => {
-        const { authToken, refreshToken } = await retrieveStoredTokens()
+        const { authToken } = await retrieveStoredTokens()
         if (authToken) {
             config.headers = {
                 'Authorization': `Bearer ${authToken}`,
@@ -34,7 +39,7 @@ axiosInstance.interceptors.request.use(
     }
 )
 
-axiosInstance.interceptors.response.use(
+axiosApi.interceptors.response.use(
     (response) => {
         return response;
     },
@@ -43,20 +48,23 @@ axiosInstance.interceptors.response.use(
 
         if (error.response.status === 401 && !originalConfig._retry) {
             originalConfig._retry = true;
-            const { authToken, refreshToken } = await retrieveStoredTokens()
-            console.log(refreshToken)
-            const newTokens = await refreshTokens(refreshToken!)
-            await storeTokens(newTokens)
-            return axiosInstance(originalConfig);
+            const { refreshToken } = await retrieveStoredTokens()
+
+            if (refreshToken) {
+                const newTokens = await refreshTokens(refreshToken)
+                if (newTokens.data) {
+                    await storeTokens(newTokens.data)
+                }
+            }
+            return axiosApi(originalConfig);
         }
 
-        //     if (error.response.status === 403) {
-        //         return Promise.reject(error.response.data);
-        //     }
-
+        if (error.response.status === 403) {
+            return Promise.reject(error.response.data);
+        }
 
         return Promise.reject(error);
     }
 );
 
-export { axiosInstance }
+export { axiosApi }

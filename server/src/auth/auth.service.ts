@@ -104,8 +104,7 @@ export class AuthService {
 
     async updateRefreshToken(username: string, token: string) {
         if (token) {
-            const cryptedToken = await bcrypt.hash(token, 10)
-            await this.userService.findOneAndUpdate(username, { refreshToken: cryptedToken })
+            await this.userService.findOneAndUpdate(username, { refreshToken: token })
         } else {
             await this.userService.findOneAndUpdate(username, { refreshToken: null })
         }
@@ -117,8 +116,7 @@ export class AuthService {
             throw new ForbiddenException('Access Denied!')
         }
 
-        const tokenMatches = await bcrypt.compare(refreshToken, user.refreshToken)
-
+        const tokenMatches = (refreshToken === user.refreshToken)
         if (!tokenMatches) throw new ForbiddenException('Access Denied')
 
         const payload = {
@@ -127,7 +125,9 @@ export class AuthService {
         }
 
         const newAuthToken = await this.getAuthToken(payload)
-        const newRefreshToken = await this.getAuthToken(payload)
+        const newRefreshToken = await this.getRefreshToken(payload)
+
+        await this.updateRefreshToken(user.username, newRefreshToken)
 
         return {
             authToken: newAuthToken,
