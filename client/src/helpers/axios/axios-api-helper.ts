@@ -1,6 +1,4 @@
 import axios from "axios";
-import { authActions } from "../../components/Auth/authSlice";
-import { useAppDispatch } from "../../hooks/redux-hooks";
 import { retrieveStoredTokens, storeTokens } from "../auth/token-helper";
 
 const baseURL = (process.env.REACT_APP_API_URL as string)
@@ -62,7 +60,6 @@ axiosApi.interceptors.response.use(
         if (error.response.status === 403) {
             return Promise.reject(error.response.data);
         }
-
         return Promise.reject(error);
     }
 );
