@@ -69,7 +69,7 @@ const authSlice = createSlice({
         builder.addCase(authRegister.pending, (state) => {
             state.loading = true
         })
-        builder.addCase(authRegister.fulfilled, (state, { payload }) => {
+        builder.addCase(authRegister.fulfilled, (state) => {
             state.loading = false
             state.error = null
             state.success = true
@@ -77,6 +77,7 @@ const authSlice = createSlice({
         builder.addCase(authRegister.rejected, (state, { payload }) => {
             state.loading = false
             state.error = payload as string
+            state.success = false
         })
     }
 })

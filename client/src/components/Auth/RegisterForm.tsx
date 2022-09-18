@@ -25,6 +25,18 @@ const RegisterForm: React.FC = () => {
         inputBlurHandler: usernameBlurHandler,
     } = useInput(isLongerThan)
 
+    const isEmail = (value: string) => value.match(
+        // eslint-disable-next-line
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    )
+    const {
+        value: emailValue,
+        isValid: emailIsValid,
+        hasError: emailHasError,
+        valueChangeHandler: emailChangeHandler,
+        inputBlurHandler: emailBlurHandler,
+    } = useInput(isEmail)
+
     const {
         value: passwordValue,
         isValid: passwordIsValid,
@@ -44,7 +56,7 @@ const RegisterForm: React.FC = () => {
 
     let formIsValid = false;
 
-    if (companyIsValid && usernameIsValid && passwordIsValid && passwordCheckIsValid) {
+    if (companyIsValid && usernameIsValid && emailIsValid && passwordIsValid && passwordCheckIsValid) {
         formIsValid = true;
     }
 
@@ -55,6 +67,7 @@ const RegisterForm: React.FC = () => {
         const data = {
             companyName: companyValue,
             username: usernameValue,
+            email: emailValue,
             password: passwordValue
         }
 
@@ -94,10 +107,11 @@ const RegisterForm: React.FC = () => {
                     variant='outlined'
                     fullWidth
                     error={companyHasError}
-                    helperText={companyHasError ? 'Company wrong' : ''}
+                    helperText={companyHasError ? 'entered company is not valid' : ''}
                     onChange={(e) => companyChangeHandler(e)}
                     onBlur={(e) => companyBlurHandler(e)}
                 />
+
                 <TextField
                     margin='normal'
                     id='username'
@@ -106,9 +120,22 @@ const RegisterForm: React.FC = () => {
                     autoComplete='username'
                     fullWidth
                     error={usernameHasError}
-                    helperText={usernameHasError ? 'Username wrong' : ''}
+                    helperText={usernameHasError ? 'entered username is not valid' : ''}
                     onChange={(e) => usernameChangeHandler(e)}
                     onBlur={(e) => usernameBlurHandler(e)}
+                />
+
+                <TextField
+                    margin='normal'
+                    id='email'
+                    label='Email'
+                    variant='outlined'
+                    autoComplete='email'
+                    fullWidth
+                    error={emailHasError}
+                    helperText={emailHasError ? 'entered email is not valid' : ''}
+                    onChange={(e) => emailChangeHandler(e)}
+                    onBlur={(e) => emailBlurHandler(e)}
                 />
 
                 <TextField
@@ -118,7 +145,7 @@ const RegisterForm: React.FC = () => {
                     autoComplete='password'
                     fullWidth
                     error={passwordHasError}
-                    helperText={passwordHasError ? 'Password wrong' : ''}
+                    helperText={passwordHasError ? 'entered password is not valid' : ''}
                     onChange={(e) => passwordChangeHandler(e)}
                     onBlur={(e) => passwordBlurHandler(e)}
                 />
@@ -130,7 +157,7 @@ const RegisterForm: React.FC = () => {
                     autoComplete='password'
                     fullWidth
                     error={passwordCheckHasError}
-                    helperText={passwordCheckHasError ? 'Password mismatch' : ''}
+                    helperText={passwordCheckHasError ? 'Passwords mismatch' : ''}
                     onChange={(e) => passwordCheckChangeHandler(e)}
                     onBlur={(e) => passwordCheckBlurHandler(e)}
                 />
