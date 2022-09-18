@@ -18,7 +18,7 @@ export const authLogin = createAsyncThunk(
             )
             return data
         } catch (error: any) {
-            if (error.response && error.response.data.message) {
+            if (error.response.data) {
                 return rejectWithValue(error.response.data.message)
             } else {
                 return rejectWithValue(error.message)

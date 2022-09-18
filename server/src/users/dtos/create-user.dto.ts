@@ -2,7 +2,6 @@ import { IsString, MinLength, IsDefined, IsEmail } from 'class-validator'
 
 export class CreateUserDto {
     @IsString()
-    @IsDefined()
     @MinLength(3, { message: 'Company must be longer than 2 characters' })
     companyName: string
 
@@ -10,6 +9,7 @@ export class CreateUserDto {
     @MinLength(4)
     username: string
 
+    @IsString()
     @IsEmail()
     email: string
 

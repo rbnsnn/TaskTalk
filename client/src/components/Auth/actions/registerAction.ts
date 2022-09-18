@@ -4,12 +4,12 @@ import axios from "axios";
 
 export const authRegister = createAsyncThunk(
     'auth/register',
-    async ({ companyName, username, password }: UserCreate, { rejectWithValue }) => {
+    async ({ companyName, username, email, password }: UserCreate, { rejectWithValue }) => {
         const URL: string = `${(process.env.REACT_APP_API_URL as string)}/auth/register`
         try {
             const { data } = await axios.post<boolean>(
                 URL,
-                { companyName, username, password },
+                { companyName, username, email, password },
                 {
                     headers: {
                         Accept: 'application/json'
@@ -18,7 +18,7 @@ export const authRegister = createAsyncThunk(
             )
             return data
         } catch (error: any) {
-            if (error.response && error.response.data.message) {
+            if (error.response.data) {
                 return rejectWithValue(error.response.data.message)
             } else {
                 return rejectWithValue(error.message)

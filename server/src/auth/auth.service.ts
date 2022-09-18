@@ -1,4 +1,4 @@
-import { Injectable, ConflictException, ForbiddenException } from '@nestjs/common';
+import { Injectable, ConflictException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import ShortUniqueId from 'short-unique-id';
@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt'
 import { CreateUserDto } from 'src/users/dtos/create-user.dto';
 import { CompaniesService } from 'src/companies/companies.service';
 import { ConfigService } from '@nestjs/config';
+import { Roles } from 'src/users/enums/user-roles.enum';
 
 @Injectable()
 export class AuthService {
@@ -34,12 +35,32 @@ export class AuthService {
             sub: user.userId
         }
 
+        const [userInDb] = await this.userService.findOne(user.username)
+        if (!userInDb) {
+            throw new NotFoundException('Username not found')
+        }
+        console.log
         const authToken = await this.getAuthToken(payload)
         const refreshToken = await this.getRefreshToken(payload)
 
         await this.updateRefreshToken(user.username, refreshToken)
 
+        const {
+            companyId,
+            companyName,
+            userId,
+            username,
+            email,
+            roles
+        } = userInDb
+
         return {
+            companyId,
+            companyName,
+            userId,
+            username,
+            email,
+            roles,
             authToken,
             refreshToken
         }
@@ -75,12 +96,13 @@ export class AuthService {
 
         const hashedPassword = await bcrypt.hash(user.password, 10)
         const newUser = {
-            userId: generatedUserUid,
             companyId: generatedCompanyUid,
             companyName: user.companyName,
+            userId: generatedUserUid,
             username: user.username,
             email: user.email,
-            password: hashedPassword
+            password: hashedPassword,
+            roles: [Roles.ADMIN, Roles.MODERATOR, Roles.USER]
         }
 
         return this.userService.create(newUser)
