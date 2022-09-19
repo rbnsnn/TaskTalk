@@ -8,12 +8,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './guards/jwt-auth.strategy';
 import { CompaniesModule } from 'src/companies/companies.module';
 import { RefreshTokenStrategy } from './guards/jwt-refresh.strategy';
+import { RolesGuard } from 'src/users/guards/roles.guard';
 
 @Module({
   imports: [UsersModule, CompaniesModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({})],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy, RefreshTokenStrategy]
+  providers: [AuthService, LocalStrategy, JwtStrategy, RefreshTokenStrategy, RolesGuard]
 })
 export class AuthModule { }

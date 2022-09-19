@@ -6,7 +6,7 @@ import * as bcrypt from 'bcrypt'
 import { CreateUserDto } from 'src/users/dtos/create-user.dto';
 import { CompaniesService } from 'src/companies/companies.service';
 import { ConfigService } from '@nestjs/config';
-import { Roles } from 'src/users/enums/user-roles.enum';
+import { Role } from 'src/users/enums/role.enum';
 
 @Injectable()
 export class AuthService {
@@ -102,7 +102,7 @@ export class AuthService {
             username: user.username,
             email: user.email,
             password: hashedPassword,
-            roles: [Roles.ADMIN, Roles.MODERATOR, Roles.USER]
+            roles: [Role.ADMIN, Role.MODERATOR, Role.USER]
         }
 
         return this.userService.create(newUser)
