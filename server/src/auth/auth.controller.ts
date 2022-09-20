@@ -1,13 +1,9 @@
-import { Controller, Post, Request, UseGuards, Get, Body } from '@nestjs/common';
-import { CreateUserDto } from 'src/users/dtos/create-user.dto';
-import { Role } from 'src/roles/enums/role.enum';
-import { RolesGuard } from 'src/roles/guards/roles.guard';
-import { AuthService } from './auth.service';
-import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { JwtRefreshTokenGuard } from './guards/jwt-refresh.guard';
-import { LocalAuthGuard } from './guards/local-auth.guard';
-import { Roles } from 'src/roles/decorators/roles.decorator';
-import { Public } from './decorators/public-route.decorator';
+import { Controller, Post, Request, UseGuards, Get, Body } from '@nestjs/common'
+import { CreateUserDto } from 'src/users/dtos/create-user.dto'
+import { AuthService } from './auth.service'
+import { JwtRefreshTokenGuard } from './guards/jwt-refresh.guard'
+import { LocalAuthGuard } from './guards/local-auth.guard'
+import { Public } from './decorators/public-route.decorator'
 
 @Controller('auth')
 export class AuthController {
