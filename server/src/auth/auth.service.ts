@@ -6,7 +6,7 @@ import * as bcrypt from 'bcrypt'
 import { CreateUserDto } from 'src/users/dtos/create-user.dto';
 import { CompaniesService } from 'src/companies/companies.service';
 import { ConfigService } from '@nestjs/config';
-import { Role } from 'src/users/enums/role.enum';
+import { Role } from 'src/roles/enums/role.enum';
 
 @Injectable()
 export class AuthService {
@@ -32,7 +32,8 @@ export class AuthService {
     async login(user: any) {
         const payload = {
             username: user.username,
-            sub: user.userId
+            sub: user.userId,
+            roles: user.roles
         }
 
         const [userInDb] = await this.userService.findOne(user.username)
