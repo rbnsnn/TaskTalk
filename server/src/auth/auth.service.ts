@@ -29,6 +29,17 @@ export class AuthService {
         return null
     }
 
+    async getUserData(user: any) {
+        const [userInDb] = await this.userService.findOne(user.username)
+
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { password, refreshToken, ...userData } = userInDb
+
+        return {
+            ...userData
+        }
+    }
+
     async login(user: any) {
         const payload = {
             username: user.username,
@@ -40,28 +51,17 @@ export class AuthService {
         if (!userInDb) {
             throw new NotFoundException('Username not found')
         }
-        console.log
+
         const authToken = await this.getAuthToken(payload)
         const refreshToken = await this.getRefreshToken(payload)
 
         await this.updateRefreshToken(user.username, refreshToken)
 
-        const {
-            companyId,
-            companyName,
-            userId,
-            username,
-            email,
-            roles
-        } = userInDb
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { password, ...userData } = userInDb
 
         return {
-            companyId,
-            companyName,
-            userId,
-            username,
-            email,
-            roles,
+            ...userData,
             authToken,
             refreshToken
         }

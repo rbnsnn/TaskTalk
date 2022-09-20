@@ -22,10 +22,15 @@ export class AuthController {
         return this.authService.register(body)
     }
 
+    @Get('/userdata')
+    async getUserData(@Request() req) {
+        return this.authService.getUserData(req.user)
+    }
+
     @UseGuards(JwtRefreshTokenGuard)
     @Public()
     @Get('/refresh')
-    refreshTokens(@Request() req) {
+    async refreshTokens(@Request() req) {
         const { username, refreshToken } = req.user
         return this.authService.refreshTokens(username, refreshToken)
     }
