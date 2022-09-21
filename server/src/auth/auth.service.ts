@@ -1,12 +1,12 @@
-import { Injectable, ConflictException, ForbiddenException, NotFoundException } from '@nestjs/common';
-import { UsersService } from 'src/users/users.service';
-import { JwtService } from '@nestjs/jwt';
-import ShortUniqueId from 'short-unique-id';
+import { Injectable, ConflictException, ForbiddenException, NotFoundException } from '@nestjs/common'
+import { UsersService } from '../users/users.service'
+import { JwtService } from '@nestjs/jwt'
+import ShortUniqueId from 'short-unique-id'
 import * as bcrypt from 'bcrypt'
-import { CreateUserDto } from 'src/users/dtos/create-user.dto';
-import { CompaniesService } from 'src/companies/companies.service';
-import { ConfigService } from '@nestjs/config';
-import { Role } from 'src/roles/enums/role.enum';
+import { CreateUserDto } from '../users/dtos/create-user.dto'
+import { CompaniesService } from '../companies/companies.service'
+import { ConfigService } from '@nestjs/config'
+import { Role } from '../roles/enums/role.enum'
 
 @Injectable()
 export class AuthService {
