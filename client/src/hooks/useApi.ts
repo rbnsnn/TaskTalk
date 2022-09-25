@@ -8,7 +8,7 @@ type Arguments = (
     url: string,
     method: string,
     payload?: any
-) => void
+) => { data: any, error: string, loading: boolean }
 
 export const useApi: Arguments = (url, method, payload = null) => {
     const [data, setData] = useState<any>(null)
