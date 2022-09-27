@@ -6,6 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import ListItemLink from './ListItemLink';
 import LogoutIcon from '@mui/icons-material/Logout';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import PeopleIcon from '@mui/icons-material/People';
 
 const AppDrawerContent: React.FC = () => {
 
@@ -15,13 +16,11 @@ const AppDrawerContent: React.FC = () => {
             <Divider />
             <List>
                 <ListItemLink to={'/dashboard'} text='Dashboard' icon={<DashboardIcon />} />
-                <ListItemLink to={'/test'} text='Test' icon={<MailIcon />} />
 
             </List>
             <Divider />
             <List>
-                {/* <ListItemLink to={'/dashboard'} text='Dashboard' icon={<DashboardIcon />} /> */}
-                <ListItemLink to={'/test'} text='Test' icon={<MailIcon />} />
+                <ListItemLink to={'/users'} text='Users' icon={<PeopleIcon />} />
 
             </List>
             <Divider />

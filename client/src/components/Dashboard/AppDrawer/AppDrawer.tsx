@@ -14,7 +14,7 @@ const AppDrawer: React.FC<Props> = ({ drawerWidth, mobileOpen, handleDrawerToggl
         <Box
             component="nav"
             sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-            aria-label="mailbox folders"
+            aria-label="menu"
         >
             <AppDrawerDesktop drawerWidth={drawerWidth} />
             <AppDrawerMobile drawerWidth={drawerWidth} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />

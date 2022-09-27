@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useAppSelector } from '../hooks/redux-hooks';
-import DashboardPage from '../pages/DashboardPage';
+import AppPage from '../pages/App/AppPage';
 import LoginPage from '../pages/Auth/LoginPage'
 import RegisterPage from '../pages/Auth/RegisterPage'
 import LogoutPage from '../pages/Auth/LogoutPage'
@@ -13,9 +13,12 @@ const AppRoutes: React.FC = () => {
         <Routes>
             {isLoggedIn &&
                 <>
-                    <Route path='/' element={<Navigate to='dashboard' />} />
-                    <Route path='dashboard' element={<DashboardPage />}>
-                        <Route path='test' element={<p>test</p>} />
+                    <Route path='/' element={<AppPage />} >
+                        <Route index element={<Navigate to='dashboard' />} />
+                        <Route path='dashboard' element={<p>dashboard</p>}>
+                            <Route path='test' element={<p>test</p>} />
+                        </Route>
+                        <Route path='users' element={<p>users</p>} />
                     </Route>
                     <Route path='logout' element={<LogoutPage />} />
                     <Route path='/*' element={<Navigate to='/' />} />

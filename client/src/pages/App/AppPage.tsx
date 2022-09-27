@@ -1,10 +1,12 @@
 import React from 'react'
 import { Box } from '@mui/material'
-import AppMainBar from '../components/Dashboard/AppMainBar/AppMainBar'
-import AppDrawer from '../components/Dashboard/Drawer/AppDrawer'
+import AppMainBar from '../../components/Dashboard/AppMainBar/AppMainBar'
+import AppDrawer from '../../components/Dashboard/AppDrawer/AppDrawer'
+import AppContent from '../../components/Dashboard/AppContent/AppContent'
+import { Outlet } from 'react-router-dom';
 
 const drawerWidth = 240;
-const DashboardPage: React.FC = () => {
+const AppPage: React.FC = () => {
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
     const handleDrawerToggle = () => {
@@ -18,12 +20,19 @@ const DashboardPage: React.FC = () => {
                 handleDrawerToggle={handleDrawerToggle}
             />
 
-            <AppDrawer drawerWidth={drawerWidth}
+            <AppDrawer
+                drawerWidth={drawerWidth}
                 mobileOpen={mobileOpen}
                 handleDrawerToggle={handleDrawerToggle}
             />
+
+            <AppContent
+
+            />
+
+            <Outlet />
         </Box>
     )
 }
 
-export default DashboardPage
+export default AppPage
