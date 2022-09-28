@@ -12,7 +12,6 @@ const RegisterPage: React.FC = () => {
                 justifyContent='center'
                 alignItems='center'
                 minHeight='100vh'
-                sx={{ mt: -10 }}
             >
                 <Logo />
                 <Box sx={{ mt: 5 }}>
