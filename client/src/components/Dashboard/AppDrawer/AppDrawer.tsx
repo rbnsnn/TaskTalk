@@ -1,7 +1,7 @@
-import React from 'react';
-import Box from '@mui/material/Box';
-import AppDrawerDesktop from './AppDrawerDesktop';
-import AppDrawerMobile from './AppDrawerMobile';
+import React from 'react'
+import Box from '@mui/material/Box'
+import AppDrawerDesktop from './AppDrawerDesktop'
+import AppDrawerMobile from './AppDrawerMobile'
 
 interface Props {
     drawerWidth: number
@@ -12,9 +12,9 @@ const AppDrawer: React.FC<Props> = ({ drawerWidth, mobileOpen, handleDrawerToggl
 
     return (
         <Box
-            component="nav"
+            component='nav'
+            aria-label='menu'
             sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-            aria-label="menu"
         >
             <AppDrawerDesktop drawerWidth={drawerWidth} />
             <AppDrawerMobile drawerWidth={drawerWidth} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />

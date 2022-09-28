@@ -6,6 +6,7 @@ import AppContent from '../../components/Dashboard/AppContent/AppContent'
 import { Outlet } from 'react-router-dom';
 
 const drawerWidth = 240;
+
 const AppPage: React.FC = () => {
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -27,7 +28,7 @@ const AppPage: React.FC = () => {
             />
 
             <AppContent
-
+                drawerWidth={drawerWidth}
             />
 
             <Outlet />
