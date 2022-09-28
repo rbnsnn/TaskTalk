@@ -45,9 +45,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 interface Props {
     drawerOpen: boolean
+    handleDrawerToggle: () => void
 }
 
-const AppDrawerDesktop: React.FC<Props> = ({ drawerOpen }) => {
+const AppDrawerDesktop: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) => {
 
     return (
         <Drawer
@@ -57,7 +58,7 @@ const AppDrawerDesktop: React.FC<Props> = ({ drawerOpen }) => {
                 display: { xs: 'none', sm: 'block' }
             }}
         >
-            {<AppDrawerContent drawerOpen={drawerOpen} />}
+            {<AppDrawerContent drawerOpen={drawerOpen} handleDrawerToggle={handleDrawerToggle} />}
         </Drawer>
     )
 }

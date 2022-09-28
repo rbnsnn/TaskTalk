@@ -19,7 +19,7 @@ const AppBarDesktop: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) => {
                     display: { xs: 'none', sm: 'block' },
                 }}
             >
-                <AppBarContent handleDrawerToggle={handleDrawerToggle} />
+                <AppBarContent drawerOpen={drawerOpen} handleDrawerToggle={handleDrawerToggle} />
             </AppBar>
         </Box >
     )

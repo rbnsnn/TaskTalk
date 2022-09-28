@@ -15,7 +15,7 @@ const AppDrawer: React.FC<Props> = ({ handleDrawerToggle, drawerOpen }) => {
             component='nav'
             aria-label='menu'
         >
-            <AppDrawerDesktop drawerOpen={drawerOpen} />
+            <AppDrawerDesktop drawerOpen={drawerOpen} handleDrawerToggle={handleDrawerToggle} />
             <AppDrawerMobile drawerOpen={drawerOpen} handleDrawerToggle={handleDrawerToggle} />
 
         </Box>

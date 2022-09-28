@@ -25,7 +25,7 @@ const AppDrawerMobile: React.FC<Props> = ({ drawerOpen: mobileOpen, handleDrawer
             }}
         >
 
-            {<AppDrawerContent drawerOpen={mobileOpen} />}
+            {<AppDrawerContent drawerOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />}
         </Drawer>
     )
 }

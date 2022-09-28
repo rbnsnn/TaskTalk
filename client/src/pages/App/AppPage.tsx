@@ -29,7 +29,6 @@ const AppPage: React.FC = () => {
 
             <AppContent>
                 <Outlet />
-                <button onClick={() => setDrawerOpen(state => !state)}>klik</button>
             </AppContent>
         </Box>
     )

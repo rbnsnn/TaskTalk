@@ -3,10 +3,11 @@ import { Toolbar, Typography, Button, IconButton } from '@mui/material'
 
 
 interface Props {
+    drawerOpen?: boolean
     handleDrawerToggle: () => void
 }
 
-const AppBarContent: React.FC<Props> = ({ handleDrawerToggle }) => {
+const AppBarContent: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) => {
 
     return (
         <Toolbar>
@@ -15,7 +16,10 @@ const AppBarContent: React.FC<Props> = ({ handleDrawerToggle }) => {
                 aria-label='open drawer'
                 edge='start'
                 onClick={handleDrawerToggle}
-                sx={{ mr: 2, display: { sm: 'none' } }}
+                sx={{
+                    mr: 2,
+                    display: drawerOpen ? 'none' : 'block'
+                }}
             >
                 <Menu />
             </IconButton>
