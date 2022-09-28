@@ -1,29 +1,31 @@
-import React from 'react';
-import Drawer from '@mui/material/Drawer';
-import AppDrawerContent from './AppDrawerContent';
+import React from 'react'
+import Drawer from '@mui/material/Drawer'
+import AppDrawerContent from './AppDrawerContent'
+import { DRAWER_WIDTH } from '../../../theme/drawerWidth'
+
 
 interface Props {
-    drawerWidth: number
-    mobileOpen: boolean
+    drawerOpen: boolean
     handleDrawerToggle: () => void
 }
-const AppDrawerMobile: React.FC<Props> = ({ drawerWidth, mobileOpen, handleDrawerToggle }) => {
+
+const AppDrawerMobile: React.FC<Props> = ({ drawerOpen: mobileOpen, handleDrawerToggle }) => {
 
     return (
         <Drawer
-            variant="temporary"
+            variant='temporary'
             open={mobileOpen}
             onClose={handleDrawerToggle}
             ModalProps={{
-                keepMounted: true, // Better open performance on mobile.
+                keepMounted: true
             }}
             sx={{
                 display: { xs: 'block', sm: 'none' },
-                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWER_WIDTH }
             }}
         >
 
-            {<AppDrawerContent />}
+            {<AppDrawerContent drawerOpen={mobileOpen} />}
         </Drawer>
     )
 }

@@ -3,21 +3,20 @@ import Box from '@mui/material/Box'
 import AppDrawerDesktop from './AppDrawerDesktop'
 import AppDrawerMobile from './AppDrawerMobile'
 
+
 interface Props {
-    drawerWidth: number
-    mobileOpen: boolean
     handleDrawerToggle: () => void
+    drawerOpen: boolean
 }
-const AppDrawer: React.FC<Props> = ({ drawerWidth, mobileOpen, handleDrawerToggle }) => {
+const AppDrawer: React.FC<Props> = ({ handleDrawerToggle, drawerOpen }) => {
 
     return (
         <Box
             component='nav'
             aria-label='menu'
-            sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         >
-            <AppDrawerDesktop drawerWidth={drawerWidth} />
-            <AppDrawerMobile drawerWidth={drawerWidth} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+            <AppDrawerDesktop drawerOpen={drawerOpen} />
+            <AppDrawerMobile drawerOpen={drawerOpen} handleDrawerToggle={handleDrawerToggle} />
 
         </Box>
     )

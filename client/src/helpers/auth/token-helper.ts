@@ -1,4 +1,3 @@
-
 export const storeTokens = (tokens: any): void => {
     localStorage.setItem('authToken', tokens.authToken)
     localStorage.setItem('refreshToken', tokens.refreshToken)

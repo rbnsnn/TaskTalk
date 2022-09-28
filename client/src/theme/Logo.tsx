@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 import appLogo from '../assets/logo.png'
 
-const Logo: React.FC = () => {
 
+const Logo: React.FC = () => {
     return (
         <div>
             <img src={appLogo} alt='TaskTalk Logo' />

@@ -1,37 +1,36 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Box } from '@mui/material'
 import AppMainBar from '../../components/Dashboard/AppMainBar/AppMainBar'
 import AppDrawer from '../../components/Dashboard/AppDrawer/AppDrawer'
 import AppContent from '../../components/Dashboard/AppContent/AppContent'
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom'
 
-const drawerWidth = 240;
 
 const AppPage: React.FC = () => {
-    const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [drawerOpen, setDrawerOpen] = useState(false);
 
     const handleDrawerToggle = () => {
-        setMobileOpen(!mobileOpen);
+        setDrawerOpen(!drawerOpen);
     }
 
     return (
-        <Box sx={{ display: 'flex' }}>
-            <AppMainBar
-                drawerWidth={drawerWidth}
-                handleDrawerToggle={handleDrawerToggle}
-            />
-
+        <Box
+            display='flex'
+        >
             <AppDrawer
-                drawerWidth={drawerWidth}
-                mobileOpen={mobileOpen}
+                drawerOpen={drawerOpen}
                 handleDrawerToggle={handleDrawerToggle}
             />
 
-            <AppContent
-                drawerWidth={drawerWidth}
+            <AppMainBar
+                drawerOpen={drawerOpen}
+                handleDrawerToggle={handleDrawerToggle}
             />
 
-            <Outlet />
+            <AppContent>
+                <Outlet />
+                <button onClick={() => setDrawerOpen(state => !state)}>klik</button>
+            </AppContent>
         </Box>
     )
 }

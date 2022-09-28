@@ -1,18 +1,22 @@
-import React from 'react';
-import Divider from '@mui/material/Divider';
-import List from '@mui/material/List';
-import MailIcon from '@mui/icons-material/Mail';
-import Toolbar from '@mui/material/Toolbar';
-import ListItemLink from './ListItemLink';
-import LogoutIcon from '@mui/icons-material/Logout';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import PeopleIcon from '@mui/icons-material/People';
+import React from 'react'
+import { Divider, List, Toolbar } from '@mui/material'
+import ListItemLink from './ListItemLink'
+import LogoutIcon from '@mui/icons-material/Logout'
+import DashboardIcon from '@mui/icons-material/Dashboard'
+import PeopleIcon from '@mui/icons-material/People'
 
-const AppDrawerContent: React.FC = () => {
+
+interface Props {
+    drawerOpen: boolean
+}
+
+const AppDrawerContent: React.FC<Props> = ({ drawerOpen }) => {
 
     return (
         <div>
-            <Toolbar />
+            <Toolbar>
+                {drawerOpen ? 'Hello' : ''}
+            </Toolbar>
             <Divider />
             <List>
                 <ListItemLink to={'/dashboard'} text='Dashboard' icon={<DashboardIcon />} />

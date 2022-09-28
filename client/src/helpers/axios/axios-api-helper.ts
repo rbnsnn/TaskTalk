@@ -1,12 +1,13 @@
-import axios from "axios";
-import { retrieveStoredTokens, storeTokens } from "../auth/token-helper";
+import axios from 'axios'
+import { retrieveStoredTokens, storeTokens } from '../auth/token-helper'
+
 
 const baseURL = (process.env.REACT_APP_API_URL as string)
 
 const axiosApi = axios.create({
     baseURL,
     headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
     },
 });
 

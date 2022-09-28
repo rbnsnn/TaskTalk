@@ -7,8 +7,10 @@ import { useEffect } from 'react'
 import { authActions } from './authSlice'
 import TextLink from '../TextLink'
 
+
 const RegisterForm: React.FC = () => {
     const isLongerThan = (value: string) => value.length >= 4
+
     const {
         value: companyValue,
         isValid: companyIsValid,
@@ -29,6 +31,7 @@ const RegisterForm: React.FC = () => {
         // eslint-disable-next-line
         /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     )
+
     const {
         value: emailValue,
         isValid: emailIsValid,

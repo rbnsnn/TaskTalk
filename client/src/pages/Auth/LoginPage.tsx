@@ -1,10 +1,10 @@
 import React from 'react'
 import { Box, Container } from '@mui/material'
-import LoginForm from '../../components/Auth/LoginForm';
+import LoginForm from '../../components/Auth/LoginForm'
 import Logo from '../../theme/Logo'
 
-const AuthPage: React.FC = () => {
 
+const AuthPage: React.FC = () => {
     return (
         <Container maxWidth='xs'>
             <Box

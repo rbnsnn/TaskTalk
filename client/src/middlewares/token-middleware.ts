@@ -1,5 +1,6 @@
-import { authActions } from "../components/Auth/authSlice";
-import { removeTokens } from "../helpers/auth/token-helper";
+import { authActions } from '../components/Auth/authSlice'
+import { removeTokens } from '../helpers/auth/token-helper'
+
 
 export const tokenMiddleware = (store: any) => (next: any) => (action: any) => {
 

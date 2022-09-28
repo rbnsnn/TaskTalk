@@ -1,12 +1,12 @@
-import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
+import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
+
 
 interface Props {
     to: string
     text: string,
     icon: React.ReactElement
 }
-
 
 const ListItemLink: React.FC<Props> = ({ to, text, icon }) => {
     const navigate = useNavigate()
@@ -19,14 +19,12 @@ const ListItemLink: React.FC<Props> = ({ to, text, icon }) => {
     }
 
     return (
-        <ListItem button disablePadding selected={routeMatch}>
-            <ListItemButton onClick={handleNavigate} >
-                <ListItemIcon>
-                    {icon}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-            </ListItemButton>
-        </ListItem>
+        <ListItemButton selected={routeMatch} onClick={handleNavigate} >
+            <ListItemIcon>
+                {icon}
+            </ListItemIcon>
+            <ListItemText primary={text} />
+        </ListItemButton>
     )
 }
 

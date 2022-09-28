@@ -1,7 +1,7 @@
-import React from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
-import { useAppSelector } from '../hooks/redux-hooks';
-import AppPage from '../pages/App/AppPage';
+import React from 'react'
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { useAppSelector } from '../hooks/redux-hooks'
+import AppPage from '../pages/App/AppPage'
 import LoginPage from '../pages/Auth/LoginPage'
 import RegisterPage from '../pages/Auth/RegisterPage'
 import LogoutPage from '../pages/Auth/LogoutPage'

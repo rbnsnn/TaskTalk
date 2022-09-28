@@ -1,26 +1,37 @@
-import { Box } from '@mui/material'
-import React from 'react'
+import React, { ReactNode } from 'react'
+import { Box, styled } from '@mui/material'
+
 
 interface Props {
-    drawerWidth: number
+    children: ReactNode
 }
 
-const AppContent: React.FC<Props> = ({ drawerWidth }) => {
+const DrawerHeader = styled('div')(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+}));
+
+const AppContent: React.FC<Props> = ({ children }) => {
     return (
         <Box
+            component='main'
+            alignContent='center'
             display='flex'
+            flexDirection='column'
             justifyContent='center'
             alignItems='center'
+            flexGrow='1'
+            padding='4'
             minHeight='100vh'
-            minWidth='0'
-
-        // sx={{
-        //     width: { sm: `calc(100% - ${drawerWidth}px)` },
-        //     ml: { sm: `${drawerWidth}px` },
-        // }}
         >
-            <div>test</div>
-        </Box>
+            <DrawerHeader />
+            {children}
+            {children}
+        </Box >
     )
 }
 

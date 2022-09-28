@@ -1,8 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { storeTokens } from "../../helpers/auth/token-helper";
-import { UserData } from "../../types/user-data.type";
-import { authLogin } from "./actions/loginAction";
-import { authRegister } from "./actions/registerAction";
+import { createSlice } from '@reduxjs/toolkit'
+import { storeTokens } from '../../helpers/auth/token-helper'
+import { UserData } from '../../types/user-data.type'
+import { authLogin } from './actions/loginAction'
+import { authRegister } from './actions/registerAction'
+
 
 interface AuthInterface {
     isLoggedIn: boolean,
