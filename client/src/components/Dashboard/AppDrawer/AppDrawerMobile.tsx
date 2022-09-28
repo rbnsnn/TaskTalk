@@ -1,5 +1,5 @@
 import React from 'react'
-import Drawer from '@mui/material/Drawer'
+import { Box, Drawer } from '@mui/material'
 import AppDrawerContent from './AppDrawerContent'
 import { DRAWER_WIDTH } from '../../../theme/drawerWidth'
 
@@ -24,8 +24,9 @@ const AppDrawerMobile: React.FC<Props> = ({ drawerOpen: mobileOpen, handleDrawer
                 '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWER_WIDTH }
             }}
         >
-
-            {<AppDrawerContent drawerOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />}
+            <Box onClick={handleDrawerToggle}>
+                {<AppDrawerContent drawerOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />}
+            </Box>
         </Drawer>
     )
 }
