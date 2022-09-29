@@ -5,6 +5,8 @@ import AppPage from '../pages/App/AppPage'
 import LoginPage from '../pages/Auth/LoginPage'
 import RegisterPage from '../pages/Auth/RegisterPage'
 import LogoutPage from '../pages/Auth/LogoutPage'
+import DashBoardPage from '../pages/App/DashboardPage'
+import UsersPage from '../pages/App/UsersPage'
 
 
 const AppRoutes: React.FC = () => {
@@ -15,10 +17,10 @@ const AppRoutes: React.FC = () => {
                 <>
                     <Route path='/' element={<AppPage />} >
                         <Route index element={<Navigate to='dashboard' />} />
-                        <Route path='dashboard' element={<p>dashboard</p>}>
+                        <Route path='dashboard' element={<DashBoardPage />}>
                             <Route path='test' element={<p>test</p>} />
                         </Route>
-                        <Route path='users' element={<p>users</p>} />
+                        <Route path='users' element={<UsersPage />} />
                     </Route>
                     <Route path='logout' element={<LogoutPage />} />
                     <Route path='/*' element={<Navigate to='/' />} />

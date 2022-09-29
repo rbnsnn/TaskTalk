@@ -1,5 +1,10 @@
 import { createTheme } from '@mui/material'
 
+declare module '@mui/material/TableCell' {
+  interface TableCellPropsVariantOverrides {
+    headerMain: true;
+  }
+}
 
 export const theme = createTheme({
   palette: {
@@ -9,4 +14,17 @@ export const theme = createTheme({
       contrastText: '#fff'
     },
   },
+  components: {
+    MuiTableCell: {
+      variants: [
+        {
+          props: { variant: 'headerMain' },
+          style: {
+            backgroundColor: '#0B8A72',
+            color: '#fff'
+          }
+        }
+      ]
+    }
+  }
 })
