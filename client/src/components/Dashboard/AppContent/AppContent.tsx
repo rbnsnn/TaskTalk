@@ -26,6 +26,7 @@ const AppContent: React.FC<Props> = ({ children }) => {
             flexGrow='1'
             padding='4'
             minHeight='100vh'
+            maxWidth='100vw'
         >
             <DrawerHeader />
             {children}

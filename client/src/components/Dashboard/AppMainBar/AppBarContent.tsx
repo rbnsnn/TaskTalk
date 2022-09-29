@@ -1,5 +1,8 @@
 import { Menu } from '@mui/icons-material'
-import { Toolbar, Typography, Button, IconButton } from '@mui/material'
+import { Toolbar, Box, IconButton, Badge } from '@mui/material'
+import NotificationsIcon from '@mui/icons-material/Notifications'
+import AccountCircle from '@mui/icons-material/AccountCircle'
+import MailIcon from '@mui/icons-material/Mail'
 
 
 interface Props {
@@ -11,6 +14,7 @@ const AppBarContent: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) => {
 
     return (
         <Toolbar>
+
             <IconButton
                 color='inherit'
                 aria-label='open drawer'
@@ -23,10 +27,29 @@ const AppBarContent: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) => {
             >
                 <Menu />
             </IconButton>
-            <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
-                News
-            </Typography>
-            <Button color='inherit'>Logout</Button>
+
+            <Box sx={{ flexGrow: 1 }} />
+
+
+            <Box>
+
+                <IconButton size='large' color='inherit'>
+                    <Badge badgeContent={1} color='secondary'>
+                        <MailIcon />
+                    </Badge>
+                </IconButton>
+
+                <IconButton size='large' color='inherit'>
+                    <Badge badgeContent={1} color='secondary'>
+                        <NotificationsIcon />
+                    </Badge>
+                </IconButton>
+
+                <IconButton size='large' color='inherit'>
+                    <AccountCircle />
+                </IconButton>
+
+            </Box>
         </Toolbar>
     )
 }
