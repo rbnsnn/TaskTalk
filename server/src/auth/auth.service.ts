@@ -3,7 +3,7 @@ import { UsersService } from '../users/users.service'
 import { JwtService } from '@nestjs/jwt'
 import ShortUniqueId from 'short-unique-id'
 import * as bcrypt from 'bcrypt'
-import { CreateUserDto } from '../users/dtos/create-user.dto'
+import { RegisterUserDto } from '../users/dtos/register-user.dto'
 import { CompaniesService } from '../companies/companies.service'
 import { ConfigService } from '@nestjs/config'
 import { Role } from '../roles/enums/role.enum'
@@ -71,7 +71,7 @@ export class AuthService {
         await this.updateRefreshToken(user.username, null)
     }
 
-    async register(user: CreateUserDto) {
+    async register(user: RegisterUserDto) {
         const [companyInDb] = await this.companiesService.findOne(user.companyName)
         if (companyInDb) {
             throw new ConflictException('Company already in use')

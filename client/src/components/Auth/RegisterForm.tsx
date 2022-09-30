@@ -96,7 +96,7 @@ const RegisterForm: React.FC = () => {
     return (
         <>
             {error && <Alert severity='error'>{error}</Alert>}
-            {success && <Alert severity='success'>User created successfully!</Alert>}
+            {success && <Alert severity='success'>User registered successfully!</Alert>}
             <form onSubmit={handleSubmit}>
                 <TextField
                     margin='normal'
