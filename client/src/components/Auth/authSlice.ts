@@ -18,11 +18,14 @@ const initialAuthState: AuthInterface = {
     loading: false,
     error: null,
     user: {
+        companyId: '',
+        companyName: '',
         userId: '',
         username: '',
         email: '',
         roles: [],
         authToken: '',
+        refreshToken: ''
     }
 }
 

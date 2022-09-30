@@ -17,6 +17,7 @@ export const DrawerHeader = styled('div')(({ theme }) => ({
 const AppContent: React.FC<Props> = ({ children }) => {
     return (
         <Box
+            bgcolor='#eeeeee'
             component='main'
             alignContent='center'
             display='flex'
@@ -24,9 +25,11 @@ const AppContent: React.FC<Props> = ({ children }) => {
             justifyContent='center'
             alignItems='center'
             flexGrow='1'
-            padding='4'
             minHeight='100vh'
             maxWidth='100vw'
+            sx={{
+                padding: { sm: '5%' }
+            }}
         >
             <DrawerHeader />
             {children}
