@@ -4,7 +4,11 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../store/store'
 
 
-const UsersTableTittle = () => {
+interface Props {
+    handleOpen: () => void
+}
+
+const UsersTableTittle: React.FC<Props> = ({ handleOpen }) => {
     const { companyName } = useSelector((state: RootState) => state.auth.user)
 
     return (
@@ -25,6 +29,7 @@ const UsersTableTittle = () => {
             <Button
                 variant='contained'
                 size='large'
+                onClick={handleOpen}
             >
                 Add User
             </Button>
