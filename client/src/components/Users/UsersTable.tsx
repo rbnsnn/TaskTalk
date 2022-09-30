@@ -28,18 +28,20 @@ const data = [
     }
 ]
 
+interface Props {
+    handleOpen: () => void
+}
 
-
-const UsersTable: React.FC = () => {
+const UsersTable: React.FC<Props> = ({ handleOpen }) => {
 
     return (
         <TableContainer
             component={Paper}
             sx={{
-                maxWidth: { xs: '90%', sm: '100%' }
+                maxWidth: { xs: '95%', sm: '100%' }
             }}
         >
-            <UsersTableTittle />
+            <UsersTableTittle handleOpen={handleOpen} />
             <Table>
 
                 <TableHead>
