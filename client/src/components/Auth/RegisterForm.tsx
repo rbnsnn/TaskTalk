@@ -5,11 +5,11 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { authRegister } from './actions/registerAction'
 import { useEffect } from 'react'
 import { authActions } from './authSlice'
+import { isEmail, isLongerThan, isEqual } from '../../helpers/formHelper'
 import TextLink from '../TextLink'
 
 
 const RegisterForm: React.FC = () => {
-    const isLongerThan = (value: string) => value.length >= 4
 
     const {
         value: companyValue,
@@ -17,7 +17,7 @@ const RegisterForm: React.FC = () => {
         hasError: companyHasError,
         valueChangeHandler: companyChangeHandler,
         inputBlurHandler: companyBlurHandler,
-    } = useInput(isLongerThan)
+    } = useInput(isLongerThan(3))
 
     const {
         value: usernameValue,
@@ -25,12 +25,7 @@ const RegisterForm: React.FC = () => {
         hasError: usernameHasError,
         valueChangeHandler: usernameChangeHandler,
         inputBlurHandler: usernameBlurHandler,
-    } = useInput(isLongerThan)
-
-    const isEmail = (value: string) => value.match(
-        // eslint-disable-next-line
-        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    )
+    } = useInput(isLongerThan(4))
 
     const {
         value: emailValue,
@@ -46,16 +41,16 @@ const RegisterForm: React.FC = () => {
         hasError: passwordHasError,
         valueChangeHandler: passwordChangeHandler,
         inputBlurHandler: passwordBlurHandler,
-    } = useInput(isLongerThan)
+    } = useInput(isLongerThan(8))
 
-    const isEqual = (value: string) => value === passwordValue
+
 
     const {
         isValid: passwordCheckIsValid,
         hasError: passwordCheckHasError,
         lastInputHandler: passwordCheckChangeHandler,
         inputBlurHandler: passwordCheckBlurHandler,
-    } = useInput(isEqual)
+    } = useInput(isEqual(passwordValue))
 
     let formIsValid = false;
 
@@ -107,7 +102,7 @@ const RegisterForm: React.FC = () => {
                     margin='normal'
                     id='company'
                     label='Company'
-                    variant='outlined'
+                    variant='standard'
                     fullWidth
                     error={companyHasError}
                     helperText={companyHasError ? 'entered company is not valid' : ''}
@@ -119,7 +114,7 @@ const RegisterForm: React.FC = () => {
                     margin='normal'
                     id='username'
                     label='Username'
-                    variant='outlined'
+                    variant='standard'
                     autoComplete='username'
                     fullWidth
                     error={usernameHasError}
@@ -132,7 +127,7 @@ const RegisterForm: React.FC = () => {
                     margin='normal'
                     id='email'
                     label='Email'
-                    variant='outlined'
+                    variant='standard'
                     autoComplete='email'
                     fullWidth
                     error={emailHasError}
@@ -144,7 +139,7 @@ const RegisterForm: React.FC = () => {
                 <TextField
                     margin='normal'
                     id='password' label='Password'
-                    variant='outlined' type='password'
+                    variant='standard' type='password'
                     autoComplete='password'
                     fullWidth
                     error={passwordHasError}
@@ -156,7 +151,7 @@ const RegisterForm: React.FC = () => {
                 <TextField
                     margin='normal'
                     id='password-repeat' label='Repeat password'
-                    variant='outlined' type='password'
+                    variant='standard' type='password'
                     autoComplete='password'
                     fullWidth
                     error={passwordCheckHasError}

@@ -5,6 +5,9 @@ export interface UserData {
     username: string,
     email: string,
     roles: string[],
-    authToken: string,
-    refreshToken: string
+    firstName?: string,
+    lastName?: string,
+    phoneNumber?: string
+    authToken?: string,
+    refreshToken?: string
 }

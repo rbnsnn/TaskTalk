@@ -42,7 +42,7 @@ const UsersTable: React.FC<Props> = ({ handleOpen }) => {
             }}
         >
             <UsersTableTittle handleOpen={handleOpen} />
-            <Table>
+            <Table size='small'>
 
                 <TableHead>
                     <TableRow>

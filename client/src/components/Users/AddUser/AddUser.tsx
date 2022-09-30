@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
-import { Box, Button, Dialog, DialogActions, DialogTitle, DialogContent, TextField } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogTitle, DialogContent, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material'
 import { useInput } from '../../../hooks/useInput'
+import { isEmail, isLongerThan, isNotEmpty } from '../../../helpers/formHelper'
+import { UserData } from '../../../types/user-data.type'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../store/store'
+import { Role } from '../../../types/roles-enum.type'
 
 
 interface Props {
@@ -11,32 +16,45 @@ interface Props {
 const AddUser: React.FC<Props> = ({ open, handleClose }) => {
     const [firstName, setFirstName] = useState<string>('')
     const [lastName, setLastName] = useState<string>('')
+    const [phoneNumber, setPhoneNumber] = useState<string>('')
 
-    const isLongerThan = (value: string) => value.length >= 4
+    const { companyName, companyId } = useSelector((state: RootState) => state.auth.user)
 
     const {
         value: usernameValue,
         isValid: usernameIsValid,
         hasError: usernameHasError,
         valueChangeHandler: usernameChangeHandler,
-        inputBlurHandler: usernameBlurHandler
-    } = useInput(isLongerThan)
+        inputBlurHandler: usernameBlurHandler,
+        reset: usernameReset
+    } = useInput(isLongerThan(4))
 
     const {
         value: passwordValue,
         isValid: passwordIsValid,
         hasError: passwordHasError,
         valueChangeHandler: passwordChangeHandler,
-        inputBlurHandler: passwordBlurHandler
-    } = useInput(isLongerThan)
+        inputBlurHandler: passwordBlurHandler,
+        reset: passwordReset
+    } = useInput(isLongerThan(8))
 
     const {
         value: emailValue,
         isValid: emailIsValid,
         hasError: emailHasError,
         valueChangeHandler: emailChangeHandler,
-        inputBlurHandler: emailBlurHandler
-    } = useInput(isLongerThan)
+        inputBlurHandler: emailBlurHandler,
+        reset: emailReset
+    } = useInput(isEmail)
+
+    const {
+        value: roleValue,
+        isValid: roleIsValid,
+        hasError: roleHasError,
+        valueChangeHandler: roleChangeHandler,
+        inputBlurHandler: roleBlurHandler,
+        reset: roleReset
+    } = useInput(isNotEmpty)
 
     const firstNameChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         setFirstName(e.target.value)
@@ -46,8 +64,61 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
         setLastName(e.target.value)
     }
 
+    const phoneNumberChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+        setPhoneNumber(e.target.value)
+    }
+
+    const rolesCheck = (role: string): string[] => {
+        if (role === Role.ADMIN) {
+            return [Role.ADMIN, Role.MODERATOR, Role.USER]
+        } else if (role === Role.MODERATOR) {
+            return [Role.MODERATOR, Role.USER]
+        } else if (role === Role.USER) {
+            return [Role.USER]
+        } else {
+            return ['']
+        }
+    }
+
+    let formIsValid = false;
+
+    if (usernameIsValid && emailIsValid && passwordIsValid && roleIsValid) {
+        formIsValid = true;
+    }
+
+    const handleReset = (): void => {
+        usernameReset()
+        passwordReset()
+        emailReset()
+        roleReset()
+    }
+
+    const handleSubmit = (): void => {
+        const roles = rolesCheck(roleValue)
+
+        const newUser: UserData = {
+            companyId,
+            companyName,
+            userId: '',
+            username: usernameValue,
+            email: emailValue,
+            roles,
+            firstName,
+            lastName,
+            phoneNumber,
+        }
+
+        handleClose()
+        handleReset()
+    }
+
+    const handleCancel = (): void => {
+        handleClose()
+        handleReset()
+    }
+
     return (
-        <Dialog fullWidth open={open} onClose={handleClose}>
+        <Dialog fullWidth open={open}>
             <DialogTitle align='center'>Add new user</DialogTitle>
             <DialogContent>
                 <Box
@@ -62,7 +133,7 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
                         margin='normal'
                         id='username'
                         label='Username'
-                        variant='outlined'
+                        variant='standard'
                         fullWidth
                         error={usernameHasError}
                         helperText={usernameHasError ? 'username not valid' : ''}
@@ -74,8 +145,8 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
                         required
                         margin='normal'
                         id='password'
-                        label='Password'
-                        variant='outlined'
+                        label='Temporary password'
+                        variant='standard'
                         fullWidth
                         error={passwordHasError}
                         helperText={passwordHasError ? 'password not valid' : ''}
@@ -89,7 +160,7 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
                     margin='normal'
                     id='email'
                     label='Email'
-                    variant='outlined'
+                    variant='standard'
                     fullWidth
                     error={emailHasError}
                     helperText={emailHasError ? 'email not valid' : ''}
@@ -108,7 +179,7 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
                         margin='normal'
                         id='firstName'
                         label='First Name'
-                        variant='outlined'
+                        variant='standard'
                         fullWidth
                         onChange={firstNameChangeHandler}
                     />
@@ -116,29 +187,49 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
                         margin='normal'
                         id='lastName'
                         label='Last Name'
-                        variant='outlined'
+                        variant='standard'
                         fullWidth
-                        onChange={firstNameChangeHandler}
+                        onChange={lastNameChangeHandler}
                     />
                 </Box>
-                <TextField
-                    type='number'
-                    margin='normal'
-                    id='phoneNumber'
-                    label='Phone number'
-                    variant='outlined'
-                    fullWidth
-                    onChange={firstNameChangeHandler}
-                />
-                <TextField
-                    type='number'
-                    margin='normal'
-                    id='roles'
-                    label='Roles'
-                    variant='outlined'
-                    fullWidth
-                    onChange={firstNameChangeHandler}
-                />
+                <Box
+                    justifyContent='space-around'
+                    gap='5%'
+                    sx={{
+                        display: { sx: 'block', sm: 'flex' }
+                    }}
+                >
+                    <TextField
+                        type='number'
+                        margin='normal'
+                        id='phoneNumber'
+                        label='Phone number'
+                        variant='standard'
+                        fullWidth
+                        onChange={phoneNumberChangeHandler}
+                    />
+                    <FormControl
+                        required
+                        margin='normal'
+                        fullWidth
+                        variant='standard'
+                        error={roleHasError}
+                    >
+                        <InputLabel id="roleLabel">Role</InputLabel>
+                        <Select
+                            value={roleValue || ''}
+                            label='Role'
+                            labelId="roleLabel"
+                            id="role"
+                            onChange={roleChangeHandler}
+                            onBlur={roleBlurHandler}
+                        >
+                            <MenuItem value={Role.ADMIN}>Admin</MenuItem>
+                            <MenuItem value={Role.MODERATOR}>Moderator</MenuItem>
+                            <MenuItem value={Role.USER}>User</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
 
             </DialogContent>
             <DialogActions
@@ -148,8 +239,8 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
                     mb: 2
                 }}
             >
-                <Button color='error' variant='contained' size='large' onClick={handleClose}>Cancel</Button>
-                <Button variant='contained' size='large' onClick={handleClose}>Submit</Button>
+                <Button color='error' variant='contained' size='large' onClick={handleCancel}>Cancel</Button>
+                <Button disabled={!formIsValid} variant='contained' size='large' onClick={handleSubmit}>Submit</Button>
             </DialogActions>
         </Dialog>
     )
