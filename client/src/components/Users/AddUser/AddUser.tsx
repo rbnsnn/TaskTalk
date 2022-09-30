@@ -6,6 +6,7 @@ import { UserData } from '../../../types/user-data.type'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../store/store'
 import { Role } from '../../../types/roles-enum.type'
+// import { useApi } from '../../../hooks/useApi'
 
 
 interface Props {
@@ -14,6 +15,8 @@ interface Props {
 }
 
 const AddUser: React.FC<Props> = ({ open, handleClose }) => {
+    // const {error, loading, executeFetch} = useApi('')
+
     const [firstName, setFirstName] = useState<string>('')
     const [lastName, setLastName] = useState<string>('')
     const [phoneNumber, setPhoneNumber] = useState<string>('')
@@ -99,14 +102,16 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
         const newUser: UserData = {
             companyId,
             companyName,
-            userId: '',
             username: usernameValue,
             email: emailValue,
             roles,
             firstName,
             lastName,
             phoneNumber,
+            password: passwordValue
         }
+
+        console.log(newUser)
 
         handleClose()
         handleReset()
