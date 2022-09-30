@@ -1,11 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { UserCreate } from '../../../types/user-create.type'
+import { UserRegister } from '../../../types/user-register.type'
 import axios from 'axios'
 
 
 export const authRegister = createAsyncThunk(
     'auth/register',
-    async ({ companyName, username, email, password }: UserCreate, { rejectWithValue }) => {
+    async ({ companyName, username, email, password }: UserRegister, { rejectWithValue }) => {
         const URL: string = `${(process.env.REACT_APP_API_URL as string)}/auth/register`
         try {
             const { data } = await axios.post<boolean>(

@@ -29,7 +29,7 @@ const LoginForm: React.FC = () => {
                     margin='normal'
                     id='username'
                     label='Username'
-                    variant='outlined'
+                    variant='standard'
                     autoComplete='username'
                     fullWidth
                     disabled={loading}
@@ -39,7 +39,7 @@ const LoginForm: React.FC = () => {
                 <TextField
                     margin='normal'
                     id='password' label='Password'
-                    variant='outlined' type='password'
+                    variant='standard' type='password'
                     autoComplete='password'
                     fullWidth
                     disabled={loading}

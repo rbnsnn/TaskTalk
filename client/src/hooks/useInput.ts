@@ -7,7 +7,6 @@ type ACTIONTYPE =
     | { type: 'RESET'; value: any }
     | { type: 'LAST'; value: any }
 
-
 const initialInputState = {
     value: '',
     isTouched: false,
@@ -53,6 +52,7 @@ export const useInput = (validateValue: any) => {
     const lastInputHandler = (event: any) => {
         dispatch({ type: 'LAST', value: event.target.value })
     }
+
 
     return {
         value: inputState.value,

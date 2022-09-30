@@ -23,8 +23,7 @@ export const theme = createTheme({
           style: {
             backgroundColor: '#0B8A72',
             color: '#fff',
-            fontSize: 'large',
-            textTransform: 'uppercase'
+            fontSize: 'large'
           }
         }
       ]
@@ -43,6 +42,19 @@ export const theme = createTheme({
           }
         }
       }
+    },
+    MuiInput: {
+      styleOverrides: {
+        root: {
+          '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button':
+          {
+            display: 'none',
+          },
+          '& input[type=number]': {
+            MozAppearance: 'textfield',
+          },
+        },
+      },
     },
   }
 })
