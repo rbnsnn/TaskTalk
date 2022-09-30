@@ -16,35 +16,34 @@ const UserRow: React.FC<Props> = ({ user }) => {
             <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
                 <TableCell>
                     <IconButton
-                        aria-label="expand row"
-                        size="small"
                         onClick={() => setOpen(!open)}
                     >
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </TableCell>
 
-                <TableCell component="th" scope="row">
+                <TableCell component='th' scope='row'>
                     {user.username}
                 </TableCell>
-                <TableCell align="right">{user.roles}</TableCell>
-                <TableCell align="right">{user.email}</TableCell>
-                <TableCell align="right">{user.tasks}</TableCell>
+                <TableCell>{user.userId}</TableCell>
+                <TableCell>{user.roles}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.tasks}</TableCell>
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                    <Collapse in={open} timeout="auto" unmountOnExit>
+                    <Collapse in={open} timeout='auto' unmountOnExit>
                         <Box sx={{ margin: 1 }}>
-                            <Typography variant="h6" gutterBottom component="div">
-                                History
+                            <Typography variant='h6' gutterBottom component='div'>
+                                Details
                             </Typography>
-                            <Table size="small" aria-label="purchases">
+                            <Table size='small'>
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>Date</TableCell>
                                         <TableCell>Customer</TableCell>
-                                        <TableCell align="right">Amount</TableCell>
-                                        <TableCell align="right">Total price ($)</TableCell>
+                                        <TableCell align='right'>Amount</TableCell>
+                                        <TableCell align='right'>Total price ($)</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
