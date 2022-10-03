@@ -10,5 +10,6 @@ export interface UserData {
     phoneNumber?: string,
     password?: string,
     authToken?: string,
-    refreshToken?: string
+    refreshToken?: string,
+    created?: Date
 }

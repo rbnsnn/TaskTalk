@@ -1,4 +1,4 @@
-import { Controller, Post, Get, UseGuards, Body, Request } from "@nestjs/common";
+import { Controller, Post, Get, UseGuards, Body, Request, Req } from "@nestjs/common";
 import { Roles } from "src/roles/decorators/roles.decorator";
 import { Role } from "src/roles/enums/role.enum";
 import { UsersService } from "./users.service";
@@ -10,7 +10,7 @@ export class UsersController {
     constructor(private readonly userService: UsersService) { }
 
     @UseGuards(RolesGuard)
-    @Post()
+    @Post('/new')
     @Roles(Role.ADMIN)
     createUserByAdmin(@Body() body: AddUserDto) {
         return this.userService.adminCreate(body)

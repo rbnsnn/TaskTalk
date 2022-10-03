@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useCallback } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { authActions } from '../components/Auth/authSlice'
 import { axiosApi } from '../helpers/axios/axios-api-helper'
 import { useAppDispatch } from './redux-hooks'
@@ -9,22 +9,22 @@ type Arguments = (
     method: string,
     immediate?: boolean,
     payload?: any
-) => { data: any, error: string, loading: boolean }
+) => { data: any, error: string, loading: boolean, executeFetch: (payload?: any) => void }
 
-export const useApi: Arguments = (url, method, immediate = true, payload = null) => {
+export const useApi: Arguments = (url, method, immediate = true) => {
     const [data, setData] = useState<any>(null)
     const [error, setError] = useState<string>('')
     const [loading, setLoading] = useState<boolean>(false)
 
     const dispatch = useAppDispatch()
 
-    const config = useMemo(() => ({
-        url,
-        method,
-        data: payload
-    }), [url, method, payload])
-
-    const executeFetch = useCallback(async () => {
+    const executeFetch = useCallback(async (payload = {}) => {
+        const config = {
+            url,
+            method,
+            data: payload
+        }
+        console.log(config)
         setLoading(true)
         try {
             const response = await axiosApi(config);
@@ -41,7 +41,7 @@ export const useApi: Arguments = (url, method, immediate = true, payload = null)
         } finally {
             setLoading(false)
         }
-    }, [config, dispatch])
+    }, [dispatch, method, url])
 
     useEffect(() => {
         if (immediate) {

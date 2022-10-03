@@ -103,7 +103,8 @@ export class AuthService {
             username: user.username,
             email: user.email,
             password: hashedPassword,
-            roles: [Role.ADMIN, Role.MODERATOR, Role.USER]
+            roles: [Role.ADMIN, Role.MODERATOR, Role.USER],
+            created: new Date()
         }
 
         return this.userService.create(newUser)
@@ -144,7 +145,8 @@ export class AuthService {
 
         const payload = {
             username: user.username,
-            sub: user.userId
+            sub: user.userId,
+            roles: user.roles
         }
 
         const newAuthToken = await this.getAuthToken(payload)

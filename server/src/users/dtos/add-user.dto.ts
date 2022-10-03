@@ -9,7 +9,7 @@ export class AddUserDto {
 
     @IsString()
     @IsOptional()
-    lfirstName: string
+    firstName: string
 
     @IsString()
     @IsOptional()

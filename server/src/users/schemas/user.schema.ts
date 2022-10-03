@@ -30,6 +30,18 @@ export class User {
     @Prop({ required: true })
     roles: Role[]
 
+    @Prop({required: true})
+    created: Date
+
+    @Prop()
+    phoneNumber: string
+
+    @Prop()
+    firstName: string
+
+    @Prop()
+    lastName: string
+
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)

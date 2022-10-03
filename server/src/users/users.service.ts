@@ -27,7 +27,8 @@ export class UsersService {
         const userData = {
             ...createUserDto,
             password: hashedPassword,
-            userId: generatedUserId
+            userId: generatedUserId,
+            created: new Date()
         }
 
         const createdUser = await new this.userModel(userData)
