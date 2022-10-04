@@ -1,36 +1,42 @@
-import { IsString, MinLength, IsEmail, IsOptional, IsArray } from 'class-validator'
+import {
+    IsString,
+    MinLength,
+    IsEmail,
+    IsOptional,
+    IsArray,
+} from 'class-validator';
 
 export class AddUserDto {
     @IsString()
-    companyId: string
+    companyId: string;
 
     @IsString()
-    companyName: string
-
-    @IsString()
-    @IsOptional()
-    firstName: string
+    companyName: string;
 
     @IsString()
     @IsOptional()
-    lastName: string
+    firstName: string;
 
     @IsString()
     @IsOptional()
-    phoneNumber: string
+    lastName: string;
+
+    @IsString()
+    @IsOptional()
+    phoneNumber: string;
 
     @IsArray()
-    roles: string[]
+    roles: string[];
 
     @IsString()
     @MinLength(4)
-    username: string
+    username: string;
 
     @IsString()
     @IsEmail()
-    email: string
+    email: string;
 
     @IsString()
     @MinLength(8)
-    password: string
+    password: string;
 }

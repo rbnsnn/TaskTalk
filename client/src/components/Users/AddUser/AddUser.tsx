@@ -1,27 +1,40 @@
-import React, { useState } from 'react'
-import { Box, Button, Dialog, DialogActions, DialogTitle, DialogContent, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material'
-import { useInput } from '../../../hooks/useInput'
-import { isEmail, isLongerThan, isNotEmpty } from '../../../helpers/formHelper'
-import { UserData } from '../../../types/user-data.type'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../store/store'
-import { Role } from '../../../types/roles-enum.type'
-import { useApi } from '../../../hooks/useApi'
-
+import React, { useState } from 'react';
+import {
+    Box,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogTitle,
+    DialogContent,
+    TextField,
+    Select,
+    MenuItem,
+    FormControl,
+    InputLabel,
+} from '@mui/material';
+import { useInput } from '../../../hooks/useInput';
+import { isEmail, isLongerThan, isNotEmpty } from '../../../helpers/formHelper';
+import { UserData } from '../../../types/user-data.type';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
+import { Role } from '../../../types/roles-enum.type';
+import { useApi } from '../../../hooks/useApi';
 
 interface Props {
-    open: boolean
-    handleClose: () => void
+    open: boolean;
+    handleClose: () => void;
 }
 
 const AddUser: React.FC<Props> = ({ open, handleClose }) => {
-    const {error, loading, executeFetch} = useApi('users/new', 'POST', false)
+    const { error, loading, executeFetch } = useApi('users/new', 'POST', false);
 
-    const [firstName, setFirstName] = useState<string>('')
-    const [lastName, setLastName] = useState<string>('')
-    const [phoneNumber, setPhoneNumber] = useState<string>('')
+    const [firstName, setFirstName] = useState<string>('');
+    const [lastName, setLastName] = useState<string>('');
+    const [phoneNumber, setPhoneNumber] = useState<string>('');
 
-    const { companyName, companyId } = useSelector((state: RootState) => state.auth.user)
+    const { companyName, companyId } = useSelector(
+        (state: RootState) => state.auth.user
+    );
 
     const {
         value: usernameValue,
@@ -29,8 +42,8 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
         hasError: usernameHasError,
         valueChangeHandler: usernameChangeHandler,
         inputBlurHandler: usernameBlurHandler,
-        reset: usernameReset
-    } = useInput(isLongerThan(4))
+        reset: usernameReset,
+    } = useInput(isLongerThan(4));
 
     const {
         value: passwordValue,
@@ -38,8 +51,8 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
         hasError: passwordHasError,
         valueChangeHandler: passwordChangeHandler,
         inputBlurHandler: passwordBlurHandler,
-        reset: passwordReset
-    } = useInput(isLongerThan(8))
+        reset: passwordReset,
+    } = useInput(isLongerThan(8));
 
     const {
         value: emailValue,
@@ -47,8 +60,8 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
         hasError: emailHasError,
         valueChangeHandler: emailChangeHandler,
         inputBlurHandler: emailBlurHandler,
-        reset: emailReset
-    } = useInput(isEmail)
+        reset: emailReset,
+    } = useInput(isEmail);
 
     const {
         value: roleValue,
@@ -56,32 +69,38 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
         hasError: roleHasError,
         valueChangeHandler: roleChangeHandler,
         inputBlurHandler: roleBlurHandler,
-        reset: roleReset
-    } = useInput(isNotEmpty)
+        reset: roleReset,
+    } = useInput(isNotEmpty);
 
-    const firstNameChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-        setFirstName(e.target.value)
-    }
+    const firstNameChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (
+        e
+    ) => {
+        setFirstName(e.target.value);
+    };
 
-    const lastNameChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-        setLastName(e.target.value)
-    }
+    const lastNameChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (
+        e
+    ) => {
+        setLastName(e.target.value);
+    };
 
-    const phoneNumberChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-        setPhoneNumber(e.target.value)
-    }
+    const phoneNumberChangeHandler: React.ChangeEventHandler<
+        HTMLInputElement
+    > = (e) => {
+        setPhoneNumber(e.target.value);
+    };
 
     const rolesCheck = (role: string): string[] => {
         if (role === Role.ADMIN) {
-            return [Role.ADMIN, Role.MODERATOR, Role.USER]
+            return [Role.ADMIN, Role.MODERATOR, Role.USER];
         } else if (role === Role.MODERATOR) {
-            return [Role.MODERATOR, Role.USER]
+            return [Role.MODERATOR, Role.USER];
         } else if (role === Role.USER) {
-            return [Role.USER]
+            return [Role.USER];
         } else {
-            return ['']
+            return [''];
         }
-    }
+    };
 
     let formIsValid = false;
 
@@ -90,14 +109,14 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
     }
 
     const handleReset = (): void => {
-        usernameReset()
-        passwordReset()
-        emailReset()
-        roleReset()
-    }
+        usernameReset();
+        passwordReset();
+        emailReset();
+        roleReset();
+    };
 
     const handleSubmit = (): void => {
-        const roles = rolesCheck(roleValue)
+        const roles = rolesCheck(roleValue);
 
         const newUser: UserData = {
             companyId,
@@ -108,30 +127,33 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
             firstName,
             lastName,
             phoneNumber,
-            password: passwordValue
-        }
+            password: passwordValue,
+        };
 
-        console.log(newUser)
-        executeFetch(newUser)
+        console.log(newUser);
+        executeFetch(newUser);
 
         // handleClose()
-        handleReset()
-    }
+        handleReset();
+    };
 
     const handleCancel = (): void => {
-        handleClose()
-        handleReset()
-    }
+        handleClose();
+        handleReset();
+    };
 
     return (
-        <Dialog fullWidth open={open}>
+        <Dialog
+            fullWidth
+            open={open}
+        >
             <DialogTitle align='center'>Add new user</DialogTitle>
             <DialogContent>
                 <Box
                     justifyContent='space-around'
                     gap='5%'
                     sx={{
-                        display: { sx: 'block', sm: 'flex' }
+                        display: { sx: 'block', sm: 'flex' },
                     }}
                 >
                     <TextField
@@ -142,7 +164,9 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
                         variant='standard'
                         fullWidth
                         error={usernameHasError}
-                        helperText={usernameHasError ? 'username not valid' : ''}
+                        helperText={
+                            usernameHasError ? 'username not valid' : ''
+                        }
                         onChange={(e) => usernameChangeHandler(e)}
                         onBlur={(e) => usernameBlurHandler(e)}
                     />
@@ -155,7 +179,9 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
                         variant='standard'
                         fullWidth
                         error={passwordHasError}
-                        helperText={passwordHasError ? 'password not valid' : ''}
+                        helperText={
+                            passwordHasError ? 'password not valid' : ''
+                        }
                         onChange={(e) => passwordChangeHandler(e)}
                         onBlur={(e) => passwordBlurHandler(e)}
                     />
@@ -178,7 +204,7 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
                     justifyContent='space-around'
                     gap='5%'
                     sx={{
-                        display: { sx: 'block', sm: 'flex' }
+                        display: { sx: 'block', sm: 'flex' },
                     }}
                 >
                     <TextField
@@ -202,7 +228,7 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
                     justifyContent='space-around'
                     gap='5%'
                     sx={{
-                        display: { sx: 'block', sm: 'flex' }
+                        display: { sx: 'block', sm: 'flex' },
                     }}
                 >
                     <TextField
@@ -221,35 +247,50 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
                         variant='standard'
                         error={roleHasError}
                     >
-                        <InputLabel id="roleLabel">Role</InputLabel>
+                        <InputLabel id='roleLabel'>Role</InputLabel>
                         <Select
                             value={roleValue || ''}
                             label='Role'
-                            labelId="roleLabel"
-                            id="role"
+                            labelId='roleLabel'
+                            id='role'
                             onChange={roleChangeHandler}
                             onBlur={roleBlurHandler}
                         >
                             <MenuItem value={Role.ADMIN}>Admin</MenuItem>
-                            <MenuItem value={Role.MODERATOR}>Moderator</MenuItem>
+                            <MenuItem value={Role.MODERATOR}>
+                                Moderator
+                            </MenuItem>
                             <MenuItem value={Role.USER}>User</MenuItem>
                         </Select>
                     </FormControl>
                 </Box>
-
             </DialogContent>
             <DialogActions
                 sx={{
                     display: 'flex',
                     justifyContent: 'space-around',
-                    mb: 2
+                    mb: 2,
                 }}
             >
-                <Button color='error' variant='contained' size='large' onClick={handleCancel}>Cancel</Button>
-                <Button disabled={!formIsValid} variant='contained' size='large' onClick={handleSubmit}>Submit</Button>
+                <Button
+                    color='error'
+                    variant='contained'
+                    size='large'
+                    onClick={handleCancel}
+                >
+                    Cancel
+                </Button>
+                <Button
+                    disabled={!formIsValid}
+                    variant='contained'
+                    size='large'
+                    onClick={handleSubmit}
+                >
+                    Submit
+                </Button>
             </DialogActions>
         </Dialog>
-    )
-}
+    );
+};
 
-export default AddUser
+export default AddUser;

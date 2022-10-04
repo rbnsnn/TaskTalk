@@ -1,49 +1,32 @@
-import React from 'react'
-import { Paper, Table, TableContainer, TableCell, TableRow, TableHead, TableBody } from '@mui/material'
-import UserRow from './UserRow'
-import UsersTableTittle from './UsersTableTittle'
-
-
-const data = [
-    {
-        username: 'test',
-        userId: '123123123',
-        roles: 'admin',
-        email: 'test@test.com',
-        tasks: 1
-    },
-    {
-        username: 'test2',
-        userId: '123123123',
-        roles: 'admin',
-        email: 'test@test.com',
-        tasks: 1
-    },
-    {
-        username: 'test3',
-        userId: '123123123',
-        roles: 'admin',
-        email: 'test@test.com',
-        tasks: 1
-    }
-]
+import React from 'react';
+import {
+    Paper,
+    Table,
+    TableContainer,
+    TableCell,
+    TableRow,
+    TableHead,
+    TableBody,
+} from '@mui/material';
+import UserRow from './UserRow';
+import UsersTableTittle from './UsersTableTittle';
+import { UserData } from '../../types/user-data.type';
 
 interface Props {
-    handleOpen: () => void
+    data: UserData[];
+    handleOpen: () => void;
 }
 
-const UsersTable: React.FC<Props> = ({ handleOpen }) => {
-
+const UsersTable: React.FC<Props> = ({ data, handleOpen }) => {
     return (
         <TableContainer
             component={Paper}
             sx={{
-                maxWidth: { xs: '95%', sm: '100%' }
+                maxWidth: { xs: '95%', sm: '100%' },
             }}
         >
             <UsersTableTittle handleOpen={handleOpen} />
             <Table size='small'>
-
                 <TableHead>
                     <TableRow>
                         <TableCell variant='headerMain' />
@@ -55,13 +38,16 @@ const UsersTable: React.FC<Props> = ({ handleOpen }) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {data.map((user) => (
-                        <UserRow key={user.username} user={user} />
+                    {data.map((user: UserData) => (
+                        <UserRow
+                            key={user.username}
+                            user={user}
+                        />
                     ))}
                 </TableBody>
             </Table>
         </TableContainer>
-    )
-}
+    );
+};
 
-export default UsersTable
+export default UsersTable;
