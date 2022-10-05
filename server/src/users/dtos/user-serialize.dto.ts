@@ -1,30 +1,33 @@
-import { Expose } from 'class-transformer';
+import { Expose } from 'class-transformer'
 
 export class UserSerializeDto {
     @Expose()
-    companyId: string;
+    companyId: string
 
     @Expose()
-    companyName: string;
+    companyName: string
 
     @Expose()
-    userId: string;
+    userId: string
 
     @Expose()
-    username: string;
+    username: string
 
     @Expose()
-    firstName: string;
+    firstName: string
 
     @Expose()
-    lastName: string;
+    lastName: string
 
     @Expose()
-    phoneNumber: string;
+    phoneNumber: string
 
     @Expose()
-    roles: string[];
+    roles: string[]
 
     @Expose()
-    email: string;
+    created: Date
+
+    @Expose()
+    email: string
 }
