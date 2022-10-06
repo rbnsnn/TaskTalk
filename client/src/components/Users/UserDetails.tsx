@@ -10,13 +10,14 @@ import {
 import BadgeIcon from '@mui/icons-material/Badge'
 import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew'
 import PhoneIcon from '@mui/icons-material/Phone'
+import { UserData } from '../../types/user-data.type'
 
 interface Props {
-    user: any
+    user: UserData
 }
 
 const UserDetails: React.FC<Props> = ({ user }) => {
-    const userCreated = new Date(user.created)
+    const userCreated = new Date(user.created!)
 
     return (
         <List

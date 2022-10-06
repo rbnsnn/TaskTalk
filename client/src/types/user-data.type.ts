@@ -12,4 +12,5 @@ export interface UserData {
     authToken?: string
     refreshToken?: string
     created?: Date
+    tasks?: any[]
 }

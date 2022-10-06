@@ -3,13 +3,12 @@ import { authActions } from '../components/Auth/authSlice'
 import { axiosApi } from '../helpers/axios/axios-api-helper'
 import { useAppDispatch } from './redux-hooks'
 
-
 type Arguments = (
     url: string,
     method: string,
     immediate?: boolean,
     payload?: any
-) => { data: any, error: string, loading: boolean, executeFetch: (payload?: any) => void }
+) => { data: any; error: string; loading: boolean; executeFetch: (payload?: any) => void }
 
 export const useApi: Arguments = (url, method, immediate = true) => {
     const [data, setData] = useState<any>(null)
@@ -18,36 +17,39 @@ export const useApi: Arguments = (url, method, immediate = true) => {
 
     const dispatch = useAppDispatch()
 
-    const executeFetch = useCallback(async (payload = {}) => {
-        const config = {
-            url,
-            method,
-            data: payload
-        }
-        console.log(config)
-        setLoading(true)
-        try {
-            const response = await axiosApi(config);
-            setData(response.data)
-        } catch (error: any) {
-            if (error.response.status === 403) {
-                dispatch(authActions.logout())
+    const executeFetch = useCallback(
+        async (payload = {}) => {
+            const config = {
+                url,
+                method,
+                data: payload,
             }
-            if (error.response && error.response.data.message) {
-                setError(error.response.data.message)
-            } else {
-                setError(error.message)
+            console.log(config)
+            setLoading(true)
+            try {
+                const response = await axiosApi(config)
+                setData(response.data)
+            } catch (error: any) {
+                if (error.response.status === 403) {
+                    dispatch(authActions.logout())
+                }
+                if (error.response && error.response.data.message) {
+                    setError(error.response.data.message)
+                } else {
+                    setError(error.message)
+                }
+            } finally {
+                setLoading(false)
             }
-        } finally {
-            setLoading(false)
-        }
-    }, [dispatch, method, url])
+        },
+        [dispatch, method, url]
+    )
 
     useEffect(() => {
         if (immediate) {
             executeFetch()
         }
-    }, [executeFetch, immediate]);
+    }, [executeFetch, immediate])
 
     return { data, error, loading, executeFetch }
 }
