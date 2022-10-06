@@ -1,17 +1,8 @@
 import React, { useState } from 'react'
-import {
-    Table,
-    TableHead,
-    TableBody,
-    TableRow,
-    TableCell,
-    Collapse,
-    Box,
-    IconButton,
-    Typography,
-} from '@mui/material'
+import { TableRow, TableCell, Collapse, Box, IconButton, Typography } from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
+import UserDetails from './UserDetails'
 
 interface Props {
     user: any
@@ -67,24 +58,7 @@ const UserRow: React.FC<Props> = ({ user }) => {
                             >
                                 Details of {user.username}
                             </Typography>
-                            <Table size='small'>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Name</TableCell>
-                                        <TableCell>Phone Number</TableCell>
-                                        <TableCell>Joined</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow>
-                                        <TableCell>
-                                            {user.firstName} {user.lastName}
-                                        </TableCell>
-                                        <TableCell>{user.phoneNumber}</TableCell>
-                                        <TableCell>{user.created}</TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
+                            <UserDetails user={user} />
                         </Box>
                     </Collapse>
                 </TableCell>
