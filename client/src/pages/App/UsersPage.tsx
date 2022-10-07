@@ -6,9 +6,10 @@ import { useApi } from '../../hooks/useApi'
 
 const UsersPage: React.FC = () => {
     const [addUserOpen, setAddUserOpen] = useState<boolean>(false)
-    const { data, error, loading } = useApi('users/all', 'GET')
+    const { data, error, loading, executeFetch } = useApi('users/all', 'GET')
 
     const handleClose = (): void => {
+        executeFetch()
         setAddUserOpen(false)
     }
 

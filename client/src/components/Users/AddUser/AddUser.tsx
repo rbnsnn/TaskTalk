@@ -124,7 +124,7 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
 
         executeFetch(newUser)
 
-        // handleClose()
+        handleClose()
         handleReset()
     }
 
