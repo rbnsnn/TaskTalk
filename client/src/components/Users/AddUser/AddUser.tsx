@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
     Box,
     Button,
@@ -11,30 +11,28 @@ import {
     MenuItem,
     FormControl,
     InputLabel,
-} from '@mui/material';
-import { useInput } from '../../../hooks/useInput';
-import { isEmail, isLongerThan, isNotEmpty } from '../../../helpers/formHelper';
-import { UserData } from '../../../types/user-data.type';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
-import { Role } from '../../../types/roles-enum.type';
-import { useApi } from '../../../hooks/useApi';
+} from '@mui/material'
+import { useInput } from '../../../hooks/useInput'
+import { isEmail, isLongerThan, isNotEmpty } from '../../../helpers/formHelper'
+import { UserData } from '../../../types/user-data.type'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../store/store'
+import { Role } from '../../../types/roles-enum.type'
+import { useApi } from '../../../hooks/useApi'
 
 interface Props {
-    open: boolean;
-    handleClose: () => void;
+    open: boolean
+    handleClose: () => void
 }
 
 const AddUser: React.FC<Props> = ({ open, handleClose }) => {
-    const { error, loading, executeFetch } = useApi('users/new', 'POST', false);
+    const { error, loading, executeFetch } = useApi('users/new', 'POST', false)
 
-    const [firstName, setFirstName] = useState<string>('');
-    const [lastName, setLastName] = useState<string>('');
-    const [phoneNumber, setPhoneNumber] = useState<string>('');
+    const [firstName, setFirstName] = useState<string>('')
+    const [lastName, setLastName] = useState<string>('')
+    const [phoneNumber, setPhoneNumber] = useState<string>('')
 
-    const { companyName, companyId } = useSelector(
-        (state: RootState) => state.auth.user
-    );
+    const { companyName, companyId } = useSelector((state: RootState) => state.auth.user)
 
     const {
         value: usernameValue,
@@ -43,7 +41,7 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
         valueChangeHandler: usernameChangeHandler,
         inputBlurHandler: usernameBlurHandler,
         reset: usernameReset,
-    } = useInput(isLongerThan(4));
+    } = useInput(isLongerThan(4))
 
     const {
         value: passwordValue,
@@ -52,7 +50,7 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
         valueChangeHandler: passwordChangeHandler,
         inputBlurHandler: passwordBlurHandler,
         reset: passwordReset,
-    } = useInput(isLongerThan(8));
+    } = useInput(isLongerThan(8))
 
     const {
         value: emailValue,
@@ -61,7 +59,7 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
         valueChangeHandler: emailChangeHandler,
         inputBlurHandler: emailBlurHandler,
         reset: emailReset,
-    } = useInput(isEmail);
+    } = useInput(isEmail)
 
     const {
         value: roleValue,
@@ -70,53 +68,47 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
         valueChangeHandler: roleChangeHandler,
         inputBlurHandler: roleBlurHandler,
         reset: roleReset,
-    } = useInput(isNotEmpty);
+    } = useInput(isNotEmpty)
 
-    const firstNameChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (
-        e
-    ) => {
-        setFirstName(e.target.value);
-    };
+    const firstNameChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+        setFirstName(e.target.value)
+    }
 
-    const lastNameChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (
-        e
-    ) => {
-        setLastName(e.target.value);
-    };
+    const lastNameChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+        setLastName(e.target.value)
+    }
 
-    const phoneNumberChangeHandler: React.ChangeEventHandler<
-        HTMLInputElement
-    > = (e) => {
-        setPhoneNumber(e.target.value);
-    };
+    const phoneNumberChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+        setPhoneNumber(e.target.value)
+    }
 
     const rolesCheck = (role: string): string[] => {
         if (role === Role.ADMIN) {
-            return [Role.ADMIN, Role.MODERATOR, Role.USER];
+            return [Role.ADMIN, Role.MODERATOR, Role.USER]
         } else if (role === Role.MODERATOR) {
-            return [Role.MODERATOR, Role.USER];
+            return [Role.MODERATOR, Role.USER]
         } else if (role === Role.USER) {
-            return [Role.USER];
+            return [Role.USER]
         } else {
-            return [''];
+            return ['']
         }
-    };
+    }
 
-    let formIsValid = false;
+    let formIsValid = false
 
     if (usernameIsValid && emailIsValid && passwordIsValid && roleIsValid) {
-        formIsValid = true;
+        formIsValid = true
     }
 
     const handleReset = (): void => {
-        usernameReset();
-        passwordReset();
-        emailReset();
-        roleReset();
-    };
+        usernameReset()
+        passwordReset()
+        emailReset()
+        roleReset()
+    }
 
     const handleSubmit = (): void => {
-        const roles = rolesCheck(roleValue);
+        const roles = rolesCheck(roleValue)
 
         const newUser: UserData = {
             companyId,
@@ -128,19 +120,18 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
             lastName,
             phoneNumber,
             password: passwordValue,
-        };
+        }
 
-        console.log(newUser);
-        executeFetch(newUser);
+        executeFetch(newUser)
 
         // handleClose()
-        handleReset();
-    };
+        handleReset()
+    }
 
     const handleCancel = (): void => {
-        handleClose();
-        handleReset();
-    };
+        handleClose()
+        handleReset()
+    }
 
     return (
         <Dialog
@@ -164,9 +155,7 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
                         variant='standard'
                         fullWidth
                         error={usernameHasError}
-                        helperText={
-                            usernameHasError ? 'username not valid' : ''
-                        }
+                        helperText={usernameHasError ? 'username not valid' : ''}
                         onChange={(e) => usernameChangeHandler(e)}
                         onBlur={(e) => usernameBlurHandler(e)}
                     />
@@ -179,9 +168,7 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
                         variant='standard'
                         fullWidth
                         error={passwordHasError}
-                        helperText={
-                            passwordHasError ? 'password not valid' : ''
-                        }
+                        helperText={passwordHasError ? 'password not valid' : ''}
                         onChange={(e) => passwordChangeHandler(e)}
                         onBlur={(e) => passwordBlurHandler(e)}
                     />
@@ -257,9 +244,7 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
                             onBlur={roleBlurHandler}
                         >
                             <MenuItem value={Role.ADMIN}>Admin</MenuItem>
-                            <MenuItem value={Role.MODERATOR}>
-                                Moderator
-                            </MenuItem>
+                            <MenuItem value={Role.MODERATOR}>Moderator</MenuItem>
                             <MenuItem value={Role.USER}>User</MenuItem>
                         </Select>
                     </FormControl>
@@ -290,7 +275,7 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
                 </Button>
             </DialogActions>
         </Dialog>
-    );
-};
+    )
+}
 
-export default AddUser;
+export default AddUser

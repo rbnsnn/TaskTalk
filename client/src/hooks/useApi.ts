@@ -24,7 +24,7 @@ export const useApi: Arguments = (url, method, immediate = true) => {
                 method,
                 data: payload,
             }
-            console.log(config)
+
             setLoading(true)
             try {
                 const response = await axiosApi(config)

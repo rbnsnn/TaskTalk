@@ -1,4 +1,9 @@
-import { Injectable, ConflictException, ForbiddenException, NotFoundException } from '@nestjs/common'
+import {
+    Injectable,
+    ConflictException,
+    ForbiddenException,
+    NotFoundException,
+} from '@nestjs/common'
 import { UsersService } from '../users/users.service'
 import { JwtService } from '@nestjs/jwt'
 import ShortUniqueId from 'short-unique-id'
@@ -15,12 +20,12 @@ export class AuthService {
         private companiesService: CompaniesService,
         private jwtService: JwtService,
         private configService: ConfigService
-    ) { }
+    ) {}
 
     async validateUser(username: string, password: string): Promise<any> {
         const [user] = await this.userService.findOne(username)
 
-        if (user && await bcrypt.compare(password, user.password)) {
+        if (user && (await bcrypt.compare(password, user.password))) {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { password, ...result } = user
 
@@ -32,11 +37,14 @@ export class AuthService {
     async getUserData(user: any) {
         const [userInDb] = await this.userService.findOne(user.username)
 
+        if (!userInDb) {
+            throw new NotFoundException('Session expired')
+        }
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password, refreshToken, ...userData } = userInDb
 
         return {
-            ...userData
+            ...userData,
         }
     }
 
@@ -44,7 +52,6 @@ export class AuthService {
         const payload = {
             username: user.username,
             sub: user.userId,
-            roles: user.roles
         }
 
         const [userInDb] = await this.userService.findOne(user.username)
@@ -63,7 +70,7 @@ export class AuthService {
         return {
             ...userData,
             authToken,
-            refreshToken
+            refreshToken,
         }
     }
 
@@ -90,7 +97,7 @@ export class AuthService {
         const newCompany = {
             companyId: generatedCompanyUid,
             companyName: user.companyName,
-            users: [generatedUserUid]
+            users: [generatedUserUid],
         }
 
         this.companiesService.create(newCompany)
@@ -104,7 +111,7 @@ export class AuthService {
             email: user.email,
             password: hashedPassword,
             roles: [Role.ADMIN, Role.MODERATOR, Role.USER],
-            created: new Date()
+            created: new Date(),
         }
 
         return this.userService.create(newUser)
@@ -113,7 +120,7 @@ export class AuthService {
     async getAuthToken(payload: any) {
         const authToken = await this.jwtService.sign(payload, {
             secret: this.configService.get<string>('JWT_SECRET'),
-            expiresIn: this.configService.get<string>('JWT_EXPIRATION_TIME')
+            expiresIn: this.configService.get<string>('JWT_EXPIRATION_TIME'),
         })
         return authToken
     }
@@ -121,7 +128,7 @@ export class AuthService {
     async getRefreshToken(payload: any) {
         const authToken = await this.jwtService.sign(payload, {
             secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
-            expiresIn: this.configService.get<string>('JWT_REFRESH_EXPIRATION_TIME')
+            expiresIn: this.configService.get<string>('JWT_REFRESH_EXPIRATION_TIME'),
         })
         return authToken
     }
@@ -140,13 +147,12 @@ export class AuthService {
             throw new ForbiddenException('Access Denied!')
         }
 
-        const tokenMatches = (refreshToken === user.refreshToken)
+        const tokenMatches = refreshToken === user.refreshToken
         if (!tokenMatches) throw new ForbiddenException('Access Denied')
 
         const payload = {
             username: user.username,
             sub: user.userId,
-            roles: user.roles
         }
 
         const newAuthToken = await this.getAuthToken(payload)
@@ -156,7 +162,7 @@ export class AuthService {
 
         return {
             authToken: newAuthToken,
-            refreshToken: newRefreshToken
+            refreshToken: newRefreshToken,
         }
     }
 }
