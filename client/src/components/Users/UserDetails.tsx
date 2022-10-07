@@ -11,6 +11,8 @@ import BadgeIcon from '@mui/icons-material/Badge'
 import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew'
 import PhoneIcon from '@mui/icons-material/Phone'
 import { UserData } from '../../types/user-data.type'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../store/store'
 
 interface Props {
     user: UserData
@@ -18,6 +20,7 @@ interface Props {
 
 const UserDetails: React.FC<Props> = ({ user }) => {
     const userCreated = new Date(user.created!)
+    const { userId } = useSelector((state: RootState) => state.auth.user)
 
     return (
         <List
@@ -74,13 +77,15 @@ const UserDetails: React.FC<Props> = ({ user }) => {
                 >
                     Edit
                 </Button>
-                <Button
-                    size='small'
-                    variant='contained'
-                    color='error'
-                >
-                    Delete
-                </Button>
+                {userId === user.userId ? null : (
+                    <Button
+                        size='small'
+                        variant='contained'
+                        color='error'
+                    >
+                        Delete
+                    </Button>
+                )}
             </ListItem>
         </List>
     )
