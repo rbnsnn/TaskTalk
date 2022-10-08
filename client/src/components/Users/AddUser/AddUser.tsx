@@ -112,11 +112,12 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
         emailReset()
         roleReset()
         reset()
-    }, [usernameReset])
+    }, [usernameReset, passwordReset, emailReset, roleReset, reset])
 
     const handleCancel = useCallback((): void => {
         handleClose()
-    }, [handleClose, usernameReset, passwordReset, emailReset, roleReset, reset])
+        setTimeout(() => handleReset(), 1000)
+    }, [handleClose, handleReset])
 
     const handleSubmit = (): void => {
         const roles = rolesCheck(roleValue)
