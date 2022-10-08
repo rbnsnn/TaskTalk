@@ -43,6 +43,12 @@ export class UsersService {
         return user
     }
 
+    async findOneByEmail(email: string): Promise<User[]> {
+        const user = await this.userModel.find({ email })
+
+        return user
+    }
+
     async findOneAndUpdate(username: string, payload: any): Promise<UserDocument> {
         const user = await this.userModel.findOneAndUpdate({ username }, payload)
 

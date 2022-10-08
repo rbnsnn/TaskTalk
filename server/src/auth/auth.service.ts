@@ -89,6 +89,11 @@ export class AuthService {
             throw new ConflictException('Username in use')
         }
 
+        const [emailInUse] = await this.userService.findOneByEmail(user.email)
+        if (emailInUse) {
+            throw new ConflictException('Email in use')
+        }
+
         const userUid = new ShortUniqueId({ length: 10 })
         const generatedUserUid = userUid()
         const companyUid = new ShortUniqueId({ length: 6 })
