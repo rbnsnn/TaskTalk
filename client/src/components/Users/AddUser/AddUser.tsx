@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import {
+    Alert,
     Box,
     Button,
     Dialog,
@@ -11,6 +12,7 @@ import {
     MenuItem,
     FormControl,
     InputLabel,
+    CircularProgress,
 } from '@mui/material'
 import { useInput } from '../../../hooks/useInput'
 import { isEmail, isLongerThan, isNotEmpty } from '../../../helpers/formHelper'
@@ -26,7 +28,11 @@ interface Props {
 }
 
 const AddUser: React.FC<Props> = ({ open, handleClose }) => {
-    const { error, loading, executeFetch } = useApi('users/new', 'POST', false)
+    const { success, error, loading, executeFetch, reset } = useApi(
+        'users/new',
+        'POST',
+        false
+    )
 
     const [firstName, setFirstName] = useState<string>('')
     const [lastName, setLastName] = useState<string>('')
@@ -100,12 +106,17 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
         formIsValid = true
     }
 
-    const handleReset = (): void => {
+    const handleReset = useCallback((): void => {
         usernameReset()
         passwordReset()
         emailReset()
         roleReset()
-    }
+        reset()
+    }, [usernameReset])
+
+    const handleCancel = useCallback((): void => {
+        handleClose()
+    }, [handleClose, usernameReset, passwordReset, emailReset, roleReset, reset])
 
     const handleSubmit = (): void => {
         const roles = rolesCheck(roleValue)
@@ -121,17 +132,21 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
             phoneNumber,
             password: passwordValue,
         }
-
         executeFetch(newUser)
-
-        handleClose()
-        handleReset()
     }
 
-    const handleCancel = (): void => {
-        handleClose()
-        handleReset()
-    }
+    useEffect(() => {
+        if (!success) {
+            return
+        }
+        const userAdded = setTimeout(() => {
+            handleCancel()
+        }, 1000)
+
+        return () => {
+            clearTimeout(userAdded)
+        }
+    }, [success, handleCancel, reset])
 
     return (
         <Dialog
@@ -250,6 +265,7 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
                     </FormControl>
                 </Box>
             </DialogContent>
+
             <DialogActions
                 sx={{
                     display: 'flex',
@@ -257,22 +273,30 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
                     mb: 2,
                 }}
             >
-                <Button
-                    color='error'
-                    variant='contained'
-                    size='large'
-                    onClick={handleCancel}
-                >
-                    Cancel
-                </Button>
-                <Button
-                    disabled={!formIsValid}
-                    variant='contained'
-                    size='large'
-                    onClick={handleSubmit}
-                >
-                    Submit
-                </Button>
+                {error && <Alert severity='error'>{error}</Alert>}
+                {success && <Alert severity='success'>User created successfully!</Alert>}
+                {loading && <CircularProgress />}
+
+                {!success && (
+                    <>
+                        <Button
+                            color='error'
+                            variant='contained'
+                            size='large'
+                            onClick={handleCancel}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            disabled={!formIsValid}
+                            variant='contained'
+                            size='large'
+                            onClick={handleSubmit}
+                        >
+                            Submit
+                        </Button>
+                    </>
+                )}
             </DialogActions>
         </Dialog>
     )

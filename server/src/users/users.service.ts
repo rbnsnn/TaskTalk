@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable, NotFoundException, ConflictException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { User, UserDocument } from './schemas/user.schema'
 import { Model } from 'mongoose'
@@ -19,6 +19,16 @@ export class UsersService {
     }
 
     async adminCreate(createUserDto: AddUserDto): Promise<boolean> {
+        const [userInDb] = await this.findOne(createUserDto.username)
+        if (userInDb) {
+            throw new ConflictException('Username in use')
+        }
+
+        const [emailInUse] = await this.findOneByEmail(createUserDto.email)
+        if (emailInUse) {
+            throw new ConflictException('Email in use')
+        }
+
         const userUid = new ShortUniqueId({ length: 10 })
         const generatedUserId = userUid()
 

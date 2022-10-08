@@ -8,14 +8,27 @@ type Arguments = (
     method: string,
     immediate?: boolean,
     payload?: any
-) => { data: any; error: string; loading: boolean; executeFetch: (payload?: any) => void }
+) => {
+    data: any
+    success: boolean
+    error: string
+    loading: boolean
+    executeFetch: (payload?: any) => void
+    reset: () => void
+}
 
 export const useApi: Arguments = (url, method, immediate = true) => {
     const [data, setData] = useState<any>(null)
     const [error, setError] = useState<string>('')
     const [loading, setLoading] = useState<boolean>(false)
+    const [success, setSuccess] = useState<boolean>(false)
 
     const dispatch = useAppDispatch()
+
+    const reset = () => {
+        setError('')
+        setSuccess(false)
+    }
 
     const executeFetch = useCallback(
         async (payload = {}) => {
@@ -28,6 +41,8 @@ export const useApi: Arguments = (url, method, immediate = true) => {
             setLoading(true)
             try {
                 const response = await axiosApi(config)
+                setError('')
+                setSuccess(true)
                 setData(response.data)
             } catch (error: any) {
                 if (error.response.status === 403) {
@@ -51,5 +66,5 @@ export const useApi: Arguments = (url, method, immediate = true) => {
         }
     }, [executeFetch, immediate])
 
-    return { data, error, loading, executeFetch }
+    return { data, success, error, loading, executeFetch, reset }
 }
