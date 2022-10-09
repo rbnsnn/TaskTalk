@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
     List,
     ListItem,
@@ -13,6 +13,7 @@ import PhoneIcon from '@mui/icons-material/Phone'
 import { UserData } from '../../types/user-data.type'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store/store'
+import UserDeleteDialog from './UserDeleteDialog'
 
 interface Props {
     user: UserData
@@ -22,72 +23,86 @@ const UserDetails: React.FC<Props> = ({ user }) => {
     const userCreated = new Date(user.created!)
     const { userId } = useSelector((state: RootState) => state.auth.user)
 
+    const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
+
+    const handleOpen = (): void => {
+        setDeleteOpen(true)
+    }
+
     return (
-        <List
-            sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                width: '100%',
-            }}
-        >
-            <ListItem>
-                <ListItemAvatar>
-                    <Avatar>
-                        <BadgeIcon />
-                    </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                    primary='Name'
-                    secondary={
-                        user.firstName ? `${user.firstName} ${user.lastName}` : 'ND'
-                    }
-                />
-            </ListItem>
-            <ListItem>
-                <ListItemAvatar>
-                    <Avatar>
-                        <AccessibilityNewIcon />
-                    </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                    primary='Created'
-                    secondary={userCreated.toLocaleDateString()}
-                />
-            </ListItem>
-            <ListItem>
-                <ListItemAvatar>
-                    <Avatar>
-                        <PhoneIcon />
-                    </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                    primary='Phone'
-                    secondary={user.phoneNumber}
-                />
-            </ListItem>
-            <ListItem
+        <>
+            <UserDeleteDialog
+                deleteOpen={deleteOpen}
+                setDeleteOpen={setDeleteOpen}
+                user={user}
+            />
+            <List
                 sx={{
                     display: 'flex',
-                    justifyContent: 'space-evenly',
+                    flexDirection: 'row',
+                    width: '100%',
                 }}
             >
-                <Button
-                    size='small'
-                    variant='contained'
+                <ListItem>
+                    <ListItemAvatar>
+                        <Avatar>
+                            <BadgeIcon />
+                        </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                        primary='Name'
+                        secondary={
+                            user.firstName ? `${user.firstName} ${user.lastName}` : 'ND'
+                        }
+                    />
+                </ListItem>
+                <ListItem>
+                    <ListItemAvatar>
+                        <Avatar>
+                            <AccessibilityNewIcon />
+                        </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                        primary='Created'
+                        secondary={userCreated.toLocaleDateString()}
+                    />
+                </ListItem>
+                <ListItem>
+                    <ListItemAvatar>
+                        <Avatar>
+                            <PhoneIcon />
+                        </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                        primary='Phone'
+                        secondary={user.phoneNumber}
+                    />
+                </ListItem>
+                <ListItem
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'space-evenly',
+                    }}
                 >
-                    Edit
-                </Button>
-                {userId === user.userId ? null : (
                     <Button
                         size='small'
                         variant='contained'
-                        color='error'
                     >
-                        Delete
+                        Edit
                     </Button>
-                )}
-            </ListItem>
-        </List>
+                    {userId === user.userId ? null : (
+                        <Button
+                            size='small'
+                            variant='contained'
+                            color='error'
+                            onClick={handleOpen}
+                        >
+                            Delete
+                        </Button>
+                    )}
+                </ListItem>
+            </List>
+        </>
     )
 }
 
