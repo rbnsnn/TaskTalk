@@ -19,6 +19,9 @@ const UserDeleteDialog: React.FC<Props> = ({ deleteOpen, setDeleteOpen, user }) 
     const handleClose = (): void => {
         setDeleteOpen(false)
     }
+
+    const handleDelete = (): void => {}
+
     return (
         <Dialog
             onClose={handleClose}
@@ -29,17 +32,23 @@ const UserDeleteDialog: React.FC<Props> = ({ deleteOpen, setDeleteOpen, user }) 
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id='delete-user-description'>
-                    Let Google help apps determine location. This means sending anonymous
-                    location data to Google, even when no apps are running.
+                    This user will be deleted immediately. You can't undo this action.
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose}>Disagree</Button>
+                <Button
+                    onClick={handleClose}
+                    variant='contained'
+                >
+                    Cancel
+                </Button>
                 <Button
                     onClick={handleClose}
                     autoFocus
+                    variant='contained'
+                    color='error'
                 >
-                    Agree
+                    Delete
                 </Button>
             </DialogActions>
         </Dialog>

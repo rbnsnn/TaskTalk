@@ -6,10 +6,14 @@ import { RegisterUserDto } from './dtos/register-user.dto'
 import { AddUserDto } from './dtos/add-user.dto'
 import ShortUniqueId from 'short-unique-id'
 import * as bcrypt from 'bcrypt'
+import { CompaniesService } from 'src/companies/companies.service'
 
 @Injectable()
 export class UsersService {
-    constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+    constructor(
+        @InjectModel(User.name) private userModel: Model<UserDocument>,
+        private companiesService: CompaniesService
+    ) {}
 
     async create(createUserDto: RegisterUserDto): Promise<boolean> {
         const createdUser = await new this.userModel(createUserDto)
@@ -43,6 +47,9 @@ export class UsersService {
 
         const createdUser = await new this.userModel(userData)
 
+        this.companiesService.findOneAndUpdate(createUserDto.companyName, {
+            $push: { users: generatedUserId },
+        })
         createdUser.save()
         return true
     }
