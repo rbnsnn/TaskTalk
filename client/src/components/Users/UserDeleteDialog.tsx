@@ -8,6 +8,7 @@ import {
     DialogContent,
 } from '@mui/material'
 import { UserData } from '../../types/user-data.type'
+import { useApi } from '../../hooks/useApi'
 
 interface Props {
     deleteOpen: boolean
@@ -16,6 +17,11 @@ interface Props {
 }
 
 const UserDeleteDialog: React.FC<Props> = ({ deleteOpen, setDeleteOpen, user }) => {
+    const { success, loading, error, executeFetch } = useApi(
+        `users/${user.userId}`,
+        'DELETE',
+        false
+    )
     const handleClose = (): void => {
         setDeleteOpen(false)
     }
