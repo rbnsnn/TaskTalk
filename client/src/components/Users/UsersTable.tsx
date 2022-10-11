@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
     Paper,
     Table,
@@ -7,17 +7,18 @@ import {
     TableRow,
     TableHead,
     TableBody,
-} from '@mui/material';
-import UserRow from './UserRow';
-import UsersTableTittle from './UsersTableTittle';
-import { UserData } from '../../types/user-data.type';
+} from '@mui/material'
+import UserRow from './UserRow'
+import UsersTableTittle from './UsersTableTittle'
+import { UserData } from '../../types/user-data.type'
 
 interface Props {
-    data: UserData[];
-    handleOpen: () => void;
+    data: UserData[]
+    handleOpen: () => void
+    handleUpdate: () => void
 }
 
-const UsersTable: React.FC<Props> = ({ data, handleOpen }) => {
+const UsersTable: React.FC<Props> = ({ data, handleOpen, handleUpdate }) => {
     return (
         <TableContainer
             component={Paper}
@@ -42,12 +43,13 @@ const UsersTable: React.FC<Props> = ({ data, handleOpen }) => {
                         <UserRow
                             key={user.username}
                             user={user}
+                            handleUpdate={handleUpdate}
                         />
                     ))}
                 </TableBody>
             </Table>
         </TableContainer>
-    );
-};
+    )
+}
 
-export default UsersTable;
+export default UsersTable

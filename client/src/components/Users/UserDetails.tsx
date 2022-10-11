@@ -17,23 +17,29 @@ import UserDeleteDialog from './UserDeleteDialog'
 
 interface Props {
     user: UserData
+    handleUpdate: () => void
 }
 
-const UserDetails: React.FC<Props> = ({ user }) => {
+const UserDetails: React.FC<Props> = ({ user, handleUpdate }) => {
     const userCreated = new Date(user.created!)
     const { userId } = useSelector((state: RootState) => state.auth.user)
 
     const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
 
-    const handleOpen = (): void => {
+    const handleDeleteOpen = (): void => {
         setDeleteOpen(true)
+    }
+
+    const handleDeleteClose = (): void => {
+        handleUpdate()
+        setDeleteOpen(false)
     }
 
     return (
         <>
             <UserDeleteDialog
                 deleteOpen={deleteOpen}
-                setDeleteOpen={setDeleteOpen}
+                handleDeleteClose={handleDeleteClose}
                 user={user}
             />
             <List
@@ -95,7 +101,7 @@ const UserDetails: React.FC<Props> = ({ user }) => {
                             size='small'
                             variant='contained'
                             color='error'
-                            onClick={handleOpen}
+                            onClick={handleDeleteOpen}
                         >
                             Delete
                         </Button>

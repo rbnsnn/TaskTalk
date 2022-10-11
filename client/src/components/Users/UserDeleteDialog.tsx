@@ -1,6 +1,8 @@
-import React, { Dispatch } from 'react'
+import React, { useEffect } from 'react'
 import {
+    Alert,
     Button,
+    CircularProgress,
     Dialog,
     DialogTitle,
     DialogContentText,
@@ -12,25 +14,37 @@ import { useApi } from '../../hooks/useApi'
 
 interface Props {
     deleteOpen: boolean
-    setDeleteOpen: Dispatch<boolean>
     user: UserData
+    handleDeleteClose: () => void
 }
 
-const UserDeleteDialog: React.FC<Props> = ({ deleteOpen, setDeleteOpen, user }) => {
+const UserDeleteDialog: React.FC<Props> = ({ deleteOpen, handleDeleteClose, user }) => {
     const { success, loading, error, executeFetch } = useApi(
         `users/${user.userId}`,
         'DELETE',
         false
     )
-    const handleClose = (): void => {
-        setDeleteOpen(false)
+
+    const handleDeleteUser = (): void => {
+        executeFetch()
     }
 
-    const handleDelete = (): void => {}
+    useEffect(() => {
+        if (!success) {
+            return
+        }
+        const userDeleted = setTimeout(() => {
+            handleDeleteClose()
+        }, 1000)
+
+        return () => {
+            clearTimeout(userDeleted)
+        }
+    }, [handleDeleteClose, success])
 
     return (
         <Dialog
-            onClose={handleClose}
+            fullWidth
             open={deleteOpen}
         >
             <DialogTitle id='delete-user-dialog'>
@@ -41,21 +55,35 @@ const UserDeleteDialog: React.FC<Props> = ({ deleteOpen, setDeleteOpen, user }) 
                     This user will be deleted immediately. You can't undo this action.
                 </DialogContentText>
             </DialogContent>
-            <DialogActions>
-                <Button
-                    onClick={handleClose}
-                    variant='contained'
-                >
-                    Cancel
-                </Button>
-                <Button
-                    onClick={handleClose}
-                    autoFocus
-                    variant='contained'
-                    color='error'
-                >
-                    Delete
-                </Button>
+
+            <DialogActions
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-around',
+                    mb: 2,
+                }}
+            >
+                {error && <Alert severity='error'>{error}</Alert>}
+                {success && <Alert severity='error'>User deleted successfully!</Alert>}
+                {loading && <CircularProgress />}
+                {!success && (
+                    <>
+                        <Button
+                            onClick={handleDeleteClose}
+                            variant='contained'
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            onClick={handleDeleteUser}
+                            autoFocus
+                            variant='contained'
+                            color='error'
+                        >
+                            Delete
+                        </Button>
+                    </>
+                )}
             </DialogActions>
         </Dialog>
     )

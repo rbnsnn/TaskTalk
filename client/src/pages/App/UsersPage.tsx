@@ -8,20 +8,25 @@ const UsersPage: React.FC = () => {
     const [addUserOpen, setAddUserOpen] = useState<boolean>(false)
     const { data, error, loading, executeFetch } = useApi('users/all', 'GET')
 
-    const handleClose = (): void => {
+    const handleUpdate = (): void => {
         executeFetch()
+    }
+    const handleClose = (): void => {
+        handleUpdate()
         setAddUserOpen(false)
     }
 
     const handleOpen = (): void => {
         setAddUserOpen(true)
     }
+
     return (
         <>
             {data && (
                 <UsersTable
                     data={data}
                     handleOpen={handleOpen}
+                    handleUpdate={handleUpdate}
                 />
             )}
             {error && <p>error</p>}

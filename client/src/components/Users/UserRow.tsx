@@ -7,9 +7,10 @@ import { UserData } from '../../types/user-data.type'
 
 interface Props {
     user: UserData
+    handleUpdate: () => void
 }
 
-const UserRow: React.FC<Props> = ({ user }) => {
+const UserRow: React.FC<Props> = ({ user, handleUpdate }) => {
     const [open, setOpen] = useState<boolean>(false)
 
     return (
@@ -59,7 +60,10 @@ const UserRow: React.FC<Props> = ({ user }) => {
                             >
                                 Details of {user.username}
                             </Typography>
-                            <UserDetails user={user} />
+                            <UserDetails
+                                user={user}
+                                handleUpdate={handleUpdate}
+                            />
                         </Box>
                     </Collapse>
                 </TableCell>
