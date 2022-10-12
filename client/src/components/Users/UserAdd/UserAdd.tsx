@@ -27,7 +27,7 @@ interface Props {
     handleClose: () => void
 }
 
-const AddUser: React.FC<Props> = ({ open, handleClose }) => {
+const UserAdd: React.FC<Props> = ({ open, handleClose }) => {
     const { success, error, loading, executeFetch, reset } = useApi(
         'users/new',
         'POST',
@@ -305,4 +305,4 @@ const AddUser: React.FC<Props> = ({ open, handleClose }) => {
     )
 }
 
-export default AddUser
+export default UserAdd

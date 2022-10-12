@@ -13,7 +13,7 @@ import PhoneIcon from '@mui/icons-material/Phone'
 import { UserData } from '../../types/user-data.type'
 import { useAppSelector } from '../../hooks/redux-hooks'
 import { RootState } from '../../store/store'
-import UserDeleteDialog from './UserDelete/UserDeleteDialog'
+import UserDelete from './UserDelete/UserDelete'
 
 interface Props {
     user: UserData
@@ -35,13 +35,18 @@ const UserDetails: React.FC<Props> = ({ user, handleUpdate }) => {
         setDeleteOpen(false)
     }
 
+    const handlePasswordReset = (): void => {
+        console.log('password reset')
+    }
+
     return (
         <>
-            <UserDeleteDialog
+            <UserDelete
                 deleteOpen={deleteOpen}
                 handleDeleteClose={handleDeleteClose}
                 user={user}
             />
+
             <List
                 sx={{
                     display: 'flex',
@@ -84,29 +89,31 @@ const UserDetails: React.FC<Props> = ({ user, handleUpdate }) => {
                         secondary={user.phoneNumber}
                     />
                 </ListItem>
-                <ListItem
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'space-evenly',
-                    }}
-                >
-                    <Button
-                        size='small'
-                        variant='contained'
+                {userId === user.userId ? null : (
+                    <ListItem
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'space-evenly',
+                        }}
                     >
-                        Edit
-                    </Button>
-                    {userId === user.userId ? null : (
+                        <Button
+                            size='small'
+                            variant='contained'
+                            onClick={handlePasswordReset}
+                        >
+                            Reset Password
+                        </Button>
+
                         <Button
                             size='small'
                             variant='contained'
                             color='error'
                             onClick={handleDeleteOpen}
                         >
-                            Delete
+                            Delete User
                         </Button>
-                    )}
-                </ListItem>
+                    </ListItem>
+                )}
             </List>
         </>
     )

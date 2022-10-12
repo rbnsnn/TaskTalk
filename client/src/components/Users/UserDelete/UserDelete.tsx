@@ -18,7 +18,7 @@ interface Props {
     handleDeleteClose: () => void
 }
 
-const UserDeleteDialog: React.FC<Props> = ({ deleteOpen, handleDeleteClose, user }) => {
+const UserDelete: React.FC<Props> = ({ deleteOpen, handleDeleteClose, user }) => {
     const { success, loading, error, executeFetch } = useApi(
         `users/${user.userId}`,
         'DELETE',
@@ -89,4 +89,4 @@ const UserDeleteDialog: React.FC<Props> = ({ deleteOpen, handleDeleteClose, user
     )
 }
 
-export default UserDeleteDialog
+export default UserDelete
