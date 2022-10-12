@@ -1,16 +1,11 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '../../hooks/redux-hooks'
 import { RootState } from '../../store/store'
 
-
 const DashBoardPage: React.FC = () => {
-    const { username } = useSelector((state: RootState) => state.auth.user)
+    const { username } = useAppSelector((state: RootState) => state.auth.user)
 
-    return (
-        <div>
-            Welcome {username}
-        </div>
-    )
+    return <div>Welcome {username}</div>
 }
 
 export default DashBoardPage

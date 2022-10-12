@@ -11,9 +11,9 @@ import BadgeIcon from '@mui/icons-material/Badge'
 import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew'
 import PhoneIcon from '@mui/icons-material/Phone'
 import { UserData } from '../../types/user-data.type'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '../../hooks/redux-hooks'
 import { RootState } from '../../store/store'
-import UserDeleteDialog from './UserDeleteDialog'
+import UserDeleteDialog from './UserDelete/UserDeleteDialog'
 
 interface Props {
     user: UserData
@@ -22,7 +22,7 @@ interface Props {
 
 const UserDetails: React.FC<Props> = ({ user, handleUpdate }) => {
     const userCreated = new Date(user.created!)
-    const { userId } = useSelector((state: RootState) => state.auth.user)
+    const { userId } = useAppSelector((state: RootState) => state.auth.user)
 
     const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
 

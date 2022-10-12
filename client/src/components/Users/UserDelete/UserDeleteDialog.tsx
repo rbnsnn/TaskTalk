@@ -9,8 +9,8 @@ import {
     DialogActions,
     DialogContent,
 } from '@mui/material'
-import { UserData } from '../../types/user-data.type'
-import { useApi } from '../../hooks/useApi'
+import { UserData } from '../../../types/user-data.type'
+import { useApi } from '../../../hooks/useApi'
 
 interface Props {
     deleteOpen: boolean

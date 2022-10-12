@@ -1,15 +1,14 @@
 import React from 'react'
 import { Button, Typography, Box } from '@mui/material'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '../../hooks/redux-hooks'
 import { RootState } from '../../store/store'
-
 
 interface Props {
     handleOpen: () => void
 }
 
 const UsersTableTittle: React.FC<Props> = ({ handleOpen }) => {
-    const { companyName } = useSelector((state: RootState) => state.auth.user)
+    const { companyName } = useAppSelector((state: RootState) => state.auth.user)
 
     return (
         <Box
@@ -19,7 +18,6 @@ const UsersTableTittle: React.FC<Props> = ({ handleOpen }) => {
             justifyContent='space-between'
         >
             <Typography
-
                 variant='h4'
                 component='p'
             >

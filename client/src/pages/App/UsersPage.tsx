@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { CircularProgress } from '@mui/material'
-import AddUser from '../../components/Users/AddUser/AddUser'
+import UserAdd from '../../components/Users/UserAdd/UserAdd'
 import UsersTable from '../../components/Users/UsersTable'
 import { useApi } from '../../hooks/useApi'
 
@@ -31,7 +31,7 @@ const UsersPage: React.FC = () => {
             )}
             {error && <p>error</p>}
             {loading && <CircularProgress />}
-            <AddUser
+            <UserAdd
                 open={addUserOpen}
                 handleClose={handleClose}
             />

@@ -6,7 +6,8 @@ import DashboardIcon from '@mui/icons-material/Dashboard'
 import PeopleIcon from '@mui/icons-material/People'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import { DrawerHeader } from '../AppContent/AppContent'
-
+import { useRole } from '../../../hooks/useRole'
+import { Role } from '../../../types/roles-enum.type'
 
 interface Props {
     drawerOpen?: boolean
@@ -14,28 +15,46 @@ interface Props {
 }
 
 const AppDrawerContent: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) => {
+    const admin = useRole(Role.ADMIN)
 
     return (
         <div>
             <DrawerHeader>
-                {drawerOpen ?
+                {drawerOpen ? (
                     <IconButton onClick={handleDrawerToggle}>
                         <ChevronLeftIcon />
-                    </IconButton> : ''}
+                    </IconButton>
+                ) : (
+                    ''
+                )}
             </DrawerHeader>
             <Divider />
             <List>
-                <ListItemLink to={'/dashboard'} text='Dashboard' icon={<DashboardIcon />} />
-
+                <ListItemLink
+                    to={'/dashboard'}
+                    text='Dashboard'
+                    icon={<DashboardIcon />}
+                />
             </List>
+            {admin && (
+                <>
+                    <Divider />
+                    <List>
+                        <ListItemLink
+                            to={'/users'}
+                            text='Users'
+                            icon={<PeopleIcon />}
+                        />
+                    </List>
+                </>
+            )}
             <Divider />
-            <List>
-                <ListItemLink to={'/users'} text='Users' icon={<PeopleIcon />} />
-
-            </List>
-            <Divider />
-            <ListItemLink to={'/logout'} text='Logout' icon={<LogoutIcon />} />
-        </div >
+            <ListItemLink
+                to={'/logout'}
+                text='Logout'
+                icon={<LogoutIcon />}
+            />
+        </div>
     )
 }
 
