@@ -5,6 +5,7 @@ import LogoutIcon from '@mui/icons-material/Logout'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import PeopleIcon from '@mui/icons-material/People'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import ViewKanbanIcon from '@mui/icons-material/ViewKanban'
 import { DrawerHeader } from '../AppContent/AppContent'
 import { useRole } from '../../../hooks/useRole'
 import { Role } from '../../../types/roles-enum.type'
@@ -34,6 +35,11 @@ const AppDrawerContent: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) =
                     to={'/dashboard'}
                     text='Dashboard'
                     icon={<DashboardIcon />}
+                />
+                <ListItemLink
+                    to={'/tasks'}
+                    text='Tasks'
+                    icon={<ViewKanbanIcon />}
                 />
             </List>
             {admin && (
