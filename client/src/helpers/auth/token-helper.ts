@@ -8,12 +8,12 @@ export const removeTokens = (): void => {
     localStorage.removeItem('refreshToken')
 }
 
-export const retrieveStoredTokens = () => {
-    const authToken = localStorage.getItem('authToken')
-    const refreshToken = localStorage.getItem('refreshToken')
+export const retrieveStoredTokens = async () => {
+    const authToken = await localStorage.getItem('authToken')
+    const refreshToken = await localStorage.getItem('refreshToken')
 
     return {
         authToken,
-        refreshToken
+        refreshToken,
     }
 }

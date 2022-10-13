@@ -11,26 +11,28 @@ const App: React.FC = () => {
     const userData = useApi('auth/userdata', 'GET')
 
     useEffect(() => {
-        const tokensData = retrieveStoredTokens()
+        const getTokens = async () => {
+            const tokensData = await retrieveStoredTokens()
 
-        if ((tokensData.authToken || tokensData.refreshToken) && userData.data) {
-            const userRetrievedData = {
-                ...userData.data,
-                ...tokensData
+            if ((tokensData.authToken || tokensData.refreshToken) && userData.data) {
+                const userRetrievedData = {
+                    ...userData.data,
+                    ...tokensData,
+                }
+                await dispatch(authActions.retrieve(userRetrievedData))
+            } else if (userData.error) {
+                await dispatch(authActions.logout())
             }
-            dispatch(authActions.retrieve(userRetrievedData))
-        } else if (userData.error) {
-            dispatch(authActions.logout())
         }
-
+        getTokens()
     }, [dispatch, userData])
 
     return (
         <div className='App'>
             <CssBaseline />
             <AppRoutes />
-        </div >
-    );
+        </div>
+    )
 }
 
-export default App;
+export default App
