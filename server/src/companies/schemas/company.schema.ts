@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { Document } from 'mongoose'
+import { CompanyUsers } from '../types/company-users.interface'
 
 export type CompanyDocument = Company & Document
 
@@ -12,7 +13,7 @@ export class Company {
     companyName: string
 
     @Prop({ required: true })
-    users: string[]
+    users: CompanyUsers[]
 }
 
 export const CompanySchema = SchemaFactory.createForClass(Company)

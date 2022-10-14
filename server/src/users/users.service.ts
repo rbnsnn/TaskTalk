@@ -48,7 +48,7 @@ export class UsersService {
         const createdUser = await new this.userModel(userData)
 
         this.companiesService.findOneAndUpdate(createUserDto.companyName, {
-            $push: { users: generatedUserId },
+            $push: { users: { userId: generatedUserId } },
         })
         createdUser.save()
         return true
@@ -84,6 +84,7 @@ export class UsersService {
         if (!user) {
             throw new NotFoundException('User not found')
         }
+        await this.companiesService.deleteUserFromCompany(userId)
         return true
     }
 }

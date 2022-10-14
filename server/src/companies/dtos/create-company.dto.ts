@@ -1,4 +1,5 @@
 import { IsArray, IsString } from 'class-validator'
+import { CompanyUsers } from '../types/company-users.interface'
 
 export class CreateCompanyDto {
     @IsString()
@@ -8,5 +9,5 @@ export class CreateCompanyDto {
     companyName: string
 
     @IsArray()
-    users: string[]
+    users: CompanyUsers[]
 }

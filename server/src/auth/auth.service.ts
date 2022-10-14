@@ -102,7 +102,7 @@ export class AuthService {
         const newCompany = {
             companyId: generatedCompanyUid,
             companyName: user.companyName,
-            users: [generatedUserUid],
+            users: [{ userId: generatedUserUid }],
         }
 
         this.companiesService.create(newCompany)

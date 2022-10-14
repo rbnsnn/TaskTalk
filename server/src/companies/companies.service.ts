@@ -27,4 +27,12 @@ export class CompaniesService {
 
         return true
     }
+
+    async deleteUserFromCompany(userId: string): Promise<boolean> {
+        await this.companyModel.findOneAndUpdate(
+            { users: { userId } },
+            { $pull: { users: { userId } } }
+        )
+        return true
+    }
 }
