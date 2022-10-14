@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { Role } from '../../roles/enums/role.enum'
 import { Document } from 'mongoose'
+import { TaskInterface } from 'src/tasks/types/task.interface'
 
 export type UserDocument = User & Document
 
@@ -30,7 +31,7 @@ export class User {
     @Prop({ required: true })
     roles: Role[]
 
-    @Prop({required: true})
+    @Prop({ required: true })
     created: Date
 
     @Prop()
@@ -42,6 +43,8 @@ export class User {
     @Prop()
     lastName: string
 
+    @Prop()
+    assignedTasks: TaskInterface[]
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)
