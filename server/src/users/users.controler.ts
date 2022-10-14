@@ -15,7 +15,6 @@ import { RolesGuard } from 'src/roles/guards/roles.guard'
 import { AddUserDto } from './dtos/add-user.dto'
 import { UsersSerializer } from './interceptors/users-serializer.interceptor'
 import { UserSerializeDto } from './dtos/user-serialize.dto'
-import { CompaniesService } from 'src/companies/companies.service'
 
 @UsersSerializer(UserSerializeDto)
 @Controller('users')
