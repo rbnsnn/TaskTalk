@@ -8,35 +8,67 @@ import LogoutPage from '../pages/Auth/LogoutPage'
 import DashBoardPage from '../pages/App/DashboardPage'
 import UsersPage from '../pages/App/UsersPage'
 
-
 const AppRoutes: React.FC = () => {
-    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+    const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
     return (
         <Routes>
-            {isLoggedIn &&
+            {isLoggedIn && (
                 <>
-                    <Route path='/' element={<AppPage />} >
-                        <Route index element={<Navigate to='dashboard' />} />
-                        <Route path='dashboard' element={<DashBoardPage />}>
-                            <Route path='test' element={<p>test</p>} />
+                    <Route
+                        path='/'
+                        element={<AppPage />}
+                    >
+                        <Route
+                            index
+                            element={<Navigate to='dashboard' />}
+                        />
+                        <Route
+                            path='dashboard'
+                            element={<DashBoardPage />}
+                        >
+                            <Route
+                                path='test'
+                                element={<p>test</p>}
+                            />
                         </Route>
-                        <Route path='users' element={<UsersPage />} />
+                        <Route
+                            path='users'
+                            element={<UsersPage />}
+                        />
                     </Route>
-                    <Route path='logout' element={<LogoutPage />} />
-                    <Route path='/*' element={<Navigate to='/' />} />
+                    <Route
+                        path='logout'
+                        element={<LogoutPage />}
+                    />
+                    <Route
+                        path='/*'
+                        element={<Navigate to='/' />}
+                    />
                 </>
-            }
+            )}
 
-            {!isLoggedIn &&
+            {!isLoggedIn && (
                 <>
-                    <Route path='/' element={<Navigate to='login' />} />
-                    <Route path='login' element={<LoginPage />} />
-                    <Route path='register' element={<RegisterPage />} />
-                    <Route path='/*' element={<Navigate to='login' />} />
+                    <Route
+                        path='/'
+                        element={<Navigate to='login' />}
+                    />
+                    <Route
+                        path='login'
+                        element={<LoginPage />}
+                    />
+                    <Route
+                        path='register'
+                        element={<RegisterPage />}
+                    />
+                    <Route
+                        path='/*'
+                        element={<Navigate to='login' />}
+                    />
                 </>
-            }
+            )}
         </Routes>
-    );
+    )
 }
 
-export default AppRoutes;
+export default AppRoutes
