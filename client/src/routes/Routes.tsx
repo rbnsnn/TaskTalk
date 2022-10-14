@@ -25,12 +25,11 @@ const AppRoutes: React.FC = () => {
                         <Route
                             path='dashboard'
                             element={<DashBoardPage />}
-                        >
-                            <Route
-                                path='test'
-                                element={<p>test</p>}
-                            />
-                        </Route>
+                        />
+                        <Route
+                            path='tasks'
+                            element={<p></p>}
+                        />
                         <Route
                             path='users'
                             element={<UsersPage />}

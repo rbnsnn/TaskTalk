@@ -4,12 +4,11 @@ import { UserData } from '../../types/user-data.type'
 import { authLogin } from './actions/loginAction'
 import { authRegister } from './actions/registerAction'
 
-
 interface AuthInterface {
-    isLoggedIn: boolean,
-    loading: boolean,
-    error: string | null,
-    success?: boolean,
+    isLoggedIn: boolean
+    loading: boolean
+    error: string | null
+    success?: boolean
     user: UserData
 }
 
@@ -25,8 +24,8 @@ const initialAuthState: AuthInterface = {
         email: '',
         roles: [],
         authToken: '',
-        refreshToken: ''
-    }
+        refreshToken: '',
+    },
 }
 
 const authSlice = createSlice({
@@ -37,7 +36,7 @@ const authSlice = createSlice({
             state.isLoggedIn = true
             state.user = {
                 ...state.user,
-                ...payload
+                ...payload,
             }
         },
         removeErrAndSucc(state) {
@@ -45,7 +44,6 @@ const authSlice = createSlice({
             state.error = null
         },
         logout: () => initialAuthState,
-
     },
     extraReducers: (builder) => {
         builder.addCase(authLogin.pending, (state) => {
@@ -62,7 +60,6 @@ const authSlice = createSlice({
                 ...state.user,
                 ...payload,
             }
-
         })
 
         builder.addCase(authLogin.rejected, (state, { payload }) => {
@@ -83,7 +80,7 @@ const authSlice = createSlice({
             state.error = payload as string
             state.success = false
         })
-    }
+    },
 })
 
 export const authActions = authSlice.actions

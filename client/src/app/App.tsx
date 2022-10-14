@@ -9,28 +9,29 @@ import AppLoading from './AppLoading'
 
 const App: React.FC = () => {
     const dispatch = useAppDispatch()
-    const userData = useApi('auth/userdata', 'GET')
+    const { data, error } = useApi('auth/userdata', 'GET')
     const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
+        setLoading(true)
         const getTokens = async () => {
-            setLoading(true)
             const tokensData = await retrieveStoredTokens()
 
-            if ((tokensData.authToken || tokensData.refreshToken) && userData.data) {
+            if ((tokensData.authToken || tokensData.refreshToken) && data) {
+                setLoading(true)
                 const userRetrievedData = {
-                    ...userData.data,
+                    ...data,
                     ...tokensData,
                 }
                 await dispatch(authActions.retrieve(userRetrievedData))
                 setLoading(false)
-            } else if (userData.error) {
+            } else if (error) {
                 await dispatch(authActions.logout())
                 setLoading(false)
             }
         }
         getTokens()
-    }, [dispatch, userData])
+    }, [dispatch, data, error])
 
     return (
         <div className='App'>
