@@ -23,7 +23,7 @@ export class CompaniesService {
     }
 
     async findOneAndUpdate(companyname: string, payload: object): Promise<boolean> {
-        const company = await this.companyModel.findOneAndUpdate({ companyname }, payload)
+        await this.companyModel.findOneAndUpdate({ companyname }, payload)
 
         return true
     }
