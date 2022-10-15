@@ -7,6 +7,8 @@ export type TaskDocument = Task & Document
 @Schema()
 export class Task {
     @Prop({ required: true, unique: true })
+    taskId
+
     @Prop({ required: true })
     companyId: string
 

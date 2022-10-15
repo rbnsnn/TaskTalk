@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { Document } from 'mongoose'
-import { TaskInterface } from 'src/tasks/types/task.interface'
+import { ColumnInterface } from 'src/tasks/types/column.interface'
 import { CompanyUsers } from '../types/company-users.interface'
 
 export type CompanyDocument = Company & Document
@@ -17,7 +17,7 @@ export class Company {
     users: CompanyUsers[]
 
     @Prop()
-    tasksColumns: TaskInterface[]
+    taskColumns: ColumnInterface[]
 }
 
 export const CompanySchema = SchemaFactory.createForClass(Company)
