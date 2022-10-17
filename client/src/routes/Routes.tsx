@@ -7,6 +7,7 @@ import RegisterPage from '../pages/Auth/RegisterPage'
 import LogoutPage from '../pages/Auth/LogoutPage'
 import DashBoardPage from '../pages/App/DashboardPage'
 import UsersPage from '../pages/App/UsersPage'
+import TaskBoard from '../pages/App/TaskBoard'
 
 const AppRoutes: React.FC = () => {
     const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
@@ -28,7 +29,7 @@ const AppRoutes: React.FC = () => {
                         />
                         <Route
                             path='tasks'
-                            element={<p></p>}
+                            element={<TaskBoard />}
                         />
                         <Route
                             path='users'
