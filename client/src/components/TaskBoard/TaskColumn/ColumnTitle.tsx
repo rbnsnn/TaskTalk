@@ -24,7 +24,8 @@ const ColumnTitle: React.FC = () => {
             justifyContent='space-between'
             alignItems='center'
             width='440px'
-            p={2}
+            pr={2}
+            pl={2}
         >
             {!editing && <Typography fontWeight='bold'>{title}</Typography>}
             {editing && (

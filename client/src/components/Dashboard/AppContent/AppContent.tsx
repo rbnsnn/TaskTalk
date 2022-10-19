@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react'
 import { Box, styled } from '@mui/material'
 
-
 interface Props {
     children: ReactNode
 }
@@ -12,7 +11,7 @@ export const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'flex-end',
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
-}));
+}))
 
 const AppContent: React.FC<Props> = ({ children }) => {
     return (
@@ -28,12 +27,12 @@ const AppContent: React.FC<Props> = ({ children }) => {
             minHeight='100vh'
             maxWidth='100vw'
             sx={{
-                padding: { sm: '5%' }
+                padding: { sm: '20px' },
             }}
         >
             <DrawerHeader />
             {children}
-        </Box >
+        </Box>
     )
 }
 
