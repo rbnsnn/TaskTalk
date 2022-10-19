@@ -18,6 +18,12 @@ const ColumnTitle: React.FC = () => {
     const handleApply = (): void => {
         setEditing(false)
     }
+
+    const handleOnEnterKey: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
+        if (e.key === 'Enter') {
+            handleApply()
+        }
+    }
     return (
         <Box
             display='flex'
@@ -36,6 +42,7 @@ const ColumnTitle: React.FC = () => {
                     value={title}
                     onChange={handleTitleChange}
                     onBlur={handleApply}
+                    onKeyDown={handleOnEnterKey}
                     autoFocus
                 />
             )}
