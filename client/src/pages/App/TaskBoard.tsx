@@ -2,6 +2,12 @@ import { Box } from '@mui/material'
 import React from 'react'
 import TaskColumn from '../../components/TaskBoard/TaskColumn/TaskColumn'
 
+const tasks = [
+    {
+        name: 'First',
+    },
+]
+
 const TaskBoard: React.FC = () => {
     return (
         <Box

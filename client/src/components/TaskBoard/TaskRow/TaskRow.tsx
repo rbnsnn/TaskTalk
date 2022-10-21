@@ -25,7 +25,12 @@ const TaskRow: React.FC = () => {
             }}
         >
             <Typography>test</Typography>
-            <IconButton ref={drag}>
+            <IconButton
+                ref={drag}
+                sx={{
+                    cursor: 'move',
+                }}
+            >
                 <DragIndicatorIcon />
             </IconButton>
         </Paper>
