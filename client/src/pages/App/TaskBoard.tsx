@@ -39,6 +39,10 @@ const TaskBoard: React.FC = () => {
         setData((data) => {
             const dataAfterUpdate = data.map((column) => {
                 if (column.name === target) {
+                    const exists = column.tasks.find((task) => task.id === item.id)
+                    if (exists) {
+                        return { ...column }
+                    }
                     const updatedColumn = {
                         ...column,
                         tasks: [...column.tasks, item],
@@ -55,10 +59,8 @@ const TaskBoard: React.FC = () => {
             })
             return [...dataAfterUpdate]
         })
-        // console.log(dataAfterUpdate)
     }
 
-    console.log(data)
     return (
         <Box
             display='flex'

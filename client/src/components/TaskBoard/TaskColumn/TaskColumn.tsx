@@ -10,7 +10,7 @@ interface Props {
 }
 
 const TaskColumn: React.FC<Props> = ({ data, onDrop }) => {
-    const [{ isOver, canDrop }, drop] = useDrop(() => ({
+    const [{ isOver }, drop] = useDrop(() => ({
         accept: 'task',
         drop: (item) => {
             onDrop(data.name, item)
