@@ -1,44 +1,35 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Card, CardContent, Divider } from '@mui/material'
 import ColumnTitle from './ColumnTitle'
 import TaskRow from '../TaskRow/TaskRow'
+import { useDrop } from 'react-dnd'
 
-const taskData = [
-    {
-        id: '1',
-        name: 'test',
-        tasks: [
-            {
-                id: 'a',
-                title: 'chuj',
-            },
-            {
-                id: 'b',
-                title: 'cipa',
-            },
-        ],
-    },
-    {
-        id: '2',
-        name: 'test',
-        tasks: [
-            {
-                id: 'c',
-                title: 'dupa',
-            },
-        ],
-    },
-]
+interface Props {
+    data: any
+    onDrop: (data: any, item: any) => void
+}
 
-const TaskColumn: React.FC = () => {
-    const [data, setData] = useState(taskData)
+const TaskColumn: React.FC<Props> = ({ data, onDrop }) => {
+    const [{ isOver, canDrop }, drop] = useDrop(() => ({
+        accept: 'task',
+        drop: (item) => {
+            onDrop(data.name, item)
+        },
+        collect: (monitor) => ({
+            isOver: monitor.isOver(),
+            canDrop: monitor.canDrop(),
+        }),
+    }))
     return (
-        <Card>
-            <ColumnTitle />
+        <Card ref={drop}>
+            <ColumnTitle name={data.name} />
             <Divider />
             <CardContent>
-                {data.map((column) => (
-                    <TaskRow />
+                {data.tasks.map((task: any) => (
+                    <TaskRow
+                        key={task.id}
+                        task={task}
+                    />
                 ))}
             </CardContent>
         </Card>

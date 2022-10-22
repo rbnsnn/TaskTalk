@@ -3,9 +3,18 @@ import { IconButton, Paper, Typography } from '@mui/material'
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
 import { useDrag } from 'react-dnd'
 
-const TaskRow: React.FC = () => {
+interface DropResult {
+    name: string
+}
+
+interface Props {
+    task: any
+}
+
+const TaskRow: React.FC<Props> = ({ task }) => {
     const [{ isDragging }, drag, preview] = useDrag(
         () => ({
+            item: task,
             type: 'task',
             collect: (monitor) => ({
                 isDragging: !!monitor.isDragging(),
@@ -24,7 +33,7 @@ const TaskRow: React.FC = () => {
                 cursor: 'hand',
             }}
         >
-            <Typography>test</Typography>
+            <Typography>{task.title}</Typography>
             <IconButton
                 ref={drag}
                 sx={{

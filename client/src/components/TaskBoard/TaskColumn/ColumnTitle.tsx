@@ -3,8 +3,12 @@ import { Box, IconButton, Typography, TextField } from '@mui/material'
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline'
 import DoneIcon from '@mui/icons-material/Done'
 
-const ColumnTitle: React.FC = () => {
-    const [title, setTitle] = useState<string>('Edit')
+interface Props {
+    name: string
+}
+
+const ColumnTitle: React.FC<Props> = ({ name }) => {
+    const [title, setTitle] = useState<string>(name)
     const [editing, setEditing] = useState<boolean>(false)
 
     const handleEdit = (): void => {
@@ -29,7 +33,7 @@ const ColumnTitle: React.FC = () => {
             display='flex'
             justifyContent='space-between'
             alignItems='center'
-            width='440px'
+            width='300px'
             pr={2}
             pl={2}
         >
