@@ -10,11 +10,11 @@ const TaskBoard: React.FC = () => {
             tasks: [
                 {
                     id: 'a',
-                    title: 'chuj',
+                    title: 'task1',
                 },
                 {
                     id: 'b',
-                    title: 'cipa',
+                    title: 'task2',
                 },
             ],
         },
@@ -24,7 +24,7 @@ const TaskBoard: React.FC = () => {
             tasks: [
                 {
                     id: 'c',
-                    title: 'dupa',
+                    title: 'task3',
                 },
             ],
         },
