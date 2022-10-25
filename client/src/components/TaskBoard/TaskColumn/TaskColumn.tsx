@@ -22,7 +22,10 @@ const TaskColumn: React.FC<Props> = ({ data, onDrop }) => {
     }))
     return (
         <Card ref={drop}>
-            <ColumnTitle name={data.name} />
+            <ColumnTitle
+                name={data.name}
+                count={data.tasks.length}
+            />
             <Divider />
             <CardContent>
                 {data.tasks.map((task: any) => (
