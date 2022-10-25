@@ -7,6 +7,7 @@ const TaskBoard: React.FC = () => {
         {
             id: '1',
             name: 'test',
+            color: '#f48fb1',
             tasks: [
                 {
                     id: 'a',
@@ -21,6 +22,7 @@ const TaskBoard: React.FC = () => {
         {
             id: '2',
             name: 'test2',
+            color: '#00b0ff',
             tasks: [
                 {
                     id: 'c',
@@ -31,6 +33,7 @@ const TaskBoard: React.FC = () => {
         {
             id: '3',
             name: 'test3',
+            color: '#ff9100',
             tasks: [],
         },
     ])

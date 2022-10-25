@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Box, IconButton, Typography, TextField, Badge, Tooltip } from '@mui/material'
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline'
 import DoneIcon from '@mui/icons-material/Done'
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
+import ColumnTitleMenu from './ColumnTitleMenu'
 
 interface Props {
     name: string
@@ -11,6 +13,15 @@ interface Props {
 const ColumnTitle: React.FC<Props> = ({ name, count }) => {
     const [title, setTitle] = useState<string>(name)
     const [editing, setEditing] = useState<boolean>(false)
+    const [menuOpen, setMenuOpen] = useState<null | HTMLElement>(null)
+
+    const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setMenuOpen(event.currentTarget)
+    }
+
+    const handleMenuClose = (): void => {
+        setMenuOpen(null)
+    }
 
     const handleEdit = (): void => {
         setEditing(true)
@@ -55,19 +66,26 @@ const ColumnTitle: React.FC<Props> = ({ name, count }) => {
                 <Badge
                     badgeContent={count}
                     color='primary'
+                    sx={{
+                        mr: 2,
+                    }}
                 />
+
                 {!editing && (
-                    <Tooltip
-                        title='Rename'
-                        placement='top'
-                    >
+                    <>
                         <IconButton
-                            onClick={handleEdit}
+                            onClick={handleMenuOpen}
                             size='small'
                         >
-                            <DriveFileRenameOutlineIcon />
+                            <MoreHorizIcon />
                         </IconButton>
-                    </Tooltip>
+                        <ColumnTitleMenu
+                            menuOpen={menuOpen}
+                            handleOpen={handleMenuOpen}
+                            handleClose={handleMenuClose}
+                            handleEdit={handleEdit}
+                        />
+                    </>
                 )}
                 {editing && (
                     <Tooltip
