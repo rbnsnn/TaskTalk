@@ -1,14 +1,5 @@
 import React, { useState } from 'react'
-import {
-    Button,
-    Box,
-    IconButton,
-    Typography,
-    TextField,
-    Badge,
-    Tooltip,
-} from '@mui/material'
-import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline'
+import { Box, IconButton, Typography, TextField, Badge, Tooltip } from '@mui/material'
 import DoneIcon from '@mui/icons-material/Done'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import ColumnTitleMenu from './ColumnTitleMenu'

@@ -7,7 +7,7 @@ export type TaskDocument = Task & Document
 @Schema()
 export class Task {
     @Prop({ required: true, unique: true })
-    taskId
+    taskId: string
 
     @Prop({ required: true })
     companyId: string
@@ -20,6 +20,9 @@ export class Task {
 
     @Prop()
     assignedUsers: CompanyUsers[]
+
+    @Prop()
+    status: string
 
     @Prop({ required: true })
     assignedColumn: string
