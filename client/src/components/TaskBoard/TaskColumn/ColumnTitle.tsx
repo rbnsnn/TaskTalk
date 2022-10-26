@@ -1,5 +1,13 @@
 import React, { useState } from 'react'
-import { Box, IconButton, Typography, TextField, Badge, Tooltip } from '@mui/material'
+import {
+    Button,
+    Box,
+    IconButton,
+    Typography,
+    TextField,
+    Badge,
+    Tooltip,
+} from '@mui/material'
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline'
 import DoneIcon from '@mui/icons-material/Done'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
@@ -79,9 +87,9 @@ const ColumnTitle: React.FC<Props> = ({ name, count }) => {
                         >
                             <MoreHorizIcon />
                         </IconButton>
+
                         <ColumnTitleMenu
                             menuOpen={menuOpen}
-                            handleOpen={handleMenuOpen}
                             handleClose={handleMenuClose}
                             handleEdit={handleEdit}
                         />
