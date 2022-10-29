@@ -13,7 +13,7 @@ const TaskColumn: React.FC<Props> = ({ data, onDrop }) => {
     const [{ isOver }, drop] = useDrop(() => ({
         accept: 'task',
         drop: (item) => {
-            onDrop(data.name, item)
+            onDrop(data.id, item)
         },
         collect: (monitor) => ({
             isOver: monitor.isOver(),

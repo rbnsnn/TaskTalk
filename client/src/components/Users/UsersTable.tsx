@@ -35,7 +35,6 @@ const UsersTable: React.FC<Props> = ({ data, handleOpen, handleUpdate }) => {
     return (
         <Paper sx={{ width: '100%' }}>
             <TableContainer
-                component={Paper}
                 sx={{
                     maxWidth: { xs: '95%', sm: '100%' },
                 }}
@@ -68,6 +67,7 @@ const UsersTable: React.FC<Props> = ({ data, handleOpen, handleUpdate }) => {
                     </TableBody>
                 </Table>
             </TableContainer>
+
             <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component='div'

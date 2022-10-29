@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import TaskColumn from '../../components/TaskBoard/TaskColumn/TaskColumn'
 
@@ -41,7 +41,7 @@ const TaskBoard: React.FC = () => {
     const handleDrop = (target: any, item: any) => {
         setData((data) => {
             const dataAfterUpdate = data.map((column) => {
-                if (column.name === target) {
+                if (column.id === target) {
                     const exists = column.tasks.find((task) => task.id === item.id)
                     if (exists) {
                         return { ...column }
@@ -64,22 +64,49 @@ const TaskBoard: React.FC = () => {
         })
     }
 
+    const addColumnHandle = (): void => {
+        const newColumn = [
+            ...data,
+            {
+                id: '3',
+                name: 'undefined',
+                color: '#ff9100',
+                tasks: [],
+            },
+        ]
+        setData(newColumn)
+    }
+
     return (
         <Box
-            display='flex'
-            flexDirection='row'
-            gap='10px'
             width='100%'
             height='100%'
-            pb={-2}
         >
-            {data.map((column) => (
-                <TaskColumn
-                    key={column.id}
-                    data={column}
-                    onDrop={handleDrop}
-                />
-            ))}
+            <Button
+                onClick={addColumnHandle}
+                variant='contained'
+                sx={{
+                    mb: 2,
+                }}
+            >
+                Add Column
+            </Button>
+            <Box
+                display='flex'
+                flexDirection='row'
+                gap='10px'
+                width='90%'
+                height='90%'
+                pb={-2}
+            >
+                {data.map((column) => (
+                    <TaskColumn
+                        key={column.id}
+                        data={column}
+                        onDrop={handleDrop}
+                    />
+                ))}
+            </Box>
         </Box>
     )
 }
