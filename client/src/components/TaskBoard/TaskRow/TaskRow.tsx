@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, AvatarGroup, Box, IconButton, Paper, Typography } from '@mui/material'
+import { Avatar, Chip, Box, IconButton, Paper, Typography } from '@mui/material'
 import TextLink from '../../TextLink'
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
 import { useDrag } from 'react-dnd'
@@ -38,26 +38,36 @@ const TaskRow: React.FC<Props> = ({ task }) => {
                 justifyContent: 'space-between',
             }}
         >
-            <Box>
+            <Box width='100%'>
                 <Box
                     display='flex'
                     alignItems='center'
-                    justifyContent='center'
+                    justifyContent='space-between'
                 >
-                    <AdjustIcon fontSize='small' />
-                    <Typography
-                        ml={1}
-                        display='inline'
-                        fontSize='small'
+                    <Box
+                        display='flex'
+                        alignItems='center'
+                        justifyContent='center'
                     >
-                        {task.id}
-                    </Typography>
-
+                        <AdjustIcon fontSize='small' />
+                        <Typography
+                            ml={1}
+                            display='inline'
+                            fontSize='small'
+                        >
+                            {task.id}
+                        </Typography>
+                    </Box>
+                    <Chip
+                        label='test'
+                        size='small'
+                    />
                     <Avatar
                         sx={{
-                            width: '20px',
-                            height: '20px',
+                            width: '18px',
+                            height: '18px',
                             fontSize: '16px',
+                            bgcolor: 'orange',
                         }}
                     >
                         u
