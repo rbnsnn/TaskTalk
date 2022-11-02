@@ -12,10 +12,16 @@ const TaskBoard: React.FC = () => {
                 {
                     id: 'a',
                     title: 'task1',
+                    status: 'undefined',
+                    tags: ['tag1'],
+                    assigned: ['user1'],
                 },
                 {
                     id: 'b',
                     title: 'task2',
+                    status: 'undefined',
+                    tags: ['tag1', 'tag2'],
+                    assigned: ['user2'],
                 },
             ],
         },
@@ -27,6 +33,7 @@ const TaskBoard: React.FC = () => {
                 {
                     id: 'c',
                     title: 'task3',
+                    status: 'undefined',
                 },
             ],
         },
