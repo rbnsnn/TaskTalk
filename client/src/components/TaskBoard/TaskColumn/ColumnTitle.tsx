@@ -39,12 +39,13 @@ const ColumnTitle: React.FC<Props> = ({ name, count }) => {
             handleApply()
         }
     }
+
     return (
         <Box
             display='flex'
             justifyContent='space-between'
             alignItems='center'
-            width='300px'
+            width='100%'
             pr={2}
             pl={2}
         >

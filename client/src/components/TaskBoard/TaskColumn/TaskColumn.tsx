@@ -6,10 +6,11 @@ import { useDrop } from 'react-dnd'
 
 interface Props {
     data: any
+    columns: number
     onDrop: (data: any, item: any) => void
 }
 
-const TaskColumn: React.FC<Props> = ({ data, onDrop }) => {
+const TaskColumn: React.FC<Props> = ({ data, onDrop, columns }) => {
     const [{ isOver }, drop] = useDrop(() => ({
         accept: 'task',
         drop: (item) => {
@@ -21,7 +22,12 @@ const TaskColumn: React.FC<Props> = ({ data, onDrop }) => {
         }),
     }))
     return (
-        <Card ref={drop}>
+        <Card
+            ref={drop}
+            sx={{
+                width: 100 / columns + '%',
+            }}
+        >
             <ColumnTitle
                 name={data.name}
                 count={data.tasks.length}

@@ -47,9 +47,21 @@ const TaskRow: React.FC<Props> = ({ task }) => {
                     <Box
                         display='flex'
                         alignItems='center'
-                        justifyContent='center'
+                        justifyContent='flex-start'
+                        width='100%'
                     >
-                        <AdjustIcon fontSize='small' />
+                        <IconButton>
+                            <Avatar
+                                sx={{
+                                    width: '18px',
+                                    height: '18px',
+                                    fontSize: '16px',
+                                    bgcolor: 'orange',
+                                }}
+                            >
+                                u
+                            </Avatar>
+                        </IconButton>
                         <Typography
                             ml={1}
                             display='inline'
@@ -57,23 +69,28 @@ const TaskRow: React.FC<Props> = ({ task }) => {
                         >
                             {task.id}
                         </Typography>
+                        <Chip
+                            label={task.status}
+                            size='small'
+                            sx={{
+                                ml: 'auto',
+                            }}
+                        />
                     </Box>
-                    <Chip
-                        label='test'
-                        size='small'
-                    />
-                    <Avatar
-                        sx={{
-                            width: '18px',
-                            height: '18px',
-                            fontSize: '16px',
-                            bgcolor: 'orange',
-                        }}
-                    >
-                        u
-                    </Avatar>
                 </Box>
-                <TextLink to={`/tasks/${task.id}`}>{task.title}</TextLink>
+                <Box
+                    display='flex'
+                    alignItems='center'
+                    justifyContent='space-between'
+                >
+                    <Box maxWidth='100px'>
+                        <Typography sx={{}}>{task.title}</Typography>
+                    </Box>
+                </Box>
+                <Chip
+                    label='test'
+                    size='small'
+                />
             </Box>
             <IconButton
                 ref={drag}

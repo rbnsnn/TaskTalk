@@ -11,16 +11,16 @@ const TaskBoard: React.FC = () => {
             tasks: [
                 {
                     id: 'a',
-                    title: 'task1',
+                    title: 'task1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
                     status: 'undefined',
-                    tags: ['tag1'],
+                    labels: ['tag1'],
                     assigned: ['user1'],
                 },
                 {
                     id: 'b',
                     title: 'task2',
                     status: 'undefined',
-                    tags: ['tag1', 'tag2'],
+                    labels: ['tag1', 'tag2'],
                     assigned: ['user2'],
                 },
             ],
@@ -34,7 +34,7 @@ const TaskBoard: React.FC = () => {
                     id: 'c',
                     title: 'task3',
                     status: 'undefined',
-                    tags: ['tag1', 'tag2'],
+                    labels: ['tag1', 'tag2'],
                     assigned: ['user2'],
                 },
             ],
@@ -42,6 +42,18 @@ const TaskBoard: React.FC = () => {
         {
             id: '3',
             name: 'test3',
+            color: '#ff9100',
+            tasks: [],
+        },
+        {
+            id: '4',
+            name: 'test4',
+            color: '#ff9100',
+            tasks: [],
+        },
+        {
+            id: '5',
+            name: 'test5',
             color: '#ff9100',
             tasks: [],
         },
@@ -103,8 +115,8 @@ const TaskBoard: React.FC = () => {
             <Box
                 display='flex'
                 flexDirection='row'
+                justifyItems='center'
                 gap='10px'
-                width='90%'
                 height='90%'
                 pb={-2}
             >
@@ -113,6 +125,7 @@ const TaskBoard: React.FC = () => {
                         key={column.id}
                         data={column}
                         onDrop={handleDrop}
+                        columns={data.length}
                     />
                 ))}
             </Box>

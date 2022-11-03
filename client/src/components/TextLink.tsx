@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { Link as MuiLink } from '@mui/material'
+import { Link as MuiLink, Typography } from '@mui/material'
 
 interface Props {
     children: ReactNode
@@ -13,12 +13,25 @@ const TextLink: React.FC<Props> = ({ children, to, onClick }) => {
         <Link
             to={to}
             onClick={onClick}
+            style={{ width: '100%' }}
         >
             <MuiLink
                 component='button'
                 variant='body2'
+                underline='none'
+                sx={{
+                    wordWrap: 'word-break',
+                    width: '100%',
+                }}
             >
-                {children}
+                <Typography
+                    sx={{
+                        wordWrap: 'word-break',
+                        width: '100%',
+                    }}
+                >
+                    {children}
+                </Typography>
             </MuiLink>
         </Link>
     )
