@@ -4,6 +4,7 @@ import TextLink from '../../TextLink'
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
 import { useDrag } from 'react-dnd'
 import AdjustIcon from '@mui/icons-material/Adjust'
+import TaskLabel from './TaskLabel'
 
 interface Props {
     task: any
@@ -26,16 +27,17 @@ const TaskRow: React.FC<Props> = ({ task }) => {
 
     return (
         <Paper
-            ref={preview}
+            // ref={preview}
+            ref={drag}
             elevation={3}
             sx={{
                 mt: 2,
                 p: 1,
                 height: '10%',
                 opacity: isDragging ? 0.5 : 1,
-                cursor: isDragging ? 'grabbing' : 'auto',
                 display: 'flex',
                 justifyContent: 'space-between',
+                cursor: 'grab',
             }}
         >
             <Box width='100%'>
@@ -78,28 +80,20 @@ const TaskRow: React.FC<Props> = ({ task }) => {
                         />
                     </Box>
                 </Box>
-                <Box
-                    display='flex'
-                    alignItems='center'
-                    justifyContent='space-between'
-                >
-                    <Box maxWidth='100px'>
-                        <Typography sx={{}}>{task.title}</Typography>
-                    </Box>
+
+                <Box>
+                    <Typography
+                        sx={{
+                            wordWrap: 'break-word',
+                        }}
+                    >
+                        {task.title}
+                    </Typography>
                 </Box>
-                <Chip
-                    label='test'
-                    size='small'
-                />
+                {task.labels.map((label: string) => (
+                    <TaskLabel label={label} />
+                ))}
             </Box>
-            <IconButton
-                ref={drag}
-                sx={{
-                    cursor: 'grab',
-                }}
-            >
-                <DragIndicatorIcon />
-            </IconButton>
         </Paper>
     )
 }
