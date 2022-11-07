@@ -12,14 +12,14 @@ const TaskBoard: React.FC = () => {
                 {
                     id: 'a',
                     title: 'task1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-                    status: 'undefined',
+                    priority: 'undefined',
                     labels: ['tag1'],
                     assigned: ['user1'],
                 },
                 {
                     id: 'b',
                     title: 'task2',
-                    status: 'undefined',
+                    priority: 'undefined',
                     labels: ['tag1', 'tag2'],
                     assigned: ['user2'],
                 },
@@ -33,7 +33,7 @@ const TaskBoard: React.FC = () => {
                 {
                     id: 'c',
                     title: 'task3',
-                    status: 'undefined',
+                    priority: 'undefined',
                     labels: ['tag1', 'tag2'],
                     assigned: ['user2'],
                 },
@@ -98,6 +98,8 @@ const TaskBoard: React.FC = () => {
         setData(newColumn)
     }
 
+    const addTaskHandle = (): void => {}
+
     return (
         <Box
             width='100%'
@@ -112,6 +114,17 @@ const TaskBoard: React.FC = () => {
             >
                 Add Column
             </Button>
+            <Button
+                onClick={addTaskHandle}
+                variant='contained'
+                sx={{
+                    mb: 2,
+                    ml: 2,
+                }}
+            >
+                Add Task
+            </Button>
+
             <Box
                 display='flex'
                 flexDirection='row'

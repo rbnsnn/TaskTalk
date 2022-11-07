@@ -15,10 +15,14 @@ const Label = styled.button`
     height: 16px;
     display: inline;
     margin-right: 5px;
+    cursor: pointer;
+    &:hover {
+        box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.2);
+    }
 `
 
 const TaskLabel: React.FC<Props> = ({ label }) => {
-    return <Label color='orange'>{label}</Label>
+    return <Label color='green'>{label}</Label>
 }
 
 export default TaskLabel

@@ -1,9 +1,6 @@
 import React from 'react'
 import { Avatar, Chip, Box, IconButton, Paper, Typography } from '@mui/material'
-import TextLink from '../../TextLink'
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
 import { useDrag } from 'react-dnd'
-import AdjustIcon from '@mui/icons-material/Adjust'
 import TaskLabel from './TaskLabel'
 
 interface Props {
@@ -38,6 +35,7 @@ const TaskRow: React.FC<Props> = ({ task }) => {
                 display: 'flex',
                 justifyContent: 'space-between',
                 cursor: 'grab',
+                borderTop: '5px solid gray',
             }}
         >
             <Box width='100%'>
@@ -72,7 +70,7 @@ const TaskRow: React.FC<Props> = ({ task }) => {
                             {task.id}
                         </Typography>
                         <Chip
-                            label={task.status}
+                            label={task.priority}
                             size='small'
                             sx={{
                                 ml: 'auto',
