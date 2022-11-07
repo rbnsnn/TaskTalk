@@ -2,6 +2,8 @@ import React from 'react'
 import { Avatar, Chip, Box, IconButton, Paper, Typography } from '@mui/material'
 import { useDrag } from 'react-dnd'
 import TaskLabel from './TaskLabel'
+import TaskTitle from './TaskTitle'
+import { setPriorityColor } from './setPriorityColor'
 
 interface Props {
     task: any
@@ -22,6 +24,8 @@ const TaskRow: React.FC<Props> = ({ task }) => {
         []
     )
 
+    const priorityColor = setPriorityColor(task.priority)
+
     return (
         <Paper
             // ref={preview}
@@ -35,7 +39,7 @@ const TaskRow: React.FC<Props> = ({ task }) => {
                 display: 'flex',
                 justifyContent: 'space-between',
                 cursor: 'grab',
-                borderTop: '5px solid gray',
+                borderTop: `5px solid ${priorityColor}`,
             }}
         >
             <Box width='100%'>
@@ -44,41 +48,11 @@ const TaskRow: React.FC<Props> = ({ task }) => {
                     alignItems='center'
                     justifyContent='space-between'
                 >
-                    <Box
-                        display='flex'
-                        alignItems='center'
-                        justifyContent='flex-start'
-                        width='100%'
-                    >
-                        <IconButton>
-                            <Avatar
-                                sx={{
-                                    width: '18px',
-                                    height: '18px',
-                                    fontSize: '16px',
-                                    bgcolor: 'orange',
-                                }}
-                            >
-                                u
-                            </Avatar>
-                        </IconButton>
-                        <Typography
-                            ml={1}
-                            display='inline'
-                            fontSize='small'
-                        >
-                            {task.id}
-                        </Typography>
-                        <Chip
-                            label={task.priority}
-                            size='small'
-                            sx={{
-                                ml: 'auto',
-                            }}
-                        />
-                    </Box>
+                    <TaskTitle
+                        id={task.id}
+                        priority={task.priority}
+                    />
                 </Box>
-
                 <Box>
                     <Typography
                         sx={{

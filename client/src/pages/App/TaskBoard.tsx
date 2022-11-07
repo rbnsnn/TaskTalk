@@ -12,14 +12,14 @@ const TaskBoard: React.FC = () => {
                 {
                     id: 'a',
                     title: 'task1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-                    priority: 'undefined',
+                    priority: 'high',
                     labels: ['tag1'],
                     assigned: ['user1'],
                 },
                 {
                     id: 'b',
                     title: 'task2',
-                    priority: 'undefined',
+                    priority: 'low',
                     labels: ['tag1', 'tag2'],
                     assigned: ['user2'],
                 },
@@ -33,7 +33,7 @@ const TaskBoard: React.FC = () => {
                 {
                     id: 'c',
                     title: 'task3',
-                    priority: 'undefined',
+                    priority: 'medium',
                     labels: ['tag1', 'tag2'],
                     assigned: ['user2'],
                 },
@@ -110,6 +110,7 @@ const TaskBoard: React.FC = () => {
                 variant='contained'
                 sx={{
                     mb: 2,
+                    mt: 2,
                 }}
             >
                 Add Column
@@ -120,6 +121,7 @@ const TaskBoard: React.FC = () => {
                 sx={{
                     mb: 2,
                     ml: 2,
+                    mt: 2,
                 }}
             >
                 Add Task
