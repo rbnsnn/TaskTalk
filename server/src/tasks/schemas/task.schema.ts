@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { Document } from 'mongoose'
 import { CompanyUsers } from 'src/companies/types/company-users.interface'
+import { Priority } from '../types/priority.enum'
 
 export type TaskDocument = Task & Document
 
@@ -23,6 +24,12 @@ export class Task {
 
     @Prop()
     status: string
+
+    @Prop()
+    priority: Priority
+
+    @Prop()
+    labels: string[]
 
     @Prop({ required: true })
     assignedColumn: string
