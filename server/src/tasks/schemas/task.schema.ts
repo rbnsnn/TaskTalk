@@ -20,7 +20,7 @@ export class Task {
     created: Date
 
     @Prop()
-    assignedUsers: CompanyUsers[]
+    assignedUsers: CompanyUsers[] | null
 
     @Prop()
     status: string
@@ -29,10 +29,10 @@ export class Task {
     priority: Priority
 
     @Prop()
-    labels: string[]
+    labels: string[] | null
 
     @Prop({ required: true })
     assignedColumn: string
 }
 
-export const UserSchema = SchemaFactory.createForClass(Task)
+export const TaskSchema = SchemaFactory.createForClass(Task)
