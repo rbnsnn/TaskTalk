@@ -7,6 +7,7 @@ import { UsersModule } from '../users/users.module'
 import { AuthModule } from '../auth/auth.module'
 import { APP_PIPE } from '@nestjs/core'
 import { TasksModule } from 'src/tasks/tasks.module'
+import { EventsModule } from 'src/events/events.module'
 
 @Module({
     imports: [
@@ -18,6 +19,7 @@ import { TasksModule } from 'src/tasks/tasks.module'
         UsersModule,
         AuthModule,
         TasksModule,
+        EventsModule,
     ],
     controllers: [AppController],
     providers: [
