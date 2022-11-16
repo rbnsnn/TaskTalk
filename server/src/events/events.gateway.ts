@@ -1,4 +1,4 @@
-import { UsePipes } from '@nestjs/common'
+import { UsePipes, Req, UseGuards } from '@nestjs/common'
 import {
     MessageBody,
     SubscribeMessage,
@@ -6,14 +6,17 @@ import {
     WebSocketServer,
 } from '@nestjs/websockets'
 import { Server, Socket } from 'socket.io'
-import { CreateTaskDto } from 'src/tasks/dtos/create-task.dto'
-import { TasksService } from 'src/tasks/tasks.service'
+import { WsAuthGuard } from '../auth/guards/ws-auth.guard'
+import { CreateTaskDto } from '../tasks/dtos/create-task.dto'
+import { TasksService } from '../tasks/tasks.service'
 import { WSValidationPipe } from './pipes/gateway.pipe'
 
+@UseGuards(WsAuthGuard)
 @UsePipes(WSValidationPipe)
 @WebSocketGateway({
     cors: {
         origin: '*',
+        credentials: true,
     },
 })
 export class EventsGateway {
@@ -23,7 +26,10 @@ export class EventsGateway {
     socket: Socket
 
     @SubscribeMessage('create_task')
-    findAll(@MessageBody() data: CreateTaskDto) {
-        return this.tasksService.createTask(data)
+    async findAll(@MessageBody() data: CreateTaskDto, @Req() req) {
+        const event = 'create_task'
+        const response = await this.tasksService.createTask(data)
+
+        return { event, response }
     }
 }

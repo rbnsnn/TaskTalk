@@ -10,15 +10,26 @@ import { CompaniesModule } from 'src/companies/companies.module'
 import { RefreshTokenStrategy } from './guards/jwt-refresh.strategy'
 import { APP_GUARD } from '@nestjs/core'
 import { JwtAuthGuard } from './guards/jwt-auth.guard'
+import { WsJwtStrategy } from './guards/ws-auth.strategy'
 
 @Module({
-  imports: [UsersModule, CompaniesModule,
-    PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.register({})],
-  controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy, RefreshTokenStrategy, {
-    provide: APP_GUARD,
-    useClass: JwtAuthGuard
-  }]
+    imports: [
+        UsersModule,
+        CompaniesModule,
+        PassportModule.register({ defaultStrategy: 'jwt' }),
+        JwtModule.register({}),
+    ],
+    controllers: [AuthController],
+    providers: [
+        AuthService,
+        LocalStrategy,
+        JwtStrategy,
+        RefreshTokenStrategy,
+        WsJwtStrategy,
+        {
+            provide: APP_GUARD,
+            useClass: JwtAuthGuard,
+        },
+    ],
 })
-export class AuthModule { }
+export class AuthModule {}

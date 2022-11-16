@@ -23,7 +23,7 @@
        });
     });
     
-    socket.on('events', function(data) {
+    socket.on('create_task', function(data) {
       console.log(data);
     })
     socket.on('exception', function(data) {
