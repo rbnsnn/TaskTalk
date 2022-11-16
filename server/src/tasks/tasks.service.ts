@@ -26,11 +26,11 @@ export class TasksService {
             created: new Date(),
             createdBy: user.userId,
             companyId: user.companyId,
+            assignedColumn: 'first',
         }
 
         const createdTask = await new this.taskModel(newTask)
 
-        console.log(newTask)
         createdTask.save()
         return true
     }
