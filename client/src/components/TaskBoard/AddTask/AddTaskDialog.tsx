@@ -74,6 +74,7 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
         }))
 
         const newTask: TaskData = {
+            taskId: '',
             companyId: user.companyId,
             createdBy: user.username,
             created: new Date(),

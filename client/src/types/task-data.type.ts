@@ -2,6 +2,7 @@ import { CompanyUsers } from './company-users.type'
 import { TaskLabel } from './task-label.type'
 
 export interface TaskData {
+    taskId: string
     companyId: string
     createdBy: string
     created: Date

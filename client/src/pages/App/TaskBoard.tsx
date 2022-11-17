@@ -18,7 +18,7 @@ const TaskBoard: React.FC = () => {
         setData((data) => {
             const dataAfterUpdate = data.map((column) => {
                 if (column.id === target) {
-                    const exists = column.tasks.find((task) => task.id! === item.id)
+                    const exists = column.tasks.find((task) => task.taskId! === item.id)
                     if (exists) {
                         return { ...column }
                     }
@@ -31,7 +31,7 @@ const TaskBoard: React.FC = () => {
                 } else {
                     const updatedColumn = {
                         ...column,
-                        tasks: column.tasks.filter((task) => task.id !== item.id),
+                        tasks: column.tasks.filter((task) => task.taskId !== item.id),
                     }
                     return updatedColumn
                 }
