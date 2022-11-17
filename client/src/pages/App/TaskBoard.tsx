@@ -1,6 +1,7 @@
 import { Box, Button } from '@mui/material'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import TaskColumn from '../../components/TaskBoard/TaskColumn/TaskColumn'
+import AddTask from '../../components/TaskBoard/AddTask/AddTask'
 
 const TaskBoard: React.FC = () => {
     const [data, setData] = useState([
@@ -98,8 +99,6 @@ const TaskBoard: React.FC = () => {
         setData(newColumn)
     }
 
-    const addTaskHandle = (): void => {}
-
     return (
         <Box
             width='100%'
@@ -115,17 +114,8 @@ const TaskBoard: React.FC = () => {
             >
                 Add Column
             </Button>
-            <Button
-                onClick={addTaskHandle}
-                variant='contained'
-                sx={{
-                    mb: 2,
-                    ml: 2,
-                    mt: 2,
-                }}
-            >
-                Add Task
-            </Button>
+
+            <AddTask />
 
             <Box
                 display='flex'

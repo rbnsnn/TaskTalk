@@ -8,9 +8,9 @@ import ShortUniqueId from 'short-unique-id'
 @Injectable()
 export class TasksService {
     constructor(@InjectModel(Task.name) private taskModel: Model<TaskDocument>) {}
-    async getAllTasks(company: string) {
-        const tasks = await this.taskModel.find({})
-        return 'test'
+    async getAllTasks(company) {
+        const tasks = await this.taskModel.find(company)
+        return tasks
     }
 
     async createTask(

@@ -19,6 +19,12 @@ export class Task {
     @Prop({ required: true })
     created: Date
 
+    @Prop({ required: true })
+    title: string
+
+    @Prop({ required: true })
+    description: string
+
     @Prop()
     assignedUsers: CompanyUsers[] | null
 

@@ -5,18 +5,15 @@ import AppDrawer from '../../components/Dashboard/AppDrawer/AppDrawer'
 import AppContent from '../../components/Dashboard/AppContent/AppContent'
 import { Outlet } from 'react-router-dom'
 
-
 const AppPage: React.FC = () => {
-    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [drawerOpen, setDrawerOpen] = useState(false)
 
     const handleDrawerToggle = () => {
-        setDrawerOpen(!drawerOpen);
+        setDrawerOpen(!drawerOpen)
     }
 
     return (
-        <Box
-            display='flex'
-        >
+        <Box display='flex'>
             <AppDrawer
                 drawerOpen={drawerOpen}
                 handleDrawerToggle={handleDrawerToggle}
