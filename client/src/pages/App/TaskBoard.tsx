@@ -2,56 +2,10 @@ import { Box, Button } from '@mui/material'
 import React, { useState } from 'react'
 import TaskColumn from '../../components/TaskBoard/TaskColumn/TaskColumn'
 import AddTask from '../../components/TaskBoard/AddTask/AddTask'
+import { ColumnData } from '../../types/column-data.type'
 
 const TaskBoard: React.FC = () => {
-    const [data, setData] = useState([
-        {
-            id: '1',
-            name: 'test',
-            color: '#f48fb1',
-            tasks: [
-                {
-                    id: 'a',
-                    title: 'task1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-                    priority: 'high',
-                    labels: ['tag1'],
-                    assigned: ['user1'],
-                },
-                {
-                    id: 'b',
-                    title: 'task2',
-                    priority: 'low',
-                    labels: ['tag1', 'tag2'],
-                    assigned: ['user2'],
-                },
-            ],
-        },
-        {
-            id: '2',
-            name: 'test2',
-            color: '#00b0ff',
-            tasks: [
-                {
-                    id: 'c',
-                    title: 'task3',
-                    priority: 'medium',
-                    labels: ['tag1', 'tag2'],
-                    assigned: ['user2'],
-                },
-            ],
-        },
-        {
-            id: '3',
-            name: 'test3',
-            color: '#ff9100',
-            tasks: [],
-        },
-        {
-            id: '4',
-            name: 'test4',
-            color: '#ff9100',
-            tasks: [],
-        },
+    const [data, setData] = useState<ColumnData[]>([
         {
             id: '5',
             name: 'test5',
@@ -64,7 +18,7 @@ const TaskBoard: React.FC = () => {
         setData((data) => {
             const dataAfterUpdate = data.map((column) => {
                 if (column.id === target) {
-                    const exists = column.tasks.find((task) => task.id === item.id)
+                    const exists = column.tasks.find((task) => task.id! === item.id)
                     if (exists) {
                         return { ...column }
                     }

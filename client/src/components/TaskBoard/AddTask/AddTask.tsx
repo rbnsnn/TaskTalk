@@ -4,6 +4,7 @@ import AddTaskDialog from './AddTaskDialog'
 
 const AddTask: React.FC = () => {
     const [addTaskOpen, setAddTaskOpen] = useState<boolean>(false)
+
     const handleClose = (): void => {
         setAddTaskOpen(false)
     }
@@ -11,8 +12,6 @@ const AddTask: React.FC = () => {
     const handleOpen = (): void => {
         setAddTaskOpen(true)
     }
-
-    const addTaskHandle = (): void => {}
 
     return (
         <>

@@ -63,7 +63,10 @@ const TaskRow: React.FC<Props> = ({ task }) => {
                     </Typography>
                 </Box>
                 {task.labels.map((label: string) => (
-                    <TaskLabel label={label} />
+                    <TaskLabel
+                        key={label}
+                        label={label}
+                    />
                 ))}
             </Box>
         </Paper>
