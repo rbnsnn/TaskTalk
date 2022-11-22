@@ -28,8 +28,12 @@ const AppRoutes: React.FC = () => {
                             element={<DashBoardPage />}
                         />
                         <Route
-                            path='tasks'
+                            path='board'
                             element={<TaskBoard />}
+                        />
+                        <Route
+                            path='tasks'
+                            element={<p>List AllTasks</p>}
                         />
                         <Route
                             path='users'
