@@ -7,10 +7,9 @@ import { useEffect } from 'react'
 import { authActions } from './authSlice'
 import { isEmail, isLongerThan, isEqual } from '../../helpers/formHelper'
 import TextLink from '../TextLink'
-
+import { RootState } from '../../store/store'
 
 const RegisterForm: React.FC = () => {
-
     const {
         value: companyValue,
         isValid: companyIsValid,
@@ -43,8 +42,6 @@ const RegisterForm: React.FC = () => {
         inputBlurHandler: passwordBlurHandler,
     } = useInput(isLongerThan(8))
 
-
-
     const {
         isValid: passwordCheckIsValid,
         hasError: passwordCheckHasError,
@@ -52,10 +49,16 @@ const RegisterForm: React.FC = () => {
         inputBlurHandler: passwordCheckBlurHandler,
     } = useInput(isEqual(passwordValue))
 
-    let formIsValid = false;
+    let formIsValid = false
 
-    if (companyIsValid && usernameIsValid && emailIsValid && passwordIsValid && passwordCheckIsValid) {
-        formIsValid = true;
+    if (
+        companyIsValid &&
+        usernameIsValid &&
+        emailIsValid &&
+        passwordIsValid &&
+        passwordCheckIsValid
+    ) {
+        formIsValid = true
     }
 
     const dispatch = useAppDispatch()
@@ -66,7 +69,7 @@ const RegisterForm: React.FC = () => {
             companyName: companyValue,
             username: usernameValue,
             email: emailValue,
-            password: passwordValue
+            password: passwordValue,
         }
 
         dispatch(authRegister(data))
@@ -74,9 +77,7 @@ const RegisterForm: React.FC = () => {
 
     const handleRemoveErrAndSucc = () => dispatch(authActions.removeErrAndSucc())
 
-    const error = useAppSelector(state => state.auth.error)
-    const success = useAppSelector(state => state.auth.success)
-    const loading = useAppSelector(state => state.auth.loading)
+    const { error, success, loading } = useAppSelector((state: RootState) => state.auth)
 
     const navigate = useNavigate()
     useEffect(() => {
@@ -138,8 +139,10 @@ const RegisterForm: React.FC = () => {
 
                 <TextField
                     margin='normal'
-                    id='password' label='Password'
-                    variant='standard' type='password'
+                    id='password'
+                    label='Password'
+                    variant='standard'
+                    type='password'
                     autoComplete='password'
                     fullWidth
                     error={passwordHasError}
@@ -150,8 +153,10 @@ const RegisterForm: React.FC = () => {
 
                 <TextField
                     margin='normal'
-                    id='password-repeat' label='Repeat password'
-                    variant='standard' type='password'
+                    id='password-repeat'
+                    label='Repeat password'
+                    variant='standard'
+                    type='password'
                     autoComplete='password'
                     fullWidth
                     error={passwordCheckHasError}
@@ -160,15 +165,17 @@ const RegisterForm: React.FC = () => {
                     onBlur={(e) => passwordCheckBlurHandler(e)}
                 />
 
-                {loading && <Box
-                    display='flex'
-                    flexDirection='column'
-                    justifyContent='center'
-                    alignItems='center'
-                    sx={{ mt: 3, mb: 1 }}
-                >
-                    <CircularProgress />
-                </Box>}
+                {loading && (
+                    <Box
+                        display='flex'
+                        flexDirection='column'
+                        justifyContent='center'
+                        alignItems='center'
+                        sx={{ mt: 3, mb: 1 }}
+                    >
+                        <CircularProgress />
+                    </Box>
+                )}
 
                 <Button
                     type='submit'
@@ -182,14 +189,23 @@ const RegisterForm: React.FC = () => {
             </form>
 
             <Grid container>
-                <Grid item xs>
-                    <TextLink to={'../resetpassword'} onClick={handleRemoveErrAndSucc}>
+                <Grid
+                    item
+                    xs
+                >
+                    <TextLink
+                        to={'../resetpassword'}
+                        onClick={handleRemoveErrAndSucc}
+                    >
                         Forgot password?
                     </TextLink>
                 </Grid>
 
                 <Grid item>
-                    <TextLink to={'../login'} onClick={handleRemoveErrAndSucc}>
+                    <TextLink
+                        to={'../login'}
+                        onClick={handleRemoveErrAndSucc}
+                    >
                         Already have an account? Sign In
                     </TextLink>
                 </Grid>

@@ -24,13 +24,14 @@ import { useAppSelector } from '../../../hooks/redux-hooks'
 import { Priority } from '../../../types/priority-enum'
 import { isNotEmpty } from '../../../helpers/formHelper'
 import { TaskLabel } from '../../../types/task-label.type'
+import { RootState } from '../../../store/store'
 
 interface Props {
     open: boolean
     close: () => void
 }
 const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
-    const user = useAppSelector((state) => state.auth.user)
+    const user = useAppSelector((state: RootState) => state.auth.user)
     const [assignedUsers, setAssignedUsers] = useState<UserData[]>([])
     const [labels, setLabels] = useState<TaskLabel[]>([])
     const { data } = useApi('users/all', 'GET')

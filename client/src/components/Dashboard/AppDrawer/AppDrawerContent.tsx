@@ -39,7 +39,7 @@ const AppDrawerContent: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) =
                 />
                 <ListItemLink
                     to={'/board'}
-                    text='board'
+                    text='Board'
                     icon={<ViewKanbanIcon />}
                 />
                 <ListItemLink

@@ -8,9 +8,10 @@ import LogoutPage from '../pages/Auth/LogoutPage'
 import DashBoardPage from '../pages/App/DashboardPage'
 import UsersPage from '../pages/App/UsersPage'
 import TaskBoard from '../pages/App/TaskBoard'
+import { RootState } from '../store/store'
 
 const AppRoutes: React.FC = () => {
-    const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn)
+    const isLoggedIn = useAppSelector((state: RootState) => state.auth.isLoggedIn)
     return (
         <Routes>
             {isLoggedIn && (

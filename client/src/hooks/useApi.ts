@@ -48,7 +48,7 @@ export const useApi: Arguments = (url, method, immediate = true) => {
                 if (error.response.status === 403) {
                     dispatch(authActions.logout())
                 }
-                if (error.response && error.response.data.message) {
+                if (error.response && error.response.data) {
                     setError(error.response.data.message)
                 } else {
                     setError(error.message)
