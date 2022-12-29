@@ -72,8 +72,8 @@ export class UsersService {
         return user
     }
 
-    async findAll(parameter): Promise<UserDocument[]> {
-        const users = await this.userModel.find({ parameter })
+    async findAll(companyId): Promise<UserDocument[]> {
+        const users = await this.userModel.find({ companyId })
 
         return users
     }

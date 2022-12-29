@@ -51,6 +51,7 @@ export class AuthService {
     async login(user: any) {
         const payload = {
             username: user.username,
+            companyId: user.companyId,
             sub: user.userId,
         }
 
@@ -157,6 +158,7 @@ export class AuthService {
 
         const payload = {
             username: user.username,
+            companyId: user.companyId,
             sub: user.userId,
         }
 

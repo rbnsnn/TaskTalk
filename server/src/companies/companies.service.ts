@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
+import { ColumnInterface } from 'src/tasks/types/column.interface'
 import { CreateCompanyDto } from './dtos/create-company.dto'
 import { Company, CompanyDocument } from './schemas/company.schema'
 
@@ -22,10 +23,17 @@ export class CompaniesService {
         return company
     }
 
-    async findOneAndUpdate(companyname: string, payload: object): Promise<boolean> {
-        await this.companyModel.findOneAndUpdate({ companyname }, payload)
+    async findOneAndUpdate(companyName: string, payload: object): Promise<boolean> {
+        console.log(companyName, payload)
+        await this.companyModel.findOneAndUpdate({ companyName }, payload)
 
         return true
+    }
+
+    async findColumns(companyId: string): Promise<ColumnInterface[]> {
+        const columns = await this.companyModel.findOne({ companyId }).lean()
+
+        return columns.taskColumns ? columns.taskColumns : []
     }
 
     async deleteUserFromCompany(userId: string): Promise<boolean> {

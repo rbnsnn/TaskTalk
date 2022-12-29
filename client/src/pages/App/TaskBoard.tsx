@@ -1,18 +1,24 @@
 import { Box, Button } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import TaskColumn from '../../components/TaskBoard/TaskColumn/TaskColumn'
 import AddTask from '../../components/TaskBoard/AddTask/AddTask'
 import { ColumnData } from '../../types/column-data.type'
+import { useOutletContext } from 'react-router-dom'
 
 const TaskBoard: React.FC = () => {
-    const [data, setData] = useState<ColumnData[]>([
-        {
-            id: '5',
-            name: 'test5',
-            color: '#ff9100',
-            tasks: [],
-        },
-    ])
+    const socket: any = useOutletContext()
+    const [data, setData] = useState<ColumnData[]>([])
+
+    useEffect(() => {
+        socket.emit('get_tasks')
+        const dataHandle = (socketData: any) => {
+            setData(socketData)
+        }
+        socket.on('get_tasks', dataHandle)
+        return () => {
+            socket.off('get_tasks', dataHandle)
+        }
+    }, [])
 
     const handleDrop = (target: any, item: any) => {
         setData((data) => {

@@ -4,13 +4,28 @@ import { Task, TaskDocument } from './schemas/task.schema'
 import { Model } from 'mongoose'
 import { CreateTaskDto } from './dtos/create-task.dto'
 import ShortUniqueId from 'short-unique-id'
+import { CompaniesService } from 'src/companies/companies.service'
 
 @Injectable()
 export class TasksService {
-    constructor(@InjectModel(Task.name) private taskModel: Model<TaskDocument>) {}
-    async getAllTasks(company) {
-        const tasks = await this.taskModel.find(company)
-        return tasks
+    constructor(
+        @InjectModel(Task.name) private taskModel: Model<TaskDocument>,
+        private companiesService: CompaniesService
+    ) {}
+    async getAllTasks(companyId) {
+        const tasks = await this.taskModel.find({ companyId })
+        const columns = await this.companiesService.findColumns(companyId)
+
+        const filteredTasks = columns.map((column) => {
+            const tasksIds = column.tasks.map((item) => item.taskId)
+            const assignedTasks = tasks.filter((task) => tasksIds.includes(task.taskId))
+
+            return { ...column, tasks: assignedTasks }
+        })
+
+        console.log(filteredTasks)
+
+        return filteredTasks
     }
 
     async createTask(

@@ -21,7 +21,6 @@ const AppContent: React.FC<Props> = ({ children }) => {
             alignContent='center'
             display='flex'
             flexDirection='column'
-            justifyContent='center'
             alignItems='center'
             flexGrow='1'
             minHeight='100vh'

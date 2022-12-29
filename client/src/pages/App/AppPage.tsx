@@ -12,11 +12,14 @@ const socket = io(`${process.env.REACT_APP_SERVER_URL as string}`)
 
 const AppPage: React.FC = () => {
     const [drawerOpen, setDrawerOpen] = useState(false)
-    const { username, userId } = useAppSelector((state: RootState) => state.auth.user)
+    const { username, userId, companyId } = useAppSelector(
+        (state: RootState) => state.auth.user
+    )
 
     socket.auth = {
         username,
         userId,
+        companyId,
     }
 
     const handleDrawerToggle = () => {
@@ -24,16 +27,6 @@ const AppPage: React.FC = () => {
     }
 
     useEffect(() => {
-        console.log(socket.auth)
-        socket.on('connect', () => {
-            console.log('connected')
-            console.log(socket.auth)
-        })
-
-        socket.on('disconnect', () => {
-            console.log('disconnect')
-        })
-
         return () => {
             socket.off('connect')
             socket.off('disconnect')
