@@ -8,14 +8,13 @@ import io from 'socket.io-client'
 import { useAppSelector } from '../../hooks/redux-hooks'
 import { RootState } from '../../store/store'
 
-const socket = io(`${process.env.REACT_APP_SERVER_URL as string}`)
-
 const AppPage: React.FC = () => {
     const [drawerOpen, setDrawerOpen] = useState(false)
     const { username, userId, companyId } = useAppSelector(
         (state: RootState) => state.auth.user
     )
 
+    const socket = io(`${process.env.REACT_APP_SERVER_URL as string}`)
     socket.auth = {
         username,
         userId,
@@ -27,6 +26,13 @@ const AppPage: React.FC = () => {
     }
 
     useEffect(() => {
+        console.log(socket)
+        socket.on('connect', () => {
+            socket.emit('join_room', companyId)
+        })
+        socket.on('disconnect', () => {
+            socket.emit('leave_room')
+        })
         return () => {
             socket.off('connect')
             socket.off('disconnect')

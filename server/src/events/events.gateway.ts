@@ -6,6 +6,7 @@ import {
     WebSocketGateway,
     WebSocketServer,
 } from '@nestjs/websockets'
+import { OnGatewayConnection } from '@nestjs/websockets/interfaces'
 import { Server, Socket } from 'socket.io'
 import { CreateTaskDto } from '../tasks/dtos/create-task.dto'
 import { TasksService } from '../tasks/tasks.service'
@@ -17,11 +18,17 @@ import { WSValidationPipe } from './pipes/gateway.pipe'
         credentials: true,
     },
 })
-export class EventsGateway {
+export class EventsGateway implements OnGatewayConnection {
     constructor(private tasksService: TasksService) {}
     @WebSocketServer()
     server: Server
     socket: Socket
+
+    handleConnection(client: Socket) {
+        client.on('join_room', (room) => {
+            client.join(room)
+        })
+    }
 
     @UsePipes(WSValidationPipe)
     @SubscribeMessage('create_task')
@@ -40,9 +47,7 @@ export class EventsGateway {
     async getAll(@ConnectedSocket() client: Socket) {
         const event = 'get_tasks'
         const { companyId } = client.handshake.auth
-
         const data = await this.tasksService.getAllTasks(companyId)
-
         return { event, data }
     }
 }

@@ -24,7 +24,6 @@ export class CompaniesService {
     }
 
     async findOneAndUpdate(companyName: string, payload: object): Promise<boolean> {
-        console.log(companyName, payload)
         await this.companyModel.findOneAndUpdate({ companyName }, payload)
 
         return true
