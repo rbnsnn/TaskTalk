@@ -1,7 +1,8 @@
 import { TaskInterface } from './task.interface'
 
 export interface TaskColumn {
-    id: string
+    columnId: string
     name: string
+    color?: string
     tasks: TaskInterface[]
 }

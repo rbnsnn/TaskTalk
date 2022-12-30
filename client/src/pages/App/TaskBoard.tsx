@@ -18,7 +18,7 @@ const TaskBoard: React.FC = () => {
         return () => {
             socket.off('get_tasks', dataHandle)
         }
-    }, [])
+    }, [socket])
 
     const handleDrop = (target: any, item: any) => {
         setData((data) => {
@@ -47,16 +47,7 @@ const TaskBoard: React.FC = () => {
     }
 
     const addColumnHandle = (): void => {
-        const newColumn = [
-            ...data,
-            {
-                id: '3',
-                name: 'undefined',
-                color: '#ff9100',
-                tasks: [],
-            },
-        ]
-        setData(newColumn)
+        socket.emit('create_column')
     }
 
     return (

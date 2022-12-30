@@ -8,6 +8,7 @@ import {
 } from '@nestjs/websockets'
 import { OnGatewayConnection } from '@nestjs/websockets/interfaces'
 import { Server, Socket } from 'socket.io'
+import { CompaniesService } from 'src/companies/companies.service'
 import { CreateTaskDto } from '../tasks/dtos/create-task.dto'
 import { TasksService } from '../tasks/tasks.service'
 import { WSValidationPipe } from './pipes/gateway.pipe'
@@ -19,7 +20,10 @@ import { WSValidationPipe } from './pipes/gateway.pipe'
     },
 })
 export class EventsGateway implements OnGatewayConnection {
-    constructor(private tasksService: TasksService) {}
+    constructor(
+        private tasksService: TasksService,
+        private companiesService: CompaniesService
+    ) {}
     @WebSocketServer()
     server: Server
     socket: Socket
@@ -41,6 +45,14 @@ export class EventsGateway implements OnGatewayConnection {
         const response = await this.tasksService.createTask(data, user)
 
         return { event, data: response }
+    }
+
+    @SubscribeMessage('create_column')
+    async createColumn(@ConnectedSocket() client: Socket) {
+        const event = 'get_tasks'
+        const { companyId } = client.handshake.auth
+        const succes = this.companiesService.addColumn(companyId)
+        return succes
     }
 
     @SubscribeMessage('get_tasks')

@@ -26,7 +26,6 @@ const AppPage: React.FC = () => {
     }
 
     useEffect(() => {
-        console.log(socket)
         socket.on('connect', () => {
             socket.emit('join_room', companyId)
         })
@@ -37,7 +36,7 @@ const AppPage: React.FC = () => {
             socket.off('connect')
             socket.off('disconnect')
         }
-    }, [])
+    }, [socket, companyId])
     return (
         <Box display='flex'>
             <AppDrawer

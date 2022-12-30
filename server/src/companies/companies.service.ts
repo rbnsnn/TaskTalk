@@ -2,8 +2,10 @@ import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { ColumnInterface } from 'src/tasks/types/column.interface'
+import { TaskColumn } from 'src/tasks/types/task-column'
 import { CreateCompanyDto } from './dtos/create-company.dto'
 import { Company, CompanyDocument } from './schemas/company.schema'
+import ShortUniqueId from 'short-unique-id'
 
 @Injectable()
 export class CompaniesService {
@@ -14,8 +16,12 @@ export class CompaniesService {
     async create(createCompanyDto: CreateCompanyDto): Promise<any> {
         const createdCompany = await new this.companyModel(createCompanyDto)
 
-        createdCompany.save()
-        return true
+        try {
+            createdCompany.save()
+            return true
+        } catch (err) {
+            return false
+        }
     }
 
     async findOne(companyName: string): Promise<Company[]> {
@@ -27,6 +33,28 @@ export class CompaniesService {
         await this.companyModel.findOneAndUpdate({ companyName }, payload)
 
         return true
+    }
+
+    async addColumn(companyId: string): Promise<boolean> {
+        const columnUid = new ShortUniqueId({ length: 4 })
+        const generatedColumnId = columnUid()
+
+        const newColumn: TaskColumn = {
+            columnId: generatedColumnId,
+            name: 'undefined',
+            color: '',
+            tasks: [],
+        }
+
+        try {
+            await this.companyModel.findOneAndUpdate(
+                { companyId },
+                { $push: { taskColumns: newColumn } }
+            )
+            return true
+        } catch (err) {
+            return false
+        }
     }
 
     async findColumns(companyId: string): Promise<ColumnInterface[]> {
