@@ -1,29 +1,34 @@
 import { Box, Button } from '@mui/material'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import TaskColumn from '../../components/TaskBoard/TaskColumn/TaskColumn'
 import AddTask from '../../components/TaskBoard/AddTask/AddTask'
 import { ColumnData } from '../../types/column-data.type'
-import { useOutletContext } from 'react-router-dom'
+import { TaskEvent } from '../../types/task-event-enum.type'
+import { SocketContext } from '../../helpers/socket/socket-context'
 
 const TaskBoard: React.FC = () => {
-    const socket: any = useOutletContext()
+    const socket: any = useContext(SocketContext)
     const [data, setData] = useState<ColumnData[]>([])
+    const [loading, setLoading] = useState<boolean>(false)
 
     useEffect(() => {
-        socket.emit('get_tasks')
+        console.log(socket)
+        socket.emit(TaskEvent.GetTasks)
+        setLoading(true)
         const dataHandle = (socketData: any) => {
             setData(socketData)
+            setLoading(false)
         }
-        socket.on('get_tasks', dataHandle)
+        socket.on(TaskEvent.SetTasks, dataHandle)
         return () => {
-            socket.off('get_tasks', dataHandle)
+            socket.off(TaskEvent.SetTasks)
         }
     }, [socket])
 
     const handleDrop = (target: any, item: any) => {
         setData((data) => {
             const dataAfterUpdate = data.map((column) => {
-                if (column.id === target) {
+                if (column.columnId === target) {
                     const exists = column.tasks.find((task) => task.taskId! === item.id)
                     if (exists) {
                         return { ...column }
@@ -55,36 +60,45 @@ const TaskBoard: React.FC = () => {
             width='100%'
             height='100%'
         >
-            <Button
-                onClick={addColumnHandle}
-                variant='contained'
-                sx={{
-                    mb: 2,
-                    mt: 2,
-                }}
-            >
-                Add Column
-            </Button>
+            {!loading && (
+                <>
+                    <Button
+                        onClick={addColumnHandle}
+                        variant='contained'
+                        sx={{
+                            mb: 2,
+                            mt: 2,
+                        }}
+                    >
+                        Add Column
+                    </Button>
 
-            <AddTask />
+                    <AddTask />
 
-            <Box
-                display='flex'
-                flexDirection='row'
-                justifyItems='center'
-                gap='10px'
-                height='90%'
-                pb={-2}
-            >
-                {data.map((column) => (
-                    <TaskColumn
-                        key={column.id}
-                        data={column}
-                        onDrop={handleDrop}
-                        columns={data.length}
-                    />
-                ))}
-            </Box>
+                    {data.length ? (
+                        <Box
+                            display='flex'
+                            flexDirection='row'
+                            justifyItems='center'
+                            gap='10px'
+                            height='90%'
+                            pb={-2}
+                        >
+                            {data.map((column) => (
+                                <TaskColumn
+                                    key={column.columnId}
+                                    data={column}
+                                    onDrop={handleDrop}
+                                    columns={data.length}
+                                />
+                            ))}
+                        </Box>
+                    ) : (
+                        <div>no tasks found!</div>
+                    )}
+                </>
+            )}
+            {loading && <div>loading</div>}
         </Box>
     )
 }

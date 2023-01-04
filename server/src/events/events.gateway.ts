@@ -49,15 +49,33 @@ export class EventsGateway implements OnGatewayConnection {
 
     @SubscribeMessage('create_column')
     async createColumn(@ConnectedSocket() client: Socket) {
-        const event = 'get_tasks'
+        const event = 'set_tasks'
         const { companyId } = client.handshake.auth
-        const succes = this.companiesService.addColumn(companyId)
-        return succes
+
+        await this.companiesService.addColumn(companyId)
+
+        const data = await this.tasksService.getAllTasks(companyId)
+
+        this.server.in(companyId).emit(event, data)
+    }
+
+    @SubscribeMessage('delete_column')
+    async deleteColumn(
+        @ConnectedSocket() client: Socket,
+        @MessageBody() columnId: string
+    ) {
+        const event = 'set_tasks'
+        const { companyId } = client.handshake.auth
+
+        await this.companiesService.deleteColumn(companyId, columnId)
+        const data = await this.tasksService.getAllTasks(companyId)
+
+        this.server.in(companyId).emit(event, data)
     }
 
     @SubscribeMessage('get_tasks')
     async getAll(@ConnectedSocket() client: Socket) {
-        const event = 'get_tasks'
+        const event = 'set_tasks'
         const { companyId } = client.handshake.auth
         const data = await this.tasksService.getAllTasks(companyId)
         return { event, data }

@@ -30,6 +30,7 @@ const TaskColumn: React.FC<Props> = ({ data, onDrop, columns }) => {
         >
             <ColumnTitle
                 name={data.name}
+                columnId={data.columnId}
                 count={data.tasks.length}
             />
             <Divider />

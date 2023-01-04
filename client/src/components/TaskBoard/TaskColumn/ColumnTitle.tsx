@@ -6,10 +6,11 @@ import ColumnTitleMenu from './ColumnTitleMenu'
 
 interface Props {
     name: string
+    columnId: string
     count: number
 }
 
-const ColumnTitle: React.FC<Props> = ({ name, count }) => {
+const ColumnTitle: React.FC<Props> = ({ name, count, columnId }) => {
     const [title, setTitle] = useState<string>(name)
     const [editing, setEditing] = useState<boolean>(false)
     const [menuOpen, setMenuOpen] = useState<null | HTMLElement>(null)
@@ -84,6 +85,7 @@ const ColumnTitle: React.FC<Props> = ({ name, count }) => {
                             menuOpen={menuOpen}
                             handleClose={handleMenuClose}
                             handleEdit={handleEdit}
+                            columnId={columnId}
                         />
                     </>
                 )}

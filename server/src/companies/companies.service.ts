@@ -53,7 +53,19 @@ export class CompaniesService {
             )
             return true
         } catch (err) {
-            return false
+            return err
+        }
+    }
+
+    async deleteColumn(companyId: string, columnId: string): Promise<boolean> {
+        try {
+            await this.companyModel.findOneAndUpdate(
+                { companyId },
+                { $pull: { taskColumns: { columnId } } }
+            )
+            return true
+        } catch (err) {
+            return err
         }
     }
 

@@ -1,7 +1,7 @@
 import { TaskData } from './task-data.type'
 
 export interface ColumnData {
-    id: string
+    columnId: string
     name: string
     color: string
     tasks: TaskData[]

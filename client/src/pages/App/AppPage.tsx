@@ -7,6 +7,7 @@ import { Outlet } from 'react-router-dom'
 import io from 'socket.io-client'
 import { useAppSelector } from '../../hooks/redux-hooks'
 import { RootState } from '../../store/store'
+import { SocketContext } from '../../helpers/socket/socket-context'
 
 const AppPage: React.FC = () => {
     const [drawerOpen, setDrawerOpen] = useState(false)
@@ -39,19 +40,21 @@ const AppPage: React.FC = () => {
     }, [socket, companyId])
     return (
         <Box display='flex'>
-            <AppDrawer
-                drawerOpen={drawerOpen}
-                handleDrawerToggle={handleDrawerToggle}
-            />
+            <SocketContext.Provider value={socket}>
+                <AppDrawer
+                    drawerOpen={drawerOpen}
+                    handleDrawerToggle={handleDrawerToggle}
+                />
 
-            <AppMainBar
-                drawerOpen={drawerOpen}
-                handleDrawerToggle={handleDrawerToggle}
-            />
+                <AppMainBar
+                    drawerOpen={drawerOpen}
+                    handleDrawerToggle={handleDrawerToggle}
+                />
 
-            <AppContent>
-                <Outlet context={socket} />
-            </AppContent>
+                <AppContent>
+                    <Outlet />
+                </AppContent>
+            </SocketContext.Provider>
         </Box>
     )
 }

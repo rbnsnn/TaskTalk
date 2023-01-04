@@ -14,6 +14,7 @@ export class TasksService {
     ) {}
     async getAllTasks(companyId) {
         const tasks = await this.taskModel.find({ companyId })
+
         const columns = await this.companiesService.findColumns(companyId)
 
         const filteredTasks = columns.map((column) => {
@@ -22,8 +23,6 @@ export class TasksService {
 
             return { ...column, tasks: assignedTasks }
         })
-
-        console.log(filteredTasks)
 
         return filteredTasks
     }
