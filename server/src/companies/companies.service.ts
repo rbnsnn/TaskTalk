@@ -35,13 +35,13 @@ export class CompaniesService {
         return true
     }
 
-    async addColumn(companyId: string): Promise<boolean> {
+    async addColumn(companyId: string, columnName: string): Promise<boolean> {
         const columnUid = new ShortUniqueId({ length: 4 })
         const generatedColumnId = columnUid()
 
         const newColumn: TaskColumn = {
             columnId: generatedColumnId,
-            name: 'undefined',
+            name: columnName,
             color: '',
             tasks: [],
         }
@@ -67,6 +67,14 @@ export class CompaniesService {
         } catch (err) {
             return err
         }
+    }
+
+    async findOneColumn(companyId: string, columnName: string): Promise<boolean> {
+        const column = await this.companyModel.findOne({
+            $and: [{ companyId }, { taskColumns: { $elemMatch: { name: columnName } } }],
+        })
+
+        return column ? true : false
     }
 
     async findColumns(companyId: string): Promise<ColumnInterface[]> {

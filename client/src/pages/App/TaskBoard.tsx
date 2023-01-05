@@ -1,10 +1,11 @@
-import { Box, Button } from '@mui/material'
+import { Box } from '@mui/material'
 import React, { useState, useEffect, useContext } from 'react'
 import TaskColumn from '../../components/TaskBoard/TaskColumn/TaskColumn'
 import AddTask from '../../components/TaskBoard/AddTask/AddTask'
 import { ColumnData } from '../../types/column-data.type'
 import { TaskEvent } from '../../types/task-event-enum.type'
 import { SocketContext } from '../../helpers/socket/socket-context'
+import AddColumn from '../../components/TaskBoard/TaskColumn/AddColumn'
 
 const TaskBoard: React.FC = () => {
     const socket: any = useContext(SocketContext)
@@ -12,7 +13,6 @@ const TaskBoard: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false)
 
     useEffect(() => {
-        console.log(socket)
         socket.emit(TaskEvent.GetTasks)
         setLoading(true)
         const dataHandle = (socketData: any) => {
@@ -51,10 +51,6 @@ const TaskBoard: React.FC = () => {
         })
     }
 
-    const addColumnHandle = (): void => {
-        socket.emit('create_column')
-    }
-
     return (
         <Box
             width='100%'
@@ -62,17 +58,7 @@ const TaskBoard: React.FC = () => {
         >
             {!loading && (
                 <>
-                    <Button
-                        onClick={addColumnHandle}
-                        variant='contained'
-                        sx={{
-                            mb: 2,
-                            mt: 2,
-                        }}
-                    >
-                        Add Column
-                    </Button>
-
+                    <AddColumn />
                     <AddTask />
 
                     {data.length ? (

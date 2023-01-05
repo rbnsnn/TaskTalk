@@ -37,26 +37,45 @@ export class EventsGateway implements OnGatewayConnection {
     @UsePipes(WSValidationPipe)
     @SubscribeMessage('create_task')
     async createTask(
-        @MessageBody() data: CreateTaskDto,
+        @MessageBody() task: CreateTaskDto,
         @ConnectedSocket() client: Socket
     ) {
-        const event = 'create_task'
-        const user = client.handshake.auth
-        const response = await this.tasksService.createTask(data, user)
-
-        return { event, data: response }
-    }
-
-    @SubscribeMessage('create_column')
-    async createColumn(@ConnectedSocket() client: Socket) {
         const event = 'set_tasks'
         const { companyId } = client.handshake.auth
+        const user = client.handshake.auth
 
-        await this.companiesService.addColumn(companyId)
-
+        await this.tasksService.createTask(task, user)
         const data = await this.tasksService.getAllTasks(companyId)
 
         this.server.in(companyId).emit(event, data)
+    }
+
+    @SubscribeMessage('create_column')
+    async createColumn(
+        @ConnectedSocket() client: Socket,
+        @MessageBody() columnName: string
+    ) {
+        const event = 'set_tasks'
+        const { companyId } = client.handshake.auth
+
+        const columnExists = await this.companiesService.findOneColumn(
+            companyId,
+            columnName
+        )
+
+        if (columnExists) {
+            client.emit('create_column', {
+                error: 'Column already exists!',
+                success: false,
+            })
+        } else {
+            await this.companiesService.addColumn(companyId, columnName)
+
+            const data = await this.tasksService.getAllTasks(companyId)
+
+            this.server.in(companyId).emit(event, data)
+            client.emit('create_column', { error: false, success: true })
+        }
     }
 
     @SubscribeMessage('delete_column')
