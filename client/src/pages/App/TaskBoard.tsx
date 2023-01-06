@@ -59,7 +59,7 @@ const TaskBoard: React.FC = () => {
             {!loading && (
                 <>
                     <AddColumn />
-                    <AddTask />
+                    <AddTask data={data} />
 
                     {data.length ? (
                         <Box

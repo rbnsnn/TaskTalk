@@ -31,7 +31,7 @@ const AddColumnDialog: React.FC<Props> = ({ open, close }) => {
         setSuccess(res.success)
         setLoading(false)
     }
-
+    console.log('render')
     const {
         value: nameValue,
         isValid: nameIsValid,
@@ -78,7 +78,7 @@ const AddColumnDialog: React.FC<Props> = ({ open, close }) => {
             clearTimeout(userAdded)
             socket.off(TaskEvent.CreateColumn)
         }
-    }, [success, handleCancel])
+    }, [success, handleCancel, socket])
 
     return (
         <Dialog

@@ -34,6 +34,7 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
     const user = useAppSelector((state: RootState) => state.auth.user)
     const [assignedUsers, setAssignedUsers] = useState<UserData[]>([])
     const [labels, setLabels] = useState<TaskLabel[]>([])
+
     const { data } = useApi('users/all', 'GET')
     const { success, error, loading, executeFetch, reset } = useApi(
         'tasks/new',
