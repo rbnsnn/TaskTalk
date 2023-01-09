@@ -14,6 +14,7 @@ import {
     InputLabel,
     Autocomplete,
     CircularProgress,
+    FormHelperText,
 } from '@mui/material'
 import { useApi } from '../../../hooks/useApi'
 import { UserData } from '../../../types/user-data.type'
@@ -25,6 +26,7 @@ import { Priority } from '../../../types/priority-enum'
 import { isNotEmpty } from '../../../helpers/formHelper'
 import { TaskLabel } from '../../../types/task-label.type'
 import { RootState } from '../../../store/store'
+import { ColumnData } from '../../../types/column-data.type'
 
 interface Props {
     open: boolean
@@ -32,10 +34,17 @@ interface Props {
 }
 const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
     const user = useAppSelector((state: RootState) => state.auth.user)
+
+    const { data: statusData, reset: resetStatus } = useApi('companies/names', 'GET')
     const [assignedUsers, setAssignedUsers] = useState<UserData[]>([])
+    const [assignedUsersHasError, setAssignedUsersHasError] = useState<boolean>(false)
+
+    const { data: usersData, reset: resetUsers } = useApi('users/all', 'GET')
+    const [assignedStatus, setAssignedStatus] = useState<ColumnData[]>([])
+    const [assignedStatusHasError, setAssignedStatusHasError] = useState<boolean>(false)
+
     const [labels, setLabels] = useState<TaskLabel[]>([])
 
-    const { data } = useApi('users/all', 'GET')
     const { success, error, loading, executeFetch, reset } = useApi(
         'tasks/new',
         'POST',
@@ -94,9 +103,12 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
         titleReset()
         descriptionReset()
         setAssignedUsers([])
+        setAssignedStatus([])
         priorityReset()
+        resetStatus()
+        resetUsers()
         reset()
-    }, [titleReset, descriptionReset, reset, priorityReset])
+    }, [titleReset, descriptionReset, reset, priorityReset, resetStatus, resetUsers])
 
     const handleCancel = useCallback((): void => {
         close()
@@ -157,9 +169,9 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
                 <Autocomplete
                     sx={{ mt: 2 }}
                     multiple
-                    fullWidth
+                    disableCloseOnSelect
                     id='assigned-users'
-                    options={data ? data : []}
+                    options={usersData ? usersData : []}
                     getOptionLabel={(option: UserData) => option.username}
                     filterSelectedOptions
                     value={assignedUsers}
@@ -168,11 +180,36 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
                     }}
                     renderInput={(params) => (
                         <TextField
+                            required
                             {...params}
                             label='Assign task to'
                         />
                     )}
                 />
+
+                <Autocomplete
+                    sx={{ mt: 2 }}
+                    id='assigned-users'
+                    options={statusData ? statusData : []}
+                    getOptionLabel={(option: ColumnData) => option.name}
+                    filterSelectedOptions
+                    value={assignedStatus[0]}
+                    onChange={(event: any, newValue: any, reason) => {
+                        if (reason === 'clear' || reason === 'blur') {
+                            setAssignedStatus([])
+                        } else {
+                            setAssignedStatus(newValue)
+                        }
+                    }}
+                    renderInput={(params) => (
+                        <TextField
+                            required
+                            {...params}
+                            label='Status'
+                        />
+                    )}
+                />
+
                 <Box
                     justifyContent='space-around'
                     gap='5%'
@@ -201,7 +238,11 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
                             <MenuItem value={Priority.MEDIUM}>Medium</MenuItem>
                             <MenuItem value={Priority.HIGH}>High</MenuItem>
                         </Select>
+                        {priorityHasError && (
+                            <FormHelperText>priority not valid</FormHelperText>
+                        )}
                     </FormControl>
+
                     <TextField
                         required
                         multiline
@@ -222,7 +263,7 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
                         multiple
                         fullWidth
                         id='task-labels'
-                        options={data ? data : []}
+                        options={usersData ? usersData : []}
                         getOptionLabel={(option: UserData) => option.username}
                         filterSelectedOptions
                         value={assignedUsers}

@@ -31,7 +31,7 @@ const AddColumnDialog: React.FC<Props> = ({ open, close }) => {
         setSuccess(res.success)
         setLoading(false)
     }
-    console.log('render')
+
     const {
         value: nameValue,
         isValid: nameIsValid,

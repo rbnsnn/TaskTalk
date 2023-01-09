@@ -10,9 +10,14 @@ export class CompaniesController {
         const columns = await this.companiesService.findColumns(req.user.companyId)
 
         if (columns) {
-            return columns.map((column) => column.name)
+            return columns
         } else {
             throw new NotFoundException('Columns not found')
         }
+    }
+
+    @Get('/labels')
+    async getLabels(@Request() req) {
+        return true
     }
 }

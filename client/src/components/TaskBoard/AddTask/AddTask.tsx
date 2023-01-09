@@ -32,10 +32,12 @@ const AddTask: React.FC<props> = ({ data }) => {
             >
                 Add Task
             </Button>
-            <AddTaskDialog
-                open={addTaskOpen}
-                close={handleClose}
-            />
+            {addTaskOpen && (
+                <AddTaskDialog
+                    open={addTaskOpen}
+                    close={handleClose}
+                />
+            )}
         </>
     )
 }
