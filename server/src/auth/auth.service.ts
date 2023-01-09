@@ -154,6 +154,7 @@ export class AuthService {
         }
 
         const tokenMatches = refreshToken === user.refreshToken
+
         if (!tokenMatches) throw new ForbiddenException('Access Denied')
 
         const payload = {

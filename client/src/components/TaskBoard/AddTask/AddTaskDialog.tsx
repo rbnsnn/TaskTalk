@@ -35,11 +35,19 @@ interface Props {
 const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
     const user = useAppSelector((state: RootState) => state.auth.user)
 
-    const { data: statusData, reset: resetStatus } = useApi('companies/names', 'GET')
+    const {
+        data: statusData,
+        reset: resetStatus,
+        executeFetch: refetchStatus,
+    } = useApi('companies/names', 'GET', false)
     const [assignedUsers, setAssignedUsers] = useState<UserData[]>([])
     const [assignedUsersHasError, setAssignedUsersHasError] = useState<boolean>(false)
 
-    const { data: usersData, reset: resetUsers } = useApi('users/all', 'GET')
+    const {
+        data: usersData,
+        reset: resetUsers,
+        executeFetch: refetchUsers,
+    } = useApi('users/all', 'GET', false)
     const [assignedStatus, setAssignedStatus] = useState<ColumnData[]>([])
     const [assignedStatusHasError, setAssignedStatusHasError] = useState<boolean>(false)
 
@@ -50,6 +58,11 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
         'POST',
         false
     )
+
+    const fetchData = async () => {
+        await refetchStatus()
+        await refetchUsers()
+    }
 
     const {
         value: titleValue,
@@ -127,6 +140,11 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
     ) {
         formIsValid = true
     }
+    console.log('render')
+
+    useEffect(() => {
+        fetchData()
+    }, [])
 
     useEffect(() => {
         if (!success) {
