@@ -122,7 +122,8 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
         titleIsValid &&
         descriptionIsValid &&
         priorityIsValid &&
-        assignedUsers.length > 0
+        assignedUsers.length > 0 &&
+        assignedStatus.length > 0
     ) {
         formIsValid = true
     }
@@ -176,11 +177,26 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
                     getOptionLabel={(option: UserData) => option.username}
                     filterSelectedOptions
                     value={assignedUsers}
-                    onChange={(event: any, newValue: UserData[] | []) => {
-                        setAssignedUsers(newValue)
+                    onChange={(event: any, newValue: UserData[] | [], reason: string) => {
+                        if (reason === 'clear') {
+                            setAssignedUsers([])
+                            setAssignedUsersHasError(true)
+                        } else {
+                            setAssignedUsers(newValue)
+                            setAssignedUsersHasError(false)
+                        }
+                    }}
+                    onBlur={(event: any) => {
+                        if (assignedUsers.length === 0) {
+                            setAssignedUsersHasError(true)
+                        }
                     }}
                     renderInput={(params) => (
                         <TextField
+                            error={assignedUsersHasError}
+                            helperText={
+                                assignedUsersHasError ? 'Assigned users not valid' : ''
+                            }
                             required
                             {...params}
                             label='Assign task to'
@@ -195,15 +211,24 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
                     getOptionLabel={(option: ColumnData) => option.name}
                     filterSelectedOptions
                     value={assignedStatus[0]}
-                    onChange={(event: any, newValue: any, reason) => {
-                        if (reason === 'clear' || reason === 'blur') {
+                    onChange={(event: any, newValue: any, reason: string) => {
+                        if (reason === 'clear') {
                             setAssignedStatus([])
+                            setAssignedStatusHasError(true)
                         } else {
                             setAssignedStatus(newValue)
+                            setAssignedStatusHasError(false)
+                        }
+                    }}
+                    onBlur={(event: any) => {
+                        if (assignedStatus.length === 0) {
+                            setAssignedStatusHasError(true)
                         }
                     }}
                     renderInput={(params) => (
                         <TextField
+                            error={assignedStatusHasError}
+                            helperText={assignedStatusHasError ? 'status not valid' : ''}
                             required
                             {...params}
                             label='Status'
