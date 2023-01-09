@@ -8,6 +8,7 @@ export interface TaskData {
     created: Date
     assignedUsers: CompanyUsers[]
     status: string
+    assignedColumn: string
     priority: string
     title: string
     description: string
