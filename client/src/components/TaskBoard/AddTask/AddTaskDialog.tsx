@@ -37,22 +37,22 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
     const user = useAppSelector((state: RootState) => state.auth.user)
     const socket: any = useContext(SocketContext)
 
+    const [assignedUsers, setAssignedUsers] = useState<UserData[]>([])
+    const [assignedUsersHasError, setAssignedUsersHasError] = useState<boolean>(false)
     const {
         data: usersData,
         reset: resetUsers,
         executeFetch: refetchUsers,
     } = useApi('users/all', 'GET', false)
-    const [assignedUsers, setAssignedUsers] = useState<UserData[]>([])
-    const [assignedUsersHasError, setAssignedUsersHasError] = useState<boolean>(false)
 
+    const [assignedStatus, setAssignedStatus] = useState<ColumnData | null>(null)
+    const [assignedStatusHasError, setAssignedStatusHasError] = useState<boolean>(false)
+    const [assignedStatusTouched, setAssignedStatusTouched] = useState<boolean>(false)
     const {
         data: statusData,
         reset: resetStatus,
         executeFetch: refetchStatus,
     } = useApi('companies/names', 'GET', false)
-    const [assignedStatus, setAssignedStatus] = useState<ColumnData | null>(null)
-    const [assignedStatusHasError, setAssignedStatusHasError] = useState<boolean>(false)
-    const [assignedStatusTouched, setAssignedStatusTouched] = useState<boolean>(false)
 
     const [labels, setLabels] = useState<TaskLabel[]>([])
 
@@ -67,7 +67,6 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
         await refetchUsers()
     }
 
-    console.log(assignedStatus)
     const {
         value: titleValue,
         isValid: titleIsValid,
@@ -103,9 +102,6 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
 
         const newTask: TaskData = {
             taskId: '',
-            companyId: user.companyId,
-            createdBy: user.username,
-            created: new Date(),
             assignedUsers: assignes,
             status: assignedStatus!.name,
             assignedColumn: assignedStatus!.columnId,
@@ -194,7 +190,6 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
                 <Autocomplete
                     sx={{ mt: 2 }}
                     multiple
-                    disableCloseOnSelect
                     id='assigned-users'
                     options={usersData ? usersData : []}
                     getOptionLabel={(option: UserData) => option.username}

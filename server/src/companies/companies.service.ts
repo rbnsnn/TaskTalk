@@ -91,12 +91,15 @@ export class CompaniesService {
         return true
     }
 
-    async addTask(columnId: string, companyId: string): Promise<boolean> {
+    async addTask(columnId: string, companyId: string, taskId: string): Promise<boolean> {
         try {
-            const column = await this.companyModel.findOne({
-                $and: [{ companyId }, { taskColumns: { $elemMatch: { columnId } } }],
-            })
-            console.log(column)
+            await this.companyModel.findOneAndUpdate(
+                {
+                    companyId,
+                    'taskColumns.columnId': columnId,
+                },
+                { $push: { 'taskColumns.$.tasks': { taskId } } }
+            )
             return true
         } catch (err) {
             return err

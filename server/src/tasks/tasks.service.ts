@@ -35,7 +35,7 @@ export class TasksService {
             ...createTaskDto,
             taskId: generatedTaskUid,
             created: new Date(),
-            createdBy: user.userId,
+            createdBy: user.sub,
             companyId: user.companyId,
         }
 
@@ -43,7 +43,11 @@ export class TasksService {
 
         await createdTask.save()
 
-        await this.companiesService.addTask(generatedTaskUid, user.companyId)
+        await this.companiesService.addTask(
+            createTaskDto.assignedColumn,
+            user.companyId,
+            generatedTaskUid
+        )
         return true
     }
 }

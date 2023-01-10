@@ -4,20 +4,14 @@ import { Priority } from '../types/priority.enum'
 import { TaskLabel } from '../types/task-label.type'
 
 export class CreateTaskDto {
-    @IsString()
-    companyId: string
-
-    @IsString()
-    createdBy: string
-
-    @IsString()
-    created: Date
-
     @IsArray()
     assignedUsers: CompanyUsers[]
 
     @IsString()
     status: string
+
+    @IsString()
+    assignedColumn: string
 
     @IsString()
     priority: Priority

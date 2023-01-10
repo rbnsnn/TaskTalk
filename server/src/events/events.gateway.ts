@@ -34,7 +34,6 @@ export class EventsGateway implements OnGatewayConnection {
         })
     }
 
-    @UsePipes(WSValidationPipe)
     @SubscribeMessage('create_task')
     async createTask(@ConnectedSocket() client: Socket) {
         const event = 'set_tasks'
