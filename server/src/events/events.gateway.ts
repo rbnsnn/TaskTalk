@@ -36,15 +36,10 @@ export class EventsGateway implements OnGatewayConnection {
 
     @UsePipes(WSValidationPipe)
     @SubscribeMessage('create_task')
-    async createTask(
-        @MessageBody() task: CreateTaskDto,
-        @ConnectedSocket() client: Socket
-    ) {
+    async createTask(@ConnectedSocket() client: Socket) {
         const event = 'set_tasks'
         const { companyId } = client.handshake.auth
-        const user = client.handshake.auth
 
-        await this.tasksService.createTask(task, user)
         const data = await this.tasksService.getAllTasks(companyId)
 
         this.server.in(companyId).emit(event, data)

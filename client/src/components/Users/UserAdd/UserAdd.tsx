@@ -49,7 +49,7 @@ const UserAdd: React.FC<Props> = ({ open, handleClose }) => {
         valueChangeHandler: usernameChangeHandler,
         inputBlurHandler: usernameBlurHandler,
         reset: usernameReset,
-    } = useInput(isLongerThan(4))
+    } = useInput(isLongerThan(4, 20))
 
     const {
         value: passwordValue,
@@ -58,7 +58,7 @@ const UserAdd: React.FC<Props> = ({ open, handleClose }) => {
         valueChangeHandler: passwordChangeHandler,
         inputBlurHandler: passwordBlurHandler,
         reset: passwordReset,
-    } = useInput(isLongerThan(8))
+    } = useInput(isLongerThan(8, 30))
 
     const {
         value: emailValue,

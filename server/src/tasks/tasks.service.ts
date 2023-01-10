@@ -27,10 +27,7 @@ export class TasksService {
         return filteredTasks
     }
 
-    async createTask(
-        createTaskDto: CreateTaskDto,
-        user: any = { userId: 'user', companyId: 'company' }
-    ) {
+    async createTask(createTaskDto: CreateTaskDto, user: any) {
         const taskUid = new ShortUniqueId({ length: 10 })
         const generatedTaskUid = taskUid()
 
@@ -40,12 +37,13 @@ export class TasksService {
             created: new Date(),
             createdBy: user.userId,
             companyId: user.companyId,
-            assignedColumn: 'first',
         }
 
         const createdTask = await new this.taskModel(newTask)
 
-        createdTask.save()
+        await createdTask.save()
+
+        await this.companiesService.addTask(generatedTaskUid, user.companyId)
         return true
     }
 }

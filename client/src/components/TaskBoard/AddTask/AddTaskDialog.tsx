@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useContext } from 'react'
 import {
     Alert,
     Dialog,
@@ -27,6 +27,7 @@ import { isNotEmpty } from '../../../helpers/formHelper'
 import { TaskLabel } from '../../../types/task-label.type'
 import { RootState } from '../../../store/store'
 import { ColumnData } from '../../../types/column-data.type'
+import { SocketContext } from '../../../helpers/socket/socket-context'
 
 interface Props {
     open: boolean
@@ -34,22 +35,24 @@ interface Props {
 }
 const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
     const user = useAppSelector((state: RootState) => state.auth.user)
-
-    const {
-        data: statusData,
-        reset: resetStatus,
-        executeFetch: refetchStatus,
-    } = useApi('companies/names', 'GET', false)
-    const [assignedUsers, setAssignedUsers] = useState<UserData[]>([])
-    const [assignedUsersHasError, setAssignedUsersHasError] = useState<boolean>(false)
+    const socket: any = useContext(SocketContext)
 
     const {
         data: usersData,
         reset: resetUsers,
         executeFetch: refetchUsers,
     } = useApi('users/all', 'GET', false)
-    const [assignedStatus, setAssignedStatus] = useState<ColumnData[]>([])
+    const [assignedUsers, setAssignedUsers] = useState<UserData[]>([])
+    const [assignedUsersHasError, setAssignedUsersHasError] = useState<boolean>(false)
+
+    const {
+        data: statusData,
+        reset: resetStatus,
+        executeFetch: refetchStatus,
+    } = useApi('companies/names', 'GET', false)
+    const [assignedStatus, setAssignedStatus] = useState<ColumnData | null>(null)
     const [assignedStatusHasError, setAssignedStatusHasError] = useState<boolean>(false)
+    const [assignedStatusTouched, setAssignedStatusTouched] = useState<boolean>(false)
 
     const [labels, setLabels] = useState<TaskLabel[]>([])
 
@@ -64,6 +67,7 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
         await refetchUsers()
     }
 
+    console.log(assignedStatus)
     const {
         value: titleValue,
         isValid: titleIsValid,
@@ -91,7 +95,7 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
         reset: priorityReset,
     } = useInput(isNotEmpty)
 
-    const handleSubmit = (): void => {
+    const handleSubmit = async (): Promise<any> => {
         const assignes = assignedUsers.map((user: UserData) => ({
             userId: user.userId!,
             username: user.username,
@@ -103,21 +107,22 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
             createdBy: user.username,
             created: new Date(),
             assignedUsers: assignes,
-            status: assignedStatus[0].name,
-            assignedColumn: assignedStatus[0].columnId,
+            status: assignedStatus!.name,
+            assignedColumn: assignedStatus!.columnId,
             priority: priorityValue,
             labels: [],
             title: titleValue,
             description: descriptionValue,
         }
-        executeFetch(newTask)
+        await executeFetch(newTask)
+        socket.emit('create_task')
     }
 
     const handleReset = useCallback((): void => {
         titleReset()
         descriptionReset()
         setAssignedUsers([])
-        setAssignedStatus([])
+        setAssignedStatus(null)
         priorityReset()
         resetStatus()
         resetUsers()
@@ -136,11 +141,11 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
         descriptionIsValid &&
         priorityIsValid &&
         assignedUsers.length > 0 &&
-        assignedStatus.length > 0
+        !assignedStatusHasError &&
+        assignedStatusTouched
     ) {
         formIsValid = true
     }
-    console.log('render')
 
     useEffect(() => {
         fetchData()
@@ -228,19 +233,22 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
                     options={statusData ? statusData : []}
                     getOptionLabel={(option: ColumnData) => option.name}
                     filterSelectedOptions
-                    value={assignedStatus[0]}
+                    value={assignedStatus}
                     onChange={(event: any, newValue: any, reason: string) => {
                         if (reason === 'clear') {
-                            setAssignedStatus([])
+                            setAssignedStatus(null)
                             setAssignedStatusHasError(true)
+                            setAssignedStatusTouched(true)
                         } else {
                             setAssignedStatus(newValue)
                             setAssignedStatusHasError(false)
+                            setAssignedStatusTouched(true)
                         }
                     }}
                     onBlur={(event: any) => {
-                        if (assignedStatus.length === 0) {
+                        if (!assignedStatus) {
                             setAssignedStatusHasError(true)
+                            setAssignedStatusTouched(true)
                         }
                     }}
                     renderInput={(params) => (

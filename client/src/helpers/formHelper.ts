@@ -1,5 +1,7 @@
-export const isLongerThan = (length: number) => (value: string) =>
-    value.length >= length && value.length <= 14
+export const isLongerThan =
+    (minLength: number, maxLength: number = 100) =>
+    (value: string) =>
+        value.length >= minLength && value.length <= maxLength
 
 export const isNotEmpty = (array: string[]) => array.length > 0
 
