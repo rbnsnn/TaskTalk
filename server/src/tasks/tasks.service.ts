@@ -57,6 +57,16 @@ export class TasksService {
                 { taskId },
                 { assignedColumn: targetColumnId }
             )
+            return true
+        } catch (err) {
+            return err
+        }
+    }
+
+    async deleteTasks(companyId: string, assignedColumn: string): Promise<boolean> {
+        try {
+            await this.taskModel.deleteMany({ $and: [{ companyId }, { assignedColumn }] })
+            return true
         } catch (err) {
             return err
         }
