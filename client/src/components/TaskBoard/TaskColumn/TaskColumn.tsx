@@ -3,6 +3,7 @@ import { Card, CardContent, Divider } from '@mui/material'
 import ColumnTitle from './ColumnTitle'
 import TaskRow from '../TaskRow/TaskRow'
 import { useDrop } from 'react-dnd'
+import { TaskData } from '../../../types/task-data.type'
 
 interface Props {
     data: any
@@ -13,8 +14,8 @@ interface Props {
 const TaskColumn: React.FC<Props> = ({ data, onDrop, columns }) => {
     const [{ isOver }, drop] = useDrop(() => ({
         accept: 'task',
-        drop: (item) => {
-            onDrop(data.id, item)
+        drop: (item: TaskData) => {
+            onDrop(data.columnId, item)
         },
         collect: (monitor) => ({
             isOver: monitor.isOver(),
@@ -37,7 +38,7 @@ const TaskColumn: React.FC<Props> = ({ data, onDrop, columns }) => {
             <CardContent>
                 {data.tasks.map((task: any) => (
                     <TaskRow
-                        key={task.id}
+                        key={task.taskId}
                         task={task}
                     />
                 ))}

@@ -50,4 +50,15 @@ export class TasksService {
         )
         return true
     }
+
+    async updateTask(taskId: string, targetColumnId: string): Promise<boolean> {
+        try {
+            await this.taskModel.findOneAndUpdate(
+                { taskId },
+                { assignedColumn: targetColumnId }
+            )
+        } catch (err) {
+            return err
+        }
+    }
 }

@@ -10,7 +10,7 @@ interface Props {
 }
 
 const TaskRow: React.FC<Props> = ({ task }) => {
-    const [{ isDragging }, drag, preview] = useDrag(
+    const [{ isDragging }, drag] = useDrag(
         () => ({
             item: task,
             type: 'task',
@@ -28,7 +28,6 @@ const TaskRow: React.FC<Props> = ({ task }) => {
 
     return (
         <Paper
-            // ref={preview}
             ref={drag}
             elevation={3}
             sx={{
@@ -49,7 +48,7 @@ const TaskRow: React.FC<Props> = ({ task }) => {
                     justifyContent='space-between'
                 >
                     <TaskTitle
-                        id={task.id}
+                        id={task.taskId}
                         priority={task.priority}
                     />
                 </Box>

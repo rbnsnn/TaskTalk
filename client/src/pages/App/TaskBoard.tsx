@@ -6,6 +6,8 @@ import { ColumnData } from '../../types/column-data.type'
 import { TaskEvent } from '../../types/task-event-enum.type'
 import { SocketContext } from '../../helpers/socket/socket-context'
 import AddColumn from '../../components/TaskBoard/TaskColumn/AddColumn'
+import { TaskData } from '../../types/task-data.type'
+import { taskCancelled } from '@reduxjs/toolkit/dist/listenerMiddleware/exceptions'
 
 const TaskBoard: React.FC = () => {
     const socket: any = useContext(SocketContext)
@@ -25,30 +27,18 @@ const TaskBoard: React.FC = () => {
         }
     }, [socket])
 
-    const handleDrop = (target: any, item: any) => {
-        setData((data) => {
-            const dataAfterUpdate = data.map((column) => {
-                if (column.columnId === target) {
-                    const exists = column.tasks.find((task) => task.taskId! === item.id)
-                    if (exists) {
-                        return { ...column }
-                    }
-                    const updatedColumn = {
-                        ...column,
-                        tasks: [...column.tasks, item],
-                    }
-
-                    return updatedColumn
-                } else {
-                    const updatedColumn = {
-                        ...column,
-                        tasks: column.tasks.filter((task) => task.taskId !== item.id),
-                    }
-                    return updatedColumn
-                }
-            })
-            return [...dataAfterUpdate]
-        })
+    const handleDrop = (target: string, item: TaskData) => {
+        console.log('drop')
+        console.log(target, item)
+        if (item.assignedColumn === target) {
+            return
+        } else {
+            const taskToChange = {
+                taskId: item.taskId,
+                assignedColumn: item.assignedColumn,
+            }
+            socket.emit('task_change', { target, taskToChange })
+        }
     }
 
     return (

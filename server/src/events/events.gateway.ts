@@ -1,4 +1,3 @@
-import { UsePipes } from '@nestjs/common'
 import {
     ConnectedSocket,
     MessageBody,
@@ -9,9 +8,8 @@ import {
 import { OnGatewayConnection } from '@nestjs/websockets/interfaces'
 import { Server, Socket } from 'socket.io'
 import { CompaniesService } from 'src/companies/companies.service'
-import { CreateTaskDto } from '../tasks/dtos/create-task.dto'
+import { ChangeTaskDto } from 'src/tasks/dtos/change-task.dto'
 import { TasksService } from '../tasks/tasks.service'
-import { WSValidationPipe } from './pipes/gateway.pipe'
 
 @WebSocketGateway({
     cors: {
@@ -70,6 +68,21 @@ export class EventsGateway implements OnGatewayConnection {
             this.server.in(companyId).emit(event, data)
             client.emit('create_column', { error: false, success: true })
         }
+    }
+
+    @SubscribeMessage('task_change')
+    async changeTask(
+        @ConnectedSocket() client: Socket,
+        @MessageBody() changeTaskDto: ChangeTaskDto
+    ) {
+        const event = 'set_tasks'
+        const { target, taskToChange } = changeTaskDto
+        const { companyId } = client.handshake.auth
+        await this.companiesService.changeTaskInColumns(target, taskToChange, companyId)
+        await this.tasksService.updateTask(taskToChange.taskId, target)
+
+        const data = await this.tasksService.getAllTasks(companyId)
+        this.server.in(companyId).emit(event, data)
     }
 
     @SubscribeMessage('delete_column')
