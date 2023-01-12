@@ -21,11 +21,9 @@ import { UserData } from '../../../types/user-data.type'
 import { useInput } from '../../../hooks/useInput'
 import { isLongerThan } from '../../../helpers/formHelper'
 import { TaskData } from '../../../types/task-data.type'
-import { useAppSelector } from '../../../hooks/redux-hooks'
 import { Priority } from '../../../types/priority-enum'
 import { isNotEmpty } from '../../../helpers/formHelper'
 import { TaskLabel } from '../../../types/task-label.type'
-import { RootState } from '../../../store/store'
 import { ColumnData } from '../../../types/column-data.type'
 import { SocketContext } from '../../../helpers/socket/socket-context'
 
@@ -34,7 +32,6 @@ interface Props {
     close: () => void
 }
 const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
-    const user = useAppSelector((state: RootState) => state.auth.user)
     const socket: any = useContext(SocketContext)
 
     const [assignedUsers, setAssignedUsers] = useState<UserData[]>([])

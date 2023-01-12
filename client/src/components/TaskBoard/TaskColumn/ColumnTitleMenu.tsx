@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
-import { Menu, ListItemIcon, ListItemText, MenuItem } from '@mui/material'
+import { Menu, ListItemIcon, ListItemText, MenuItem, Divider } from '@mui/material'
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import PaletteIcon from '@mui/icons-material/Palette'
 import { SocketContext } from '../../../helpers/socket/socket-context'
 import { TaskEvent } from '../../../types/task-event-enum.type'
 
@@ -43,6 +44,13 @@ const ColumnTitleMenu: React.FC<Props> = ({
                 </ListItemIcon>
                 <ListItemText>Rename</ListItemText>
             </MenuItem>
+            <MenuItem onClick={handleClick}>
+                <ListItemIcon>
+                    <PaletteIcon />
+                </ListItemIcon>
+                <ListItemText>Color</ListItemText>
+            </MenuItem>
+            <Divider />
             <MenuItem onClick={handleDelete}>
                 <ListItemIcon>
                     <DeleteForeverIcon />
