@@ -1,5 +1,5 @@
 import React from 'react'
-import { Divider, IconButton, List } from '@mui/material'
+import { Divider, IconButton, List, ListItem } from '@mui/material'
 import ListItemLink from './ListItemLink'
 import LogoutIcon from '@mui/icons-material/Logout'
 import DashboardIcon from '@mui/icons-material/Dashboard'
@@ -10,6 +10,7 @@ import ListIcon from '@mui/icons-material/List'
 import { DrawerHeader } from '../AppContent/AppContent'
 import { useRole } from '../../../hooks/useRole'
 import { Role } from '../../../types/roles-enum.type'
+import ThemeSwitch from './ThemeSwitch'
 
 interface Props {
     drawerOpen?: boolean
@@ -66,6 +67,11 @@ const AppDrawerContent: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) =
                 text='Logout'
                 icon={<LogoutIcon />}
             />
+            <Divider />
+
+            <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
+                <ThemeSwitch />
+            </ListItem>
         </div>
     )
 }
