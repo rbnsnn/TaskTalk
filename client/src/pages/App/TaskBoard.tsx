@@ -24,6 +24,7 @@ const TaskBoard: React.FC = () => {
         return () => {
             socket.off(TaskEvent.SetTasks)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleDrop = (target: string, item: TaskData) => {
