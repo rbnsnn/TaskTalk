@@ -24,7 +24,7 @@ const TaskBoard: React.FC = () => {
         return () => {
             socket.off(TaskEvent.SetTasks)
         }
-    }, [socket])
+    }, [])
 
     const handleDrop = (target: string, item: TaskData) => {
         if (item.assignedColumn === target) {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Box } from '@mui/material'
 import AppMainBar from '../../components/Dashboard/AppMainBar/AppMainBar'
 import AppDrawer from '../../components/Dashboard/AppDrawer/AppDrawer'
@@ -21,10 +21,9 @@ const AppPage: React.FC = () => {
         userId,
         companyId,
     }
-
-    const handleDrawerToggle = () => {
+    const handleDrawerToggle = useCallback(() => {
         setDrawerOpen(!drawerOpen)
-    }
+    }, [drawerOpen])
 
     useEffect(() => {
         socket.on('connect', () => {
