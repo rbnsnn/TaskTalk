@@ -42,6 +42,7 @@ const ColumnTitleMenu: React.FC<Props> = ({
 
     const handleConfirmationClose = (): void => {
         setConfirmationOpen(false)
+        handleClose()
     }
 
     return (

@@ -26,13 +26,17 @@ const DeleteConfirmation: React.FC<Props> = ({
     text,
 }) => {
     const {
-        value: confirmationValue,
         isValid: confirmationIsValid,
         hasError: confirmationHasError,
         valueChangeHandler: confirmationChangeHandler,
         inputBlurHandler: confirmationBlurHandler,
         reset: confirmationReset,
     } = useInput(isEqual(conditions))
+
+    const handleCancel = (): void => {
+        confirmationReset()
+        close()
+    }
 
     return (
         <Dialog
@@ -79,7 +83,7 @@ const DeleteConfirmation: React.FC<Props> = ({
                     color='error'
                     variant='contained'
                     size='large'
-                    onClick={close}
+                    onClick={handleCancel}
                 >
                     Cancel
                 </Button>
