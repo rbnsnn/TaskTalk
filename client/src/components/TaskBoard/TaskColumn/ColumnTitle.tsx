@@ -11,7 +11,6 @@ interface Props {
 }
 
 const ColumnTitle: React.FC<Props> = ({ name, count, columnId }) => {
-    const [title, setTitle] = useState<string>(name)
     const [editing, setEditing] = useState<boolean>(false)
     const [menuOpen, setMenuOpen] = useState<null | HTMLElement>(null)
 
@@ -28,7 +27,7 @@ const ColumnTitle: React.FC<Props> = ({ name, count, columnId }) => {
     }
 
     const handleTitleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-        setTitle(e.target.value)
+        // setTitle(e.target.value)
     }
 
     const handleApply = (): void => {
@@ -50,13 +49,13 @@ const ColumnTitle: React.FC<Props> = ({ name, count, columnId }) => {
             pr={2}
             pl={2}
         >
-            {!editing && <Typography fontWeight='bold'>{title}</Typography>}
+            {!editing && <Typography fontWeight='bold'>{name}</Typography>}
             {editing && (
                 <TextField
                     id='column-name'
                     variant='standard'
                     size='small'
-                    value={title}
+                    value={name}
                     onChange={handleTitleChange}
                     onBlur={handleApply}
                     onKeyDown={handleOnEnterKey}
@@ -86,6 +85,7 @@ const ColumnTitle: React.FC<Props> = ({ name, count, columnId }) => {
                             handleClose={handleMenuClose}
                             handleEdit={handleEdit}
                             columnId={columnId}
+                            name={name}
                         />
                     </>
                 )}
