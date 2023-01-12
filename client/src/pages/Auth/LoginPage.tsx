@@ -1,8 +1,7 @@
 import React from 'react'
 import { Box, Container } from '@mui/material'
 import LoginForm from '../../components/Auth/LoginForm'
-import Logo from '../../theme/Logo'
-
+import Logo from '../../themes/Logo'
 
 const AuthPage: React.FC = () => {
     return (

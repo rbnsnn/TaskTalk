@@ -2,8 +2,7 @@ import React from 'react'
 import MuiDrawer from '@mui/material/Drawer'
 import { styled, Theme, CSSObject } from '@mui/material'
 import AppDrawerContent from './AppDrawerContent'
-import { DRAWER_WIDTH } from '../../../theme/drawerWidth'
-
+import { DRAWER_WIDTH } from '../../../themes/drawerWidth'
 
 const openedMixin = (theme: Theme): CSSObject => ({
     width: DRAWER_WIDTH,
@@ -12,7 +11,7 @@ const openedMixin = (theme: Theme): CSSObject => ({
         duration: theme.transitions.duration.enteringScreen,
     }),
     overflowX: 'hidden',
-});
+})
 
 const closedMixin = (theme: Theme): CSSObject => ({
     transition: theme.transitions.create('width', {
@@ -40,7 +39,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
             ...closedMixin(theme),
             '& .MuiDrawer-paper': closedMixin(theme),
         }),
-    }),
+    })
 )
 
 interface Props {
@@ -49,16 +48,20 @@ interface Props {
 }
 
 const AppDrawerDesktop: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) => {
-
     return (
         <Drawer
             variant='permanent'
             open={drawerOpen}
             sx={{
-                display: { xs: 'none', sm: 'block' }
+                display: { xs: 'none', sm: 'block' },
             }}
         >
-            {<AppDrawerContent drawerOpen={drawerOpen} handleDrawerToggle={handleDrawerToggle} />}
+            {
+                <AppDrawerContent
+                    drawerOpen={drawerOpen}
+                    handleDrawerToggle={handleDrawerToggle}
+                />
+            }
         </Drawer>
     )
 }

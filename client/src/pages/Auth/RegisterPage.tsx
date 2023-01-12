@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Container } from '@mui/material'
 import RegisterForm from '../../components/Auth/RegisterForm'
-import Logo from '../../theme/Logo'
+import Logo from '../../themes/Logo'
 
 const RegisterPage: React.FC = () => {
     return (

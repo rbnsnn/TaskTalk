@@ -6,8 +6,9 @@ declare module '@mui/material/TableCell' {
     }
 }
 
-export const theme = createTheme({
+export const darkTheme = createTheme({
     palette: {
+        mode: 'dark',
         primary: {
             main: '#00897b',
             dark: '#005f56',

@@ -1,9 +1,9 @@
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
-import { DRAWER_WIDTH } from '../../../theme/drawerWidth'
+import { DRAWER_WIDTH } from '../../../themes/drawerWidth'
 import { styled } from '@mui/material'
 
 interface AppBarProps extends MuiAppBarProps {
-    open?: boolean;
+    open?: boolean
 }
 
 export const AppBar = styled(MuiAppBar, {
@@ -22,4 +22,4 @@ export const AppBar = styled(MuiAppBar, {
             duration: theme.transitions.duration.enteringScreen,
         }),
     }),
-}));
+}))

@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { Box, styled } from '@mui/material'
+import { Container, styled } from '@mui/material'
 
 interface Props {
     children: ReactNode
@@ -15,23 +15,22 @@ export const DrawerHeader = styled('div')(({ theme }) => ({
 
 const AppContent: React.FC<Props> = ({ children }) => {
     return (
-        <Box
-            bgcolor='#eeeeee'
-            component='main'
-            alignContent='center'
-            display='flex'
-            flexDirection='column'
-            alignItems='center'
-            flexGrow='1'
-            minHeight='100vh'
-            maxWidth='100vw'
+        <Container
+            className='mainContainer'
+            maxWidth={false}
             sx={{
+                display: 'flex',
+                alignContent: 'center',
+                flexDirection: 'column',
+                flexGrow: '1',
+                minHeight: '100vh',
+                maxWidth: '100vw',
                 padding: { sm: '20px' },
             }}
         >
             <DrawerHeader />
             {children}
-        </Box>
+        </Container>
     )
 }
 

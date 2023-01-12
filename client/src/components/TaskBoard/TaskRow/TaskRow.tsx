@@ -29,7 +29,7 @@ const TaskRow: React.FC<Props> = ({ task }) => {
     return (
         <Paper
             ref={drag}
-            elevation={3}
+            elevation={6}
             sx={{
                 mt: 2,
                 p: 1,
