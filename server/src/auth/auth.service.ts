@@ -118,6 +118,7 @@ export class AuthService {
             password: hashedPassword,
             roles: [Role.ADMIN, Role.MODERATOR, Role.USER],
             created: new Date(),
+            colorMode: user.colorMode,
         }
 
         return this.userService.create(newUser)

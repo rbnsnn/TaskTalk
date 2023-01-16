@@ -13,4 +13,5 @@ export interface UserData {
     refreshToken?: string
     created?: Date
     tasks?: any[]
+    colorMode?: 'dark' | 'light'
 }

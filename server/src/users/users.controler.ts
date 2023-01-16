@@ -7,6 +7,7 @@ import {
     Request,
     Delete,
     Param,
+    Patch,
 } from '@nestjs/common'
 import { Roles } from 'src/roles/decorators/roles.decorator'
 import { Role } from 'src/roles/enums/role.enum'
@@ -38,5 +39,11 @@ export class UsersController {
     @Roles(Role.ADMIN)
     deleteUser(@Param('id') id: string) {
         return this.userService.findOneAndDelete(id)
+    }
+
+    @Patch('/mode')
+    changeColorMode(@Request() req, @Body() body: string) {
+        const { username } = req.user
+        return this.userService.findOneAndUpdate(username, body)
     }
 }

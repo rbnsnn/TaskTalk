@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { CssBaseline, useMediaQuery } from '@mui/material'
+import { CssBaseline } from '@mui/material'
 import AppRoutes from '../routes/Routes'
 import { retrieveStoredTokens } from '../helpers/auth/token-helper'
-import { useAppDispatch } from '../hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks'
 import { authActions } from '../components/Auth/authSlice'
 import { useApi } from '../hooks/useApi'
 import { ThemeProvider } from '@emotion/react'
 import { lightTheme } from '../themes/lightTheme'
 import { darkTheme } from '../themes/darkTheme'
 import AppLoading from './AppLoading'
+import { RootState } from '../store/store'
 
 const App: React.FC = () => {
     const dispatch = useAppDispatch()
     const { data, error } = useApi('auth/userdata', 'GET')
     const [loading, setLoading] = useState<boolean>(true)
-
-    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
+    const { colorMode } = useAppSelector((state: RootState) => state.auth.user)
 
     useEffect(() => {
         setLoading(true)
@@ -39,7 +39,7 @@ const App: React.FC = () => {
     }, [dispatch, data, error])
 
     return (
-        <ThemeProvider theme={prefersDarkMode ? darkTheme : lightTheme}>
+        <ThemeProvider theme={colorMode === 'dark' ? darkTheme : lightTheme}>
             <div className='App'>
                 <CssBaseline />
                 {!loading && <AppRoutes />}

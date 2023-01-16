@@ -1,4 +1,12 @@
-import { Box, Button, Grid, TextField, Alert, CircularProgress } from '@mui/material'
+import {
+    Box,
+    Button,
+    Grid,
+    TextField,
+    Alert,
+    CircularProgress,
+    useMediaQuery,
+} from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useInput } from '../../hooks/useInput'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
@@ -10,6 +18,7 @@ import TextLink from '../TextLink'
 import { RootState } from '../../store/store'
 
 const RegisterForm: React.FC = () => {
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
     const {
         value: companyValue,
         isValid: companyIsValid,
@@ -70,6 +79,7 @@ const RegisterForm: React.FC = () => {
             username: usernameValue,
             email: emailValue,
             password: passwordValue,
+            colorMode: prefersDarkMode ? 'dark' : 'light',
         }
 
         dispatch(authRegister(data))

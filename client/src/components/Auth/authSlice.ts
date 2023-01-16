@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { storeTokens } from '../../helpers/auth/token-helper'
 import { UserData } from '../../types/user-data.type'
 import { authLogin } from './actions/loginAction'
+import { modeChange } from './actions/modeAction'
 import { authRegister } from './actions/registerAction'
 
 interface AuthInterface {
@@ -79,6 +80,20 @@ const authSlice = createSlice({
             state.loading = false
             state.error = payload as string
             state.success = false
+        })
+        builder.addCase(modeChange.pending, (state) => {
+            state.loading = true
+        })
+        builder.addCase(modeChange.fulfilled, (state, { payload }) => {
+            state.loading = false
+            state.user = {
+                ...state.user,
+                ...payload,
+            }
+        })
+        builder.addCase(modeChange.rejected, (state, { payload }) => {
+            state.loading = false
+            state.error = payload as string
         })
     },
 })

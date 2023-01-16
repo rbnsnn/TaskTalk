@@ -1,5 +1,7 @@
 import React from 'react'
 import { Switch, styled } from '@mui/material'
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks'
+import { RootState } from '../../../store/store'
 
 const ThemeStyledSwitch = styled(Switch)(({ theme }) => ({
     marginTop: 32,
@@ -50,7 +52,19 @@ const ThemeStyledSwitch = styled(Switch)(({ theme }) => ({
 }))
 
 const ThemeSwitch = () => {
-    return <ThemeStyledSwitch />
+    const { colorMode } = useAppSelector((state: RootState) => state.auth.user)
+    const dispatch = useAppDispatch()
+
+    const handleColorModeChange = () => {
+        console.log('click')
+    }
+
+    return (
+        <ThemeStyledSwitch
+            checked={colorMode === 'dark'}
+            onClick={handleColorModeChange}
+        />
+    )
 }
 
 export default ThemeSwitch
