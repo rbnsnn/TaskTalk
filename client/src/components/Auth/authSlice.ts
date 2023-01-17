@@ -88,7 +88,7 @@ const authSlice = createSlice({
             state.loading = false
             state.user = {
                 ...state.user,
-                ...payload,
+                colorMode: payload,
             }
         })
         builder.addCase(modeChange.rejected, (state, { payload }) => {

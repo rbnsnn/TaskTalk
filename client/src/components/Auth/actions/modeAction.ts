@@ -5,12 +5,14 @@ export const modeChange = createAsyncThunk(
     'auth/colormode',
     async (colorMode: 'dark' | 'light', { rejectWithValue }) => {
         const config = {
-            url: `${process.env.REACT_APP_API_URL as string}/mode`,
-            methodh: 'PATCH',
+            url: `${process.env.REACT_APP_API_URL as string}/users/mode`,
+            method: 'PATCH',
             data: { colorMode },
         }
         try {
+            console.log(config.data.colorMode)
             const { data } = await axiosApi(config)
+            console.log(data)
             return data
         } catch (error: any) {
             if (error.response.data) {

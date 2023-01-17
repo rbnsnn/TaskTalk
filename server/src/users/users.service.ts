@@ -66,9 +66,14 @@ export class UsersService {
         return user
     }
 
-    async findOneAndUpdate(username: string, payload: any): Promise<UserDocument> {
-        const user = await this.userModel.findOneAndUpdate({ username }, payload)
-
+    async findOneAndUpdate(
+        username: string,
+        payload: any,
+        newData = false
+    ): Promise<UserDocument> {
+        const user = await this.userModel.findOneAndUpdate({ username }, payload, {
+            new: newData,
+        })
         return user
     }
 

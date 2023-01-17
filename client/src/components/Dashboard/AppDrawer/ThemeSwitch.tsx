@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Switch, styled } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks'
 import { RootState } from '../../../store/store'
+import { modeChange } from '../../Auth/actions/modeAction'
 
 const ThemeStyledSwitch = styled(Switch)(({ theme }) => ({
     marginTop: 32,
@@ -51,14 +52,18 @@ const ThemeStyledSwitch = styled(Switch)(({ theme }) => ({
     },
 }))
 
-const ThemeSwitch = () => {
-    const { colorMode } = useAppSelector((state: RootState) => state.auth.user)
+const ThemeSwitch: React.FC = () => {
     const dispatch = useAppDispatch()
+    const { colorMode } = useAppSelector((state: RootState) => state.auth.user)
 
     const handleColorModeChange = () => {
-        console.log('click')
+        if (colorMode === 'dark') {
+            dispatch(modeChange('light'))
+        } else {
+            dispatch(modeChange('dark'))
+        }
     }
-
+    useEffect(() => {}, [colorMode])
     return (
         <ThemeStyledSwitch
             checked={colorMode === 'dark'}

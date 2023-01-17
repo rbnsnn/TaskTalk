@@ -25,25 +25,26 @@ export class UsersController {
     @UseGuards(RolesGuard)
     @Post('/new')
     @Roles(Role.ADMIN)
-    createUserByAdmin(@Body() body: AddUserDto) {
+    async createUserByAdmin(@Body() body: AddUserDto) {
         return this.userService.adminCreate(body)
     }
 
     @Get('/all')
-    getAllUsers(@Request() req) {
+    async getAllUsers(@Request() req) {
         return this.userService.findAll(req.user.companyId)
     }
 
     @UseGuards(RolesGuard)
     @Delete('/:id')
     @Roles(Role.ADMIN)
-    deleteUser(@Param('id') id: string) {
+    async deleteUser(@Param('id') id: string) {
         return this.userService.findOneAndDelete(id)
     }
 
     @Patch('/mode')
-    changeColorMode(@Request() req, @Body() body: string) {
+    async changeColorMode(@Request() req, @Body() body: string) {
         const { username } = req.user
-        return this.userService.findOneAndUpdate(username, body)
+        const data = await this.userService.findOneAndUpdate(username, body, true)
+        return data.colorMode
     }
 }
