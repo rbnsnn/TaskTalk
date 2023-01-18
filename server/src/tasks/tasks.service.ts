@@ -51,11 +51,15 @@ export class TasksService {
         return true
     }
 
-    async updateTask(taskId: string, targetColumnId: string): Promise<boolean> {
+    async updateTask(
+        taskId: string,
+        columnName: string,
+        targetColumnId: string
+    ): Promise<boolean> {
         try {
             await this.taskModel.findOneAndUpdate(
                 { taskId },
-                { assignedColumn: targetColumnId }
+                { assignedColumn: targetColumnId, status: columnName }
             )
             return true
         } catch (err) {

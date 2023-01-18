@@ -106,10 +106,10 @@ export class EventsGateway implements OnGatewayConnection {
         @MessageBody() changeTaskDto: ChangeTaskDto
     ) {
         const event = 'set_tasks'
-        const { target, taskToChange } = changeTaskDto
+        const { target, taskToChange, columnName } = changeTaskDto
         const { companyId } = client.handshake.auth
         await this.companiesService.changeTaskInColumns(target, taskToChange, companyId)
-        await this.tasksService.updateTask(taskToChange.taskId, target)
+        await this.tasksService.updateTask(taskToChange.taskId, columnName, target)
 
         const data = await this.tasksService.getAllTasks(companyId)
         this.server.in(companyId).emit(event, data)

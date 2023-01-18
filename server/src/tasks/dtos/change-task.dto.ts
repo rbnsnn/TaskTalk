@@ -5,6 +5,9 @@ export class ChangeTaskDto {
     @IsString()
     target: string
 
+    @IsString()
+    columnName: string
+
     @IsObject()
     taskToChange: TaskInterface
 }

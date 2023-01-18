@@ -8,14 +8,14 @@ import { TaskData } from '../../../types/task-data.type'
 interface Props {
     data: any
     columns: number
-    onDrop: (data: any, item: any) => void
+    onDrop: (data: any, name: string, item: any) => void
 }
 
 const TaskColumn: React.FC<Props> = ({ data, onDrop, columns }) => {
     const [{ isOver }, drop] = useDrop(() => ({
         accept: 'task',
         drop: (item: TaskData) => {
-            onDrop(data.columnId, item)
+            onDrop(data.columnId, data.name, item)
         },
         collect: (monitor) => ({
             isOver: monitor.isOver(),

@@ -27,7 +27,8 @@ const TaskBoard: React.FC = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const handleDrop = (target: string, item: TaskData) => {
+    const handleDrop = (target: string, columnName: string, item: TaskData) => {
+        console.log(target)
         if (item.assignedColumn === target) {
             return
         } else {
@@ -35,7 +36,7 @@ const TaskBoard: React.FC = () => {
                 taskId: item.taskId,
                 assignedColumn: item.assignedColumn,
             }
-            socket.emit('task_change', { target, taskToChange })
+            socket.emit('task_change', { target, columnName, taskToChange })
         }
     }
 
