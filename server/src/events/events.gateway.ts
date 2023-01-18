@@ -70,6 +70,36 @@ export class EventsGateway implements OnGatewayConnection {
         }
     }
 
+    @SubscribeMessage('rename_column')
+    async renameColumn(
+        @ConnectedSocket() client: Socket,
+        @MessageBody() column: { columnName: string; columnId: string }
+    ) {
+        const event = 'set_tasks'
+        const { companyId } = client.handshake.auth
+        const { columnName, columnId } = column
+
+        const columnExists = await this.companiesService.findOneColumn(
+            companyId,
+            columnName
+        )
+
+        if (columnExists) {
+            client.emit('rename_column', {
+                error: 'Column already exists!',
+                success: false,
+            })
+        } else {
+            await this.companiesService.findOneColumnAndUpdate(
+                companyId,
+                columnName,
+                columnId
+            )
+            const data = await this.tasksService.getAllTasks(companyId)
+            this.server.in(companyId).emit(event, data)
+        }
+    }
+
     @SubscribeMessage('task_change')
     async changeTask(
         @ConnectedSocket() client: Socket,

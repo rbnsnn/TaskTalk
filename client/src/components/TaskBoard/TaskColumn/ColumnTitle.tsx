@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Box, IconButton, Typography, TextField, Badge, Tooltip } from '@mui/material'
 import DoneIcon from '@mui/icons-material/Done'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import ColumnTitleMenu from './ColumnTitleMenu'
+import { SocketContext } from '../../../helpers/socket/socket-context'
 
 interface Props {
     name: string
@@ -13,6 +14,8 @@ interface Props {
 const ColumnTitle: React.FC<Props> = ({ name, count, columnId }) => {
     const [editing, setEditing] = useState<boolean>(false)
     const [menuOpen, setMenuOpen] = useState<null | HTMLElement>(null)
+    const [columnName, setColumnName] = useState<string>(name)
+    const socket: any = useContext(SocketContext)
 
     const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
         setMenuOpen(event.currentTarget)
@@ -27,11 +30,12 @@ const ColumnTitle: React.FC<Props> = ({ name, count, columnId }) => {
     }
 
     const handleTitleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-        // setTitle(e.target.value)
+        setColumnName(e.target.value)
     }
 
     const handleApply = (): void => {
         setEditing(false)
+        socket.emit('rename_column', { columnName, columnId })
     }
 
     const handleOnEnterKey: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
@@ -55,7 +59,7 @@ const ColumnTitle: React.FC<Props> = ({ name, count, columnId }) => {
                     id='column-name'
                     variant='standard'
                     size='small'
-                    value={name}
+                    value={columnName}
                     onChange={handleTitleChange}
                     onBlur={handleApply}
                     onKeyDown={handleOnEnterKey}

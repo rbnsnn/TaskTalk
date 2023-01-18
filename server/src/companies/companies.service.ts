@@ -78,6 +78,25 @@ export class CompaniesService {
         return column ? true : false
     }
 
+    async findOneColumnAndUpdate(
+        companyId: string,
+        columnName: string,
+        columnId: string
+    ): Promise<boolean> {
+        try {
+            await this.companyModel.findOneAndUpdate(
+                {
+                    companyId,
+                    'taskColumns.columnId': columnId,
+                },
+                { 'taskColumns.$.name': columnName }
+            )
+            return true
+        } catch (err) {
+            return err
+        }
+    }
+
     async findColumns(companyId: string): Promise<ColumnInterface[]> {
         const columns = await this.companyModel.findOne({ companyId }).lean()
 
