@@ -88,6 +88,7 @@ export class EventsGateway implements OnGatewayConnection {
             client.emit('rename_column', {
                 error: 'Column already exists!',
                 success: false,
+                columnId,
             })
         } else {
             await this.companiesService.findOneColumnAndUpdate(
@@ -99,6 +100,7 @@ export class EventsGateway implements OnGatewayConnection {
 
             const data = await this.tasksService.getAllTasks(companyId)
             this.server.in(companyId).emit(event, data)
+            client.emit('rename_column', { error: false, success: true, columnId })
         }
     }
 

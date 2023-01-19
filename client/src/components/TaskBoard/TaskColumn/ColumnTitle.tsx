@@ -1,9 +1,10 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect, useCallback } from 'react'
 import { Box, IconButton, Typography, TextField, Badge, Tooltip } from '@mui/material'
 import DoneIcon from '@mui/icons-material/Done'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import ColumnTitleMenu from './ColumnTitleMenu'
 import { SocketContext } from '../../../helpers/socket/socket-context'
+import { TaskEvent } from '../../../types/task-event-enum.type'
 
 interface Props {
     name: string
@@ -15,7 +16,11 @@ const ColumnTitle: React.FC<Props> = ({ name, count, columnId }) => {
     const [editing, setEditing] = useState<boolean>(false)
     const [menuOpen, setMenuOpen] = useState<null | HTMLElement>(null)
     const [columnName, setColumnName] = useState<string>(name)
+
     const socket: any = useContext(SocketContext)
+    const [success, setSuccess] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
+    const [error, setError] = useState<boolean>(false)
 
     const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
         setMenuOpen(event.currentTarget)
@@ -34,7 +39,6 @@ const ColumnTitle: React.FC<Props> = ({ name, count, columnId }) => {
     }
 
     const handleApply = (): void => {
-        setEditing(false)
         socket.emit('rename_column', { columnName, columnId })
     }
 
@@ -43,6 +47,36 @@ const ColumnTitle: React.FC<Props> = ({ name, count, columnId }) => {
             handleApply()
         }
     }
+
+    const handleSocket = async (res: any) => {
+        setLoading(true)
+        setError(res.error)
+        setSuccess(res.success)
+        setLoading(false)
+    }
+
+    const handleReset = useCallback((): void => {
+        setSuccess(false)
+        setError(false)
+        setLoading(false)
+        setEditing(false)
+    }, [])
+
+    useEffect(() => {
+        socket.on(TaskEvent.RenameColumn, async (res: any) => {
+            if (res.columnId === columnId) {
+                await handleSocket(res)
+            }
+        })
+        if (!success) {
+            return
+        }
+        handleReset()
+
+        return () => {
+            socket.off(TaskEvent.CreateColumn)
+        }
+    }, [success, socket, handleReset, columnId])
 
     return (
         <Box
@@ -66,6 +100,7 @@ const ColumnTitle: React.FC<Props> = ({ name, count, columnId }) => {
                     autoFocus
                 />
             )}
+            {error ? error : ''}
             <Box>
                 <Badge
                     badgeContent={count}

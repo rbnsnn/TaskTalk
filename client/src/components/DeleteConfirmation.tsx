@@ -65,8 +65,6 @@ const DeleteConfirmation: React.FC<Props> = ({
                     label='Confirm'
                     variant={'outlined' as any}
                     fullWidth
-                    error={confirmationHasError}
-                    helperText={confirmationHasError ? 'Confirmation not valid' : ''}
                     onChange={(e) => confirmationChangeHandler(e)}
                     onBlur={(e) => confirmationBlurHandler(e)}
                 />
