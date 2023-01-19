@@ -95,6 +95,8 @@ export class EventsGateway implements OnGatewayConnection {
                 columnName,
                 columnId
             )
+            await this.tasksService.updateMany(companyId, columnId, columnName)
+
             const data = await this.tasksService.getAllTasks(companyId)
             this.server.in(companyId).emit(event, data)
         }
