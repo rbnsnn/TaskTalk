@@ -12,19 +12,21 @@ interface Props {
 }
 
 const TaskColumn: React.FC<Props> = ({ data, onDrop, columns }) => {
-    const [{ isOver }, drop] = useDrop(() => ({
+    const [{ isOver, canDrop }, drop] = useDrop(() => ({
         accept: 'task',
         drop: (item: TaskData) => {
             onDrop(data.columnId, data.name, item)
         },
+        canDrop: (item: TaskData) => data.columnId !== item.assignedColumn,
         collect: (monitor) => ({
-            isOver: monitor.isOver(),
-            canDrop: monitor.canDrop(),
+            isOver: !!monitor.isOver(),
+            canDrop: !!monitor.canDrop(),
         }),
     }))
     return (
         <Card
             ref={drop}
+            elevation={isOver && canDrop ? 12 : 2}
             sx={{
                 width: 100 / columns + '%',
             }}
