@@ -1,5 +1,6 @@
 # compiled output
 .env
+Dockerfile
 /dist
 /node_modules
 

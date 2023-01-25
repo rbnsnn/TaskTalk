@@ -100,6 +100,7 @@ const ColumnTitle: React.FC<Props> = ({ name, count, columnId }) => {
                     autoFocus
                 />
             )}
+
             {error ? error : ''}
             <Box>
                 <Badge

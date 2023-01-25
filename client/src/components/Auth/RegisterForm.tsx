@@ -19,6 +19,8 @@ import { RootState } from '../../store/store'
 
 const RegisterForm: React.FC = () => {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
+    const colorMode = prefersDarkMode ? 'dark' : 'light'
+
     const {
         value: companyValue,
         isValid: companyIsValid,
@@ -79,9 +81,9 @@ const RegisterForm: React.FC = () => {
             username: usernameValue,
             email: emailValue,
             password: passwordValue,
-            colorMode: prefersDarkMode ? 'dark' : 'light',
+            colorMode,
         }
-
+        console.log(data)
         dispatch(authRegister(data))
     }
 
