@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Task, TaskDocument } from './schemas/task.schema'
 import { Model } from 'mongoose'
 import { CreateTaskDto } from './dtos/create-task.dto'
 import ShortUniqueId from 'short-unique-id'
 import { CompaniesService } from 'src/companies/companies.service'
+import { TaskInterface } from './types/task.interface'
 
 @Injectable()
 export class TasksService {
@@ -35,7 +36,7 @@ export class TasksService {
             ...createTaskDto,
             taskId: generatedTaskUid,
             created: new Date(),
-            createdBy: user.sub,
+            createdBy: { userId: user.sub, username: user.username },
             companyId: user.companyId,
         }
 
@@ -91,6 +92,23 @@ export class TasksService {
         try {
             await this.taskModel.deleteMany({ $and: [{ companyId }, { assignedColumn }] })
             return true
+        } catch (err) {
+            return err
+        }
+    }
+
+    async findOneTask(
+        companyId: string,
+        taskId: string
+    ): Promise<boolean | TaskInterface> {
+        try {
+            const task = await this.taskModel.findOne({ $and: [{ companyId, taskId }] })
+
+            if (!task) {
+                throw new NotFoundException('Task not found')
+            }
+
+            return task
         } catch (err) {
             return err
         }

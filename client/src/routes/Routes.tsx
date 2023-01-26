@@ -9,6 +9,7 @@ import DashBoardPage from '../pages/App/DashboardPage'
 import UsersPage from '../pages/App/UsersPage'
 import TaskBoard from '../pages/App/TaskBoard'
 import { RootState } from '../store/store'
+import TaskPage from '../pages/App/TaskPage'
 
 const AppRoutes: React.FC = () => {
     const isLoggedIn = useAppSelector((state: RootState) => state.auth.isLoggedIn)
@@ -39,6 +40,10 @@ const AppRoutes: React.FC = () => {
                         <Route
                             path='users'
                             element={<UsersPage />}
+                        />
+                        <Route
+                            path='task/:taskId'
+                            element={<TaskPage />}
                         />
                     </Route>
                     <Route

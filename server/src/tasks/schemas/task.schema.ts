@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { Document } from 'mongoose'
 import { CompanyUsers } from 'src/companies/types/company-users.interface'
+import { CreatedBy } from '../types/created-by-interface'
 import { Priority } from '../types/priority.enum'
 
 export type TaskDocument = Task & Document
@@ -14,7 +15,7 @@ export class Task {
     companyId: string
 
     @Prop({ required: true })
-    createdBy: string
+    createdBy: CreatedBy[]
 
     @Prop({ required: true })
     created: Date

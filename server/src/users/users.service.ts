@@ -60,6 +60,12 @@ export class UsersService {
         return user
     }
 
+    async findOneById(userId: string): Promise<User> {
+        const user = await this.userModel.findOne({ userId })
+
+        return user
+    }
+
     async findOneByEmail(email: string): Promise<User[]> {
         const user = await this.userModel.find({ email })
 
