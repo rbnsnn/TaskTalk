@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card, CardContent, Divider } from '@mui/material'
 import ColumnTitle from './ColumnTitle'
 import TaskRow from '../TaskRow/TaskRow'
 import { useDrop } from 'react-dnd'
 import { TaskData } from '../../../types/task-data.type'
+import DeleteColumnDialog from './DeleteColumnDialog'
 
 interface Props {
     data: any
@@ -12,6 +13,23 @@ interface Props {
 }
 
 const TaskColumn: React.FC<Props> = ({ data, onDrop, columns }) => {
+    const [menuOpen, setMenuOpen] = useState<null | HTMLElement>(null)
+    const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setMenuOpen(event.currentTarget)
+    }
+    const handleMenuClose = (): void => {
+        setMenuOpen(null)
+    }
+
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false)
+    const handleDeleteDialogOpen = (): void => {
+        handleMenuClose()
+        setDeleteDialogOpen(true)
+    }
+    const handleDeleteDialogClose = (): void => {
+        setDeleteDialogOpen(false)
+    }
+
     const [{ isOver, canDrop }, drop] = useDrop(() => ({
         accept: 'task',
         drop: (item: TaskData) => {
@@ -35,6 +53,10 @@ const TaskColumn: React.FC<Props> = ({ data, onDrop, columns }) => {
                 name={data.name}
                 columnId={data.columnId}
                 count={data.tasks.length}
+                deleteDialogOpen={handleDeleteDialogOpen}
+                menuOpen={menuOpen}
+                handleMenuOpen={handleMenuOpen}
+                handleMenuClose={handleMenuClose}
             />
             <Divider />
             <CardContent>
@@ -45,6 +67,12 @@ const TaskColumn: React.FC<Props> = ({ data, onDrop, columns }) => {
                     />
                 ))}
             </CardContent>
+            <DeleteColumnDialog
+                open={deleteDialogOpen}
+                close={handleDeleteDialogClose}
+                name={data.name}
+                columnId={data.columnId}
+            />
         </Card>
     )
 }

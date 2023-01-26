@@ -1,34 +1,45 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react'
-import { Box, IconButton, Typography, TextField, Badge, Tooltip } from '@mui/material'
+import React, { useState, useEffect, useCallback, useContext } from 'react'
+import {
+    Box,
+    IconButton,
+    Typography,
+    TextField,
+    Badge,
+    Tooltip,
+    CircularProgress,
+} from '@mui/material'
 import DoneIcon from '@mui/icons-material/Done'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import ColumnTitleMenu from './ColumnTitleMenu'
-import { SocketContext } from '../../../helpers/socket/socket-context'
 import { TaskEvent } from '../../../types/task-event-enum.type'
+import { SocketContext } from '../../../helpers/socket/socket-context'
 
 interface Props {
     name: string
     columnId: string
     count: number
+    deleteDialogOpen: () => void
+    menuOpen: HTMLElement | null
+    handleMenuOpen: (e: any) => void
+    handleMenuClose: () => void
 }
 
-const ColumnTitle: React.FC<Props> = ({ name, count, columnId }) => {
+const ColumnTitle: React.FC<Props> = ({
+    name,
+    count,
+    columnId,
+    deleteDialogOpen,
+    menuOpen,
+    handleMenuOpen,
+    handleMenuClose,
+}) => {
+    const socket: any = useContext(SocketContext)
     const [editing, setEditing] = useState<boolean>(false)
-    const [menuOpen, setMenuOpen] = useState<null | HTMLElement>(null)
     const [columnName, setColumnName] = useState<string>(name)
 
-    const socket: any = useContext(SocketContext)
     const [success, setSuccess] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<boolean>(false)
-
-    const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setMenuOpen(event.currentTarget)
-    }
-
-    const handleMenuClose = (): void => {
-        setMenuOpen(null)
-    }
 
     const handleEdit = (): void => {
         setEditing(true)
@@ -39,6 +50,10 @@ const ColumnTitle: React.FC<Props> = ({ name, count, columnId }) => {
     }
 
     const handleApply = (): void => {
+        if (columnName === name || columnName.length < 4) {
+            setEditing(false)
+            return
+        }
         socket.emit('rename_column', { columnName, columnId })
     }
 
@@ -102,6 +117,7 @@ const ColumnTitle: React.FC<Props> = ({ name, count, columnId }) => {
             )}
 
             {error ? error : ''}
+            {loading ? <CircularProgress /> : ''}
             <Box>
                 <Badge
                     badgeContent={count}
@@ -124,6 +140,7 @@ const ColumnTitle: React.FC<Props> = ({ name, count, columnId }) => {
                             menuOpen={menuOpen}
                             handleClose={handleMenuClose}
                             handleEdit={handleEdit}
+                            deleteDialogOpen={deleteDialogOpen}
                             columnId={columnId}
                             name={name}
                         />

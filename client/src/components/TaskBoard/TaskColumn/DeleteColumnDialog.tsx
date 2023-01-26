@@ -1,39 +1,40 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {
     Button,
     Dialog,
     DialogTitle,
     DialogContent,
+    DialogContentText,
     DialogActions,
     TextField,
 } from '@mui/material'
-import DialogContentText from '@mui/material/DialogContentText'
-import { useInput } from '../hooks/useInput'
-import { isEqual } from '../helpers/formHelper'
+import { useInput } from '../../../hooks/useInput'
+import { isEqual } from '../../../helpers/formHelper'
+import { SocketContext } from '../../../helpers/socket/socket-context'
+import { TaskEvent } from '../../../types/task-event-enum.type'
 
 interface Props {
     open: boolean
     close: () => void
-    action?: () => void
-    conditions: string
-    text: React.ReactNode
+    name: string
+    columnId: string
 }
-const DeleteConfirmation: React.FC<Props> = ({
-    open,
-    close,
-    action,
-    conditions,
-    text,
-}) => {
+
+const DeleteColumnDialog: React.FC<Props> = ({ open, close, name, columnId }) => {
+    const socket: any = useContext(SocketContext)
+    const handleDelete = (): void => {
+        socket.emit(TaskEvent.DeleteColumn, columnId)
+        close()
+    }
     const {
+        value: confirmationValue,
         isValid: confirmationIsValid,
-        hasError: confirmationHasError,
         valueChangeHandler: confirmationChangeHandler,
         inputBlurHandler: confirmationBlurHandler,
         reset: confirmationReset,
-    } = useInput(isEqual(conditions))
+    } = useInput(isEqual(name))
 
-    const handleCancel = (): void => {
+    const handleClose = (): void => {
         confirmationReset()
         close()
     }
@@ -49,21 +50,24 @@ const DeleteConfirmation: React.FC<Props> = ({
                     align='center'
                     id='dlete-confirmation-text'
                 >
-                    {text}
+                    This action cannot be undone and will permanently delete the
+                    <b> {name}</b> column with all tasks assigned to it
                 </DialogContentText>
                 <DialogContentText
                     align='center'
                     id='dlete-confirmation-conditions'
                     mt={3}
                 >
-                    Please type <b>{conditions}</b> to confirm.
+                    Please type <b>{name}</b> to confirm.
                 </DialogContentText>
                 <TextField
+                    autoFocus
                     required
                     margin='normal'
                     id='confirm'
                     label='Confirm'
                     variant={'outlined' as any}
+                    value={confirmationValue}
                     fullWidth
                     onChange={(e) => confirmationChangeHandler(e)}
                     onBlur={(e) => confirmationBlurHandler(e)}
@@ -81,7 +85,7 @@ const DeleteConfirmation: React.FC<Props> = ({
                     color='error'
                     variant='contained'
                     size='large'
-                    onClick={handleCancel}
+                    onClick={handleClose}
                 >
                     Cancel
                 </Button>
@@ -89,7 +93,7 @@ const DeleteConfirmation: React.FC<Props> = ({
                     disabled={!confirmationIsValid}
                     variant='contained'
                     size='large'
-                    onClick={action}
+                    onClick={handleDelete}
                 >
                     Submit
                 </Button>
@@ -98,4 +102,4 @@ const DeleteConfirmation: React.FC<Props> = ({
     )
 }
 
-export default DeleteConfirmation
+export default DeleteColumnDialog
