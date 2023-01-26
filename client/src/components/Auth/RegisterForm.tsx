@@ -83,7 +83,7 @@ const RegisterForm: React.FC = () => {
             password: passwordValue,
             colorMode,
         }
-        console.log(data)
+
         dispatch(authRegister(data))
     }
 

@@ -307,13 +307,13 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
                         multiple
                         fullWidth
                         id='task-labels'
-                        options={usersData ? usersData : []}
-                        getOptionLabel={(option: UserData) => option.username}
+                        options={['New']}
+                        // getOptionLabel={}
                         filterSelectedOptions
-                        value={assignedUsers}
-                        onChange={(event: any, newValue: UserData[] | []) => {
-                            setAssignedUsers(newValue)
-                        }}
+                        // value={assignedUsers}
+                        // onChange={(event: any, newValue: UserData[] | []) => {
+                        //     setAssignedUsers(newValue)
+                        // }}
                         renderInput={(params) => (
                             <TextField
                                 {...params}

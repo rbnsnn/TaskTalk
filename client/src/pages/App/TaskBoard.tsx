@@ -28,7 +28,6 @@ const TaskBoard: React.FC = () => {
     }, [])
 
     const handleDrop = (target: string, columnName: string, item: TaskData) => {
-        console.log(target)
         if (item.assignedColumn === target) {
             return
         } else {

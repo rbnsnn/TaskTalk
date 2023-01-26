@@ -17,6 +17,15 @@ export const darkTheme = createTheme({
         },
     },
     components: {
+        MuiLink: {
+            styleOverrides: {
+                root: {
+                    ':hover': {
+                        color: '#33a095',
+                    },
+                },
+            },
+        },
         MuiTableCell: {
             variants: [
                 {

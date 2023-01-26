@@ -48,10 +48,10 @@ const ColumnTitleMenu: React.FC<Props> = ({
             </MenuItem>
             <Divider />
             <MenuItem onClick={deleteDialogOpen}>
-                <ListItemIcon>
+                <ListItemIcon sx={{ color: '#f44336' }}>
                     <DeleteForeverIcon />
                 </ListItemIcon>
-                <ListItemText>Delete</ListItemText>
+                <ListItemText sx={{ color: '#f44336' }}>Delete</ListItemText>
             </MenuItem>
         </Menu>
     )

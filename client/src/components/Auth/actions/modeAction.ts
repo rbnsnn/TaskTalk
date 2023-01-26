@@ -10,9 +10,7 @@ export const modeChange = createAsyncThunk(
             data: { colorMode },
         }
         try {
-            console.log(config.data.colorMode)
             const { data } = await axiosApi(config)
-            console.log(data)
             return data
         } catch (error: any) {
             if (error.response.data) {

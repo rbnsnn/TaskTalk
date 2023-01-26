@@ -5,7 +5,6 @@ import { useApi } from '../../hooks/useApi'
 const TaskPage = () => {
     const { taskId } = useParams()
     const { data, error, loading } = useApi(`tasks/${taskId}`, 'GET')
-    console.log(data, error)
     return <div>Task id: {taskId} </div>
 }
 

@@ -35,9 +35,7 @@ const UserDetails: React.FC<Props> = ({ user, handleUpdate }) => {
         setDeleteOpen(false)
     }
 
-    const handlePasswordReset = (): void => {
-        console.log('password reset')
-    }
+    const handlePasswordReset = (): void => {}
 
     return (
         <>

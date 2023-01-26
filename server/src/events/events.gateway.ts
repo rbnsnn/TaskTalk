@@ -7,9 +7,10 @@ import {
 } from '@nestjs/websockets'
 import { OnGatewayConnection } from '@nestjs/websockets/interfaces'
 import { Server, Socket } from 'socket.io'
-import { CompaniesService } from 'src/companies/companies.service'
-import { ChangeTaskDto } from 'src/tasks/dtos/change-task.dto'
+import { CompaniesService } from '../companies/companies.service'
+import { ChangeTaskDto } from '../tasks/dtos/change-task.dto'
 import { TasksService } from '../tasks/tasks.service'
+import { DeleteTaskDto } from '../tasks/dtos/delete-task.dto'
 
 @WebSocketGateway({
     cors: {
@@ -112,10 +113,28 @@ export class EventsGateway implements OnGatewayConnection {
         const event = 'set_tasks'
         const { target, taskToChange, columnName } = changeTaskDto
         const { companyId } = client.handshake.auth
+
         await this.companiesService.changeTaskInColumns(target, taskToChange, companyId)
         await this.tasksService.updateTask(taskToChange.taskId, columnName, target)
 
         const data = await this.tasksService.getAllTasks(companyId)
+        this.server.in(companyId).emit(event, data)
+    }
+
+    @SubscribeMessage('delete_task')
+    async deleteTask(
+        @ConnectedSocket() client: Socket,
+        @MessageBody() deleteTaskDto: DeleteTaskDto
+    ) {
+        const event = 'set_tasks'
+        const { taskId, columnId } = deleteTaskDto
+        const { companyId } = client.handshake.auth
+
+        await this.companiesService.removeTask(columnId, companyId, taskId)
+        await this.tasksService.deleteOneTask(companyId, taskId)
+
+        const data = await this.tasksService.getAllTasks(companyId)
+
         this.server.in(companyId).emit(event, data)
     }
 
@@ -129,6 +148,7 @@ export class EventsGateway implements OnGatewayConnection {
 
         await this.companiesService.deleteColumn(companyId, columnId)
         await this.tasksService.deleteTasks(companyId, columnId)
+
         const data = await this.tasksService.getAllTasks(companyId)
 
         this.server.in(companyId).emit(event, data)

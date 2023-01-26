@@ -113,4 +113,12 @@ export class TasksService {
             return err
         }
     }
+
+    async deleteOneTask(companyId: string, taskId: string): Promise<boolean> {
+        try {
+            await this.taskModel.deleteOne({ $and: [{ companyId, taskId }] })
+        } catch (err) {
+            return err
+        }
+    }
 }

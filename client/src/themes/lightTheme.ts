@@ -17,6 +17,15 @@ export const lightTheme = createTheme({
         },
     },
     components: {
+        MuiLink: {
+            styleOverrides: {
+                root: {
+                    ':hover': {
+                        color: '#33a095',
+                    },
+                },
+            },
+        },
         MuiContainer: {
             styleOverrides: {
                 root: {

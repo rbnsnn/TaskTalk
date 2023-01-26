@@ -48,17 +48,26 @@ const TaskRow: React.FC<Props> = ({ task }) => {
                     justifyContent='space-between'
                 >
                     <TaskTitle
-                        id={task.taskId}
+                        taskId={task.taskId}
+                        columnId={task.assignedColumn}
+                        title={task.title}
                         priority={task.priority}
                     />
                 </Box>
-                <Box>
+                <Box ml={1}>
+                    <Typography fontSize='large'>{task.title}</Typography>
+                </Box>
+                <Box
+                    mt={2}
+                    ml={1}
+                >
                     <Typography
+                        fontSize='small'
                         sx={{
                             wordWrap: 'break-word',
                         }}
                     >
-                        {task.title}
+                        {task.description}
                     </Typography>
                 </Box>
                 {task.labels.map((label: string) => (

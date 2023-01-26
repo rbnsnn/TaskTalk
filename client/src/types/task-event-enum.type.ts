@@ -5,4 +5,5 @@ export enum TaskEvent {
     RenameColumn = 'rename_column',
     GetTasks = 'get_tasks',
     SetTasks = 'set_tasks',
+    DeleteTask = 'delete_task',
 }
