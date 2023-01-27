@@ -17,7 +17,7 @@ Link for live demo: [tasktalk.rbnsnn.com](https://tasktalk.rbnsnn.com)
 
 ## Tech Stack
 
-**Client:** React, Redux, MaterialUI, React DnD, 
+**Client:** React, Redux, MaterialUI, React DnD, Socket.IO, 
 
 **Server:** NestJS, MongoDB
 
