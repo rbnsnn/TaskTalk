@@ -6,7 +6,7 @@
 #
 ![demo](https://img.shields.io/badge/demo-online-brightgreen) ![version](https://img.shields.io/badge/version-0.1.0-blue)
 
-An app for managing tasks with canban board.
+Fullstack app for managing tasks with canban board.
 
 
 ## Demo
