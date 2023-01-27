@@ -6,7 +6,7 @@
 #
 ![demo](https://img.shields.io/badge/demo-online-brightgreen) ![version](https://img.shields.io/badge/version-0.1.0-blue)
 
-A brief description of what this project does and who it's for
+An app for managing tasks with canban board.
 
 
 ## Demo
