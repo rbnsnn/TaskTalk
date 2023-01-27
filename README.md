@@ -24,6 +24,7 @@ Link for live demo: [tasktalk.rbnsnn.com](https://tasktalk.rbnsnn.com)
 ## Features
 
 - Acces and refresh token authentication
+- Create new users
 - RBAC authorization
 - Drag and drop task management
 - Light/dark mode toggle
