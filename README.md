@@ -11,7 +11,7 @@ An app for managing tasks with canban board.
 
 ## Demo
 
-Link for live demo: [tasktalk.rbnsnn.com](https://tasktalk.rbnsnn.com")
+Link for live demo: [tasktalk.rbnsnn.com](https://tasktalk.rbnsnn.com)
 
 ![demo gif](./images/demo.gif)
 
