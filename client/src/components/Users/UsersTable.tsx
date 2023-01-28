@@ -10,7 +10,7 @@ import {
     TablePagination,
 } from '@mui/material'
 import UserRow from './UserRow'
-import UsersTableTittle from './UsersTableTittle'
+import UsersTableTitle from './UsersTableTitle'
 import { UserData } from '../../types/user-data.type'
 
 interface Props {
@@ -33,13 +33,13 @@ const UsersTable: React.FC<Props> = ({ data, handleOpen, handleUpdate }) => {
     }
 
     return (
-        <Paper sx={{ width: '100%' }}>
+        <Paper sx={{ width: { md: '70%' }, margin: '0 auto' }}>
             <TableContainer
                 sx={{
                     maxWidth: { xs: '95%', sm: '100%' },
                 }}
             >
-                <UsersTableTittle handleOpen={handleOpen} />
+                <UsersTableTitle handleOpen={handleOpen} />
                 <Table
                     size='small'
                     stickyHeader

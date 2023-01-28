@@ -121,4 +121,16 @@ export class TasksService {
             return err
         }
     }
+
+    async getAllTasksByCompanyId(companyId: string): Promise<boolean | TaskInterface[]> {
+        try {
+            const tasks = await this.taskModel.find({ companyId })
+            if (!tasks) {
+                throw new NotFoundException('Tasks not found')
+            }
+            return tasks
+        } catch (err) {
+            return err
+        }
+    }
 }
