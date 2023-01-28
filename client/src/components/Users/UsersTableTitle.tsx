@@ -7,7 +7,7 @@ interface Props {
     handleOpen: () => void
 }
 
-const UsersTableTittle: React.FC<Props> = ({ handleOpen }) => {
+const UsersTableTitle: React.FC<Props> = ({ handleOpen }) => {
     const { companyName } = useAppSelector((state: RootState) => state.auth.user)
 
     return (
@@ -35,4 +35,4 @@ const UsersTableTittle: React.FC<Props> = ({ handleOpen }) => {
     )
 }
 
-export default UsersTableTittle
+export default UsersTableTitle

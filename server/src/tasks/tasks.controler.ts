@@ -11,9 +11,15 @@ export class TasksController {
         return this.tasksService.createTask(body, req.user)
     }
 
-    @Get('/:taskId')
+    @Get('/id/:taskId')
     async getTaskById(@Param('taskId') taskId, @Req() req) {
         const { companyId } = req.user
         return this.tasksService.findOneTask(companyId, taskId)
+    }
+
+    @Get('/all')
+    async getAllTasks(@Req() req) {
+        const { companyId } = req.user
+        return this.tasksService.getAllTasksByCompanyId(companyId)
     }
 }

@@ -10,4 +10,5 @@ export interface TaskData {
     title: string
     description: string
     labels: TaskLabel[]
+    created?: string
 }
