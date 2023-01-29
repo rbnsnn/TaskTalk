@@ -3,6 +3,9 @@ import { Toolbar, Box, IconButton, Badge } from '@mui/material'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import MailIcon from '@mui/icons-material/Mail'
+import UserAvatar from '../../Users/UserAvatar/UserAvatar'
+import { useAppSelector } from '../../../hooks/redux-hooks'
+import { RootState } from '../../../store/store'
 
 interface Props {
     drawerOpen?: boolean
@@ -10,6 +13,7 @@ interface Props {
 }
 
 const AppBarContent: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) => {
+    const { userId } = useAppSelector((state: RootState) => state.auth.user)
     return (
         <Toolbar>
             <IconButton
@@ -55,7 +59,7 @@ const AppBarContent: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) => {
                     size='large'
                     color='inherit'
                 >
-                    <AccountCircle />
+                    <UserAvatar id={userId} />
                 </IconButton>
             </Box>
         </Toolbar>

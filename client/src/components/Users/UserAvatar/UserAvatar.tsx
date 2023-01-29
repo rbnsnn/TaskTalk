@@ -4,7 +4,7 @@ import { useApi } from '../../../hooks/useApi'
 import { stringAvatar } from './stringAvatar'
 
 interface Props {
-    id: string
+    id: string | undefined
 }
 
 const UserAvatar: React.FC<Props> = ({ id }) => {
@@ -16,7 +16,7 @@ const UserAvatar: React.FC<Props> = ({ id }) => {
                 <Avatar {...stringAvatar(`${data.firstName} ${data.lastName}`)} />
             )}
             {data && data.firstName === '' && data.lastName === '' && (
-                <Avatar sx={{ width: 32, height: 32 }} />
+                <Avatar sx={{ width: 24, height: 24 }} />
             )}
         </>
     )
