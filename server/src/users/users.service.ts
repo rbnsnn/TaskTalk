@@ -55,7 +55,10 @@ export class UsersService {
     }
 
     async findOne(username: string): Promise<User[]> {
-        const user = await this.userModel.find({ username }).lean()
+        const user = await this.userModel
+            .find({ username })
+            .collation({ locale: 'en', strength: 1 })
+            .lean()
 
         return user
     }
@@ -67,7 +70,9 @@ export class UsersService {
     }
 
     async findOneByEmail(email: string): Promise<User[]> {
-        const user = await this.userModel.find({ email })
+        const user = await this.userModel
+            .find({ email })
+            .collation({ locale: 'en', strength: 1 })
 
         return user
     }
