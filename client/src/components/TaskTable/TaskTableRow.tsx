@@ -4,13 +4,13 @@ import {
     Chip,
     Box,
     Typography,
-    Avatar,
     AvatarGroup,
+    Avatar,
 } from '@mui/material'
 import React from 'react'
 import { TaskData } from '../../types/task-data.type'
 import { setPriorityColor } from '../TaskBoard/TaskRow/setPriorityColor'
-import UserAvatar from '../Users/UserAvatar/UserAvatar'
+import UserAvatarTable from '../Users/UserAvatar/UserAvatarTable'
 
 interface Props {
     task: TaskData
@@ -35,11 +35,12 @@ const TaskTableRow: React.FC<Props> = ({ task }) => {
             <TableCell align='right'>
                 <AvatarGroup max={3}>
                     {assigned.map((user: string) => (
-                        <UserAvatar
+                        <UserAvatarTable
                             key={user}
                             id={user}
                         />
                     ))}
+                    <Avatar sx={{ height: 24, width: 24 }} />
                 </AvatarGroup>
             </TableCell>
             <TableCell align='right'>
