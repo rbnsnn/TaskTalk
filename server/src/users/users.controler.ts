@@ -41,6 +41,13 @@ export class UsersController {
         return this.userService.findOneAndDelete(id)
     }
 
+    @Get('/name/:id')
+    async findUserName(@Param('id') id: string) {
+        const { firstName, lastName } = await this.userService.findOneById(id)
+
+        return { firstName, lastName }
+    }
+
     @Patch('/mode')
     async changeColorMode(@Request() req, @Body() body: string) {
         const { username } = req.user

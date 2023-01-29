@@ -118,6 +118,8 @@ export class AuthService {
             password: hashedPassword,
             roles: [Role.ADMIN, Role.MODERATOR, Role.USER],
             created: new Date(),
+            firstName: '',
+            lastName: '',
             colorMode: user.colorMode,
         }
 
