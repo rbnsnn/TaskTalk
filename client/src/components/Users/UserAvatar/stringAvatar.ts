@@ -22,9 +22,9 @@ export const stringAvatar = (name: string) => {
     return {
         sx: {
             bgcolor: stringToColor(name),
-            width: 32,
-            height: 32,
-            fontSize: 16,
+            width: 24,
+            height: 24,
+            fontSize: 12,
         },
         children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
     }
