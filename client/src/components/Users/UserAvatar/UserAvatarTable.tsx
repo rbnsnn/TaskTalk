@@ -11,19 +11,19 @@ interface Props {
 const UserAvatarTable: React.FC<Props> = ({ id }) => {
     const { data, error, loading } = useApi(`users/name/${id}`, 'GET')
 
-    const [open, setOpen] = React.useState<boolean>(false)
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
-    const [arrowRef, setArrowRef] = React.useState<HTMLElement | null>(null)
+    const [open, setOpen] = useState<boolean>(false)
+    const [delayHandler, setDelayHandler] = useState<ReturnType<
+        typeof setTimeout
+    > | null>(null)
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+    const [arrowRef, setArrowRef] = useState<HTMLElement | null>(null)
 
-    const handletest = () => {
-        if (open === true) {
-            setOpen(false)
-        } else {
-            return
-        }
-    }
     const handleClose = () => {
-        setTimeout(handletest, 1000)
+        setDelayHandler(
+            setTimeout(() => {
+                setOpen(false)
+            }, 100)
+        )
     }
 
     const handleMouseOver = (event: React.MouseEvent<HTMLElement>) => {
@@ -46,6 +46,8 @@ const UserAvatarTable: React.FC<Props> = ({ id }) => {
                 >
                     {`${data.firstName[0]}${data.lastName[0]}`}
                     <Popper
+                        onMouseEnter={() => clearTimeout(delayHandler!)}
+                        onMouseLeave={handleClose}
                         sx={{ zIndex: 9 }}
                         id={id}
                         open={open}
@@ -62,7 +64,7 @@ const UserAvatarTable: React.FC<Props> = ({ id }) => {
                             },
                         ]}
                     >
-                        <Paper sx={{ border: 1, p: 1 }}>
+                        <Paper sx={{ p: 3 }}>
                             The content of the Popper.
                             <span ref={setArrowRef} />
                         </Paper>
