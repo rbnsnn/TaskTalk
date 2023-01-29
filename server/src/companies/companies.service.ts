@@ -26,7 +26,10 @@ export class CompaniesService {
     }
 
     async findOne(companyName: string): Promise<Company[]> {
-        const company = await this.companyModel.find({ companyName }).lean()
+        const company = await this.companyModel
+            .find({ companyName })
+            .collation({ locale: 'en', strength: 1 })
+            .lean()
         return company
     }
 

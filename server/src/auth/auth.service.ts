@@ -114,7 +114,7 @@ export class AuthService {
             companyName: user.companyName,
             userId: generatedUserUid,
             username: user.username,
-            email: user.email,
+            email: user.email.toLowerCase(),
             password: hashedPassword,
             roles: [Role.ADMIN, Role.MODERATOR, Role.USER],
             created: new Date(),
