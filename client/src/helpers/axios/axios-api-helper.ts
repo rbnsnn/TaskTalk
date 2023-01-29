@@ -1,21 +1,20 @@
 import axios from 'axios'
 import { retrieveStoredTokens, storeTokens } from '../auth/token-helper'
 
-
-const baseURL = (process.env.REACT_APP_API_URL as string)
+const baseURL = process.env.REACT_APP_API_URL as string
 
 const axiosApi = axios.create({
     baseURL,
     headers: {
         'Content-Type': 'application/json',
     },
-});
+})
 
 const refreshTokens = (refreshToken: string) => {
     return axios.get(`${baseURL}/auth/refresh`, {
         headers: {
-            'Authorization': `Bearer ${refreshToken}`,
-            'Content-Type': 'application/json'
+            Authorization: `Bearer ${refreshToken}`,
+            'Content-Type': 'application/json',
         },
     })
 }
@@ -25,9 +24,9 @@ axiosApi.interceptors.request.use(
         const { authToken } = await retrieveStoredTokens()
         if (authToken) {
             config.headers = {
-                'Authorization': `Bearer ${authToken}`,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                Authorization: `Bearer ${authToken}`,
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
             }
         }
 
@@ -40,13 +39,13 @@ axiosApi.interceptors.request.use(
 
 axiosApi.interceptors.response.use(
     (response) => {
-        return response;
+        return response
     },
     async (error) => {
-        const originalConfig = error.config;
+        const originalConfig = error.config
 
         if (error.response.status === 401 && !originalConfig._retry) {
-            originalConfig._retry = true;
+            originalConfig._retry = true
             const { refreshToken } = await retrieveStoredTokens()
 
             if (refreshToken) {
@@ -55,14 +54,14 @@ axiosApi.interceptors.response.use(
                     await storeTokens(newTokens.data)
                 }
             }
-            return axiosApi(originalConfig);
+            return axiosApi(originalConfig)
         }
 
         if (error.response.status === 403) {
-            return Promise.reject(error.response.data);
+            return Promise.reject(error.response.data)
         }
-        return Promise.reject(error);
+        return Promise.reject(error)
     }
-);
+)
 
 export { axiosApi }
