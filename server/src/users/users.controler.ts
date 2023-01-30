@@ -48,6 +48,14 @@ export class UsersController {
         return { firstName, lastName }
     }
 
+    @Get('/info/:id')
+    async getUserInfo(@Param('id') id: string) {
+        const { username, firstName, lastName, roles, email } =
+            await this.userService.findOneById(id)
+
+        return { username, firstName, lastName, roles, email }
+    }
+
     @Patch('/mode')
     async changeColorMode(@Request() req, @Body() body: string) {
         const { username } = req.user

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Typography, Box } from '@mui/material'
-import { useAppSelector } from '../../hooks/redux-hooks'
-import { RootState } from '../../store/store'
+import { useAppSelector } from '../../../hooks/redux-hooks'
+import { RootState } from '../../../store/store'
 
 interface Props {
     handleOpen: () => void

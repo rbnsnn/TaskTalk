@@ -1,12 +1,4 @@
-import {
-    TableCell,
-    TableRow,
-    Chip,
-    Box,
-    Typography,
-    AvatarGroup,
-    Avatar,
-} from '@mui/material'
+import { TableCell, TableRow, Chip, Box, AvatarGroup } from '@mui/material'
 import React from 'react'
 import { TaskData } from '../../types/task-data.type'
 import { setPriorityColor } from '../TaskBoard/TaskRow/setPriorityColor'

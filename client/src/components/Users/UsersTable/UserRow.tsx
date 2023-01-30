@@ -3,7 +3,7 @@ import { TableRow, TableCell, Collapse, Box, IconButton, Typography } from '@mui
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import UserDetails from './UserDetails'
-import { UserData } from '../../types/user-data.type'
+import { UserData } from '../../../types/user-data.type'
 
 interface Props {
     user: UserData

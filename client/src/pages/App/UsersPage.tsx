@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { CircularProgress } from '@mui/material'
 import UserAdd from '../../components/Users/UserAdd/UserAdd'
-import UsersTable from '../../components/Users/UsersTable'
+import UsersTable from '../../components/Users/UsersTable/UsersTable'
 import { useApi } from '../../hooks/useApi'
 
 const UsersPage: React.FC = () => {
