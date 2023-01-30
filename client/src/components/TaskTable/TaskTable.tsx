@@ -1,23 +1,18 @@
 import React from 'react'
 
-import {
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-} from '@mui/material'
+import { Paper, Table, TableBody, TableContainer } from '@mui/material'
 import { TaskData } from '../../types/task-data.type'
 import TaskTableTitle from './TaskTableTItle'
 import TaskTableRow from './TaskTableRow'
+import TaskTableHead from './TaskTableHead'
+import { useTaskTableSort } from './tableSort/useTaskTableSort'
 
 interface Props {
-    data: TaskData[]
+    taskData: TaskData[]
 }
 
-const TaskTable: React.FC<Props> = ({ data }) => {
+const TaskTable: React.FC<Props> = ({ taskData }) => {
+    const { state: data, dispatch } = useTaskTableSort(taskData)
     const handleOpen = () => ''
     return (
         <Paper sx={{ width: { md: '70%' }, margin: '0 auto' }}>
@@ -29,16 +24,7 @@ const TaskTable: React.FC<Props> = ({ data }) => {
             >
                 <TaskTableTitle handleOpen={handleOpen} />
                 <Table stickyHeader>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Title</TableCell>
-                            <TableCell align='right'>Assigned to</TableCell>
-                            <TableCell align='right'>Priority</TableCell>
-                            <TableCell align='right'>Status</TableCell>
-                            <TableCell align='right'>ID</TableCell>
-                            <TableCell align='right'>Created</TableCell>
-                        </TableRow>
-                    </TableHead>
+                    <TaskTableHead />
                     <TableBody>
                         {data.map((task: TaskData) => (
                             <TaskTableRow
