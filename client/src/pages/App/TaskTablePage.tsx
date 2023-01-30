@@ -1,15 +1,15 @@
 import React from 'react'
 import TaskTable from '../../components/TaskTable/TaskTable'
 import { Box } from '@mui/system'
-import { useApi } from '../../hooks/useApi'
+import { useTaskTableSort } from '../../components/TaskTable/tableSort/useTaskTableSort'
 
-const TaskTablePage = () => {
-    const { data, loading } = useApi(`tasks/all`, 'GET')
+const TaskTablePage: React.FC = () => {
+    const { data, loading, dispatch } = useTaskTableSort()
     return (
         <>
             {!loading && (
                 <>
-                    {data ? (
+                    {data.data.length ? (
                         <Box
                             display='flex'
                             flexDirection='row'
@@ -18,7 +18,10 @@ const TaskTablePage = () => {
                             height='auto'
                             pb={-2}
                         >
-                            <TaskTable tasksData={data} />
+                            <TaskTable
+                                data={data}
+                                dispatch={dispatch}
+                            />
                         </Box>
                     ) : (
                         <div>no tasks found!</div>

@@ -2,41 +2,40 @@ import React from 'react'
 import { TableHead, TableCell, TableRow, TableSortLabel } from '@mui/material'
 import { TaskOrder } from '../../types/task-order.enum'
 import { TaskTableState } from './tableSort/useTaskTableSort'
-import { Task } from '@mui/icons-material'
 
 interface Action {
     type: TaskOrder
     dir: 'asc' | 'desc'
 }
 interface Props {
-    state: TaskTableState
+    data: TaskTableState
     dispatch: (action: Action) => void
 }
 
-const TaskTableHead: React.FC<Props> = ({ state, dispatch }) => {
+const TaskTableHead: React.FC<Props> = ({ data, dispatch }) => {
     const handleDispatch = (type: TaskOrder) => {
-        if (state.order !== type) {
+        if (data.order !== type) {
             dispatch({ type, dir: 'asc' })
-        } else if (state.dir === 'asc') {
+        } else if (data.dir === 'asc') {
             dispatch({ type, dir: 'desc' })
-        } else if (state.dir === 'desc') {
+        } else if (data.dir === 'desc') {
             dispatch({ type, dir: 'asc' })
         } else {
             return
         }
     }
-    console.log(state)
+
     return (
         <TableHead>
             <TableRow>
                 <TableCell
                     align='left'
-                    sortDirection={state.order === TaskOrder.title ? 'asc' : false}
+                    sortDirection={data.order === TaskOrder.title ? 'asc' : false}
                     onClick={() => handleDispatch(TaskOrder.title)}
                 >
                     <TableSortLabel
-                        active={state.order === TaskOrder.title}
-                        direction={state.order === TaskOrder.title ? state.dir : 'asc'}
+                        active={data.order === TaskOrder.title}
+                        direction={data.order === TaskOrder.title ? data.dir : 'asc'}
                     >
                         Title
                     </TableSortLabel>
@@ -44,24 +43,24 @@ const TaskTableHead: React.FC<Props> = ({ state, dispatch }) => {
                 <TableCell align='right'>Assigned to</TableCell>
                 <TableCell
                     align='right'
-                    sortDirection={state.order === TaskOrder.priority ? 'asc' : false}
+                    sortDirection={data.order === TaskOrder.priority ? 'asc' : false}
                     onClick={() => handleDispatch(TaskOrder.priority)}
                 >
                     <TableSortLabel
-                        active={state.order === TaskOrder.priority}
-                        direction={state.order === TaskOrder.priority ? state.dir : 'asc'}
+                        active={data.order === TaskOrder.priority}
+                        direction={data.order === TaskOrder.priority ? data.dir : 'asc'}
                     >
                         Priority
                     </TableSortLabel>
                 </TableCell>
                 <TableCell
                     align='right'
-                    sortDirection={state.order === TaskOrder.status ? 'asc' : false}
+                    sortDirection={data.order === TaskOrder.status ? 'asc' : false}
                     onClick={() => handleDispatch(TaskOrder.status)}
                 >
                     <TableSortLabel
-                        active={state.order === TaskOrder.status}
-                        direction={state.order === TaskOrder.status ? state.dir : 'asc'}
+                        active={data.order === TaskOrder.status}
+                        direction={data.order === TaskOrder.status ? data.dir : 'asc'}
                     >
                         Status
                     </TableSortLabel>
@@ -69,12 +68,12 @@ const TaskTableHead: React.FC<Props> = ({ state, dispatch }) => {
                 <TableCell align='right'>ID</TableCell>
                 <TableCell
                     align='right'
-                    sortDirection={state.order === TaskOrder.created ? 'asc' : false}
+                    sortDirection={data.order === TaskOrder.created ? 'asc' : false}
                     onClick={() => handleDispatch(TaskOrder.created)}
                 >
                     <TableSortLabel
-                        active={state.order === TaskOrder.created}
-                        direction={state.order === TaskOrder.created ? state.dir : 'asc'}
+                        active={data.order === TaskOrder.created}
+                        direction={data.order === TaskOrder.created ? data.dir : 'asc'}
                     >
                         Created
                     </TableSortLabel>

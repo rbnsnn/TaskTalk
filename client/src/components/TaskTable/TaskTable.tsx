@@ -1,19 +1,17 @@
 import React from 'react'
-
 import { Paper, Table, TableBody, TableContainer } from '@mui/material'
 import { TaskData } from '../../types/task-data.type'
 import TaskTableTitle from './TaskTableTItle'
 import TaskTableRow from './TaskTableRow'
 import TaskTableHead from './TaskTableHead'
-import { useTaskTableSort } from './tableSort/useTaskTableSort'
-import { sortByPriority } from './tableSort/sortByPriority'
+import { TaskTableState } from './tableSort/useTaskTableSort'
 
 interface Props {
-    tasksData: TaskData[]
+    data: TaskTableState
+    dispatch: any
 }
 
-const TaskTable: React.FC<Props> = ({ tasksData }) => {
-    const { state, dispatch } = useTaskTableSort(sortByPriority(tasksData))
+const TaskTable: React.FC<Props> = ({ data, dispatch }) => {
     const handleOpen = () => ''
 
     return (
@@ -27,11 +25,11 @@ const TaskTable: React.FC<Props> = ({ tasksData }) => {
                 <TaskTableTitle handleOpen={handleOpen} />
                 <Table stickyHeader>
                     <TaskTableHead
-                        state={state}
+                        data={data}
                         dispatch={dispatch}
                     />
                     <TableBody>
-                        {state.data.map((task: TaskData) => (
+                        {data.data.map((task: TaskData) => (
                             <TaskTableRow
                                 key={task.taskId}
                                 task={task}
