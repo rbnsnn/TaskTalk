@@ -18,7 +18,7 @@ const TaskTablePage = () => {
                             height='auto'
                             pb={-2}
                         >
-                            <TaskTable data={data} />
+                            <TaskTable tasksData={data} />
                         </Box>
                     ) : (
                         <div>no tasks found!</div>

@@ -1,23 +1,54 @@
 import { useReducer, useState } from 'react'
 import { TaskData } from '../../../types/task-data.type'
 import { TaskOrder } from '../../../types/task-order'
+import { sortByCreated } from './sortByCreated'
 import { sortByPriority } from './sortByPriority'
+import { sortByStatus } from './sortByStatus'
 
 interface IAction {
     type: TaskOrder
+    dir: 'asc' | 'desc'
 }
 
-const reducer = (state: TaskData[], action: IAction): any => {
-    if (action.type === 'priority_ascending') {
-        return sortByPriority(state)
+export interface TaskTableState {
+    data: TaskData[]
+    order: TaskOrder
+    dir: 'asc' | 'desc'
+}
+
+const reducer = (state: TaskTableState, action: IAction): any => {
+    if (action.type === TaskOrder.priority && action.dir === 'asc') {
+        const sorted = sortByPriority(state.data)
+        return { data: [...sorted], order: action.type, dir: 'asc' }
     }
-    if (action.type === 'priority_descending') {
-        return sortByPriority(state)
+    if (action.type === TaskOrder.priority && action.dir === 'desc') {
+        const sorted = sortByPriority(state.data).reverse()
+        return { data: [...sorted], order: action.type, dir: 'desc' }
+    }
+    if (action.type === TaskOrder.status && action.dir === 'asc') {
+        const sorted = sortByStatus(state.data)
+        return { data: [...sorted], order: action.type, dir: 'asc' }
+    }
+    if (action.type === TaskOrder.status && action.dir === 'desc') {
+        const sorted = sortByStatus(state.data).reverse()
+        return { data: [...sorted], order: action.type, dir: 'desc' }
+    }
+    if (action.type === TaskOrder.created && action.dir === 'asc') {
+        const sorted = sortByCreated(state.data)
+        return { data: [...sorted], order: action.type, dir: 'asc' }
+    }
+    if (action.type === TaskOrder.created && action.dir === 'desc') {
+        const sorted = sortByCreated(state.data).reverse()
+        return { data: [...sorted], order: action.type, dir: 'desc' }
     }
 }
 
 export const useTaskTableSort = (init: TaskData[]) => {
-    const [state, dispatch] = useReducer(reducer, init)
+    const [state, dispatch] = useReducer(reducer, {
+        data: init,
+        order: TaskOrder.priority,
+        dir: 'asc',
+    })
 
     return { state, dispatch }
 }

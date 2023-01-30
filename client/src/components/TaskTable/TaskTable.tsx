@@ -6,14 +6,16 @@ import TaskTableTitle from './TaskTableTItle'
 import TaskTableRow from './TaskTableRow'
 import TaskTableHead from './TaskTableHead'
 import { useTaskTableSort } from './tableSort/useTaskTableSort'
+import { sortByPriority } from './tableSort/sortByPriority'
 
 interface Props {
-    taskData: TaskData[]
+    tasksData: TaskData[]
 }
 
-const TaskTable: React.FC<Props> = ({ taskData }) => {
-    const { state: data, dispatch } = useTaskTableSort(taskData)
+const TaskTable: React.FC<Props> = ({ tasksData }) => {
+    const { state, dispatch } = useTaskTableSort(sortByPriority(tasksData))
     const handleOpen = () => ''
+
     return (
         <Paper sx={{ width: { md: '70%' }, margin: '0 auto' }}>
             <TableContainer
@@ -24,9 +26,12 @@ const TaskTable: React.FC<Props> = ({ taskData }) => {
             >
                 <TaskTableTitle handleOpen={handleOpen} />
                 <Table stickyHeader>
-                    <TaskTableHead />
+                    <TaskTableHead
+                        state={state}
+                        dispatch={dispatch}
+                    />
                     <TableBody>
-                        {data.map((task: TaskData) => (
+                        {state.data.map((task: TaskData) => (
                             <TaskTableRow
                                 key={task.taskId}
                                 task={task}
