@@ -34,10 +34,10 @@ const UserRow: React.FC<Props> = ({ user, handleUpdate }) => {
                 >
                     {user.username}
                 </TableCell>
-                <TableCell>{user.userId}</TableCell>
-                <TableCell>{user.roles[0]}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{user.tasks}</TableCell>
+                <TableCell align='right'>{user.userId}</TableCell>
+                <TableCell align='right'>{user.roles[0]}</TableCell>
+                <TableCell align='right'>{user.email}</TableCell>
+                <TableCell align='right'>{user.tasks}</TableCell>
             </TableRow>
             <TableRow>
                 <TableCell
@@ -55,6 +55,7 @@ const UserRow: React.FC<Props> = ({ user, handleUpdate }) => {
                         <Box sx={{ margin: 1 }}>
                             <Typography
                                 variant='h6'
+                                ml={2}
                                 gutterBottom
                                 component='div'
                             >

@@ -84,7 +84,7 @@ const UserDetails: React.FC<Props> = ({ user, handleUpdate }) => {
                     </ListItemAvatar>
                     <ListItemText
                         primary='Phone'
-                        secondary={user.phoneNumber}
+                        secondary={user.phoneNumber ? user.phoneNumber : 'Not provided'}
                     />
                 </ListItem>
                 {userId === user.userId ? null : (

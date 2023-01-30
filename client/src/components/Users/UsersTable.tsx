@@ -46,12 +46,12 @@ const UsersTable: React.FC<Props> = ({ data, handleOpen, handleUpdate }) => {
                 >
                     <TableHead>
                         <TableRow>
-                            <TableCell variant='headerMain' />
-                            <TableCell variant='headerMain'>Username</TableCell>
-                            <TableCell variant='headerMain'>User ID</TableCell>
-                            <TableCell variant='headerMain'>Role</TableCell>
-                            <TableCell variant='headerMain'>Email</TableCell>
-                            <TableCell variant='headerMain'>Tasks</TableCell>
+                            <TableCell />
+                            <TableCell>Username</TableCell>
+                            <TableCell align='right'>User ID</TableCell>
+                            <TableCell align='right'>Role</TableCell>
+                            <TableCell align='right'>Email</TableCell>
+                            <TableCell align='right'>Tasks</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

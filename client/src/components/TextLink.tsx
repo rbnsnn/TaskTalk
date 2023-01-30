@@ -5,10 +5,26 @@ import { Link as MuiLink, Typography } from '@mui/material'
 interface Props {
     children: ReactNode
     to: string
+    variant?:
+        | 'button'
+        | 'caption'
+        | 'h1'
+        | 'h2'
+        | 'h3'
+        | 'h4'
+        | 'h5'
+        | 'h6'
+        | 'inherit'
+        | 'body1'
+        | 'subtitle1'
+        | 'subtitle2'
+        | 'body2'
+        | 'overline'
+        | undefined
     onClick?: () => void
 }
 
-const TextLink: React.FC<Props> = ({ children, to, onClick }) => {
+const TextLink: React.FC<Props> = ({ children, to, onClick, variant = 'body1' }) => {
     return (
         <Link
             to={to}
@@ -25,6 +41,7 @@ const TextLink: React.FC<Props> = ({ children, to, onClick }) => {
                 }}
             >
                 <Typography
+                    variant={variant}
                     sx={{
                         wordWrap: 'word-break',
                         width: '100%',

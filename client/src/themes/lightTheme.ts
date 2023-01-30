@@ -35,18 +35,6 @@ export const lightTheme = createTheme({
                 },
             },
         },
-        MuiTableCell: {
-            variants: [
-                {
-                    props: { variant: 'headerMain' },
-                    style: {
-                        backgroundColor: '#0B8A72',
-                        color: '#fff',
-                        fontSize: 'large',
-                    },
-                },
-            ],
-        },
         MuiListItemButton: {
             styleOverrides: {
                 root: {

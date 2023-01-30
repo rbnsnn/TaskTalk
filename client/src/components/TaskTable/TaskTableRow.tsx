@@ -11,6 +11,7 @@ import React from 'react'
 import { TaskData } from '../../types/task-data.type'
 import { setPriorityColor } from '../TaskBoard/TaskRow/setPriorityColor'
 import UserAvatarTable from '../Users/UserAvatar/UserAvatarTable'
+import TextLink from '../TextLink'
 
 interface Props {
     task: TaskData
@@ -21,10 +22,22 @@ const TaskTableRow: React.FC<Props> = ({ task }) => {
     const assigned = task.assignedUsers.map((user) => user.userId)
     return (
         <TableRow hover>
-            <TableCell>
-                <Typography>
-                    <b>{task.title}</b>
-                </Typography>
+            <TableCell
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                }}
+            >
+                <Box>
+                    <TextLink
+                        variant='h6'
+                        to={`../task/${task.taskId}`}
+                    >
+                        {task.title}
+                    </TextLink>
+                </Box>
+
                 <Box mt={1}>
                     <Chip
                         label='label'
@@ -40,7 +53,6 @@ const TaskTableRow: React.FC<Props> = ({ task }) => {
                             id={user}
                         />
                     ))}
-                    <Avatar sx={{ height: 24, width: 24 }} />
                 </AvatarGroup>
             </TableCell>
             <TableCell align='right'>

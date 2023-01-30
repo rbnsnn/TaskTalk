@@ -16,7 +16,7 @@ const Arrow = styled(Box)(({ theme }) => ({
         display: 'block',
         width: '100%',
         height: '100%',
-        backgroundColor: '#1E1E1E',
+        backgroundColor: theme.palette.mode === 'dark' ? '#1E1E1E' : '#FFFFFF',
         transform: 'rotate(45deg) translate(-50%, -50%)',
     },
 }))
