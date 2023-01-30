@@ -18,13 +18,19 @@ export const stringToColor = (string: string) => {
     return color
 }
 
-export const stringAvatar = (name: string) => {
+export interface ISize {
+    width: number
+    height: number
+    fontSize?: number
+}
+
+export const stringAvatar = (name: string, size: ISize) => {
     return {
         sx: {
             bgcolor: stringToColor(name),
-            width: 24,
-            height: 24,
-            fontSize: 12,
+            width: size.width,
+            height: size.height,
+            fontSize: size.fontSize,
         },
         children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
     }

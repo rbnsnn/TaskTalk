@@ -1,25 +1,30 @@
-import { Avatar, Box } from '@mui/material'
+import { Avatar, Box, CircularProgress } from '@mui/material'
 import React from 'react'
 import { useApi } from '../../../hooks/useApi'
 import { stringAvatar } from './stringAvatar'
 
 interface Props {
     id: string | undefined
+    size?: {
+        width: number
+        height: number
+        fontSize?: number
+    }
 }
 
-const UserAvatar: React.FC<Props> = ({ id }) => {
+const UserAvatar: React.FC<Props> = ({
+    id,
+    size = { width: 24, height: 24, fontSize: 12 },
+}) => {
     const { data, error, loading } = useApi(`users/name/${id}`, 'GET')
 
-    return (
-        <>
-            {data && data.firstName !== '' && data.lastName !== '' && (
-                <Avatar {...stringAvatar(`${data.firstName} ${data.lastName}`)} />
-            )}
-            {data && data.firstName === '' && data.lastName === '' && (
-                <Avatar sx={{ width: 24, height: 24 }} />
-            )}
-        </>
-    )
+    if (!data || loading) {
+        return <CircularProgress size={size.height} />
+    } else if (data && data.firstName !== '' && data.lastName !== '') {
+        return <Avatar {...stringAvatar(`${data.firstName} ${data.lastName}`, size)} />
+    } else {
+        return <Avatar sx={size} />
+    }
 }
 
 export default UserAvatar

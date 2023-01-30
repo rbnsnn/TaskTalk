@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { Avatar, Box, Popper } from '@mui/material'
+import { Avatar } from '@mui/material'
 import { useApi } from '../../../hooks/useApi'
 import { stringToColor } from './stringAvatar'
-import Paper from '@mui/material/Paper'
+import UserPopper from './UserPopper'
 
 interface Props {
     id: string | undefined
@@ -15,14 +15,13 @@ const UserAvatarTable: React.FC<Props> = ({ id }) => {
     const [delayHandler, setDelayHandler] = useState<ReturnType<
         typeof setTimeout
     > | null>(null)
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-    const [arrowRef, setArrowRef] = useState<HTMLElement | null>(null)
+    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
 
     const handleClose = () => {
         setDelayHandler(
             setTimeout(() => {
                 setOpen(false)
-            }, 100)
+            }, 50)
         )
     }
 
@@ -45,30 +44,13 @@ const UserAvatarTable: React.FC<Props> = ({ id }) => {
                     }}
                 >
                     {`${data.firstName[0]}${data.lastName[0]}`}
-                    <Popper
-                        onMouseEnter={() => clearTimeout(delayHandler!)}
-                        onMouseLeave={handleClose}
-                        sx={{ zIndex: 9 }}
-                        id={id}
+                    <UserPopper
+                        id={id!}
                         open={open}
-                        anchorEl={anchorEl}
-                        placement='top'
-                        disablePortal={false}
-                        modifiers={[
-                            {
-                                name: 'arrow',
-                                enabled: true,
-                                options: {
-                                    element: arrowRef,
-                                },
-                            },
-                        ]}
-                    >
-                        <Paper sx={{ p: 3 }}>
-                            The content of the Popper.
-                            <span ref={setArrowRef} />
-                        </Paper>
-                    </Popper>
+                        handleClose={handleClose}
+                        anchor={anchorEl}
+                        delayHandler={delayHandler}
+                    />
                 </Avatar>
             )}
             {data && data.firstName === '' && data.lastName === '' && (
