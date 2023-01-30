@@ -23,7 +23,7 @@ import { isLongerThan } from '../../../helpers/formHelper'
 import { TaskData } from '../../../types/task-data.type'
 import { Priority } from '../../../types/priority-enum'
 import { isNotEmpty } from '../../../helpers/formHelper'
-import { TaskLabel } from '../../../types/task-label.type'
+// import { TaskLabel } from '../../../types/task-label.type'
 import { ColumnData } from '../../../types/column-data.type'
 import { SocketContext } from '../../../helpers/socket/socket-context'
 
@@ -51,7 +51,7 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
         executeFetch: refetchStatus,
     } = useApi('companies/names', 'GET', false)
 
-    const [labels, setLabels] = useState<TaskLabel[]>([])
+    // const [labels, setLabels] = useState<TaskLabel[]>([])
 
     const { success, error, loading, executeFetch, reset } = useApi(
         'tasks/new',
@@ -142,6 +142,7 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
 
     useEffect(() => {
         fetchData()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {

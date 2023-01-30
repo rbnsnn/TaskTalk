@@ -1,4 +1,4 @@
-import { Avatar, Box, CircularProgress } from '@mui/material'
+import { Avatar, CircularProgress } from '@mui/material'
 import React from 'react'
 import { useApi } from '../../../hooks/useApi'
 import { stringAvatar } from './stringAvatar'
@@ -16,7 +16,7 @@ const UserAvatar: React.FC<Props> = ({
     id,
     size = { width: 24, height: 24, fontSize: 12 },
 }) => {
-    const { data, error, loading } = useApi(`users/name/${id}`, 'GET')
+    const { data, loading } = useApi(`users/name/${id}`, 'GET')
 
     if (!data || loading) {
         return <CircularProgress size={size.height} />

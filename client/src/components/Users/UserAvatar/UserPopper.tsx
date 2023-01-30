@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Popper, Fade, Box, styled, Container } from '@mui/material'
+import { Popper, Fade, Box, styled } from '@mui/material'
 import UserPopperContent from './UserPopperContent'
 
 const Arrow = styled(Box)(({ theme }) => ({

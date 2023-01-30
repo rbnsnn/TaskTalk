@@ -7,7 +7,6 @@ import {
     TableCell,
     TableContainer,
     TableHead,
-    Typography,
     TableRow,
 } from '@mui/material'
 import { TaskData } from '../../types/task-data.type'

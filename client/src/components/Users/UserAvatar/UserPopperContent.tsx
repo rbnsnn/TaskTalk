@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-    Card,
-    CardActions,
-    CardHeader,
-    CardMedia,
-    CardContent,
-    IconButton,
-} from '@mui/material'
+import { Card, CardActions, CardHeader, CardContent, IconButton } from '@mui/material'
 import ShareIcon from '@mui/icons-material/Share'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import UserAvatar from './UserAvatar'

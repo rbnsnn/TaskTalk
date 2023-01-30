@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, Chip, Box, IconButton, Paper, Typography } from '@mui/material'
+import { Box, Paper, Typography } from '@mui/material'
 import { useDrag } from 'react-dnd'
 import TaskLabel from './TaskLabel'
 import TaskTitle from './TaskTitle'

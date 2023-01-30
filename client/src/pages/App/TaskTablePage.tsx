@@ -4,7 +4,7 @@ import { Box } from '@mui/system'
 import { useApi } from '../../hooks/useApi'
 
 const TaskTablePage = () => {
-    const { data, error, loading } = useApi(`tasks/all`, 'GET')
+    const { data, loading } = useApi(`tasks/all`, 'GET')
     return (
         <>
             {!loading && (

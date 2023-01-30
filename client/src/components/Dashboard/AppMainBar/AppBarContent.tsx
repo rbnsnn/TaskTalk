@@ -1,7 +1,6 @@
 import { Menu } from '@mui/icons-material'
 import { Toolbar, Box, IconButton, Badge } from '@mui/material'
 import NotificationsIcon from '@mui/icons-material/Notifications'
-import AccountCircle from '@mui/icons-material/AccountCircle'
 import MailIcon from '@mui/icons-material/Mail'
 import UserAvatar from '../../Users/UserAvatar/UserAvatar'
 import { useAppSelector } from '../../../hooks/redux-hooks'

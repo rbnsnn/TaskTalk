@@ -9,7 +9,7 @@ interface Props {
 }
 
 const UserAvatarTable: React.FC<Props> = ({ id }) => {
-    const { data, error, loading } = useApi(`users/name/${id}`, 'GET')
+    const { data } = useApi(`users/name/${id}`, 'GET')
 
     const [open, setOpen] = useState<boolean>(false)
     const [delayHandler, setDelayHandler] = useState<ReturnType<
