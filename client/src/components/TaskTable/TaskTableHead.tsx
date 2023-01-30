@@ -1,6 +1,6 @@
 import React from 'react'
 import { TableHead, TableCell, TableRow, TableSortLabel } from '@mui/material'
-import { TaskOrder } from '../../types/task-order'
+import { TaskOrder } from '../../types/task-order.enum'
 import { TaskTableState } from './tableSort/useTaskTableSort'
 import { Task } from '@mui/icons-material'
 
@@ -25,11 +25,22 @@ const TaskTableHead: React.FC<Props> = ({ state, dispatch }) => {
             return
         }
     }
-
+    console.log(state)
     return (
         <TableHead>
             <TableRow>
-                <TableCell>Title</TableCell>
+                <TableCell
+                    align='left'
+                    sortDirection={state.order === TaskOrder.title ? 'asc' : false}
+                    onClick={() => handleDispatch(TaskOrder.title)}
+                >
+                    <TableSortLabel
+                        active={state.order === TaskOrder.title}
+                        direction={state.order === TaskOrder.title ? state.dir : 'asc'}
+                    >
+                        Title
+                    </TableSortLabel>
+                </TableCell>
                 <TableCell align='right'>Assigned to</TableCell>
                 <TableCell
                     align='right'
