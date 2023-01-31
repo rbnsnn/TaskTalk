@@ -7,7 +7,7 @@ interface Props {
     handleOpen: () => void
 }
 
-const TaskTableTitle: React.FC<Props> = ({ handleOpen }) => {
+const TasksTableTitle: React.FC<Props> = ({ handleOpen }) => {
     const { companyName } = useAppSelector((state: RootState) => state.auth.user)
 
     return (
@@ -35,4 +35,4 @@ const TaskTableTitle: React.FC<Props> = ({ handleOpen }) => {
     )
 }
 
-export default TaskTableTitle
+export default TasksTableTitle

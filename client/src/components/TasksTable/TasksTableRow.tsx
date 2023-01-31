@@ -1,14 +1,14 @@
 import { TableCell, TableRow, Chip, Box, AvatarGroup } from '@mui/material'
 import React from 'react'
 import { TaskData } from '../../types/task-data.type'
-import { setPriorityColor } from '../TaskBoard/TaskRow/setPriorityColor'
+import { setPriorityColor } from '../TasksBoard/TaskRow/setPriorityColor'
 import UserAvatarTable from '../Users/UserAvatar/UserAvatarTable'
 import TextLink from '../TextLink'
 
 interface Props {
     task: TaskData
 }
-const TaskTableRow: React.FC<Props> = ({ task }) => {
+const TasksTableRow: React.FC<Props> = ({ task }) => {
     const priorityColor = setPriorityColor(task.priority)
     const date = new Date(task.created!).toLocaleDateString()
     const assigned = task.assignedUsers.map((user) => user.userId)
@@ -70,4 +70,4 @@ const TaskTableRow: React.FC<Props> = ({ task }) => {
     )
 }
 
-export default TaskTableRow
+export default TasksTableRow

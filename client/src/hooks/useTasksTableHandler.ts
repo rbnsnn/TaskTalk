@@ -1,13 +1,13 @@
 import { useReducer, useState, useContext, useEffect } from 'react'
-import { TaskData } from '../../../types/task-data.type'
-import { TaskOrder } from '../../../types/task-order.enum'
-import { sortByCreated } from './sortByCreated'
-import { sortByPriority } from './sortByPriority'
-import { sortByStatus } from './sortByStatus'
-import { sortByTitle } from './sortByTitle'
-import { SocketContext } from '../../../helpers/socket/socket-context'
-import { TaskEvent } from '../../../types/task-event-enum.type'
-import { ColumnData } from '../../../types/column-data.type'
+import { TaskData } from '../types/task-data.type'
+import { TaskOrder } from '../types/task-order.enum'
+import { sortByCreated } from '../components/TasksTable/tableSort/sortByCreated'
+import { sortByPriority } from '../components/TasksTable/tableSort/sortByPriority'
+import { sortByStatus } from '../components/TasksTable/tableSort/sortByStatus'
+import { sortByTitle } from '../components/TasksTable/tableSort/sortByTitle'
+import { SocketContext } from '../helpers/socket/socket-context'
+import { TaskEvent } from '../types/task-event-enum.type'
+import { ColumnData } from '../types/column-data.type'
 
 interface IAction {
     type: TaskOrder | 'change'
@@ -15,7 +15,7 @@ interface IAction {
     data?: TaskData[]
 }
 
-export interface TaskTableState {
+export interface TasksTableState {
     data: TaskData[]
     order: TaskOrder
     dir: 'asc' | 'desc'
@@ -48,7 +48,7 @@ const handleChangeSort = (data: TaskData[], sortBy: TaskOrder, dir: 'asc' | 'des
     }
 }
 
-const reducer = (state: TaskTableState, action: IAction): any => {
+const reducer = (state: TasksTableState, action: IAction): any => {
     if (action.type === TaskOrder.priority && action.dir === 'asc') {
         const sorted = sortByPriority(state.data)
         return { data: [...sorted], order: action.type, dir: 'asc' }
@@ -87,8 +87,8 @@ const reducer = (state: TaskTableState, action: IAction): any => {
     }
 }
 
-export const useTaskTableSort = () => {
-    const [data, dispatch] = useReducer(reducer, {
+export const useTasksTableHandler = () => {
+    const [state, dispatch] = useReducer(reducer, {
         data: {},
         order: TaskOrder.title,
         dir: 'asc',
@@ -114,5 +114,5 @@ export const useTaskTableSort = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    return { data, loading, dispatch }
+    return { state, loading, dispatch }
 }

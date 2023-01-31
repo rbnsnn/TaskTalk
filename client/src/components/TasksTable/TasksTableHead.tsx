@@ -1,18 +1,18 @@
 import React from 'react'
 import { TableHead, TableCell, TableRow, TableSortLabel } from '@mui/material'
 import { TaskOrder } from '../../types/task-order.enum'
-import { TaskTableState } from './tableSort/useTaskTableSort'
+import { TasksTableState } from '../../hooks/useTasksTableHandler'
 
 interface Action {
     type: TaskOrder
     dir: 'asc' | 'desc'
 }
 interface Props {
-    data: TaskTableState
+    data: TasksTableState
     dispatch: (action: Action) => void
 }
 
-const TaskTableHead: React.FC<Props> = ({ data, dispatch }) => {
+const TasksTableHead: React.FC<Props> = ({ data, dispatch }) => {
     const handleDispatch = (type: TaskOrder) => {
         if (data.order !== type) {
             dispatch({ type, dir: 'asc' })
@@ -83,4 +83,4 @@ const TaskTableHead: React.FC<Props> = ({ data, dispatch }) => {
     )
 }
 
-export default TaskTableHead
+export default TasksTableHead

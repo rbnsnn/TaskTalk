@@ -1,14 +1,14 @@
 import { Box } from '@mui/material'
 import React, { useState, useEffect, useContext } from 'react'
-import TaskColumn from '../../components/TaskBoard/TaskColumn/TaskColumn'
-import AddTask from '../../components/TaskBoard/AddTask/AddTask'
+import TaskColumn from '../../components/TasksBoard/TaskColumn/TaskColumn'
+import AddTask from '../../components/TasksBoard/AddTask/AddTask'
 import { ColumnData } from '../../types/column-data.type'
 import { TaskEvent } from '../../types/task-event-enum.type'
 import { SocketContext } from '../../helpers/socket/socket-context'
-import AddColumn from '../../components/TaskBoard/TaskColumn/AddColumn'
+import AddColumn from '../../components/TasksBoard/TaskColumn/AddColumn'
 import { TaskData } from '../../types/task-data.type'
 
-const TaskBoard: React.FC = () => {
+const TasksBoard: React.FC = () => {
     const socket: any = useContext(SocketContext)
     const [data, setData] = useState<ColumnData[]>([])
     const [loading, setLoading] = useState<boolean>(false)
@@ -77,4 +77,4 @@ const TaskBoard: React.FC = () => {
     )
 }
 
-export default TaskBoard
+export default TasksBoard

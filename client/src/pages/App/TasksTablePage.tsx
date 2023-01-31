@@ -1,15 +1,15 @@
 import React from 'react'
-import TaskTable from '../../components/TaskTable/TaskTable'
+import TasksTable from '../../components/TasksTable/TasksTable'
 import { Box } from '@mui/system'
-import { useTaskTableSort } from '../../components/TaskTable/tableSort/useTaskTableSort'
+import { useTasksTableHandler } from '../../hooks/useTasksTableHandler'
 
-const TaskTablePage: React.FC = () => {
-    const { data, loading, dispatch } = useTaskTableSort()
+const TasksTablePage: React.FC = () => {
+    const { state, loading, dispatch } = useTasksTableHandler()
     return (
         <>
             {!loading && (
                 <>
-                    {data.data.length ? (
+                    {state.data.length ? (
                         <Box
                             display='flex'
                             flexDirection='row'
@@ -18,8 +18,8 @@ const TaskTablePage: React.FC = () => {
                             height='auto'
                             pb={-2}
                         >
-                            <TaskTable
-                                data={data}
+                            <TasksTable
+                                state={state}
                                 dispatch={dispatch}
                             />
                         </Box>
@@ -33,4 +33,4 @@ const TaskTablePage: React.FC = () => {
     )
 }
 
-export default TaskTablePage
+export default TasksTablePage

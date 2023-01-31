@@ -1,17 +1,17 @@
 import React from 'react'
 import { Paper, Table, TableBody, TableContainer } from '@mui/material'
 import { TaskData } from '../../types/task-data.type'
-import TaskTableTitle from './TaskTableTItle'
-import TaskTableRow from './TaskTableRow'
-import TaskTableHead from './TaskTableHead'
-import { TaskTableState } from './tableSort/useTaskTableSort'
+import TasksTableTitle from './TasksTableTItle'
+import TasksTableRow from './TasksTableRow'
+import TasksTableHead from './TasksTableHead'
+import { TasksTableState } from '../../hooks/useTasksTableHandler'
 
 interface Props {
-    data: TaskTableState
+    state: TasksTableState
     dispatch: any
 }
 
-const TaskTable: React.FC<Props> = ({ data, dispatch }) => {
+const TasksTable: React.FC<Props> = ({ state, dispatch }) => {
     const handleOpen = () => ''
 
     return (
@@ -22,15 +22,15 @@ const TaskTable: React.FC<Props> = ({ data, dispatch }) => {
                     maxWidth: { xs: '95%', sm: '100%' },
                 }}
             >
-                <TaskTableTitle handleOpen={handleOpen} />
+                <TasksTableTitle handleOpen={handleOpen} />
                 <Table stickyHeader>
-                    <TaskTableHead
-                        data={data}
+                    <TasksTableHead
+                        data={state}
                         dispatch={dispatch}
                     />
                     <TableBody>
-                        {data.data.map((task: TaskData) => (
-                            <TaskTableRow
+                        {state.data.map((task: TaskData) => (
+                            <TasksTableRow
                                 key={task.taskId}
                                 task={task}
                             />
@@ -42,4 +42,4 @@ const TaskTable: React.FC<Props> = ({ data, dispatch }) => {
     )
 }
 
-export default TaskTable
+export default TasksTable
