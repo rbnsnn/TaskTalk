@@ -5,7 +5,10 @@ import { sortByPriority } from './sortByPriority'
 import { sortByStatus } from './sortByStatus'
 import { sortByTitle } from './sortByTitle'
 
-export const handleSort = (data: TaskData[], sortBy: TaskOrder): TaskData[] => {
+export const handleSort = (
+    data: TaskData[],
+    sortBy: TaskOrder | 'change' | 'search'
+): TaskData[] => {
     if (sortBy === TaskOrder.priority) {
         return sortByPriority(data)
     }

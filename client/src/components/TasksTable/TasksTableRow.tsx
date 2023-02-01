@@ -22,7 +22,7 @@ const TasksTableRow: React.FC<Props> = ({ task }) => {
                     alignItems: 'flex-start',
                 }}
             >
-                <Box>
+                <Box textAlign='left'>
                     <TextLink
                         variant='h6'
                         to={`../task/${task.taskId}`}

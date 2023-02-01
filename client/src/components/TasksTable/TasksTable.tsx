@@ -35,29 +35,31 @@ const TasksTable: React.FC<Props> = ({ state, dispatch }) => {
     ))
 
     return (
-        <Paper sx={{ width: { md: '70%' }, margin: '0 auto' }}>
-            <TableContainer
-                component={Paper}
-                sx={{
-                    maxWidth: { xs: '95%', sm: '100%' },
-                }}
+        <TableContainer
+            component={Paper}
+            sx={{
+                margin: '0 auto',
+                maxWidth: { xs: '95%', sm: '100%', xl: '85%' },
+            }}
+        >
+            <TasksTableTitle
+                handleOpen={handleOpen}
+                dispatch={dispatch}
+                setSearchValue={setSearchValue}
+            />
+            <Table
+                stickyHeader
+                sx={{ minWidth: 700 }}
             >
-                <TasksTableTitle
-                    handleOpen={handleOpen}
+                <TasksTableHead
+                    data={state}
                     dispatch={dispatch}
-                    setSearchValue={setSearchValue}
                 />
-                <Table stickyHeader>
-                    <TasksTableHead
-                        data={state}
-                        dispatch={dispatch}
-                    />
-                    <TableBody>
-                        {searchValue.length ? filteredTasksData : tasksData}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Paper>
+                <TableBody>
+                    {searchValue.length ? filteredTasksData : tasksData}
+                </TableBody>
+            </Table>
+        </TableContainer>
     )
 }
 

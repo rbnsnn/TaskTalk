@@ -33,10 +33,11 @@ const UsersTable: React.FC<Props> = ({ data, handleOpen, handleUpdate }) => {
     }
 
     return (
-        <Paper sx={{ width: { md: '70%' }, margin: '0 auto' }}>
+        <>
             <TableContainer
                 sx={{
-                    maxWidth: { xs: '95%', sm: '100%' },
+                    margin: '0 auto',
+                    maxWidth: { xs: '95%', sm: '100%', xl: '85%' },
                 }}
             >
                 <UsersTableTitle handleOpen={handleOpen} />
@@ -77,7 +78,7 @@ const UsersTable: React.FC<Props> = ({ data, handleOpen, handleUpdate }) => {
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
-        </Paper>
+        </>
     )
 }
 

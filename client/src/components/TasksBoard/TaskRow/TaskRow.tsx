@@ -52,6 +52,7 @@ const TaskRow: React.FC<Props> = ({ task }) => {
                         columnId={task.assignedColumn}
                         title={task.title}
                         priority={task.priority}
+                        assignedUsers={task.assignedUsers}
                     />
                 </Box>
                 <Box ml={1}>

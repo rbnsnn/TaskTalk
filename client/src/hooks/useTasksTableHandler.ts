@@ -22,82 +22,77 @@ export interface TasksTableState {
 }
 
 const reducer = (state: TasksTableState, action: IAction): any => {
+    const data = handleSort(state.data, action.type)
+    const filtered = handleSort(state.filtered, action.type)
+
     if (action.type === TaskOrder.priority && action.dir === 'asc') {
-        const sorted = handleSort(state.data, action.type)
         return {
-            data: [...sorted],
+            data,
             order: action.type,
             dir: 'asc',
-            filtered: state.filtered,
+            filtered,
         }
     }
     if (action.type === TaskOrder.priority && action.dir === 'desc') {
-        const sorted = handleSort(state.data, action.type).reverse()
         return {
-            data: [...sorted],
+            data: data.reverse(),
             order: action.type,
             dir: 'desc',
-            filtered: state.filtered,
+            filtered: filtered.reverse(),
         }
     }
     if (action.type === TaskOrder.status && action.dir === 'asc') {
-        const sorted = handleSort(state.data, action.type)
         return {
-            data: [...sorted],
+            data,
             order: action.type,
             dir: 'asc',
             filtered: state.filtered,
         }
     }
     if (action.type === TaskOrder.status && action.dir === 'desc') {
-        const sorted = handleSort(state.data, action.type).reverse()
         return {
-            data: [...sorted],
+            data: data.reverse(),
             order: action.type,
             dir: 'desc',
-            filtered: state.filtered,
+            filtered: filtered.reverse(),
         }
     }
     if (action.type === TaskOrder.created && action.dir === 'asc') {
-        const sorted = handleSort(state.data, action.type)
         return {
-            data: [...sorted],
+            data,
             order: action.type,
             dir: 'asc',
             filtered: state.filtered,
         }
     }
     if (action.type === TaskOrder.created && action.dir === 'desc') {
-        const sorted = handleSort(state.data, action.type).reverse()
         return {
-            data: [...sorted],
+            data: data.reverse(),
             order: action.type,
             dir: 'desc',
-            filtered: state.filtered,
+            filtered: filtered.reverse(),
         }
     }
     if (action.type === TaskOrder.title && action.dir === 'asc') {
-        const sorted = handleSort(state.data, action.type)
         return {
-            data: [...sorted],
+            data,
             order: action.type,
             dir: 'asc',
             filtered: state.filtered,
         }
     }
     if (action.type === TaskOrder.title && action.dir === 'desc') {
-        const sorted = handleSort(state.data, action.type).reverse()
         return {
-            data: [...sorted],
+            data: data.reverse(),
             order: action.type,
             dir: 'desc',
-            filtered: state.filtered,
+            filtered: filtered.reverse(),
         }
     }
     if (action.type === 'change') {
-        const sorted = handleSort(action.data!, state.order)
+        const data = handleSort(action.data!, state.order)
         return {
-            data: [...sorted!],
+            data,
             order: state.order,
             dir: state.dir,
             filtered: state.filtered,

@@ -41,6 +41,7 @@ const TextLink: React.FC<Props> = ({ children, to, onClick, variant = 'body1' })
                 }}
             >
                 <Typography
+                    textAlign='left'
                     variant={variant}
                     sx={{
                         wordWrap: 'word-break',

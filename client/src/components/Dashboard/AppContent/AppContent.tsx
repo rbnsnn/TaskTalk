@@ -26,6 +26,7 @@ const AppContent: React.FC<Props> = ({ children }) => {
                 minHeight: '100vh',
                 maxWidth: '100vw',
                 padding: { sm: '20px' },
+                paddingTop: { xs: '20px' },
             }}
         >
             <DrawerHeader />

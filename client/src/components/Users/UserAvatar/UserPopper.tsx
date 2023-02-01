@@ -1,25 +1,44 @@
 import React, { useState } from 'react'
-import { Popper, Fade, Box, styled } from '@mui/material'
+import { Fade, Box, styled } from '@mui/material'
 import UserPopperContent from './UserPopperContent'
+import PopperUnstyled from '@mui/base/PopperUnstyled'
 
-const Arrow = styled(Box)(({ theme }) => ({
-    overflow: 'hidden',
-    position: 'absolute',
-    width: '15px',
-    height: '15px',
-    boxSizing: 'border-box',
+const PopperArrow = styled('div')`
+    &::before {
+        content: '';
+        background: #1e1e1e;
+        width: 20px;
+        height: 20px;
+        transform: translate(-50%, -50%) rotate(45deg);
+        position: absolute;
+    }
+`
 
-    '&::before': {
-        borderRadius: '0px',
-        content: '""',
-        margin: 'auto',
-        display: 'block',
-        width: '100%',
-        height: '100%',
-        backgroundColor: theme.palette.mode === 'dark' ? '#1E1E1E' : '#FFFFFF',
-        transform: 'rotate(45deg) translate(-50%, -50%)',
-    },
-}))
+const PopperComponent = styled(PopperUnstyled)`
+    &[data-popper-placement^='right'] {
+        .arrow {
+            left: 0px;
+        }
+    }
+
+    &[data-popper-placement^='left'] {
+        .arrow {
+            right: 0px;
+        }
+    }
+
+    &[data-popper-placement^='top'] {
+        .arrow {
+            bottom: 0px;
+        }
+    }
+
+    &[data-popper-placement^='bottom'] {
+        .arrow {
+            top: 0px;
+        }
+    }
+`
 
 interface Props {
     id: string
@@ -33,68 +52,74 @@ interface Props {
 const UserPopper: React.FC<Props> = ({ id, open, handleClose, anchor, delayHandler }) => {
     const [arrowRef, setArrowRef] = useState<HTMLElement | null>(null)
 
-    const handleMouseEnter = (event: React.MouseEvent<HTMLElement>): void => {
-        // setArrowRef(event.currentTarget)
+    const handleMouseEnter = (): void => {
         clearTimeout(delayHandler!)
     }
 
+    console.log('render')
     return (
-        <>
-            {open && (
-                <Popper
-                    transition
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleClose}
-                    sx={{ zIndex: 9 }}
-                    id={id}
-                    open={open}
-                    anchorEl={anchor}
-                    placement='top'
-                    disablePortal={false}
-                    modifiers={[
-                        {
-                            name: 'flip',
-                            enabled: true,
-                            options: {
-                                altBoundary: true,
-                                rootBoundary: 'document',
-                                padding: 8,
-                            },
-                        },
-                        {
-                            name: 'preventOverflow',
-                            enabled: true,
-                            options: {
-                                altAxis: true,
-                                altBoundary: true,
-                                tether: true,
-                                rootBoundary: 'document',
-                                padding: 8,
-                            },
-                        },
-                        {
-                            name: 'arrow',
-                            enabled: true,
-                            options: {
-                                element: arrowRef,
-                            },
-                        },
-                    ]}
+        <PopperComponent
+            transition
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleClose}
+            id={id}
+            className='popper'
+            open={open}
+            anchorEl={anchor}
+            placement='top'
+            disablePortal={false}
+            sx={{ zIndex: 2000 }}
+            modifiers={[
+                {
+                    name: 'flip',
+                    enabled: true,
+                    options: {
+                        altBoundary: true,
+                        rootBoundary: 'viewport',
+                        padding: 8,
+                    },
+                },
+                {
+                    name: 'preventOverflow',
+                    enabled: true,
+                    options: {
+                        altAxis: true,
+                        altBoundary: true,
+                        tether: true,
+                        rootBoundary: 'viewport',
+                        padding: 8,
+                    },
+                },
+                {
+                    name: 'arrow',
+                    enabled: true,
+                    options: {
+                        element: arrowRef,
+                    },
+                },
+                {
+                    name: 'offset',
+                    options: {
+                        offset: [0, 10],
+                    },
+                },
+            ]}
+        >
+            {({ TransitionProps }) => (
+                <Fade
+                    {...TransitionProps}
+                    timeout={400}
                 >
-                    {({ TransitionProps }) => (
-                        <Fade
-                            {...TransitionProps}
-                            timeout={350}
-                        >
-                            <Box>
-                                <UserPopperContent id={id} />
-                                <Arrow ref={setArrowRef} />
-                            </Box>
-                        </Fade>
-                    )}
-                </Popper>
+                    <Box>
+                        <PopperArrow
+                            className='arrow'
+                            ref={setArrowRef}
+                        />
+                        <UserPopperContent id={id} />
+                    </Box>
+                </Fade>
             )}
-        </>
+        </PopperComponent>
     )
 }
 

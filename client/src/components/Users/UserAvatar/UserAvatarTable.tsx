@@ -17,19 +17,19 @@ const UserAvatarTable: React.FC<Props> = ({ id, firstName, lastName, username })
     const [delayHandler, setDelayHandler] = useState<ReturnType<
         typeof setTimeout
     > | null>(null)
-    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
+    const [anchorEl, setAnchorRef] = useState<HTMLElement | null>(null)
 
     const handleClose = () => {
         setDelayHandler(
             setTimeout(() => {
                 setOpen(false)
-            }, 50)
+            }, 100)
         )
     }
 
     const handleMouseOver = (event: React.MouseEvent<HTMLElement>) => {
         setOpen(true)
-        setAnchorEl(event.currentTarget)
+        setAnchorRef(event.currentTarget)
     }
 
     return (
