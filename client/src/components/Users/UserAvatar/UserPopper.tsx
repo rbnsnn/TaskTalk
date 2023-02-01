@@ -7,8 +7,8 @@ const PopperArrow = styled('div')`
     &::before {
         content: '';
         background: #1e1e1e;
-        width: 20px;
-        height: 20px;
+        width: 15px;
+        height: 15px;
         transform: translate(-50%, -50%) rotate(45deg);
         position: absolute;
     }
@@ -100,7 +100,7 @@ const UserPopper: React.FC<Props> = ({ id, open, handleClose, anchor, delayHandl
                 {
                     name: 'offset',
                     options: {
-                        offset: [0, 10],
+                        offset: [0, 5],
                     },
                 },
             ]}

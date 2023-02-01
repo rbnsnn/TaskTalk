@@ -37,7 +37,7 @@ const UserAvatarTable: React.FC<Props> = ({ id, firstName, lastName, username })
             {firstName !== '' && lastName !== '' && (
                 <Avatar
                     onMouseLeave={handleClose}
-                    onMouseOver={handleMouseOver}
+                    onMouseMove={handleMouseOver}
                     sx={{
                         width: 24,
                         height: 24,
