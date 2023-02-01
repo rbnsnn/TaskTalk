@@ -1,100 +1,124 @@
 import { useReducer, useState, useContext, useEffect } from 'react'
 import { TaskData } from '../types/task-data.type'
 import { TaskOrder } from '../types/task-order.enum'
-import { sortByCreated } from '../components/TasksTable/tableSort/sortByCreated'
-import { sortByPriority } from '../components/TasksTable/tableSort/sortByPriority'
-import { sortByStatus } from '../components/TasksTable/tableSort/sortByStatus'
-import { sortByTitle } from '../components/TasksTable/tableSort/sortByTitle'
+import { handleSort } from '../components/TasksTable/tableSort/handleSort'
 import { SocketContext } from '../helpers/socket/socket-context'
 import { TaskEvent } from '../types/task-event-enum.type'
 import { ColumnData } from '../types/column-data.type'
+import { handleSearch } from '../components/TasksTable/tableSearch/handleSearch'
 
 interface IAction {
-    type: TaskOrder | 'change'
+    type: TaskOrder | 'change' | 'search'
     dir?: 'asc' | 'desc'
     data?: TaskData[]
+    value?: string
 }
 
 export interface TasksTableState {
     data: TaskData[]
     order: TaskOrder
     dir: 'asc' | 'desc'
-}
-
-const handleChangeSort = (data: TaskData[], sortBy: TaskOrder, dir: 'asc' | 'desc') => {
-    if (sortBy === TaskOrder.priority && dir === 'asc') {
-        return sortByPriority(data)
-    }
-    if (sortBy === TaskOrder.priority && dir === 'desc') {
-        return sortByPriority(data)
-    }
-    if (sortBy === TaskOrder.status && dir === 'asc') {
-        return sortByStatus(data)
-    }
-    if (sortBy === TaskOrder.status && dir === 'desc') {
-        return sortByStatus(data)
-    }
-    if (sortBy === TaskOrder.created && dir === 'asc') {
-        return sortByCreated(data)
-    }
-    if (sortBy === TaskOrder.created && dir === 'desc') {
-        return sortByCreated(data)
-    }
-    if (sortBy === TaskOrder.title && dir === 'asc') {
-        return sortByTitle(data)
-    }
-    if (sortBy === TaskOrder.title && dir === 'desc') {
-        return sortByTitle(data)
-    }
+    filtered: TaskData[]
 }
 
 const reducer = (state: TasksTableState, action: IAction): any => {
     if (action.type === TaskOrder.priority && action.dir === 'asc') {
-        const sorted = sortByPriority(state.data)
-        return { data: [...sorted], order: action.type, dir: 'asc' }
+        const sorted = handleSort(state.data, action.type)
+        return {
+            data: [...sorted],
+            order: action.type,
+            dir: 'asc',
+            filtered: state.filtered,
+        }
     }
     if (action.type === TaskOrder.priority && action.dir === 'desc') {
-        const sorted = sortByPriority(state.data).reverse()
-        return { data: [...sorted], order: action.type, dir: 'desc' }
+        const sorted = handleSort(state.data, action.type).reverse()
+        return {
+            data: [...sorted],
+            order: action.type,
+            dir: 'desc',
+            filtered: state.filtered,
+        }
     }
     if (action.type === TaskOrder.status && action.dir === 'asc') {
-        const sorted = sortByStatus(state.data)
-        return { data: [...sorted], order: action.type, dir: 'asc' }
+        const sorted = handleSort(state.data, action.type)
+        return {
+            data: [...sorted],
+            order: action.type,
+            dir: 'asc',
+            filtered: state.filtered,
+        }
     }
     if (action.type === TaskOrder.status && action.dir === 'desc') {
-        const sorted = sortByStatus(state.data).reverse()
-        return { data: [...sorted], order: action.type, dir: 'desc' }
+        const sorted = handleSort(state.data, action.type).reverse()
+        return {
+            data: [...sorted],
+            order: action.type,
+            dir: 'desc',
+            filtered: state.filtered,
+        }
     }
     if (action.type === TaskOrder.created && action.dir === 'asc') {
-        const sorted = sortByCreated(state.data)
-        return { data: [...sorted], order: action.type, dir: 'asc' }
+        const sorted = handleSort(state.data, action.type)
+        return {
+            data: [...sorted],
+            order: action.type,
+            dir: 'asc',
+            filtered: state.filtered,
+        }
     }
     if (action.type === TaskOrder.created && action.dir === 'desc') {
-        const sorted = sortByCreated(state.data).reverse()
-        return { data: [...sorted], order: action.type, dir: 'desc' }
+        const sorted = handleSort(state.data, action.type).reverse()
+        return {
+            data: [...sorted],
+            order: action.type,
+            dir: 'desc',
+            filtered: state.filtered,
+        }
     }
     if (action.type === TaskOrder.title && action.dir === 'asc') {
-        const sorted = sortByTitle(state.data)
-        return { data: [...sorted], order: action.type, dir: 'asc' }
+        const sorted = handleSort(state.data, action.type)
+        return {
+            data: [...sorted],
+            order: action.type,
+            dir: 'asc',
+            filtered: state.filtered,
+        }
     }
     if (action.type === TaskOrder.title && action.dir === 'desc') {
-        const sorted = sortByTitle(state.data).reverse()
-        return { data: [...sorted], order: action.type, dir: 'desc' }
+        const sorted = handleSort(state.data, action.type).reverse()
+        return {
+            data: [...sorted],
+            order: action.type,
+            dir: 'desc',
+            filtered: state.filtered,
+        }
     }
     if (action.type === 'change') {
-        const sorted = handleChangeSort(action.data!, state.order, state.dir)
-        return { data: [...sorted!], order: state.order, dir: state.dir }
+        const sorted = handleSort(action.data!, state.order)
+        return {
+            data: [...sorted!],
+            order: state.order,
+            dir: state.dir,
+            filtered: state.filtered,
+        }
+    }
+    if (action.type === 'search') {
+        const filtered = handleSearch(state.data, action.value!)
+
+        return { data: state.data, order: state.order, dir: state.dir, filtered }
     }
 }
 
 export const useTasksTableHandler = () => {
     const [state, dispatch] = useReducer(reducer, {
-        data: {},
+        data: [],
         order: TaskOrder.title,
         dir: 'asc',
+        filtered: [],
     })
     const socket: any = useContext(SocketContext)
-    // const [data, setData] = useState<TaskData[]>([])
+
     const [loading, setLoading] = useState<boolean>(false)
 
     useEffect(() => {

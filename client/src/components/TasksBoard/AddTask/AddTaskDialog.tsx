@@ -95,6 +95,8 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
         const assignes = assignedUsers.map((user: UserData) => ({
             userId: user.userId!,
             username: user.username,
+            firstName: user.firstName,
+            lastName: user.lastName,
         }))
 
         const newTask: TaskData = {

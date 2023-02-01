@@ -4,6 +4,7 @@ import { TaskData } from '../../types/task-data.type'
 import { setPriorityColor } from '../TasksBoard/TaskRow/setPriorityColor'
 import UserAvatarTable from '../Users/UserAvatar/UserAvatarTable'
 import TextLink from '../TextLink'
+import { CompanyUsers } from '../../types/company-users.type'
 
 interface Props {
     task: TaskData
@@ -11,7 +12,7 @@ interface Props {
 const TasksTableRow: React.FC<Props> = ({ task }) => {
     const priorityColor = setPriorityColor(task.priority)
     const date = new Date(task.created!).toLocaleDateString()
-    const assigned = task.assignedUsers.map((user) => user.userId)
+
     return (
         <TableRow hover>
             <TableCell
@@ -39,10 +40,13 @@ const TasksTableRow: React.FC<Props> = ({ task }) => {
             </TableCell>
             <TableCell align='right'>
                 <AvatarGroup max={3}>
-                    {assigned.map((user: string) => (
+                    {task.assignedUsers.map((user: CompanyUsers) => (
                         <UserAvatarTable
-                            key={user}
-                            id={user}
+                            key={user.userId}
+                            id={user.userId}
+                            firstName={user.firstName!}
+                            lastName={user.lastName!}
+                            username={user.username}
                         />
                     ))}
                 </AvatarGroup>

@@ -6,10 +6,17 @@ import TasksTableSearch from './TasksTableSearch'
 
 interface Props {
     handleOpen: () => void
+    dispatch: any
+    setSearchValue: any
 }
 
-const TasksTableTitle: React.FC<Props> = ({ handleOpen }) => {
+const TasksTableTitle: React.FC<Props> = ({ handleOpen, dispatch, setSearchValue }) => {
     const { companyName } = useAppSelector((state: RootState) => state.auth.user)
+
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        dispatch({ type: 'search', value: e.target.value.toLowerCase() })
+        setSearchValue(e.target.value)
+    }
 
     return (
         <Box
@@ -29,7 +36,7 @@ const TasksTableTitle: React.FC<Props> = ({ handleOpen }) => {
                 flexDirection='row'
                 justifyContent='space-between'
             >
-                <TasksTableSearch />
+                <TasksTableSearch onChange={handleSearchChange} />
 
                 <Button
                     variant='contained'

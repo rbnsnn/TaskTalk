@@ -41,7 +41,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }))
 
-const TasksTableSearch = () => {
+const TasksTableSearch = (props: any) => {
     return (
         <Search>
             <SearchIconWrapper>
@@ -50,6 +50,7 @@ const TasksTableSearch = () => {
             <StyledInputBase
                 placeholder='Search…'
                 inputProps={{ 'aria-label': 'search' }}
+                {...props}
             />
         </Search>
     )

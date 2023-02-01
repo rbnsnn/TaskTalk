@@ -39,58 +39,62 @@ const UserPopper: React.FC<Props> = ({ id, open, handleClose, anchor, delayHandl
     }
 
     return (
-        <Popper
-            transition
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleClose}
-            sx={{ zIndex: 9 }}
-            id={id}
-            open={open}
-            anchorEl={anchor}
-            placement='top'
-            disablePortal={false}
-            modifiers={[
-                {
-                    name: 'flip',
-                    enabled: true,
-                    options: {
-                        altBoundary: true,
-                        rootBoundary: 'document',
-                        padding: 8,
-                    },
-                },
-                {
-                    name: 'preventOverflow',
-                    enabled: true,
-                    options: {
-                        altAxis: true,
-                        altBoundary: true,
-                        tether: true,
-                        rootBoundary: 'document',
-                        padding: 8,
-                    },
-                },
-                {
-                    name: 'arrow',
-                    enabled: true,
-                    options: {
-                        element: arrowRef,
-                    },
-                },
-            ]}
-        >
-            {({ TransitionProps }) => (
-                <Fade
-                    {...TransitionProps}
-                    timeout={350}
+        <>
+            {open && (
+                <Popper
+                    transition
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleClose}
+                    sx={{ zIndex: 9 }}
+                    id={id}
+                    open={open}
+                    anchorEl={anchor}
+                    placement='top'
+                    disablePortal={false}
+                    modifiers={[
+                        {
+                            name: 'flip',
+                            enabled: true,
+                            options: {
+                                altBoundary: true,
+                                rootBoundary: 'document',
+                                padding: 8,
+                            },
+                        },
+                        {
+                            name: 'preventOverflow',
+                            enabled: true,
+                            options: {
+                                altAxis: true,
+                                altBoundary: true,
+                                tether: true,
+                                rootBoundary: 'document',
+                                padding: 8,
+                            },
+                        },
+                        {
+                            name: 'arrow',
+                            enabled: true,
+                            options: {
+                                element: arrowRef,
+                            },
+                        },
+                    ]}
                 >
-                    <Box>
-                        <UserPopperContent id={id} />
-                        <Arrow ref={setArrowRef} />
-                    </Box>
-                </Fade>
+                    {({ TransitionProps }) => (
+                        <Fade
+                            {...TransitionProps}
+                            timeout={350}
+                        >
+                            <Box>
+                                <UserPopperContent id={id} />
+                                <Arrow ref={setArrowRef} />
+                            </Box>
+                        </Fade>
+                    )}
+                </Popper>
             )}
-        </Popper>
+        </>
     )
 }
 

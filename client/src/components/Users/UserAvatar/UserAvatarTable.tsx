@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 import { Avatar } from '@mui/material'
-import { useApi } from '../../../hooks/useApi'
 import { stringToColor } from './stringAvatar'
 import UserPopper from './UserPopper'
 
 interface Props {
-    id: string | undefined
+    id: string
+    firstName: string
+    lastName: string
+    username: string
 }
 
-const UserAvatarTable: React.FC<Props> = ({ id }) => {
-    const { data } = useApi(`users/name/${id}`, 'GET')
+const UserAvatarTable: React.FC<Props> = ({ id, firstName, lastName, username }) => {
+    // const { data } = useApi(`users/name/${id}`, 'GET')
 
     const [open, setOpen] = useState<boolean>(false)
     const [delayHandler, setDelayHandler] = useState<ReturnType<
@@ -32,7 +34,7 @@ const UserAvatarTable: React.FC<Props> = ({ id }) => {
 
     return (
         <>
-            {data && data.firstName !== '' && data.lastName !== '' && (
+            {firstName !== '' && lastName !== '' && (
                 <Avatar
                     onMouseLeave={handleClose}
                     onMouseOver={handleMouseOver}
@@ -40,10 +42,10 @@ const UserAvatarTable: React.FC<Props> = ({ id }) => {
                         width: 24,
                         height: 24,
                         fontSize: 12,
-                        bgcolor: stringToColor(`${data.firstName} ${data.lastName}`),
+                        bgcolor: stringToColor(`${firstName} ${lastName}`),
                     }}
                 >
-                    {`${data.firstName[0]}${data.lastName[0]}`}
+                    {`${firstName[0]}${lastName[0]}`}
                     <UserPopper
                         id={id!}
                         open={open}
@@ -53,9 +55,8 @@ const UserAvatarTable: React.FC<Props> = ({ id }) => {
                     />
                 </Avatar>
             )}
-            {data && data.firstName === '' && data.lastName === '' && (
-                <Avatar sx={{ width: 24, height: 24 }} />
-            )}
+            {firstName === '' ||
+                (lastName === '' && <Avatar sx={{ width: 24, height: 24 }} />)}
         </>
     )
 }
