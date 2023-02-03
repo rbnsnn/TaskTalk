@@ -47,16 +47,25 @@ interface Props {
     anchor: HTMLElement | null
     arrow?: HTMLElement | null
     delayHandler?: ReturnType<typeof setTimeout> | null
+    firstName: string
+    lastName: string
 }
 
-const UserPopper: React.FC<Props> = ({ id, open, handleClose, anchor, delayHandler }) => {
+const UserPopper: React.FC<Props> = ({
+    id,
+    open,
+    handleClose,
+    anchor,
+    delayHandler,
+    firstName,
+    lastName,
+}) => {
     const [arrowRef, setArrowRef] = useState<HTMLElement | null>(null)
 
     const handleMouseEnter = (): void => {
         clearTimeout(delayHandler!)
     }
 
-    console.log('render')
     return (
         <PopperComponent
             transition
@@ -115,7 +124,11 @@ const UserPopper: React.FC<Props> = ({ id, open, handleClose, anchor, delayHandl
                             className='arrow'
                             ref={setArrowRef}
                         />
-                        <UserPopperContent id={id} />
+                        <UserPopperContent
+                            id={id}
+                            firstName={firstName}
+                            lastName={lastName}
+                        />
                     </Box>
                 </Fade>
             )}

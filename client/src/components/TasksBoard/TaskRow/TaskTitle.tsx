@@ -9,7 +9,7 @@ import { SocketContext } from '../../../helpers/socket/socket-context'
 import { TaskEvent } from '../../../types/task-event-enum.type'
 import TaskIcon from '@mui/icons-material/Task'
 import { CompanyUsers } from '../../../types/company-users.type'
-import UserAvatarTable from '../../Users/UserAvatar/UserAvatarTable'
+import UserAvatarTable from '../../Users/UserAvatar/UserAvatar'
 
 interface Props {
     taskId: string
@@ -50,7 +50,6 @@ const TaskTitle: React.FC<Props> = ({
             width='100%'
         >
             <Box
-                flex={1}
                 display='flex'
                 flexDirection='row'
             >
@@ -63,11 +62,11 @@ const TaskTitle: React.FC<Props> = ({
             >
                 {assignedUsers.map((user: CompanyUsers) => (
                     <UserAvatarTable
+                        popper
                         key={user.userId}
                         id={user.userId}
                         firstName={user.firstName!}
                         lastName={user.lastName!}
-                        username={user.username}
                     />
                 ))}
             </AvatarGroup>

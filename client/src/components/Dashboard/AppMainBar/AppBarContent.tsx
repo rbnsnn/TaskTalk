@@ -12,7 +12,9 @@ interface Props {
 }
 
 const AppBarContent: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) => {
-    const { userId } = useAppSelector((state: RootState) => state.auth.user)
+    const { userId, firstName, lastName } = useAppSelector(
+        (state: RootState) => state.auth.user
+    )
     return (
         <Toolbar>
             <IconButton
@@ -58,7 +60,11 @@ const AppBarContent: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) => {
                     size='large'
                     color='inherit'
                 >
-                    <UserAvatar id={userId} />
+                    <UserAvatar
+                        id={userId!}
+                        firstName={firstName!}
+                        lastName={lastName!}
+                    />
                 </IconButton>
             </Box>
         </Toolbar>

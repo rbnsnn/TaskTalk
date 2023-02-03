@@ -1,30 +1,74 @@
-import { Avatar, CircularProgress } from '@mui/material'
-import React from 'react'
-import { useApi } from '../../../hooks/useApi'
-import { stringAvatar } from './stringAvatar'
+import React, { useState } from 'react'
+import { Avatar } from '@mui/material'
+import { stringToColor } from './stringToColor'
+import UserPopper from './UserPopper'
 
 interface Props {
-    id: string | undefined
-    size?: {
-        width: number
-        height: number
-        fontSize?: number
-    }
+    id: string
+    firstName: string
+    lastName: string
+    size?: any
+    popper?: boolean
 }
 
 const UserAvatar: React.FC<Props> = ({
     id,
-    size = { width: 24, height: 24, fontSize: 12 },
+    firstName,
+    lastName,
+    size = 24,
+    popper = false,
 }) => {
-    const { data, loading } = useApi(`users/name/${id}`, 'GET')
+    const [open, setOpen] = useState<boolean>(false)
+    const [delayHandler, setDelayHandler] = useState<ReturnType<
+        typeof setTimeout
+    > | null>(null)
+    const [anchorEl, setAnchorRef] = useState<HTMLElement | null>(null)
 
-    if (!data || loading) {
-        return <CircularProgress size={size.height} />
-    } else if (data && data.firstName !== '' && data.lastName !== '') {
-        return <Avatar {...stringAvatar(`${data.firstName} ${data.lastName}`, size)} />
-    } else {
-        return <Avatar sx={size} />
+    const handleClose = () => {
+        setDelayHandler(
+            setTimeout(() => {
+                setOpen(false)
+            }, 100)
+        )
     }
+
+    const handleMouseOver = (event: React.MouseEvent<HTMLElement>) => {
+        setOpen(true)
+        setAnchorRef(event.currentTarget)
+    }
+
+    return (
+        <>
+            {firstName === '' || lastName === '' ? (
+                <Avatar sx={{ width: size, height: size }} />
+            ) : (
+                <Avatar
+                    onMouseLeave={handleClose}
+                    onMouseMove={handleMouseOver}
+                    sx={{
+                        cursor: 'pointer',
+                        width: size,
+                        height: size,
+                        fontSize: size / 2,
+                        bgcolor: stringToColor(`${firstName} ${lastName}`),
+                    }}
+                >
+                    {`${firstName[0]}${lastName[0]}`}
+                    {popper && (
+                        <UserPopper
+                            id={id!}
+                            open={open}
+                            handleClose={handleClose}
+                            anchor={anchorEl}
+                            delayHandler={delayHandler}
+                            firstName={firstName}
+                            lastName={lastName}
+                        />
+                    )}
+                </Avatar>
+            )}
+        </>
+    )
 }
 
 export default UserAvatar

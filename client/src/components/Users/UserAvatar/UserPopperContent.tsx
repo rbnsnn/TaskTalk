@@ -3,25 +3,23 @@ import { Card, CardActions, CardHeader, CardContent, IconButton } from '@mui/mat
 import ShareIcon from '@mui/icons-material/Share'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import UserAvatar from './UserAvatar'
-import { ISize } from './stringAvatar'
 
 interface Props {
     id: string
+    firstName: string
+    lastName: string
 }
 
-const UserPopperContent: React.FC<Props> = ({ id }) => {
-    const size: ISize = {
-        height: 48,
-        width: 48,
-        fontSize: 24,
-    }
+const UserPopperContent: React.FC<Props> = ({ id, firstName, lastName }) => {
     return (
         <Card>
             <CardHeader
                 avatar={
                     <UserAvatar
                         id={id}
-                        size={size}
+                        size={48}
+                        firstName={firstName}
+                        lastName={lastName}
                     />
                 }
                 action={

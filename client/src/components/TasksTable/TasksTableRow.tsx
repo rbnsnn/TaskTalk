@@ -2,7 +2,7 @@ import { TableCell, TableRow, Chip, Box, AvatarGroup } from '@mui/material'
 import React from 'react'
 import { TaskData } from '../../types/task-data.type'
 import { setPriorityColor } from '../TasksBoard/TaskRow/setPriorityColor'
-import UserAvatarTable from '../Users/UserAvatar/UserAvatarTable'
+import UserAvatar from '../Users/UserAvatar/UserAvatar'
 import TextLink from '../TextLink'
 import { CompanyUsers } from '../../types/company-users.type'
 
@@ -41,12 +41,12 @@ const TasksTableRow: React.FC<Props> = ({ task }) => {
             <TableCell align='right'>
                 <AvatarGroup max={3}>
                     {task.assignedUsers.map((user: CompanyUsers) => (
-                        <UserAvatarTable
+                        <UserAvatar
+                            popper
                             key={user.userId}
                             id={user.userId}
                             firstName={user.firstName!}
                             lastName={user.lastName!}
-                            username={user.username}
                         />
                     ))}
                 </AvatarGroup>
