@@ -3,40 +3,46 @@ import { Card, CardActions, CardHeader, CardContent, IconButton } from '@mui/mat
 import ShareIcon from '@mui/icons-material/Share'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import UserAvatar from './UserAvatar'
+import UserPopperLoading from './UserPopperLoading'
 
 interface Props {
     id: string
-    firstName: string
-    lastName: string
+    data: any
 }
 
-const UserPopperContent: React.FC<Props> = ({ id, firstName, lastName }) => {
+const UserPopperContent: React.FC<Props> = ({ id, data }) => {
     return (
         <Card>
-            <CardHeader
-                avatar={
-                    <UserAvatar
-                        id={id}
-                        size={48}
-                        firstName={firstName}
-                        lastName={lastName}
+            {data ? (
+                <>
+                    <CardHeader
+                        avatar={
+                            <UserAvatar
+                                id={id}
+                                size={48}
+                                firstName={data.firstName}
+                                lastName={data.lastName}
+                            />
+                        }
+                        action={
+                            <IconButton aria-label='settings'>
+                                <MoreVertIcon />
+                            </IconButton>
+                        }
+                        title={`${data.firstName} ${data.lastName}`}
+                        subheader='September 14, 2016'
                     />
-                }
-                action={
-                    <IconButton aria-label='settings'>
-                        <MoreVertIcon />
-                    </IconButton>
-                }
-                title='Shrimp and Chorizo Paella'
-                subheader='September 14, 2016'
-            />
 
-            <CardContent></CardContent>
-            <CardActions disableSpacing>
-                <IconButton aria-label='share'>
-                    <ShareIcon />
-                </IconButton>
-            </CardActions>
+                    <CardContent></CardContent>
+                    <CardActions disableSpacing>
+                        <IconButton aria-label='share'>
+                            <ShareIcon />
+                        </IconButton>
+                    </CardActions>
+                </>
+            ) : (
+                <UserPopperLoading />
+            )}
         </Card>
     )
 }

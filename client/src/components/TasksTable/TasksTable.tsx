@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { Paper, Table, TableRow, TableBody, TableContainer } from '@mui/material'
+import { Paper, Table, TableRow, TableBody, TableContainer, Box } from '@mui/material'
 import { TaskData } from '../../types/task-data.type'
-import TasksTableTitle from './TasksTableTItle'
 import TasksTableRow from './TasksTableRow'
 import TasksTableHead from './TasksTableHead'
 import { TasksTableState } from '../../hooks/useTasksTableHandler'
+import TasksTableTitle from './TasksTableTItle'
 
 interface Props {
     state: TasksTableState
@@ -35,11 +35,11 @@ const TasksTable: React.FC<Props> = ({ state, dispatch }) => {
     ))
 
     return (
-        <TableContainer
-            component={Paper}
+        <Box
             sx={{
-                margin: '0 auto',
-                maxWidth: { xs: '95%', sm: '100%', xl: '85%' },
+                flexDirection: 'column',
+                display: 'flex',
+                alignItems: 'center',
             }}
         >
             <TasksTableTitle
@@ -47,19 +47,29 @@ const TasksTable: React.FC<Props> = ({ state, dispatch }) => {
                 dispatch={dispatch}
                 setSearchValue={setSearchValue}
             />
-            <Table
-                stickyHeader
-                sx={{ minWidth: 700 }}
+            <TableContainer
+                component={Paper}
+                sx={{
+                    margin: '0 auto',
+                    maxHeight: '75vh',
+                    maxWidth: { xs: '95%', sm: '100%', xl: '85%' },
+                }}
             >
-                <TasksTableHead
-                    data={state}
-                    dispatch={dispatch}
-                />
-                <TableBody>
-                    {searchValue.length ? filteredTasksData : tasksData}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                <Table
+                    stickyHeader
+                    sx={{ minWidth: 700 }}
+                >
+                    <TasksTableHead
+                        data={state}
+                        dispatch={dispatch}
+                    />
+
+                    <TableBody>
+                        {searchValue.length ? filteredTasksData : tasksData}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Box>
     )
 }
 

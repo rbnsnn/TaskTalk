@@ -55,7 +55,7 @@ const TasksBoard: React.FC = () => {
                             flexDirection='row'
                             justifyItems='center'
                             gap='10px'
-                            height='90%'
+                            maxHeight='90%'
                             pb={-2}
                         >
                             {data.map((column) => (

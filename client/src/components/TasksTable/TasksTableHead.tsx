@@ -29,7 +29,7 @@ const TasksTableHead: React.FC<Props> = ({ data, dispatch }) => {
         <TableHead>
             <TableRow>
                 <TableCell
-                    width={'35%'}
+                    width='35%'
                     align='left'
                     sortDirection={data.order === TaskOrder.title ? 'asc' : false}
                     onClick={() => handleDispatch(TaskOrder.title)}
@@ -42,13 +42,13 @@ const TasksTableHead: React.FC<Props> = ({ data, dispatch }) => {
                     </TableSortLabel>
                 </TableCell>
                 <TableCell
-                    width={'13%'}
+                    width='13%'
                     align='right'
                 >
                     Assigned to
                 </TableCell>
                 <TableCell
-                    width={'13%'}
+                    width='13%'
                     align='right'
                     sortDirection={data.order === TaskOrder.priority ? 'asc' : false}
                     onClick={() => handleDispatch(TaskOrder.priority)}
@@ -61,7 +61,7 @@ const TasksTableHead: React.FC<Props> = ({ data, dispatch }) => {
                     </TableSortLabel>
                 </TableCell>
                 <TableCell
-                    width={'13%'}
+                    width='13%'
                     align='right'
                     sortDirection={data.order === TaskOrder.status ? 'asc' : false}
                     onClick={() => handleDispatch(TaskOrder.status)}
@@ -74,13 +74,13 @@ const TasksTableHead: React.FC<Props> = ({ data, dispatch }) => {
                     </TableSortLabel>
                 </TableCell>
                 <TableCell
-                    width={'13%'}
+                    width='13%'
                     align='right'
                 >
                     ID
                 </TableCell>
                 <TableCell
-                    width={'13%'}
+                    width='13%'
                     align='right'
                     sortDirection={data.order === TaskOrder.created ? 'asc' : false}
                     onClick={() => handleDispatch(TaskOrder.created)}

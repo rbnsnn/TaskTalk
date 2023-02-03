@@ -47,8 +47,7 @@ interface Props {
     anchor: HTMLElement | null
     arrow?: HTMLElement | null
     delayHandler?: ReturnType<typeof setTimeout> | null
-    firstName: string
-    lastName: string
+    data: any
 }
 
 const UserPopper: React.FC<Props> = ({
@@ -57,8 +56,7 @@ const UserPopper: React.FC<Props> = ({
     handleClose,
     anchor,
     delayHandler,
-    firstName,
-    lastName,
+    data,
 }) => {
     const [arrowRef, setArrowRef] = useState<HTMLElement | null>(null)
 
@@ -124,10 +122,10 @@ const UserPopper: React.FC<Props> = ({
                             className='arrow'
                             ref={setArrowRef}
                         />
+
                         <UserPopperContent
                             id={id}
-                            firstName={firstName}
-                            lastName={lastName}
+                            data={data}
                         />
                     </Box>
                 </Fade>

@@ -7,6 +7,8 @@ import {
     Badge,
     Tooltip,
     LinearProgress,
+    Snackbar,
+    Alert,
 } from '@mui/material'
 import DoneIcon from '@mui/icons-material/Done'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
@@ -116,7 +118,6 @@ const ColumnTitle: React.FC<Props> = ({
                 />
             )}
 
-            {error ? error : ''}
             {loading ? (
                 <Box width='40%'>
                     <LinearProgress />
@@ -166,6 +167,20 @@ const ColumnTitle: React.FC<Props> = ({
                     </Tooltip>
                 )}
             </Box>
+
+            <Snackbar
+                open={error}
+                autoHideDuration={6000}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+                <Alert
+                    severity='error'
+                    sx={{ width: '100%' }}
+                    variant='filled'
+                >
+                    Column already exists!
+                </Alert>
+            </Snackbar>
         </Box>
     )
 }

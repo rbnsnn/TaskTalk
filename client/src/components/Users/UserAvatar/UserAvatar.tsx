@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Avatar } from '@mui/material'
 import { stringToColor } from './stringToColor'
 import UserPopper from './UserPopper'
+import { useApi } from '../../../hooks/useApi'
 
 interface Props {
     id: string
@@ -18,6 +19,7 @@ const UserAvatar: React.FC<Props> = ({
     size = 24,
     popper = false,
 }) => {
+    const { data, executeFetch } = useApi(`users/info/${id}`, 'GET', false)
     const [open, setOpen] = useState<boolean>(false)
     const [delayHandler, setDelayHandler] = useState<ReturnType<
         typeof setTimeout
@@ -32,41 +34,45 @@ const UserAvatar: React.FC<Props> = ({
         )
     }
 
-    const handleMouseOver = (event: React.MouseEvent<HTMLElement>) => {
+    const handleMouseMove = (event: React.MouseEvent<HTMLElement>) => {
         setOpen(true)
         setAnchorRef(event.currentTarget)
+    }
+    const handleMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
+        executeFetch()
     }
 
     return (
         <>
-            {firstName === '' || lastName === '' ? (
-                <Avatar sx={{ width: size, height: size }} />
-            ) : (
-                <Avatar
-                    onMouseLeave={handleClose}
-                    onMouseMove={handleMouseOver}
-                    sx={{
-                        cursor: 'pointer',
-                        width: size,
-                        height: size,
-                        fontSize: size / 2,
-                        bgcolor: stringToColor(`${firstName} ${lastName}`),
-                    }}
-                >
-                    {`${firstName[0]}${lastName[0]}`}
-                    {popper && (
-                        <UserPopper
-                            id={id!}
-                            open={open}
-                            handleClose={handleClose}
-                            anchor={anchorEl}
-                            delayHandler={delayHandler}
-                            firstName={firstName}
-                            lastName={lastName}
-                        />
-                    )}
-                </Avatar>
-            )}
+            <Avatar
+                onMouseLeave={popper ? handleClose : undefined}
+                onMouseMove={popper ? handleMouseMove : undefined}
+                onMouseEnter={popper ? handleMouseEnter : undefined}
+                sx={{
+                    cursor: 'pointer',
+                    width: size,
+                    height: size,
+                    fontSize: size / 2,
+                    bgcolor: stringToColor(`${firstName} ${lastName}`),
+                }}
+            >
+                {firstName.length && lastName.length ? (
+                    `${firstName[0]}${lastName[0]}`
+                ) : (
+                    <Avatar sx={{ width: size, height: size }} />
+                )}
+
+                {popper && (
+                    <UserPopper
+                        id={id!}
+                        open={open}
+                        handleClose={handleClose}
+                        anchor={anchorEl}
+                        delayHandler={delayHandler}
+                        data={data}
+                    />
+                )}
+            </Avatar>
         </>
     )
 }
