@@ -56,7 +56,9 @@ export class UsersService {
 
     async findOne(username: string): Promise<User[]> {
         const user = await this.userModel
-            .find({ username })
+            .find({
+                $or: [{ username: username }, { email: username }],
+            })
             .collation({ locale: 'en', strength: 1 })
             .lean()
 
