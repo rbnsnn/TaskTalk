@@ -41,13 +41,6 @@ export class UsersController {
         return this.userService.findOneAndDelete(id)
     }
 
-    @Get('/name/:id')
-    async findUserName(@Param('id') id: string) {
-        const { firstName, lastName } = await this.userService.findOneById(id)
-
-        return { firstName, lastName }
-    }
-
     @Get('/info/:id')
     async getUserInfo(@Param('id') id: string) {
         const { username, firstName, lastName, roles, email } =
