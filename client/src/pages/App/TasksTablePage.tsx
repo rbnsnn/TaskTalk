@@ -2,9 +2,11 @@ import React from 'react'
 import TasksTable from '../../components/TasksTable/TasksTable'
 import { Box } from '@mui/system'
 import { useTasksTableHandler } from '../../hooks/useTasksTableHandler'
+import LoadingPage from '../LoadingPage'
 
 const TasksTablePage: React.FC = () => {
     const { state, loading, dispatch } = useTasksTableHandler()
+
     return (
         <>
             {!loading && (
@@ -28,7 +30,7 @@ const TasksTablePage: React.FC = () => {
                     )}
                 </>
             )}
-            {loading && <div>loading</div>}
+            {loading && <LoadingPage />}
         </>
     )
 }

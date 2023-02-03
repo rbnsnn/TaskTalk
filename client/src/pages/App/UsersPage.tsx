@@ -3,6 +3,7 @@ import { CircularProgress } from '@mui/material'
 import UserAdd from '../../components/Users/UserAdd/UserAdd'
 import UsersTable from '../../components/Users/UsersTable/UsersTable'
 import { useApi } from '../../hooks/useApi'
+import LoadingPage from '../LoadingPage'
 
 const UsersPage: React.FC = () => {
     const [addUserOpen, setAddUserOpen] = useState<boolean>(false)
@@ -30,7 +31,7 @@ const UsersPage: React.FC = () => {
                 />
             )}
             {error && <p>error</p>}
-            {loading && <CircularProgress />}
+            {loading && <LoadingPage />}
             <UserAdd
                 open={addUserOpen}
                 handleClose={handleClose}

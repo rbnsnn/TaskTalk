@@ -7,6 +7,7 @@ import { TaskEvent } from '../../types/task-event-enum.type'
 import { SocketContext } from '../../helpers/socket/socket-context'
 import AddColumn from '../../components/TasksBoard/TaskColumn/AddColumn'
 import { TaskData } from '../../types/task-data.type'
+import LoadingPage from '../LoadingPage'
 
 const TasksBoard: React.FC = () => {
     const socket: any = useContext(SocketContext)
@@ -72,7 +73,7 @@ const TasksBoard: React.FC = () => {
                     )}
                 </>
             )}
-            {loading && <div>loading</div>}
+            {loading && <LoadingPage />}
         </Box>
     )
 }

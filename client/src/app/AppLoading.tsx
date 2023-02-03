@@ -4,13 +4,12 @@ import React from 'react'
 const AppLoading: React.FC = () => {
     return (
         <Box
-            width='100vw'
+            width='100%'
             height='100vh'
             display='flex'
             flexDirection='column'
             justifyContent='center'
             alignItems='center'
-            sx={{ mt: 3, mb: 1 }}
         >
             <CircularProgress size={100} />
         </Box>
