@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import React, { useState, useEffect, useContext } from 'react'
 import TaskColumn from '../../components/TasksBoard/TaskColumn/TaskColumn'
 import AddTask from '../../components/TasksBoard/AddTask/AddTask'
@@ -12,11 +12,10 @@ import LoadingPage from '../LoadingPage'
 const TasksBoard: React.FC = () => {
     const socket: any = useContext(SocketContext)
     const [data, setData] = useState<ColumnData[]>([])
-    const [loading, setLoading] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
         socket.emit(TaskEvent.GetTasks)
-        setLoading(true)
         const dataHandle = (socketData: any) => {
             setData(socketData)
             setLoading(false)
@@ -69,7 +68,12 @@ const TasksBoard: React.FC = () => {
                             ))}
                         </Box>
                     ) : (
-                        <div>no tasks found!</div>
+                        <Typography
+                            align='center'
+                            variant='h4'
+                        >
+                            No tasks found!
+                        </Typography>
                     )}
                 </>
             )}

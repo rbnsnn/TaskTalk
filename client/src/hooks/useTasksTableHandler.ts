@@ -114,11 +114,10 @@ export const useTasksTableHandler = () => {
     })
     const socket: any = useContext(SocketContext)
 
-    const [loading, setLoading] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
         socket.emit(TaskEvent.GetTasks)
-        setLoading(true)
         const dataHandle = async (socketData: any) => {
             const tasksData: TaskData[] = await socketData
                 .map((column: ColumnData) => column.tasks)

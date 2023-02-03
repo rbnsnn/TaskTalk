@@ -3,6 +3,7 @@ import TasksTable from '../../components/TasksTable/TasksTable'
 import { Box } from '@mui/system'
 import { useTasksTableHandler } from '../../hooks/useTasksTableHandler'
 import LoadingPage from '../LoadingPage'
+import { Typography } from '@mui/material'
 
 const TasksTablePage: React.FC = () => {
     const { state, loading, dispatch } = useTasksTableHandler()
@@ -26,7 +27,12 @@ const TasksTablePage: React.FC = () => {
                             />
                         </Box>
                     ) : (
-                        <div>no tasks found!</div>
+                        <Typography
+                            align='center'
+                            variant='h4'
+                        >
+                            No tasks found!
+                        </Typography>
                     )}
                 </>
             )}
