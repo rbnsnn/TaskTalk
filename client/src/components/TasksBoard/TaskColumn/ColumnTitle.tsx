@@ -6,7 +6,7 @@ import {
     TextField,
     Badge,
     Tooltip,
-    CircularProgress,
+    LinearProgress,
 } from '@mui/material'
 import DoneIcon from '@mui/icons-material/Done'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
@@ -117,7 +117,13 @@ const ColumnTitle: React.FC<Props> = ({
             )}
 
             {error ? error : ''}
-            {loading ? <CircularProgress /> : ''}
+            {loading ? (
+                <Box width='40%'>
+                    <LinearProgress />
+                </Box>
+            ) : (
+                ''
+            )}
             <Box>
                 <Badge
                     badgeContent={count}

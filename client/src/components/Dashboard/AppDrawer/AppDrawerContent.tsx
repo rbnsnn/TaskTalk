@@ -31,7 +31,7 @@ const AppDrawerContent: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) =
                     ''
                 )}
             </DrawerHeader>
-            <Divider />
+
             <List>
                 <ListItemLink
                     to={'/dashboard'}
