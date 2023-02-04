@@ -53,8 +53,9 @@ const TasksBoard: React.FC = () => {
                         <Box
                             display='flex'
                             flexDirection='row'
-                            justifyItems='center'
+                            justifyContent='center'
                             gap='10px'
+                            minWidth='100%'
                             maxHeight='90%'
                             pb={-2}
                         >

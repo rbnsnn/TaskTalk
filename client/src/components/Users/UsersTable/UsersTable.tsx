@@ -7,6 +7,8 @@ import {
     TableHead,
     TableBody,
     TablePagination,
+    Slide,
+    Box,
 } from '@mui/material'
 import UserRow from './UserRow'
 import UsersTableTitle from './UsersTableTitle'
@@ -32,52 +34,60 @@ const UsersTable: React.FC<Props> = ({ data, handleOpen, handleUpdate }) => {
     }
 
     return (
-        <>
-            <TableContainer
-                sx={{
-                    margin: '0 auto',
-                    maxWidth: { xs: '95%', sm: '100%', xl: '85%' },
-                }}
-            >
-                <UsersTableTitle handleOpen={handleOpen} />
-                <Table
-                    size='small'
-                    stickyHeader
+        <Slide
+            direction='down'
+            in={true}
+        >
+            <Box>
+                <TableContainer
+                    sx={{
+                        margin: '0 auto',
+                        maxWidth: { xs: '95%', sm: '100%', xl: '85%' },
+                    }}
                 >
-                    <TableHead>
-                        <TableRow>
-                            <TableCell />
-                            <TableCell>Username</TableCell>
-                            <TableCell align='right'>User ID</TableCell>
-                            <TableCell align='right'>Role</TableCell>
-                            <TableCell align='right'>Email</TableCell>
-                            <TableCell align='right'>Tasks</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {data
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((user: UserData) => (
-                                <UserRow
-                                    key={user.username}
-                                    user={user}
-                                    handleUpdate={handleUpdate}
-                                />
-                            ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                    <UsersTableTitle handleOpen={handleOpen} />
+                    <Table
+                        size='small'
+                        stickyHeader
+                    >
+                        <TableHead>
+                            <TableRow>
+                                <TableCell />
+                                <TableCell>Username</TableCell>
+                                <TableCell align='right'>User ID</TableCell>
+                                <TableCell align='right'>Role</TableCell>
+                                <TableCell align='right'>Email</TableCell>
+                                <TableCell align='right'>Tasks</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {data
+                                .slice(
+                                    page * rowsPerPage,
+                                    page * rowsPerPage + rowsPerPage
+                                )
+                                .map((user: UserData) => (
+                                    <UserRow
+                                        key={user.username}
+                                        user={user}
+                                        handleUpdate={handleUpdate}
+                                    />
+                                ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
 
-            <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component='div'
-                count={data.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-        </>
+                <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    component='div'
+                    count={data.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+            </Box>
+        </Slide>
     )
 }
 

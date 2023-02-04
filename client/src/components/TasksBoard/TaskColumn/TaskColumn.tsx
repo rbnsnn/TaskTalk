@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Card, CardContent, Divider } from '@mui/material'
+import { Card, CardContent, Divider, Slide, Typography } from '@mui/material'
 import ColumnTitle from './ColumnTitle'
 import TaskRow from '../TaskRow/TaskRow'
 import { useDrop } from 'react-dnd'
@@ -41,39 +41,63 @@ const TaskColumn: React.FC<Props> = ({ data, onDrop, columns }) => {
             canDrop: !!monitor.canDrop(),
         }),
     }))
+
     return (
-        <Card
-            ref={drop}
-            elevation={isOver && canDrop ? 12 : 2}
-            sx={{
-                width: 100 / columns + '%',
-            }}
+        <Slide
+            direction='down'
+            in={true}
         >
-            <ColumnTitle
-                name={data.name}
-                columnId={data.columnId}
-                count={data.tasks.length}
-                deleteDialogOpen={handleDeleteDialogOpen}
-                menuOpen={menuOpen}
-                handleMenuOpen={handleMenuOpen}
-                handleMenuClose={handleMenuClose}
-            />
-            <Divider />
-            <CardContent>
-                {data.tasks.map((task: any) => (
-                    <TaskRow
-                        key={task.taskId}
-                        task={task}
-                    />
-                ))}
-            </CardContent>
-            <DeleteColumnDialog
-                open={deleteDialogOpen}
-                close={handleDeleteDialogClose}
-                name={data.name}
-                columnId={data.columnId}
-            />
-        </Card>
+            <Card
+                ref={drop}
+                elevation={isOver && canDrop ? 12 : 2}
+                sx={{
+                    width: 100 / columns + '%',
+                    maxWidth: 600,
+                    height: 'max-content',
+                }}
+            >
+                <ColumnTitle
+                    name={data.name}
+                    columnId={data.columnId}
+                    count={data.tasks.length}
+                    deleteDialogOpen={handleDeleteDialogOpen}
+                    menuOpen={menuOpen}
+                    handleMenuOpen={handleMenuOpen}
+                    handleMenuClose={handleMenuClose}
+                />
+                <Divider />
+                <CardContent
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        maxHeight: '80vh',
+                        overflow: 'auto',
+                    }}
+                >
+                    {!data.tasks.length && (
+                        <Typography
+                            margin={3}
+                            color='text.disabled'
+                        >
+                            Drop task here...
+                        </Typography>
+                    )}
+                    {data.tasks.map((task: any) => (
+                        <TaskRow
+                            key={task.taskId}
+                            task={task}
+                        />
+                    ))}
+                </CardContent>
+                <DeleteColumnDialog
+                    open={deleteDialogOpen}
+                    close={handleDeleteDialogClose}
+                    name={data.name}
+                    columnId={data.columnId}
+                />
+            </Card>
+        </Slide>
     )
 }
 

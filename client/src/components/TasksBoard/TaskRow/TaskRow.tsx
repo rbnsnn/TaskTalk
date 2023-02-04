@@ -39,6 +39,7 @@ const TaskRow: React.FC<Props> = ({ task }) => {
                 justifyContent: 'space-between',
                 cursor: 'grab',
                 borderTop: `5px solid ${priorityColor}`,
+                width: '100%',
             }}
         >
             <Box width='100%'>
