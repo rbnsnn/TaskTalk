@@ -1,39 +1,58 @@
 import React, { useRef } from 'react'
 import { Box, Paper, Typography } from '@mui/material'
+import type { XYCoord } from 'dnd-core'
 import { useDrag, useDrop } from 'react-dnd'
 import TaskLabel from './TaskLabel'
 import TaskTitle from './TaskTitle'
 import { setPriorityColor } from './setPriorityColor'
 
 interface Props {
+    index: number
     task: any
+    handleMove: (
+        hoverIndex: any,
+        dragIndex: number,
+        item: any,
+        hoverColumn: string
+    ) => void
+    column: string
 }
 
-const TaskRow: React.FC<Props> = ({ task }) => {
-    const rowRef = useRef<HTMLDivElement>(null)
-    const [, drop] = useDrop({
-        accept: 'Our first type',
+const TaskRow: React.FC<Props> = ({ index, task, handleMove, column }) => {
+    const ref = useRef<HTMLDivElement>(null)
+    const [{ handlerId }, drop] = useDrop({
+        accept: 'task',
+        collect(monitor) {
+            return {
+                handlerId: monitor.getHandlerId(),
+            }
+        },
         hover(item: any, monitor) {
-            if (!rowRef.current) {
+            if (!ref.current) {
                 return
             }
             const dragIndex = item.index
-            const hoverIndex = task.id
+            const hoverIndex = index
+            const hoverColumn = column
+
             // Don't replace items with themselves
-            if (dragIndex === hoverIndex) {
-                return
-            }
+
             // Determine rectangle on screen
-            const hoverBoundingRect = rowRef.current?.getBoundingClientRect()
+            const hoverBoundingRect = ref.current?.getBoundingClientRect()
+
             // Get vertical middle
             const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+
             // Determine mouse position
             const clientOffset = monitor.getClientOffset()
+
             // Get pixels to the top
-            const hoverClientY = clientOffset!.y - hoverBoundingRect.top
+            const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top
+
             // Only perform the move when the mouse has crossed half of the items height
             // When dragging downwards, only move when the cursor is below 50%
             // When dragging upwards, only move when the cursor is above 50%
+
             // Dragging downwards
             if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
                 return
@@ -42,8 +61,11 @@ const TaskRow: React.FC<Props> = ({ task }) => {
             if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
                 return
             }
+            handleMove(hoverIndex, dragIndex, item, hoverColumn)
             // Time to actually perform the action
-            // moveCardHandler(dragIndex, hoverIndex)
+
+            // console.log(hoverColumn)
+
             // Note: we're mutating the monitor item here!
             // Generally it's better to avoid mutations,
             // but it's good here for the sake of performance
@@ -70,10 +92,10 @@ const TaskRow: React.FC<Props> = ({ task }) => {
     )
 
     const priorityColor = setPriorityColor(task.priority)
-
+    drag(drop(ref))
     return (
         <Paper
-            ref={drag}
+            ref={ref}
             elevation={6}
             sx={{
                 mt: 1,

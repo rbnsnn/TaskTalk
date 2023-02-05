@@ -10,9 +10,15 @@ interface Props {
     data: any
     columns: number
     onDrop: (data: any, name: string, item: any) => void
+    handleMove: (
+        hoverIndex: any,
+        dragIndex: number,
+        item: any,
+        hoverColumn: string
+    ) => void
 }
 
-const TaskColumn: React.FC<Props> = ({ data, onDrop, columns }) => {
+const TaskColumn: React.FC<Props> = ({ data, onDrop, columns, handleMove }) => {
     const [menuOpen, setMenuOpen] = useState<null | HTMLElement>(null)
     const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
         setMenuOpen(event.currentTarget)
@@ -85,16 +91,19 @@ const TaskColumn: React.FC<Props> = ({ data, onDrop, columns }) => {
                         Drop task here...
                     </Typography>
                 )}
-                {data.tasks.map((task: any) => (
+                {data.tasks.map((task: any, index: number) => (
                     <TaskRow
+                        index={index}
                         key={task.taskId}
                         task={task}
+                        handleMove={handleMove}
+                        column={task.assignedColumn}
                     />
                 ))}
             </CardContent>
-            <Collapse in={isActive && !isOrigin}>
-                <Box height='200px'></Box>
-            </Collapse>
+            {/* <Collapse in={isActive && !isOrigin}>
+                <Box height='50px'></Box>
+            </Collapse> */}
             <DeleteColumnDialog
                 open={deleteDialogOpen}
                 close={handleDeleteDialogClose}

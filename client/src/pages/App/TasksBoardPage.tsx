@@ -39,6 +39,31 @@ const TasksBoard: React.FC = () => {
         }
     }
 
+    const handleMove = (
+        hoverIndex: any,
+        dragIndex: number,
+        item: any,
+        hoverColumn: string
+    ) => {
+        setData((prevState) => {
+            const coppiedStateArray = prevState.map((column) => {
+                if (column.columnId === item.assignedColumn) {
+                    const prevItem = column.tasks.splice(hoverIndex, 1, item)
+                    column.tasks.splice(dragIndex, 1, prevItem[0])
+                    return column
+                } else {
+                    return column
+                }
+            })
+            // remove item by "hoverIndex" and put "dragItem" instead
+
+            // remove item by "dragIndex" and put "prevItem" instead
+            // coppiedStateArray.splice(dragIndex, 1, prevItem[0])
+            // console.log(coppiedStateArray)
+            return coppiedStateArray
+        })
+    }
+
     return (
         <Slide
             direction='down'
@@ -69,6 +94,7 @@ const TasksBoard: React.FC = () => {
                                         data={column}
                                         onDrop={handleDrop}
                                         columns={data.length}
+                                        handleMove={handleMove}
                                     />
                                 ))}
                             </Box>
