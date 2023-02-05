@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, Slide } from '@mui/material'
 import React, { useState, useEffect, useContext } from 'react'
 import TaskColumn from '../../components/TasksBoard/TaskColumn/TaskColumn'
 import AddTask from '../../components/TasksBoard/AddTask/AddTask'
@@ -40,46 +40,51 @@ const TasksBoard: React.FC = () => {
     }
 
     return (
-        <Box
-            width='100%'
-            height='100%'
+        <Slide
+            direction='down'
+            in={true}
         >
-            {!loading && (
-                <>
-                    <AddColumn />
-                    <AddTask data={data} />
+            <Box
+                width='100%'
+                height='100%'
+            >
+                {!loading && (
+                    <>
+                        <AddColumn />
+                        <AddTask data={data} />
 
-                    {data.length ? (
-                        <Box
-                            display='flex'
-                            flexDirection='row'
-                            justifyContent='center'
-                            gap='10px'
-                            minWidth='100%'
-                            maxHeight='90%'
-                            pb={-2}
-                        >
-                            {data.map((column) => (
-                                <TaskColumn
-                                    key={column.columnId}
-                                    data={column}
-                                    onDrop={handleDrop}
-                                    columns={data.length}
-                                />
-                            ))}
-                        </Box>
-                    ) : (
-                        <Typography
-                            align='center'
-                            variant='h4'
-                        >
-                            No tasks found!
-                        </Typography>
-                    )}
-                </>
-            )}
-            {loading && <LoadingPage />}
-        </Box>
+                        {data.length ? (
+                            <Box
+                                display='flex'
+                                flexDirection='row'
+                                justifyContent='center'
+                                gap='10px'
+                                minWidth='100%'
+                                maxHeight='90%'
+                                pb={-2}
+                            >
+                                {data.map((column) => (
+                                    <TaskColumn
+                                        key={column.columnId}
+                                        data={column}
+                                        onDrop={handleDrop}
+                                        columns={data.length}
+                                    />
+                                ))}
+                            </Box>
+                        ) : (
+                            <Typography
+                                align='center'
+                                variant='h4'
+                            >
+                                No tasks found!
+                            </Typography>
+                        )}
+                    </>
+                )}
+                {loading && <LoadingPage />}
+            </Box>
+        </Slide>
     )
 }
 
