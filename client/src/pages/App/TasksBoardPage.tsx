@@ -1,4 +1,5 @@
 import { Box, Typography, Slide } from '@mui/material'
+import update from 'immutability-helper'
 import React, { useState, useEffect, useContext } from 'react'
 import TaskColumn from '../../components/TasksBoard/TaskColumn/TaskColumn'
 import AddTask from '../../components/TasksBoard/AddTask/AddTask'
@@ -47,10 +48,16 @@ const TasksBoard: React.FC = () => {
     ) => {
         setData((prevState) => {
             const coppiedStateArray = prevState.map((column) => {
-                if (column.columnId === item.assignedColumn) {
+                if (hoverColumn === item.assignedColumn) {
                     const prevItem = column.tasks.splice(hoverIndex, 1, item)
+
+                    // remove item by "dragIndex" and put "prevItem" instead
                     column.tasks.splice(dragIndex, 1, prevItem[0])
+                    console.log('up')
                     return column
+                    // } else if (column.columnId === item.assignedColumn) {
+                    //     column.tasks.splice(hoverIndex, 1)
+                    //     return column
                 } else {
                     return column
                 }
