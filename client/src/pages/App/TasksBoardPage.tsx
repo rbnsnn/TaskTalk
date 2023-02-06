@@ -1,6 +1,6 @@
 import { Box, Typography, Slide } from '@mui/material'
-import update from 'immutability-helper'
 import React, { useState, useEffect, useContext } from 'react'
+import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import TaskColumn from '../../components/TasksBoard/TaskColumn/TaskColumn'
 import AddTask from '../../components/TasksBoard/AddTask/AddTask'
 import { ColumnData } from '../../types/column-data.type'
@@ -12,13 +12,13 @@ import LoadingPage from '../LoadingPage'
 
 const TasksBoard: React.FC = () => {
     const socket: any = useContext(SocketContext)
-    const [data, setData] = useState<ColumnData[]>([])
+    const [columns, setColumns] = useState<ColumnData[]>([])
     const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
         socket.emit(TaskEvent.GetTasks)
-        const dataHandle = (socketData: any) => {
-            setData(socketData)
+        const dataHandle = async (socketData: any) => {
+            await setColumns(socketData)
             setLoading(false)
         }
         socket.on(TaskEvent.SetTasks, dataHandle)
@@ -28,47 +28,40 @@ const TasksBoard: React.FC = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const handleDrop = (target: string, columnName: string, item: TaskData) => {
-        if (item.assignedColumn === target) {
-            return
-        } else {
-            const taskToChange = {
-                taskId: item.taskId,
-                assignedColumn: item.assignedColumn,
-            }
-            socket.emit('task_change', { target, columnName, taskToChange })
-        }
-    }
-
-    const handleMove = (
-        hoverIndex: any,
-        dragIndex: number,
-        item: any,
-        hoverColumn: string
-    ) => {
-        setData((prevState) => {
-            const coppiedStateArray = prevState.map((column) => {
-                if (hoverColumn === item.assignedColumn) {
-                    const prevItem = column.tasks.splice(hoverIndex, 1, item)
-
-                    // remove item by "dragIndex" and put "prevItem" instead
-                    column.tasks.splice(dragIndex, 1, prevItem[0])
-                    console.log('up')
-                    return column
-                    // } else if (column.columnId === item.assignedColumn) {
-                    //     column.tasks.splice(hoverIndex, 1)
-                    //     return column
-                } else {
-                    return column
-                }
+    const onDragEnd = (result: any, columns: any, setColumns: any) => {
+        if (!result.destination) return
+        const { source, destination } = result
+        if (source.droppableId !== destination.droppableId) {
+            const sourceColumn = columns[source.droppableId]
+            const destColumn = columns[destination.droppableId]
+            const sourceItems = [...sourceColumn.items]
+            const destItems = [...destColumn.items]
+            const [removed] = sourceItems.splice(source.index, 1)
+            destItems.splice(destination.index, 0, removed)
+            setColumns({
+                ...columns,
+                [source.droppableId]: {
+                    ...sourceColumn,
+                    items: sourceItems,
+                },
+                [destination.droppableId]: {
+                    ...destColumn,
+                    items: destItems,
+                },
             })
-            // remove item by "hoverIndex" and put "dragItem" instead
-
-            // remove item by "dragIndex" and put "prevItem" instead
-            // coppiedStateArray.splice(dragIndex, 1, prevItem[0])
-            // console.log(coppiedStateArray)
-            return coppiedStateArray
-        })
+        } else {
+            const column = columns[source.droppableId]
+            const copiedItems = [...column.items]
+            const [removed] = copiedItems.splice(source.index, 1)
+            copiedItems.splice(destination.index, 0, removed)
+            setColumns({
+                ...columns,
+                [source.droppableId]: {
+                    ...column,
+                    items: copiedItems,
+                },
+            })
+        }
     }
 
     return (
@@ -76,47 +69,56 @@ const TasksBoard: React.FC = () => {
             direction='down'
             in={true}
         >
-            <Box
-                width='100%'
-                height='100%'
+            <DragDropContext
+                onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
             >
-                {!loading && (
-                    <>
-                        <AddColumn />
-                        <AddTask data={data} />
+                <Box
+                    width='100%'
+                    height='100%'
+                >
+                    {!loading && (
+                        <>
+                            <AddColumn />
+                            <AddTask data={columns} />
 
-                        {data.length ? (
-                            <Box
-                                display='flex'
-                                flexDirection='row'
-                                justifyContent='center'
-                                gap='10px'
-                                minWidth='100%'
-                                maxHeight='90%'
-                                pb={-2}
-                            >
-                                {data.map((column) => (
-                                    <TaskColumn
-                                        key={column.columnId}
-                                        data={column}
-                                        onDrop={handleDrop}
-                                        columns={data.length}
-                                        handleMove={handleMove}
-                                    />
-                                ))}
-                            </Box>
-                        ) : (
-                            <Typography
-                                align='center'
-                                variant='h4'
-                            >
-                                No tasks found!
-                            </Typography>
-                        )}
-                    </>
-                )}
-                {loading && <LoadingPage />}
-            </Box>
+                            {columns.length ? (
+                                <Box
+                                    display='flex'
+                                    flexDirection='row'
+                                    justifyContent='center'
+                                    gap='10px'
+                                    minWidth='100%'
+                                    maxHeight='90%'
+                                    pb={-2}
+                                >
+                                    {columns.map((column) => (
+                                        <Droppable
+                                            key={column.columnId}
+                                            droppableId={column.columnId}
+                                        >
+                                            {(provided, snapshot) => (
+                                                <TaskColumn
+                                                    key={column.columnId}
+                                                    data={column}
+                                                    columns={columns.length}
+                                                />
+                                            )}
+                                        </Droppable>
+                                    ))}
+                                </Box>
+                            ) : (
+                                <Typography
+                                    align='center'
+                                    variant='h4'
+                                >
+                                    No tasks found!
+                                </Typography>
+                            )}
+                        </>
+                    )}
+                    {loading && <LoadingPage />}
+                </Box>
+            </DragDropContext>
         </Slide>
     )
 }

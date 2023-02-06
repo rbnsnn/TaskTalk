@@ -2,23 +2,17 @@ import React, { useState } from 'react'
 import { Card, Box, Collapse, CardContent, Divider, Typography } from '@mui/material'
 import ColumnTitle from './ColumnTitle'
 import TaskRow from '../TaskRow/TaskRow'
-import { useDrop } from 'react-dnd'
+import { Draggable } from 'react-beautiful-dnd'
 import { TaskData } from '../../../types/task-data.type'
 import DeleteColumnDialog from './DeleteColumnDialog'
 
 interface Props {
+    ref?: any
     data: any
     columns: number
-    onDrop: (data: any, name: string, item: any) => void
-    handleMove: (
-        hoverIndex: any,
-        dragIndex: number,
-        item: any,
-        hoverColumn: string
-    ) => void
 }
 
-const TaskColumn: React.FC<Props> = ({ data, onDrop, columns, handleMove }) => {
+const TaskColumn: React.FC<Props> = ({ data, columns }) => {
     const [menuOpen, setMenuOpen] = useState<null | HTMLElement>(null)
     const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
         setMenuOpen(event.currentTarget)
@@ -36,25 +30,9 @@ const TaskColumn: React.FC<Props> = ({ data, onDrop, columns, handleMove }) => {
         setDeleteDialogOpen(false)
     }
 
-    const [{ isActive, isOver, canDrop, isOrigin }, drop] = useDrop(() => ({
-        accept: 'task',
-        drop: (item: TaskData) => {
-            onDrop(data.columnId, data.name, item)
-        },
-        canDrop: (item: TaskData) => data.columnId,
-        collect: (monitor) => ({
-            isOver: !!monitor.isOver(),
-            canDrop: !!monitor.canDrop(),
-            isActive: monitor.canDrop() && monitor.isOver(),
-            isOrigin:
-                monitor.canDrop() && monitor.getItem().assignedColumn === data.columnId,
-        }),
-    }))
-
     return (
         <Card
-            ref={drop}
-            elevation={isOver && canDrop && !isOrigin ? 12 : 2}
+            elevation={2}
             sx={{
                 width: 100 / columns + '%',
                 maxWidth: 600,
@@ -92,13 +70,19 @@ const TaskColumn: React.FC<Props> = ({ data, onDrop, columns, handleMove }) => {
                     </Typography>
                 )}
                 {data.tasks.map((task: any, index: number) => (
-                    <TaskRow
+                    <Draggable
+                        key={task.id}
+                        draggableId={task.id}
                         index={index}
-                        key={task.taskId}
-                        task={task}
-                        handleMove={handleMove}
-                        column={task.assignedColumn}
-                    />
+                    >
+                        {(provided) => (
+                            <TaskRow
+                                index={index}
+                                key={task.taskId}
+                                task={task}
+                            />
+                        )}
+                    </Draggable>
                 ))}
             </CardContent>
             {/* <Collapse in={isActive && !isOrigin}>
