@@ -30,61 +30,58 @@ const TaskColumn: React.FC<Props> = ({ data, columns }) => {
     }
 
     return (
-        <Droppable
-            key={data.columnId}
-            droppableId={data.columnId}
+        <Card
+            elevation={2}
+            sx={{
+                width: 100 / columns + '%',
+                maxWidth: 600,
+                height: 'max-content',
+            }}
         >
-            {(provided, snapshot) => (
-                <Box
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                    sx={{
-                        width: 100 / columns + '%',
-                        maxWidth: 600,
-                        height: 'max-content',
-                    }}
-                >
-                    <Card elevation={2}>
-                        <ColumnTitle
-                            name={data.name}
-                            columnId={data.columnId}
-                            count={data.tasks.length}
-                            deleteDialogOpen={handleDeleteDialogOpen}
-                            menuOpen={menuOpen}
-                            handleMenuOpen={handleMenuOpen}
-                            handleMenuClose={handleMenuClose}
-                        />
-                        <Divider />
-
-                        <CardContent
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                maxHeight: '77vh',
-                                overflow: 'auto',
-                            }}
-                        >
-                            {data.tasks.map((task: any, index: number) => (
-                                <TaskRow
-                                    index={index}
-                                    key={task.taskId}
-                                    task={task}
-                                />
-                            ))}
-                            {provided.placeholder}
-                        </CardContent>
-
-                        <DeleteColumnDialog
-                            open={deleteDialogOpen}
-                            close={handleDeleteDialogClose}
-                            name={data.name}
-                            columnId={data.columnId}
-                        />
-                    </Card>
-                </Box>
-            )}
-        </Droppable>
+            <ColumnTitle
+                name={data.name}
+                columnId={data.columnId}
+                count={data.tasks.length}
+                deleteDialogOpen={handleDeleteDialogOpen}
+                menuOpen={menuOpen}
+                handleMenuOpen={handleMenuOpen}
+                handleMenuClose={handleMenuClose}
+            />
+            <Divider />
+            <Droppable
+                key={data.columnId}
+                droppableId={data.columnId}
+            >
+                {(provided, snapshot) => (
+                    <CardContent
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            maxHeight: '77vh',
+                            overflow: 'auto',
+                        }}
+                    >
+                        {data.tasks.map((task: any, index: number) => (
+                            <TaskRow
+                                index={index}
+                                key={task.taskId}
+                                task={task}
+                            />
+                        ))}
+                        {provided.placeholder}
+                    </CardContent>
+                )}
+            </Droppable>
+            <DeleteColumnDialog
+                open={deleteDialogOpen}
+                close={handleDeleteDialogClose}
+                name={data.name}
+                columnId={data.columnId}
+            />
+        </Card>
     )
 }
 
