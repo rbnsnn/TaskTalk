@@ -8,9 +8,9 @@ import { TaskEvent } from '../../types/task-event-enum.type'
 import { SocketContext } from '../../helpers/socket/socket-context'
 import AddColumn from '../../components/TasksBoard/TaskColumn/AddColumn'
 import LoadingPage from '../LoadingPage'
+import { onDragEnd } from '../../components/TasksBoard/onDragEnd'
 
 const TasksBoard: React.FC = () => {
-    console.log('render')
     const socket: any = useContext(SocketContext)
     const [columns, setColumns] = useState<ColumnData[]>([])
     const [loading, setLoading] = useState<boolean>(true)
@@ -28,72 +28,10 @@ const TasksBoard: React.FC = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const onDragEnd = (result: any, columns: ColumnData[], setColumns: any) => {
-        if (!result.destination) return
-        const { source, destination, draggableId } = result
-        if (source.droppableId !== destination.droppableId) {
-            const sourceColumn = columns.find(
-                (column) => column.columnId === source.droppableId
-            )
-            const destColumn = columns.find(
-                (column) => column.columnId === destination.droppableId
-            )
-
-            if (sourceColumn && destColumn) {
-                const sourceItems = [...sourceColumn.tasks]
-                const destItems = [...destColumn.tasks]
-
-                const [removed] = sourceItems.splice(source.index, 1)
-                destItems.splice(destination.index, 0, removed)
-
-                const newColumns = columns.map((column) => {
-                    if (column.columnId === source.droppableId) {
-                        return {
-                            ...sourceColumn,
-                            tasks: [...sourceItems],
-                        }
-                    } else if (column.columnId === destination.droppableId) {
-                        return {
-                            ...destColumn,
-                            tasks: [...destItems],
-                        }
-                    } else
-                        return {
-                            ...column,
-                        }
-                })
-
-                socket.emit('task_change', {
-                    newColumns,
-                    taskToChange: {
-                        taskId: draggableId,
-                        assignedColumn: destColumn.columnId,
-                        status: destColumn.name,
-                    },
-                })
-                setColumns(newColumns)
-            }
-        } else {
-            const column = columns.find(
-                (column) => column.columnId === source.droppableId
-            )
-            if (column) {
-                const copiedItems = [...column.tasks]
-                const [removed] = copiedItems.splice(source.index, 1)
-                copiedItems.splice(destination.index, 0, removed)
-
-                const newColumn = columns.map((column) => {
-                    if (column.columnId === source.droppableId) {
-                        return { ...column, tasks: copiedItems }
-                    } else return column
-                })
-                setColumns(newColumn)
-            }
-        }
-    }
-
     return (
-        <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
+        <DragDropContext
+            onDragEnd={(result) => onDragEnd(result, columns, setColumns, socket)}
+        >
             <Slide
                 direction='down'
                 in={true}

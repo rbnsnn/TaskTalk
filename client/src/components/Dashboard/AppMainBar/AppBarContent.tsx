@@ -38,7 +38,7 @@ const AppBarContent: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) => {
                 >
                     <Badge
                         badgeContent={1}
-                        color='primary'
+                        color='secondary'
                     >
                         <MailIcon />
                     </Badge>
@@ -49,8 +49,8 @@ const AppBarContent: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) => {
                     color='inherit'
                 >
                     <Badge
-                        badgeContent={0}
-                        color='primary'
+                        badgeContent={1}
+                        color='secondary'
                     >
                         <NotificationsIcon />
                     </Badge>

@@ -6,4 +6,5 @@ export enum TaskEvent {
     GetTasks = 'get_tasks',
     SetTasks = 'set_tasks',
     DeleteTask = 'delete_task',
+    TaskChange = 'task_change',
 }

@@ -15,6 +15,12 @@ export const lightTheme = createTheme({
             light: '#33a095',
             contrastText: '#fff',
         },
+        secondary: {
+            light: '#ff7961',
+            main: '#f44336',
+            dark: '#ba000d',
+            contrastText: '#fff',
+        },
     },
     components: {
         MuiLink: {

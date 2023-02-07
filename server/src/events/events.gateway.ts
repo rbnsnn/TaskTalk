@@ -113,7 +113,6 @@ export class EventsGateway implements OnGatewayConnection {
         const event = 'set_tasks'
         const { newColumns, taskToChange } = changeTaskDto
         const { companyId } = client.handshake.auth
-        const { taskId, assignedColumn, status } = taskToChange
 
         const columnsAfterChange = newColumns.map((column) => {
             return {
@@ -122,7 +121,11 @@ export class EventsGateway implements OnGatewayConnection {
             }
         })
         await this.companiesService.changeTaskInColumns(columnsAfterChange, companyId)
-        await this.tasksService.updateTask(taskId, status, assignedColumn)
+
+        if (taskToChange) {
+            const { taskId, assignedColumn, status } = taskToChange
+            await this.tasksService.updateTask(taskId, status, assignedColumn)
+        }
 
         const data = await this.tasksService.getAllTasks(companyId)
         this.server.to(companyId).emit(event, data)
