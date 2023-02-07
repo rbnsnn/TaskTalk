@@ -17,6 +17,7 @@ import { TaskEvent } from '../../../types/task-event-enum.type'
 import { SocketContext } from '../../../helpers/socket/socket-context'
 
 interface Props {
+    dragHandle: any
     name: string
     columnId: string
     count: number
@@ -27,6 +28,7 @@ interface Props {
 }
 
 const ColumnTitle: React.FC<Props> = ({
+    dragHandle,
     name,
     count,
     columnId,
@@ -97,6 +99,7 @@ const ColumnTitle: React.FC<Props> = ({
 
     return (
         <Box
+            {...dragHandle}
             display='flex'
             justifyContent='space-between'
             alignItems='center'

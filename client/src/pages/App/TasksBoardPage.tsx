@@ -1,6 +1,6 @@
 import { Box, Typography, Slide } from '@mui/material'
 import React, { useState, useEffect, useContext } from 'react'
-import { DragDropContext } from 'react-beautiful-dnd'
+import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import TaskColumn from '../../components/TasksBoard/TaskColumn/TaskColumn'
 import AddTask from '../../components/TasksBoard/AddTask/AddTask'
 import { ColumnData } from '../../types/column-data.type'
@@ -32,50 +32,61 @@ const TasksBoard: React.FC = () => {
         <DragDropContext
             onDragEnd={(result) => onDragEnd(result, columns, setColumns, socket)}
         >
-            <Slide
+            {/* <Slide
                 direction='down'
                 in={true}
+            > */}
+            <Droppable
+                droppableId='board'
+                type='COLUMN'
+                direction='horizontal'
             >
-                <Box
-                    width='100%'
-                    height='100%'
-                >
-                    {!loading && (
-                        <>
-                            <AddColumn />
-                            <AddTask data={columns} />
+                {(provided) => (
+                    <Box
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                        width='100%'
+                        height='100%'
+                    >
+                        {!loading && (
+                            <>
+                                <AddColumn />
+                                <AddTask data={columns} />
 
-                            {columns.length ? (
-                                <Box
-                                    display='flex'
-                                    flexDirection='row'
-                                    justifyContent='center'
-                                    gap='10px'
-                                    minWidth='100%'
-                                    maxHeight='90%'
-                                    pb={-2}
-                                >
-                                    {columns.map((column) => (
-                                        <TaskColumn
-                                            key={column.columnId}
-                                            data={column}
-                                            columns={columns.length}
-                                        />
-                                    ))}
-                                </Box>
-                            ) : (
-                                <Typography
-                                    align='center'
-                                    variant='h4'
-                                >
-                                    No tasks found!
-                                </Typography>
-                            )}
-                        </>
-                    )}
-                    {loading && <LoadingPage />}
-                </Box>
-            </Slide>
+                                {columns.length ? (
+                                    <Box
+                                        display='flex'
+                                        flexDirection='row'
+                                        justifyContent='center'
+                                        gap='10px'
+                                        minWidth='100%'
+                                        maxHeight='90%'
+                                        pb={-2}
+                                    >
+                                        {columns.map((column, index) => (
+                                            <TaskColumn
+                                                key={column.columnId}
+                                                data={column}
+                                                index={index}
+                                                columns={columns.length}
+                                            />
+                                        ))}
+                                    </Box>
+                                ) : (
+                                    <Typography
+                                        align='center'
+                                        variant='h4'
+                                    >
+                                        No tasks found!
+                                    </Typography>
+                                )}
+                            </>
+                        )}
+                        {loading && <LoadingPage />}
+                    </Box>
+                )}
+            </Droppable>
+            {/* </Slide> */}
         </DragDropContext>
     )
 }
