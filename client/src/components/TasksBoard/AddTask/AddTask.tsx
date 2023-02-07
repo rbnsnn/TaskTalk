@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Button } from '@mui/material'
 import AddTaskDialog from './AddTaskDialog'
+import AddTaskIcon from '@mui/icons-material/AddTask'
 import { ColumnData } from '../../../types/column-data.type'
 
 interface props {
@@ -30,6 +31,7 @@ const AddTask: React.FC<props> = ({ data }) => {
                     mt: 2,
                 }}
             >
+                <AddTaskIcon sx={{ mr: 2 }} />
                 Add Task
             </Button>
             {addTaskOpen && (

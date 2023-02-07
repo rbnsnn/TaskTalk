@@ -24,8 +24,6 @@ const AppContent: React.FC<Props> = ({ children }) => {
                 flexDirection: 'column',
                 flexGrow: '1',
                 minHeight: '100vh',
-                maxWidth: '100vw',
-                padding: { sm: '20px' },
                 paddingTop: { xs: '20px' },
             }}
         >

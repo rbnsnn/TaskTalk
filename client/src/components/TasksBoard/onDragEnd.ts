@@ -8,7 +8,8 @@ export const onDragEnd = (
     socket: any
 ) => {
     if (!result.destination) return
-    const { source, destination, draggableId } = result
+    const { source, destination, draggableId, type } = result
+
     if (source.droppableId !== destination.droppableId) {
         const sourceColumn = columns.find(
             (column) => column.columnId === source.droppableId
@@ -20,8 +21,8 @@ export const onDragEnd = (
         if (sourceColumn && destColumn) {
             const sourceItems = [...sourceColumn.tasks]
             const destItems = [...destColumn.tasks]
-
             const [removed] = sourceItems.splice(source.index, 1)
+
             destItems.splice(destination.index, 0, removed)
 
             const newColumns = columns.map((column) => {
@@ -52,11 +53,22 @@ export const onDragEnd = (
 
             setColumns(newColumns)
         }
+    } else if (type === 'COLUMN') {
+        const newColumns = [...columns]
+        const [removed] = newColumns.splice(source.index, 1)
+
+        newColumns.splice(destination.index, 0, removed)
+
+        // const newColumns = orderedColumns.map(column)
+        socket.emit(TaskEvent.TaskChange, { newColumns })
+
+        setColumns(newColumns)
     } else {
         const column = columns.find((column) => column.columnId === source.droppableId)
         if (column) {
             const copiedItems = [...column.tasks]
             const [removed] = copiedItems.splice(source.index, 1)
+
             copiedItems.splice(destination.index, 0, removed)
 
             const newColumns = columns.map((column) => {

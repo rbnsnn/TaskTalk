@@ -42,7 +42,9 @@ const TaskColumn: React.FC<Props> = ({ data, index, columns }) => {
                     {...provided.draggableProps}
                     sx={{
                         width: 100 / columns + '%',
-                        maxWidth: 600,
+                        maxWidth: '50%',
+                        minWidth: 350,
+                        margin: '20px 0px 0px 40px',
                         height: 'max-content',
                     }}
                 >

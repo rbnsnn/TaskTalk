@@ -32,61 +32,61 @@ const TasksBoard: React.FC = () => {
         <DragDropContext
             onDragEnd={(result) => onDragEnd(result, columns, setColumns, socket)}
         >
-            {/* <Slide
+            <Slide
                 direction='down'
                 in={true}
-            > */}
-            <Droppable
-                droppableId='board'
-                type='COLUMN'
-                direction='horizontal'
             >
-                {(provided) => (
-                    <Box
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        width='100%'
-                        height='100%'
-                    >
-                        {!loading && (
-                            <>
-                                <AddColumn />
-                                <AddTask data={columns} />
+                <Box
+                    width='100%'
+                    height='100%'
+                >
+                    {!loading && (
+                        <>
+                            <AddColumn />
+                            <AddTask data={columns} />
 
-                                {columns.length ? (
-                                    <Box
-                                        display='flex'
-                                        flexDirection='row'
-                                        justifyContent='center'
-                                        gap='10px'
-                                        minWidth='100%'
-                                        maxHeight='90%'
-                                        pb={-2}
-                                    >
-                                        {columns.map((column, index) => (
-                                            <TaskColumn
-                                                key={column.columnId}
-                                                data={column}
-                                                index={index}
-                                                columns={columns.length}
-                                            />
-                                        ))}
-                                    </Box>
-                                ) : (
-                                    <Typography
-                                        align='center'
-                                        variant='h4'
-                                    >
-                                        No tasks found!
-                                    </Typography>
-                                )}
-                            </>
-                        )}
-                        {loading && <LoadingPage />}
-                    </Box>
-                )}
-            </Droppable>
-            {/* </Slide> */}
+                            {columns.length ? (
+                                <Droppable
+                                    droppableId='board'
+                                    type='COLUMN'
+                                    direction='horizontal'
+                                >
+                                    {(provided) => (
+                                        <Box
+                                            ref={provided.innerRef}
+                                            {...provided.droppableProps}
+                                            display='flex'
+                                            flexDirection='row'
+                                            justifyContent='flex-start'
+                                            maxWidth='100%'
+                                            maxHeight='90%'
+                                            pb={-2}
+                                        >
+                                            {columns.map((column, index) => (
+                                                <TaskColumn
+                                                    key={column.columnId}
+                                                    data={column}
+                                                    index={index}
+                                                    columns={columns.length}
+                                                />
+                                            ))}
+                                            {provided.placeholder}
+                                        </Box>
+                                    )}
+                                </Droppable>
+                            ) : (
+                                <Typography
+                                    align='center'
+                                    variant='h4'
+                                >
+                                    No tasks found!
+                                </Typography>
+                            )}
+                        </>
+                    )}
+                    {loading && <LoadingPage />}
+                </Box>
+            </Slide>
         </DragDropContext>
     )
 }

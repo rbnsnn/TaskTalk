@@ -9,12 +9,27 @@ import {
     LinearProgress,
     Snackbar,
     Alert,
+    styled,
 } from '@mui/material'
 import DoneIcon from '@mui/icons-material/Done'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import ColumnTitleMenu from './ColumnTitleMenu'
 import { TaskEvent } from '../../../types/task-event-enum.type'
 import { SocketContext } from '../../../helpers/socket/socket-context'
+
+const Testing = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    padding: '0 20px',
+    ':hover': {
+        boxShadow:
+            theme.palette.mode === 'dark'
+                ? 'inset 0 0 0 10em rgba(255, 255, 255, 0.15)'
+                : 'inset 0 0 0 10em rgba(0, 0, 0, 0.15)',
+    },
+}))
 
 interface Props {
     dragHandle: any
@@ -98,15 +113,7 @@ const ColumnTitle: React.FC<Props> = ({
     }, [success, socket, handleReset, columnId])
 
     return (
-        <Box
-            {...dragHandle}
-            display='flex'
-            justifyContent='space-between'
-            alignItems='center'
-            width='100%'
-            pr={2}
-            pl={2}
-        >
+        <Testing {...dragHandle}>
             {!editing && <Typography fontWeight='bold'>{name}</Typography>}
             {editing && (
                 <TextField
@@ -184,7 +191,7 @@ const ColumnTitle: React.FC<Props> = ({
                     Column already exists!
                 </Alert>
             </Snackbar>
-        </Box>
+        </Testing>
     )
 }
 

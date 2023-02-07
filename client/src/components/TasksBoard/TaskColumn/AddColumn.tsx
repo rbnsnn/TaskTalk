@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Button } from '@mui/material'
-
+import PostAddIcon from '@mui/icons-material/PostAdd'
 import AddColumnDialog from './AddColumnDialog'
 
-const AddColumn = () => {
+const AddColumn: React.FC = () => {
     const [addColumnOpen, setAddColumnOpen] = useState<boolean>(false)
 
     const handleClose = (): void => {
@@ -24,6 +24,7 @@ const AddColumn = () => {
                     mt: 2,
                 }}
             >
+                <PostAddIcon sx={{ mr: 2 }} />
                 Add Column
             </Button>
             <AddColumnDialog

@@ -1,9 +1,20 @@
 import React from 'react'
-import { Box, Paper, Typography } from '@mui/material'
+import { Box, Paper, Typography, styled } from '@mui/material'
 import { Draggable } from 'react-beautiful-dnd'
 import TaskLabel from './TaskLabel'
 import TaskTitle from './TaskTitle'
 import { setPriorityColor } from './setPriorityColor'
+
+const TaskRowContainer = styled(Box)<{ priority: string }>(({ theme, priority }) => ({
+    margin: '10px 0',
+    height: '10%',
+    opacity: 1,
+    display: 'flex',
+    justifyContent: 'space-between',
+    cursor: 'grab',
+    borderTop: `5px solid ${priority}`,
+    width: '95%',
+}))
 
 interface Props {
     index: number
@@ -18,26 +29,16 @@ const TaskRow: React.FC<Props> = ({ index, task }) => {
             draggableId={task.taskId}
             index={index}
         >
-            {(provided) => (
-                <Box
-                    sx={{
-                        mt: 1,
-                        mb: 1,
-                        height: '10%',
-                        opacity: 1,
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        cursor: 'grab',
-                        borderTop: `5px solid ${priorityColor}`,
-                        width: '100%',
-                    }}
+            {(provided, snapshot) => (
+                <TaskRowContainer
+                    priority={priorityColor}
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                 >
                     <Paper
                         sx={{ width: '100%', p: 1 }}
-                        elevation={6}
+                        elevation={snapshot.isDragging ? 12 : 6}
                     >
                         <Box width='100%'>
                             <Box
@@ -77,7 +78,7 @@ const TaskRow: React.FC<Props> = ({ index, task }) => {
                             ))}
                         </Box>
                     </Paper>
-                </Box>
+                </TaskRowContainer>
             )}
         </Draggable>
     )
