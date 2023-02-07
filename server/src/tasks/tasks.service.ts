@@ -21,8 +21,11 @@ export class TasksService {
         const filteredTasks = columns.map((column) => {
             const tasksIds = column.tasks.map((item) => item.taskId)
             const assignedTasks = tasks.filter((task) => tasksIds.includes(task.taskId))
-
-            return { ...column, tasks: assignedTasks }
+            const sortedTasks = [...assignedTasks].sort(
+                (a: any, b: any) =>
+                    tasksIds.indexOf(a.taskId) - tasksIds.indexOf(b.taskId)
+            )
+            return { ...column, tasks: sortedTasks }
         })
 
         return filteredTasks
@@ -54,14 +57,11 @@ export class TasksService {
 
     async updateTask(
         taskId: string,
-        columnName: string,
-        targetColumnId: string
+        status: string,
+        assignedColumn: string
     ): Promise<boolean> {
         try {
-            await this.taskModel.findOneAndUpdate(
-                { taskId },
-                { assignedColumn: targetColumnId, status: columnName }
-            )
+            await this.taskModel.findOneAndUpdate({ taskId }, { assignedColumn, status })
             return true
         } catch (err) {
             return err

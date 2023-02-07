@@ -6,7 +6,6 @@ import { TaskColumn } from 'src/tasks/types/task-column'
 import { CreateCompanyDto } from './dtos/create-company.dto'
 import { Company, CompanyDocument } from './schemas/company.schema'
 import ShortUniqueId from 'short-unique-id'
-import { TaskInterface } from 'src/tasks/types/task.interface'
 
 @Injectable()
 export class CompaniesService {
@@ -35,6 +34,12 @@ export class CompaniesService {
 
     async findOneAndUpdate(companyName: string, payload: object): Promise<boolean> {
         await this.companyModel.findOneAndUpdate({ companyName }, payload)
+
+        return true
+    }
+
+    async findOneAndUpdateById(companyId: string, payload: object): Promise<boolean> {
+        await this.companyModel.findOneAndUpdate({ companyId }, payload)
 
         return true
     }
@@ -148,14 +153,9 @@ export class CompaniesService {
         }
     }
 
-    async changeTaskInColumns(
-        target: string,
-        item: TaskInterface,
-        companyId: string
-    ): Promise<boolean> {
+    async changeTaskInColumns(newColumns: any, companyId: string): Promise<boolean> {
         try {
-            await this.removeTask(item.assignedColumn, companyId, item.taskId)
-            await this.addTask(target, companyId, item.taskId)
+            await this.findOneAndUpdateById(companyId, { taskColumns: newColumns })
 
             return true
         } catch (err) {

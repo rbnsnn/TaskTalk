@@ -111,14 +111,21 @@ export class EventsGateway implements OnGatewayConnection {
         @MessageBody() changeTaskDto: ChangeTaskDto
     ) {
         const event = 'set_tasks'
-        const { target, taskToChange, columnName } = changeTaskDto
+        const { newColumns, taskToChange } = changeTaskDto
         const { companyId } = client.handshake.auth
+        const { taskId, assignedColumn, status } = taskToChange
 
-        await this.companiesService.changeTaskInColumns(target, taskToChange, companyId)
-        await this.tasksService.updateTask(taskToChange.taskId, columnName, target)
+        const columnsAfterChange = newColumns.map((column) => {
+            return {
+                ...column,
+                tasks: column.tasks.map((task) => ({ taskId: task.taskId })),
+            }
+        })
+        await this.companiesService.changeTaskInColumns(columnsAfterChange, companyId)
+        await this.tasksService.updateTask(taskId, status, assignedColumn)
 
         const data = await this.tasksService.getAllTasks(companyId)
-        this.server.in(companyId).emit(event, data)
+        this.server.to(companyId).emit(event, data)
     }
 
     @SubscribeMessage('delete_task')

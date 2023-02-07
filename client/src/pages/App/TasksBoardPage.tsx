@@ -1,16 +1,16 @@
 import { Box, Typography, Slide } from '@mui/material'
 import React, { useState, useEffect, useContext } from 'react'
-import { DragDropContext, Droppable } from 'react-beautiful-dnd'
+import { DragDropContext } from 'react-beautiful-dnd'
 import TaskColumn from '../../components/TasksBoard/TaskColumn/TaskColumn'
 import AddTask from '../../components/TasksBoard/AddTask/AddTask'
 import { ColumnData } from '../../types/column-data.type'
 import { TaskEvent } from '../../types/task-event-enum.type'
 import { SocketContext } from '../../helpers/socket/socket-context'
 import AddColumn from '../../components/TasksBoard/TaskColumn/AddColumn'
-import { TaskData } from '../../types/task-data.type'
 import LoadingPage from '../LoadingPage'
 
 const TasksBoard: React.FC = () => {
+    console.log('render')
     const socket: any = useContext(SocketContext)
     const [columns, setColumns] = useState<ColumnData[]>([])
     const [loading, setLoading] = useState<boolean>(true)
@@ -28,49 +28,75 @@ const TasksBoard: React.FC = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const onDragEnd = (result: any, columns: any, setColumns: any) => {
+    const onDragEnd = (result: any, columns: ColumnData[], setColumns: any) => {
         if (!result.destination) return
-        const { source, destination } = result
+        const { source, destination, draggableId } = result
         if (source.droppableId !== destination.droppableId) {
-            const sourceColumn = columns[source.droppableId]
-            const destColumn = columns[destination.droppableId]
-            const sourceItems = [...sourceColumn.items]
-            const destItems = [...destColumn.items]
-            const [removed] = sourceItems.splice(source.index, 1)
-            destItems.splice(destination.index, 0, removed)
-            setColumns({
-                ...columns,
-                [source.droppableId]: {
-                    ...sourceColumn,
-                    items: sourceItems,
-                },
-                [destination.droppableId]: {
-                    ...destColumn,
-                    items: destItems,
-                },
-            })
+            const sourceColumn = columns.find(
+                (column) => column.columnId === source.droppableId
+            )
+            const destColumn = columns.find(
+                (column) => column.columnId === destination.droppableId
+            )
+
+            if (sourceColumn && destColumn) {
+                const sourceItems = [...sourceColumn.tasks]
+                const destItems = [...destColumn.tasks]
+
+                const [removed] = sourceItems.splice(source.index, 1)
+                destItems.splice(destination.index, 0, removed)
+
+                const newColumns = columns.map((column) => {
+                    if (column.columnId === source.droppableId) {
+                        return {
+                            ...sourceColumn,
+                            tasks: [...sourceItems],
+                        }
+                    } else if (column.columnId === destination.droppableId) {
+                        return {
+                            ...destColumn,
+                            tasks: [...destItems],
+                        }
+                    } else
+                        return {
+                            ...column,
+                        }
+                })
+
+                socket.emit('task_change', {
+                    newColumns,
+                    taskToChange: {
+                        taskId: draggableId,
+                        assignedColumn: destColumn.columnId,
+                        status: destColumn.name,
+                    },
+                })
+                setColumns(newColumns)
+            }
         } else {
-            const column = columns[source.droppableId]
-            const copiedItems = [...column.items]
-            const [removed] = copiedItems.splice(source.index, 1)
-            copiedItems.splice(destination.index, 0, removed)
-            setColumns({
-                ...columns,
-                [source.droppableId]: {
-                    ...column,
-                    items: copiedItems,
-                },
-            })
+            const column = columns.find(
+                (column) => column.columnId === source.droppableId
+            )
+            if (column) {
+                const copiedItems = [...column.tasks]
+                const [removed] = copiedItems.splice(source.index, 1)
+                copiedItems.splice(destination.index, 0, removed)
+
+                const newColumn = columns.map((column) => {
+                    if (column.columnId === source.droppableId) {
+                        return { ...column, tasks: copiedItems }
+                    } else return column
+                })
+                setColumns(newColumn)
+            }
         }
     }
 
     return (
-        <Slide
-            direction='down'
-            in={true}
-        >
-            <DragDropContext
-                onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
+        <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
+            <Slide
+                direction='down'
+                in={true}
             >
                 <Box
                     width='100%'
@@ -92,18 +118,11 @@ const TasksBoard: React.FC = () => {
                                     pb={-2}
                                 >
                                     {columns.map((column) => (
-                                        <Droppable
+                                        <TaskColumn
                                             key={column.columnId}
-                                            droppableId={column.columnId}
-                                        >
-                                            {(provided, snapshot) => (
-                                                <TaskColumn
-                                                    key={column.columnId}
-                                                    data={column}
-                                                    columns={columns.length}
-                                                />
-                                            )}
-                                        </Droppable>
+                                            data={column}
+                                            columns={columns.length}
+                                        />
                                     ))}
                                 </Box>
                             ) : (
@@ -118,8 +137,8 @@ const TasksBoard: React.FC = () => {
                     )}
                     {loading && <LoadingPage />}
                 </Box>
-            </DragDropContext>
-        </Slide>
+            </Slide>
+        </DragDropContext>
     )
 }
 

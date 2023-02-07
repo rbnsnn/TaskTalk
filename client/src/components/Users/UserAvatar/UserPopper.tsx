@@ -3,16 +3,16 @@ import { Fade, Box, styled } from '@mui/material'
 import UserPopperContent from './UserPopperContent'
 import PopperUnstyled from '@mui/base/PopperUnstyled'
 
-const PopperArrow = styled('div')`
-    &::before {
-        content: '';
-        background: #1e1e1e;
-        width: 15px;
-        height: 15px;
-        transform: translate(-50%, -50%) rotate(45deg);
-        position: absolute;
-    }
-`
+const PopperArrow = styled('div')(({ theme }) => ({
+    '&::before': {
+        content: '""',
+        background: theme.palette.mode === 'dark' ? '#1e1e1e' : '#fff',
+        width: '15px',
+        height: '15px',
+        transform: 'translate(-50%, -50%) rotate(45deg)',
+        position: 'absolute',
+    },
+}))
 
 const PopperComponent = styled(PopperUnstyled)`
     &[data-popper-placement^='right'] {
@@ -119,6 +119,7 @@ const UserPopper: React.FC<Props> = ({
                 >
                     <Box>
                         <PopperArrow
+                            sx={{}}
                             className='arrow'
                             ref={setArrowRef}
                         />
