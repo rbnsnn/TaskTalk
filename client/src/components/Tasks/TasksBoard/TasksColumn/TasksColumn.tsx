@@ -1,9 +1,23 @@
 import React, { useState } from 'react'
-import { Card, CardContent, Divider, Box } from '@mui/material'
+import { Card, CardContent, Divider, Box, styled } from '@mui/material'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 import TasksColumnTitle from './TasksColumnTitle'
 import TaskRow from '../TaskRow/TaskRow'
 import TasksDeleteColumnDialog from './TasksColumnDeleteDialog'
+
+const StyledCardContent = styled(CardContent)<{ dragging: string | null | undefined }>(
+    ({ theme, dragging }) => ({
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        maxHeight: '77vh',
+        overflow: 'auto',
+        boxShadow:
+            dragging && theme.palette.mode === 'dark'
+                ? 'inset 0 0 0 20em rgba(255, 255, 255, 0.1)'
+                : 'inset 0 0 0 20em rgba(0, 0, 0, 0.1)',
+    })
+)
 
 interface Props {
     data: any
@@ -56,6 +70,7 @@ const TasksColumn: React.FC<Props> = ({ data, index, columns }) => {
                             menuOpen={menuOpen}
                             handleMenuOpen={handleMenuOpen}
                             handleMenuClose={handleMenuClose}
+                            snapshot={snapshot}
                         />
                         <Divider />
                         <Droppable
@@ -63,16 +78,10 @@ const TasksColumn: React.FC<Props> = ({ data, index, columns }) => {
                             droppableId={data.columnId}
                         >
                             {(provided, snapshot) => (
-                                <CardContent
+                                <StyledCardContent
+                                    dragging={snapshot.draggingOverWith}
                                     ref={provided.innerRef}
                                     {...provided.droppableProps}
-                                    sx={{
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        alignItems: 'center',
-                                        maxHeight: '77vh',
-                                        overflow: 'auto',
-                                    }}
                                 >
                                     {data.tasks.map((task: any, index: number) => (
                                         <TaskRow
@@ -82,7 +91,7 @@ const TasksColumn: React.FC<Props> = ({ data, index, columns }) => {
                                         />
                                     ))}
                                     {provided.placeholder}
-                                </CardContent>
+                                </StyledCardContent>
                             )}
                         </Droppable>
                         <TasksDeleteColumnDialog

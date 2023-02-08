@@ -9,13 +9,11 @@ const TaskDetailPage: React.FC = () => {
     const { taskId } = useParams()
     const { data, loading } = useApi(`tasks/id/${taskId}`, 'GET')
 
-    console.log(data)
-
     return (
         <>
             {!loading && (
                 <>
-                    {true ? (
+                    {data.length ? (
                         <TaskDetails />
                     ) : (
                         <Typography

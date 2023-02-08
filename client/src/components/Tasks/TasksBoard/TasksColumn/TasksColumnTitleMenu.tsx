@@ -5,8 +5,6 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import PaletteIcon from '@mui/icons-material/Palette'
 
 interface Props {
-    columnId: string
-    name: string
     menuOpen: null | HTMLElement
     handleClose: () => void
     handleEdit: () => void
@@ -14,8 +12,6 @@ interface Props {
 }
 
 const TasksColumnTitleMenu: React.FC<Props> = ({
-    columnId,
-    name,
     menuOpen,
     handleClose,
     handleEdit,

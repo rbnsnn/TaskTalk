@@ -16,28 +16,35 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import TasksColumnTitleMenu from './TasksColumnTitleMenu'
 import { TaskEvent } from '../../../../types/task-event-enum.type'
 import { SocketContext } from '../../../../helpers/socket/socket-context'
+import { DraggableStateSnapshot } from 'react-beautiful-dnd'
 
-const Testing = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    padding: '0 20px',
-    ':hover': {
+const TitleContainer = styled(Box)<{ dragging: boolean | undefined }>(
+    ({ theme, dragging }) => ({
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
         boxShadow:
-            theme.palette.mode === 'dark'
-                ? 'inset 0 0 0 10em rgba(255, 255, 255, 0.15)'
-                : 'inset 0 0 0 10em rgba(0, 0, 0, 0.15)',
-    },
-}))
+            dragging && theme.palette.mode === 'dark'
+                ? 'inset 0 0 0 10em rgba(255, 255, 255, 0.1)'
+                : 'inset 0 0 0 10em rgba(0, 0, 0, 0.1)',
+
+        ':hover': {
+            boxShadow:
+                theme.palette.mode === 'dark'
+                    ? 'inset 0 0 0 10em rgba(255, 255, 255, 0.1)'
+                    : 'inset 0 0 0 10em rgba(0, 0, 0, 0.1)',
+        },
+    })
+)
 
 interface Props {
     dragHandle: any
     name: string
     columnId: string
     count: number
-    deleteDialogOpen: () => void
+    snapshot: DraggableStateSnapshot
     menuOpen: HTMLElement | null
+    deleteDialogOpen: () => void
     handleMenuOpen: (e: any) => void
     handleMenuClose: () => void
 }
@@ -51,6 +58,7 @@ const TasksColumnTitle: React.FC<Props> = ({
     menuOpen,
     handleMenuOpen,
     handleMenuClose,
+    snapshot,
 }) => {
     const socket: any = useContext(SocketContext)
     const [editing, setEditing] = useState<boolean>(false)
@@ -113,69 +121,78 @@ const TasksColumnTitle: React.FC<Props> = ({
     }, [success, socket, handleReset, columnId])
 
     return (
-        <Testing {...dragHandle}>
-            {!editing && <Typography fontWeight='bold'>{name}</Typography>}
-            {editing && (
-                <TextField
-                    id='column-name'
-                    variant='standard'
-                    size='small'
-                    value={columnName}
-                    onChange={handleTitleChange}
-                    onBlur={handleApply}
-                    onKeyDown={handleOnEnterKey}
-                    autoFocus
-                />
-            )}
-
-            {loading ? (
-                <Box width='40%'>
-                    <LinearProgress />
-                </Box>
-            ) : (
-                ''
-            )}
-            <Box>
-                <Badge
-                    badgeContent={count}
-                    color='primary'
-                    sx={{
-                        mr: 2,
-                    }}
-                />
-
-                {!editing && (
-                    <>
-                        <IconButton
-                            onClick={handleMenuOpen}
+        <TitleContainer dragging={snapshot.isDragging ? snapshot.isDragging : undefined}>
+            <Box
+                display='flex'
+                justifyContent='space-between'
+                alignItems='center'
+                padding='0 20px'
+            >
+                <Box
+                    flex={1}
+                    {...dragHandle}
+                >
+                    {!editing && <Typography fontWeight='bold'>{name}</Typography>}
+                    {editing && (
+                        <TextField
+                            id='column-name'
+                            variant='standard'
                             size='small'
-                        >
-                            <MoreHorizIcon />
-                        </IconButton>
-
-                        <TasksColumnTitleMenu
-                            menuOpen={menuOpen}
-                            handleClose={handleMenuClose}
-                            handleEdit={handleEdit}
-                            deleteDialogOpen={deleteDialogOpen}
-                            columnId={columnId}
-                            name={name}
+                            value={columnName}
+                            onChange={handleTitleChange}
+                            onBlur={handleApply}
+                            onKeyDown={handleOnEnterKey}
+                            autoFocus
                         />
-                    </>
-                )}
-                {editing && (
-                    <Tooltip
-                        title='Accept'
-                        placement='top'
-                    >
-                        <IconButton
-                            onClick={handleApply}
-                            size='small'
+                    )}
+                </Box>
+                <Box>
+                    <Badge
+                        badgeContent={count}
+                        color='primary'
+                        sx={{
+                            mr: 2,
+                        }}
+                    />
+
+                    {!editing && (
+                        <>
+                            <IconButton
+                                onClick={handleMenuOpen}
+                                size='small'
+                            >
+                                <MoreHorizIcon />
+                            </IconButton>
+
+                            <TasksColumnTitleMenu
+                                menuOpen={menuOpen}
+                                handleClose={handleMenuClose}
+                                handleEdit={handleEdit}
+                                deleteDialogOpen={deleteDialogOpen}
+                            />
+                        </>
+                    )}
+                    {editing && (
+                        <Tooltip
+                            title='Accept'
+                            placement='top'
                         >
-                            <DoneIcon />
-                        </IconButton>
-                    </Tooltip>
-                )}
+                            <IconButton
+                                onClick={handleApply}
+                                size='small'
+                            >
+                                <DoneIcon />
+                            </IconButton>
+                        </Tooltip>
+                    )}
+                </Box>
+            </Box>
+
+            <Box
+                width='100%'
+                height={2}
+            >
+                {loading && <LinearProgress />}
             </Box>
 
             <Snackbar
@@ -191,7 +208,7 @@ const TasksColumnTitle: React.FC<Props> = ({
                     Column already exists!
                 </Alert>
             </Snackbar>
-        </Testing>
+        </TitleContainer>
     )
 }
 
