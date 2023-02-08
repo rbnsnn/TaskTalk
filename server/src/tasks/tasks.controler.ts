@@ -1,6 +1,8 @@
 import { Get, Controller, Post, Body, Req, Param } from '@nestjs/common'
 import { CreateTaskDto } from './dtos/create-task.dto'
 import { TasksService } from './tasks.service'
+import { DataSerializer } from '../interceptors/data-serializer.interceptor'
+import { TaskSerializeDto } from './dtos/task-serialize.dto'
 
 @Controller('tasks')
 export class TasksController {
@@ -8,18 +10,15 @@ export class TasksController {
 
     @Post('/new')
     async createUserByAdmin(@Body() body: CreateTaskDto, @Req() req) {
-        return this.tasksService.createTask(body, req.user)
+        return await this.tasksService.createTask(body, req.user)
     }
 
+    @DataSerializer(TaskSerializeDto)
     @Get('/id/:taskId')
     async getTaskById(@Param('taskId') taskId, @Req() req) {
         const { companyId } = req.user
-        return this.tasksService.findOneTask(companyId, taskId)
-    }
+        const data = await this.tasksService.findOneTask(companyId, taskId)
 
-    @Get('/all')
-    async getAllTasks(@Req() req) {
-        const { companyId } = req.user
-        return this.tasksService.getAllTasksByCompanyId(companyId)
+        return data
     }
 }

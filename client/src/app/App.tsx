@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { CssBaseline } from '@mui/material'
-import AppRoutes from '../routes/Routes'
 import { retrieveStoredTokens } from '../helpers/auth/token-helper'
 import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks'
 import { authActions } from '../components/Auth/authSlice'
@@ -8,8 +7,9 @@ import { useApi } from '../hooks/useApi'
 import { ThemeProvider } from '@emotion/react'
 import { lightTheme } from '../themes/lightTheme'
 import { darkTheme } from '../themes/darkTheme'
-import AppLoading from './AppLoading'
 import { RootState } from '../store/store'
+import AppRoutes from '../routes/Routes'
+import AppLoading from './AppLoading'
 
 const App: React.FC = () => {
     const dispatch = useAppDispatch()

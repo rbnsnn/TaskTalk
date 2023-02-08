@@ -14,10 +14,10 @@ import { Role } from 'src/roles/enums/role.enum'
 import { UsersService } from './users.service'
 import { RolesGuard } from 'src/roles/guards/roles.guard'
 import { AddUserDto } from './dtos/add-user.dto'
-import { UsersSerializer } from './interceptors/users-serializer.interceptor'
+import { DataSerializer } from '../interceptors/data-serializer.interceptor'
 import { UserSerializeDto } from './dtos/user-serialize.dto'
 
-@UsersSerializer(UserSerializeDto)
+@DataSerializer(UserSerializeDto)
 @Controller('users')
 export class UsersController {
     constructor(private readonly userService: UsersService) {}

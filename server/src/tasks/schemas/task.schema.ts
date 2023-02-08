@@ -3,6 +3,7 @@ import { Document } from 'mongoose'
 import { CompanyUsers } from 'src/companies/types/company-users.interface'
 import { CreatedBy } from '../types/created-by-interface'
 import { Priority } from '../types/priority.enum'
+import { TaskLabel } from '../types/task-label.type'
 
 export type TaskDocument = Task & Document
 
@@ -36,7 +37,7 @@ export class Task {
     priority: Priority
 
     @Prop()
-    labels: string[] | null
+    labels: TaskLabel[] | null
 
     @Prop({ required: true })
     assignedColumn: string

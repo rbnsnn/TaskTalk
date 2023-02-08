@@ -9,7 +9,7 @@ import LogoutPage from '../pages/Auth/LogoutPage'
 import DashBoardPage from '../pages/App/DashboardPage'
 import UsersTablePage from '../pages/App/UsersTablePage'
 import TasksBoardPage from '../pages/App/TasksBoardPage'
-import TaskPage from '../pages/App/TaskPage'
+import TaskDetailPage from '../pages/App/TaskDetailPage'
 import TasksTablePage from '../pages/App/TasksTablePage'
 
 const AppRoutes: React.FC = () => {
@@ -44,7 +44,7 @@ const AppRoutes: React.FC = () => {
                         />
                         <Route
                             path='task/:taskId'
-                            element={<TaskPage />}
+                            element={<TaskDetailPage />}
                         />
                     </Route>
                     <Route

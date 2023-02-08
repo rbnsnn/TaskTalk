@@ -6,6 +6,7 @@ import {
     IsArray,
     MaxLength,
 } from 'class-validator'
+import { Role } from 'src/roles/enums/role.enum'
 
 export class AddUserDto {
     @IsString()
@@ -27,7 +28,7 @@ export class AddUserDto {
     phoneNumber: string
 
     @IsArray()
-    roles: string[]
+    roles: Role[]
 
     @IsString()
     @MinLength(4)

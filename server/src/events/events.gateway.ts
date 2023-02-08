@@ -11,6 +11,7 @@ import { CompaniesService } from '../companies/companies.service'
 import { ChangeTaskDto } from '../tasks/dtos/change-task.dto'
 import { TasksService } from '../tasks/tasks.service'
 import { DeleteTaskDto } from '../tasks/dtos/delete-task.dto'
+import { TaskEvent } from './types/task-event-enum.type'
 
 @WebSocketGateway({
     cors: {
@@ -33,22 +34,20 @@ export class EventsGateway implements OnGatewayConnection {
         })
     }
 
-    @SubscribeMessage('create_task')
+    @SubscribeMessage(TaskEvent.CreateTask)
     async createTask(@ConnectedSocket() client: Socket) {
-        const event = 'set_tasks'
         const { companyId } = client.handshake.auth
 
         const data = await this.tasksService.getAllTasks(companyId)
 
-        this.server.in(companyId).emit(event, data)
+        this.server.in(companyId).emit(TaskEvent.SetTasks, data)
     }
 
-    @SubscribeMessage('create_column')
+    @SubscribeMessage(TaskEvent.CreateColumn)
     async createColumn(
         @ConnectedSocket() client: Socket,
         @MessageBody() columnName: string
     ) {
-        const event = 'set_tasks'
         const { companyId } = client.handshake.auth
 
         const columnExists = await this.companiesService.findOneColumn(
@@ -57,7 +56,7 @@ export class EventsGateway implements OnGatewayConnection {
         )
 
         if (columnExists) {
-            client.emit('create_column', {
+            client.emit(TaskEvent.CreateColumn, {
                 error: 'Column already exists!',
                 success: false,
             })
@@ -66,17 +65,16 @@ export class EventsGateway implements OnGatewayConnection {
 
             const data = await this.tasksService.getAllTasks(companyId)
 
-            this.server.in(companyId).emit(event, data)
-            client.emit('create_column', { error: false, success: true })
+            this.server.in(companyId).emit(TaskEvent.SetTasks, data)
+            client.emit(TaskEvent.CreateColumn, { error: false, success: true })
         }
     }
 
-    @SubscribeMessage('rename_column')
+    @SubscribeMessage(TaskEvent.RenameColumn)
     async renameColumn(
         @ConnectedSocket() client: Socket,
         @MessageBody() column: { columnName: string; columnId: string }
     ) {
-        const event = 'set_tasks'
         const { companyId } = client.handshake.auth
         const { columnName, columnId } = column
 
@@ -86,7 +84,7 @@ export class EventsGateway implements OnGatewayConnection {
         )
 
         if (columnExists) {
-            client.emit('rename_column', {
+            client.emit(TaskEvent.RenameColumn, {
                 error: 'Column already exists!',
                 success: false,
                 columnId,
@@ -100,17 +98,16 @@ export class EventsGateway implements OnGatewayConnection {
             await this.tasksService.updateMany(companyId, columnId, columnName)
 
             const data = await this.tasksService.getAllTasks(companyId)
-            this.server.in(companyId).emit(event, data)
-            client.emit('rename_column', { error: false, success: true, columnId })
+            this.server.in(companyId).emit(TaskEvent.SetTasks, data)
+            client.emit(TaskEvent.RenameColumn, { error: false, success: true, columnId })
         }
     }
 
-    @SubscribeMessage('task_change')
+    @SubscribeMessage(TaskEvent.TaskChange)
     async changeTask(
         @ConnectedSocket() client: Socket,
         @MessageBody() changeTaskDto: ChangeTaskDto
     ) {
-        const event = 'set_tasks'
         const { newColumns, taskToChange } = changeTaskDto
         const { companyId } = client.handshake.auth
 
@@ -128,15 +125,14 @@ export class EventsGateway implements OnGatewayConnection {
         }
 
         const data = await this.tasksService.getAllTasks(companyId)
-        this.server.to(companyId).emit(event, data)
+        this.server.to(companyId).emit(TaskEvent.SetTasks, data)
     }
 
-    @SubscribeMessage('delete_task')
+    @SubscribeMessage(TaskEvent.DeleteTask)
     async deleteTask(
         @ConnectedSocket() client: Socket,
         @MessageBody() deleteTaskDto: DeleteTaskDto
     ) {
-        const event = 'set_tasks'
         const { taskId, columnId } = deleteTaskDto
         const { companyId } = client.handshake.auth
 
@@ -145,15 +141,14 @@ export class EventsGateway implements OnGatewayConnection {
 
         const data = await this.tasksService.getAllTasks(companyId)
 
-        this.server.in(companyId).emit(event, data)
+        this.server.in(companyId).emit(TaskEvent.SetTasks, data)
     }
 
-    @SubscribeMessage('delete_column')
+    @SubscribeMessage(TaskEvent.DeleteColumn)
     async deleteColumn(
         @ConnectedSocket() client: Socket,
         @MessageBody() columnId: string
     ) {
-        const event = 'set_tasks'
         const { companyId } = client.handshake.auth
 
         await this.companiesService.deleteColumn(companyId, columnId)
@@ -161,14 +156,13 @@ export class EventsGateway implements OnGatewayConnection {
 
         const data = await this.tasksService.getAllTasks(companyId)
 
-        this.server.in(companyId).emit(event, data)
+        this.server.in(companyId).emit(TaskEvent.SetTasks, data)
     }
 
-    @SubscribeMessage('get_tasks')
+    @SubscribeMessage(TaskEvent.GetTasks)
     async getAll(@ConnectedSocket() client: Socket) {
-        const event = 'set_tasks'
         const { companyId } = client.handshake.auth
         const data = await this.tasksService.getAllTasks(companyId)
-        return { event, data }
+        return { event: TaskEvent.SetTasks, data }
     }
 }
