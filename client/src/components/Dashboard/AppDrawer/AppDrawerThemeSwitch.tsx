@@ -52,7 +52,7 @@ const ThemeStyledSwitch = styled(Switch)(({ theme }) => ({
     },
 }))
 
-const ThemeSwitch: React.FC = () => {
+const AppDrawerThemeSwitch: React.FC = () => {
     const dispatch = useAppDispatch()
     const { colorMode } = useAppSelector((state: RootState) => state.auth.user)
 
@@ -72,4 +72,4 @@ const ThemeSwitch: React.FC = () => {
     )
 }
 
-export default ThemeSwitch
+export default AppDrawerThemeSwitch

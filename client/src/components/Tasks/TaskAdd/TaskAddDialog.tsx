@@ -31,7 +31,7 @@ interface Props {
     open: boolean
     close: () => void
 }
-const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
+const TaskAddDialog: React.FC<Props> = ({ open, close }) => {
     const socket: any = useContext(SocketContext)
 
     const [assignedUsers, setAssignedUsers] = useState<UserData[]>([])
@@ -363,4 +363,4 @@ const AddTaskDialog: React.FC<Props> = ({ open, close }) => {
     )
 }
 
-export default AddTaskDialog
+export default TaskAddDialog

@@ -10,10 +10,10 @@ import {
     Button,
     CircularProgress,
 } from '@mui/material'
-import { useInput } from '../../../hooks/useInput'
-import { isLongerThan } from '../../../helpers/formHelper'
-import { SocketContext } from '../../../helpers/socket/socket-context'
-import { TaskEvent } from '../../../types/task-event-enum.type'
+import { useInput } from '../../../../hooks/useInput'
+import { isLongerThan } from '../../../../helpers/formHelper'
+import { SocketContext } from '../../../../helpers/socket/socket-context'
+import { TaskEvent } from '../../../../types/task-event-enum.type'
 
 interface Props {
     open: boolean

@@ -11,7 +11,7 @@ interface Props {
     handleDrawerToggle: () => void
 }
 
-const AppBarContent: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) => {
+const AppMainBarContent: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) => {
     const { userId, firstName, lastName } = useAppSelector(
         (state: RootState) => state.auth.user
     )
@@ -71,4 +71,4 @@ const AppBarContent: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) => {
     )
 }
 
-export default AppBarContent
+export default AppMainBarContent

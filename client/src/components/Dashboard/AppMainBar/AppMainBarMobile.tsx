@@ -1,15 +1,14 @@
 import React from 'react'
 import { Box } from '@mui/material'
-import { AppBar } from './AppBarStyled'
-import AppBarContent from './AppBarContent'
-
+import { AppBar } from './AppMainBarStyled'
+import AppBarContent from './AppMainBarContent'
 
 interface Props {
     drawerOpen: boolean
     handleDrawerToggle: () => void
 }
 
-const AppBarMobile: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) => {
+const AppMainBarMobile: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) => {
     return (
         <Box>
             <AppBar
@@ -17,13 +16,13 @@ const AppBarMobile: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) => {
                 open={drawerOpen}
                 sx={{
                     display: { xs: 'block', sm: 'none' },
-                    width: { xs: '100%' }
+                    width: { xs: '100%' },
                 }}
             >
                 <AppBarContent handleDrawerToggle={handleDrawerToggle} />
             </AppBar>
-        </Box >
+        </Box>
     )
 }
 
-export default AppBarMobile
+export default AppMainBarMobile

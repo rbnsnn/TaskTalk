@@ -1,12 +1,12 @@
 import { Box, Typography, Slide } from '@mui/material'
 import React, { useState, useEffect, useContext } from 'react'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
-import TaskColumn from '../../components/TasksBoard/TasksColumn/TasksColumn'
-import AddTask from '../../components/TasksBoard/AddTask/AddTask'
+import TaskColumn from '../../components/Tasks/TasksBoard/TasksColumn/TasksColumn'
+import TaskAdd from '../../components/Tasks/TaskAdd/TaskAdd'
 import { ColumnData } from '../../types/column-data.type'
 import { TaskEvent } from '../../types/task-event-enum.type'
 import { SocketContext } from '../../helpers/socket/socket-context'
-import AddColumn from '../../components/TasksBoard/TasksColumn/TasksColumnAdd'
+import TasksColumnAdd from '../../components/Tasks/TasksBoard/TasksColumn/TasksColumnAdd'
 import LoadingPage from '../LoadingPage'
 import { onDragEnd } from '../../helpers/TasksBoard/onDragEnd'
 
@@ -41,8 +41,8 @@ const TasksBoard: React.FC = () => {
                         width='100%'
                         height='100%'
                     >
-                        <AddColumn />
-                        <AddTask data={columns} />
+                        <TasksColumnAdd />
+                        <TaskAdd data={columns} />
 
                         {columns.length ? (
                             <Droppable

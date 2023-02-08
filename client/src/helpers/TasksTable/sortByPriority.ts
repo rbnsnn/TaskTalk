@@ -1,4 +1,4 @@
-import { TaskData } from '../../../types/task-data.type'
+import { TaskData } from '../../types/task-data.type'
 
 const priorityValue: any = {
     high: 100,

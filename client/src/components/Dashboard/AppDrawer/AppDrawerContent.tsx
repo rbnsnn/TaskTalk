@@ -1,6 +1,6 @@
 import React from 'react'
 import { Divider, IconButton, List, ListItem } from '@mui/material'
-import ListItemLink from './ListItemLink'
+import ListItemLink from '../../Links/ListItemLink'
 import LogoutIcon from '@mui/icons-material/Logout'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import PeopleIcon from '@mui/icons-material/People'
@@ -10,7 +10,7 @@ import ListIcon from '@mui/icons-material/List'
 import { DrawerHeader } from '../AppContent/AppContent'
 import { useRole } from '../../../hooks/useRole'
 import { Role } from '../../../types/roles-enum.type'
-import ThemeSwitch from './ThemeSwitch'
+import ThemeSwitch from './AppDrawerThemeSwitch'
 
 interface Props {
     drawerOpen?: boolean

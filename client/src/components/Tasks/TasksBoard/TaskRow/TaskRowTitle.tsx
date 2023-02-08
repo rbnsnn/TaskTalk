@@ -1,15 +1,15 @@
 import React, { useState, useContext } from 'react'
 import { Box, IconButton, AvatarGroup, Chip } from '@mui/material'
-import { Priority } from '../../../types/priority-enum'
-import { setPriorityColor } from '../../../helpers/setPriorityColor'
+import { Priority } from '../../../../types/priority-enum'
+import { setPriorityColor } from '../../../../helpers/setPriorityColor'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-import TextLink from '../../TextLink'
-import DeleteTaskDialog from './TaskDeleteDialog'
-import { SocketContext } from '../../../helpers/socket/socket-context'
-import { TaskEvent } from '../../../types/task-event-enum.type'
+import TextLink from '../../../Links/TextLink'
+import DeleteTaskDialog from '../../TaskDelete/TaskDeleteDialog'
+import { SocketContext } from '../../../../helpers/socket/socket-context'
+import { TaskEvent } from '../../../../types/task-event-enum.type'
 import TaskIcon from '@mui/icons-material/Task'
-import { CompanyUsers } from '../../../types/company-users.type'
-import UserAvatarTable from '../../Users/UserAvatar/UserAvatar'
+import { CompanyUsers } from '../../../../types/company-users.type'
+import UserAvatar from '../../../Users/UserAvatar/UserAvatar'
 
 interface Props {
     taskId: string
@@ -61,7 +61,7 @@ const TaskRowTitle: React.FC<Props> = ({
                 max={3}
             >
                 {assignedUsers.map((user: CompanyUsers) => (
-                    <UserAvatarTable
+                    <UserAvatar
                         popper
                         key={user.userId}
                         id={user.userId}

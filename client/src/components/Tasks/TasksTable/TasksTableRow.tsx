@@ -3,7 +3,7 @@ import React from 'react'
 import { TaskData } from '../../../types/task-data.type'
 import { setPriorityColor } from '../../../helpers/setPriorityColor'
 import UserAvatar from '../../Users/UserAvatar/UserAvatar'
-import TextLink from '../../TextLink'
+import TextLink from '../../Links/TextLink'
 import { CompanyUsers } from '../../../types/company-users.type'
 
 interface Props {

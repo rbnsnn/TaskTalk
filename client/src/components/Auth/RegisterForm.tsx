@@ -14,7 +14,7 @@ import { authRegister } from './actions/registerAction'
 import { useEffect } from 'react'
 import { authActions } from './authSlice'
 import { isEmail, isLongerThan, isEqual } from '../../helpers/formHelper'
-import TextLink from '../TextLink'
+import TextLink from '../Links/TextLink'
 import { RootState } from '../../store/store'
 
 const RegisterForm: React.FC = () => {

@@ -3,7 +3,7 @@ import { Alert, Box, Button, CircularProgress, Grid, TextField } from '@mui/mate
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { authLogin } from './actions/loginAction'
 import { authActions } from './authSlice'
-import TextLink from '../TextLink'
+import TextLink from '../Links/TextLink'
 import { RootState } from '../../store/store'
 
 const LoginForm: React.FC = () => {

@@ -1,4 +1,4 @@
-import { TaskData } from '../../../types/task-data.type'
+import { TaskData } from '../../types/task-data.type'
 
 export const sortByTitle = (data: TaskData[]): TaskData[] => {
     const sorted = data.sort((a: TaskData, b: TaskData): number => {

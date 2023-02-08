@@ -13,9 +13,9 @@ import {
 } from '@mui/material'
 import DoneIcon from '@mui/icons-material/Done'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
-import ColumnTitleMenu from './ColumnTitleMenu'
-import { TaskEvent } from '../../../types/task-event-enum.type'
-import { SocketContext } from '../../../helpers/socket/socket-context'
+import TasksColumnTitleMenu from './TasksColumnTitleMenu'
+import { TaskEvent } from '../../../../types/task-event-enum.type'
+import { SocketContext } from '../../../../helpers/socket/socket-context'
 
 const Testing = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -153,7 +153,7 @@ const TasksColumnTitle: React.FC<Props> = ({
                             <MoreHorizIcon />
                         </IconButton>
 
-                        <ColumnTitleMenu
+                        <TasksColumnTitleMenu
                             menuOpen={menuOpen}
                             handleClose={handleMenuClose}
                             handleEdit={handleEdit}

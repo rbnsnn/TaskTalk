@@ -6,7 +6,7 @@ import LoginPage from '../pages/Auth/LoginPage'
 import RegisterPage from '../pages/Auth/RegisterPage'
 import LogoutPage from '../pages/Auth/LogoutPage'
 import DashBoardPage from '../pages/App/DashboardPage'
-import UsersPage from '../pages/App/UsersPage'
+import UsersTablePage from '../pages/App/UsersTablePage'
 import TasksBoard from '../pages/App/TasksBoardPage'
 import { RootState } from '../store/store'
 import TaskPage from '../pages/App/TaskPage'
@@ -40,7 +40,7 @@ const AppRoutes: React.FC = () => {
                         />
                         <Route
                             path='users'
-                            element={<UsersPage />}
+                            element={<UsersTablePage />}
                         />
                         <Route
                             path='task/:taskId'

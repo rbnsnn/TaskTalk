@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button } from '@mui/material'
-import AddTaskDialog from './AddTaskDialog'
+import AddTaskDialog from './TaskAddDialog'
 import AddTaskIcon from '@mui/icons-material/AddTask'
 import { ColumnData } from '../../../types/column-data.type'
 
@@ -8,7 +8,7 @@ interface props {
     data: ColumnData[]
 }
 
-const AddTask: React.FC<props> = ({ data }) => {
+const TaskAdd: React.FC<props> = ({ data }) => {
     const [addTaskOpen, setAddTaskOpen] = useState<boolean>(false)
 
     const handleClose = (): void => {
@@ -44,4 +44,4 @@ const AddTask: React.FC<props> = ({ data }) => {
     )
 }
 
-export default AddTask
+export default TaskAdd
