@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Card, CardContent, Divider } from '@mui/material'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
-import ColumnTitle from './ColumnTitle'
+import ColumnTitle from './TasksColumnTitle'
 import TaskRow from '../TaskRow/TaskRow'
 
-import DeleteColumnDialog from './DeleteColumnDialog'
+import DeleteColumnDialog from './TasksColumnDeleteDialog'
 import { Box } from '@mui/system'
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
     columns: number
 }
 
-const TaskColumn: React.FC<Props> = ({ data, index, columns }) => {
+const TasksColumn: React.FC<Props> = ({ data, index, columns }) => {
     const [menuOpen, setMenuOpen] = useState<null | HTMLElement>(null)
     const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
         setMenuOpen(event.currentTarget)
@@ -100,4 +100,4 @@ const TaskColumn: React.FC<Props> = ({ data, index, columns }) => {
     )
 }
 
-export default TaskColumn
+export default TasksColumn

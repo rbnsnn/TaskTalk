@@ -13,7 +13,7 @@ interface Props {
     deleteDialogOpen: () => void
 }
 
-const ColumnTitleMenu: React.FC<Props> = ({
+const TasksColumnTitleMenu: React.FC<Props> = ({
     columnId,
     name,
     menuOpen,
@@ -57,4 +57,4 @@ const ColumnTitleMenu: React.FC<Props> = ({
     )
 }
 
-export default ColumnTitleMenu
+export default TasksColumnTitleMenu

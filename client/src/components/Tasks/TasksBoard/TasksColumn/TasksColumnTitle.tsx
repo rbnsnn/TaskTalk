@@ -42,7 +42,7 @@ interface Props {
     handleMenuClose: () => void
 }
 
-const ColumnTitle: React.FC<Props> = ({
+const TasksColumnTitle: React.FC<Props> = ({
     dragHandle,
     name,
     count,
@@ -195,4 +195,4 @@ const ColumnTitle: React.FC<Props> = ({
     )
 }
 
-export default ColumnTitle
+export default TasksColumnTitle

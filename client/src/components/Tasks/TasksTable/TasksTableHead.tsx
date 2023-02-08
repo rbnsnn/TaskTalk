@@ -1,7 +1,7 @@
 import React from 'react'
 import { TableHead, TableCell, TableRow, TableSortLabel } from '@mui/material'
-import { TaskOrder } from '../../types/task-order.enum'
-import { TasksTableState } from '../../hooks/useTasksTableHandler'
+import { TaskOrder } from '../../../types/task-order.enum'
+import { TasksTableState } from '../../../hooks/useTasksTableHandler'
 
 interface Action {
     type: TaskOrder

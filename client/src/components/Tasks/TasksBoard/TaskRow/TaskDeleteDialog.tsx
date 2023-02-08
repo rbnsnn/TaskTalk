@@ -15,7 +15,7 @@ interface Props {
     handleClose: () => void
     handleDelete: () => void
 }
-const DeleteTaskDialog: React.FC<Props> = ({
+const TaskDeleteDialog: React.FC<Props> = ({
     open,
     title,
     taskId,
@@ -62,4 +62,4 @@ const DeleteTaskDialog: React.FC<Props> = ({
     )
 }
 
-export default DeleteTaskDialog
+export default TaskDeleteDialog

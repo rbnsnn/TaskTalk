@@ -8,10 +8,10 @@ import {
     Box,
     Slide,
 } from '@mui/material'
-import { TaskData } from '../../types/task-data.type'
+import { TaskData } from '../../../types/task-data.type'
 import TasksTableRow from './TasksTableRow'
 import TasksTableHead from './TasksTableHead'
-import { TasksTableState } from '../../hooks/useTasksTableHandler'
+import { TasksTableState } from '../../../hooks/useTasksTableHandler'
 import TasksTableTitle from './TasksTableTItle'
 
 interface Props {

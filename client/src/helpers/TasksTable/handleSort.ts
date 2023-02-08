@@ -1,5 +1,5 @@
-import { TaskData } from '../../../types/task-data.type'
-import { TaskOrder } from '../../../types/task-order.enum'
+import { TaskData } from '../../types/task-data.type'
+import { TaskOrder } from '../../types/task-order.enum'
 import { sortByCreated } from './sortByCreated'
 import { sortByPriority } from './sortByPriority'
 import { sortByStatus } from './sortByStatus'

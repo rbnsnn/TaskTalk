@@ -1,6 +1,6 @@
-import { CompanyUsers } from '../../../types/company-users.type'
-import { TaskData } from '../../../types/task-data.type'
-import { TaskLabel } from '../../../types/task-label.type'
+import { CompanyUsers } from '../../types/company-users.type'
+import { TaskData } from '../../types/task-data.type'
+import { TaskLabel } from '../../types/task-label.type'
 
 export const handleSearch = (
     data: TaskData[],

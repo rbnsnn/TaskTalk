@@ -1,11 +1,11 @@
 import { useReducer, useState, useContext, useEffect } from 'react'
 import { TaskData } from '../types/task-data.type'
 import { TaskOrder } from '../types/task-order.enum'
-import { handleSort } from '../components/TasksTable/tableSort/handleSort'
+import { handleSort } from '../helpers/TasksTable/handleSort'
 import { SocketContext } from '../helpers/socket/socket-context'
 import { TaskEvent } from '../types/task-event-enum.type'
 import { ColumnData } from '../types/column-data.type'
-import { handleSearch } from '../components/TasksTable/tableSearch/handleSearch'
+import { handleSearch } from '../helpers/TasksTable/handleSearch'
 
 interface IAction {
     type: TaskOrder | 'change' | 'search'

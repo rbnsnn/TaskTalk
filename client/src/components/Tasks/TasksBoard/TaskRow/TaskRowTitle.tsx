@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react'
 import { Box, IconButton, AvatarGroup, Chip } from '@mui/material'
 import { Priority } from '../../../types/priority-enum'
-import { setPriorityColor } from './setPriorityColor'
+import { setPriorityColor } from '../../../helpers/setPriorityColor'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import TextLink from '../../TextLink'
-import DeleteTaskDialog from './DeleteTaskDialog'
+import DeleteTaskDialog from './TaskDeleteDialog'
 import { SocketContext } from '../../../helpers/socket/socket-context'
 import { TaskEvent } from '../../../types/task-event-enum.type'
 import TaskIcon from '@mui/icons-material/Task'
@@ -19,7 +19,7 @@ interface Props {
     assignedUsers: CompanyUsers[]
 }
 
-const TaskTitle: React.FC<Props> = ({
+const TaskRowTitle: React.FC<Props> = ({
     taskId,
     columnId,
     title,
@@ -102,4 +102,4 @@ const TaskTitle: React.FC<Props> = ({
     )
 }
 
-export default TaskTitle
+export default TaskRowTitle

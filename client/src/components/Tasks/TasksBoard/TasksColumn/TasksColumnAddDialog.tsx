@@ -19,7 +19,7 @@ interface Props {
     open: boolean
     close: () => void
 }
-const AddColumnDialog: React.FC<Props> = ({ open, close }) => {
+const TasksColumnAddDialog: React.FC<Props> = ({ open, close }) => {
     const socket: any = useContext(SocketContext)
     const [success, setSuccess] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
@@ -147,4 +147,4 @@ const AddColumnDialog: React.FC<Props> = ({ open, close }) => {
     )
 }
 
-export default AddColumnDialog
+export default TasksColumnAddDialog

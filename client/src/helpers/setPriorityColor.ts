@@ -1,4 +1,4 @@
-import { Priority, PriorityColor } from '../../../types/priority-enum'
+import { Priority, PriorityColor } from '../types/priority-enum'
 
 export const setPriorityColor = (priority: string): string => {
     if (priority === Priority.LOW) {

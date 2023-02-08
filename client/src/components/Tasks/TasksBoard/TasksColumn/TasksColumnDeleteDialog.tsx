@@ -20,7 +20,7 @@ interface Props {
     columnId: string
 }
 
-const DeleteColumnDialog: React.FC<Props> = ({ open, close, name, columnId }) => {
+const TasksColumnDeleteDialog: React.FC<Props> = ({ open, close, name, columnId }) => {
     const socket: any = useContext(SocketContext)
     const handleDelete = (): void => {
         socket.emit(TaskEvent.DeleteColumn, columnId)
@@ -102,4 +102,4 @@ const DeleteColumnDialog: React.FC<Props> = ({ open, close, name, columnId }) =>
     )
 }
 
-export default DeleteColumnDialog
+export default TasksColumnDeleteDialog

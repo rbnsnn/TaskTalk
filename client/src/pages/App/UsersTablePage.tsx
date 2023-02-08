@@ -4,7 +4,7 @@ import UsersTable from '../../components/Users/UsersTable/UsersTable'
 import { useApi } from '../../hooks/useApi'
 import LoadingPage from '../LoadingPage'
 
-const UsersPage: React.FC = () => {
+const UsersTablePage: React.FC = () => {
     const [addUserOpen, setAddUserOpen] = useState<boolean>(false)
     const { data, error, loading, executeFetch } = useApi('users/all', 'GET')
 
@@ -39,4 +39,4 @@ const UsersPage: React.FC = () => {
     )
 }
 
-export default UsersPage
+export default UsersTablePage

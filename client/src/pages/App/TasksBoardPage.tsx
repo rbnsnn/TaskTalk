@@ -1,14 +1,14 @@
 import { Box, Typography, Slide } from '@mui/material'
 import React, { useState, useEffect, useContext } from 'react'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
-import TaskColumn from '../../components/TasksBoard/TaskColumn/TaskColumn'
+import TaskColumn from '../../components/TasksBoard/TasksColumn/TasksColumn'
 import AddTask from '../../components/TasksBoard/AddTask/AddTask'
 import { ColumnData } from '../../types/column-data.type'
 import { TaskEvent } from '../../types/task-event-enum.type'
 import { SocketContext } from '../../helpers/socket/socket-context'
-import AddColumn from '../../components/TasksBoard/TaskColumn/AddColumn'
+import AddColumn from '../../components/TasksBoard/TasksColumn/TasksColumnAdd'
 import LoadingPage from '../LoadingPage'
-import { onDragEnd } from '../../components/TasksBoard/onDragEnd'
+import { onDragEnd } from '../../helpers/TasksBoard/onDragEnd'
 
 const TasksBoard: React.FC = () => {
     const socket: any = useContext(SocketContext)
