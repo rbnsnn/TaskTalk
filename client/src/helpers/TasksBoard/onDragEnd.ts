@@ -59,7 +59,6 @@ export const onDragEnd = (
 
         newColumns.splice(destination.index, 0, removed)
 
-        // const newColumns = orderedColumns.map(column)
         socket.emit(TaskEvent.TaskChange, { newColumns })
 
         setColumns(newColumns)

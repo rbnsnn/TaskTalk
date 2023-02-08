@@ -2,13 +2,13 @@ import React, { useState, useContext } from 'react'
 import { Box, IconButton, AvatarGroup, Chip } from '@mui/material'
 import { Priority } from '../../../../types/priority-enum'
 import { setPriorityColor } from '../../../../helpers/setPriorityColor'
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-import TextLink from '../../../Links/TextLink'
-import DeleteTaskDialog from '../../TaskDelete/TaskDeleteDialog'
 import { SocketContext } from '../../../../helpers/socket/socket-context'
 import { TaskEvent } from '../../../../types/task-event-enum.type'
-import TaskIcon from '@mui/icons-material/Task'
 import { CompanyUsers } from '../../../../types/company-users.type'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import TextLink from '../../../Links/TextLink'
+import TaskDeleteDialog from '../../TaskDelete/TaskDeleteDialog'
+import TaskIcon from '@mui/icons-material/Task'
 import UserAvatar from '../../../Users/UserAvatar/UserAvatar'
 
 interface Props {
@@ -90,7 +90,7 @@ const TaskRowTitle: React.FC<Props> = ({
                 <DeleteForeverIcon />
             </IconButton>
             {deleteDialogOpen && (
-                <DeleteTaskDialog
+                <TaskDeleteDialog
                     open={deleteDialogOpen}
                     title={title}
                     taskId={taskId}

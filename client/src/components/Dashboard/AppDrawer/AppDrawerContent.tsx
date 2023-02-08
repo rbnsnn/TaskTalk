@@ -1,5 +1,8 @@
 import React from 'react'
 import { Divider, IconButton, List, ListItem } from '@mui/material'
+import { DrawerHeader } from '../AppContent/AppContent'
+import { useRole } from '../../../hooks/useRole'
+import { Role } from '../../../types/roles-enum.type'
 import ListItemLink from '../../Links/ListItemLink'
 import LogoutIcon from '@mui/icons-material/Logout'
 import DashboardIcon from '@mui/icons-material/Dashboard'
@@ -7,10 +10,7 @@ import PeopleIcon from '@mui/icons-material/People'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ViewKanbanIcon from '@mui/icons-material/ViewKanban'
 import ListIcon from '@mui/icons-material/List'
-import { DrawerHeader } from '../AppContent/AppContent'
-import { useRole } from '../../../hooks/useRole'
-import { Role } from '../../../types/roles-enum.type'
-import ThemeSwitch from './AppDrawerThemeSwitch'
+import AppDrawerThemeSwitch from './AppDrawerThemeSwitch'
 
 interface Props {
     drawerOpen?: boolean
@@ -70,7 +70,7 @@ const AppDrawerContent: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) =
             <Divider />
 
             <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-                <ThemeSwitch />
+                <AppDrawerThemeSwitch />
             </ListItem>
         </div>
     )

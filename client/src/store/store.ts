@@ -1,14 +1,13 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit'
+import { tokenMiddleware } from '../middlewares/token-middleware'
 import authReducer from '../components/Auth/authSlice'
-import { tokenMiddleware } from '../middlewares/token-middleware';
-
 
 export const store = configureStore({
     reducer: {
-        auth: authReducer
+        auth: authReducer,
     },
 
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(tokenMiddleware)
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(tokenMiddleware),
 })
 
 export type RootState = ReturnType<typeof store.getState>

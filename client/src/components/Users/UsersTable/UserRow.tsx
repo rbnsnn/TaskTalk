@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { TableRow, TableCell, Collapse, Box, IconButton, Typography } from '@mui/material'
+import { UserData } from '../../../types/user-data.type'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import UserDetails from './UserDetails'
-import { UserData } from '../../../types/user-data.type'
 
 interface Props {
     user: UserData

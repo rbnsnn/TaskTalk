@@ -1,10 +1,10 @@
-import { TableCell, TableRow, Chip, Box, AvatarGroup } from '@mui/material'
 import React from 'react'
+import { TableCell, TableRow, Chip, Box, AvatarGroup } from '@mui/material'
 import { TaskData } from '../../../types/task-data.type'
 import { setPriorityColor } from '../../../helpers/setPriorityColor'
+import { CompanyUsers } from '../../../types/company-users.type'
 import UserAvatar from '../../Users/UserAvatar/UserAvatar'
 import TextLink from '../../Links/TextLink'
-import { CompanyUsers } from '../../../types/company-users.type'
 
 interface Props {
     task: TaskData

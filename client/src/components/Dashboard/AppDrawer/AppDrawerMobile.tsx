@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Drawer } from '@mui/material'
-import AppDrawerContent from './AppDrawerContent'
 import { DRAWER_WIDTH } from '../../../themes/drawerWidth'
+import AppDrawerContent from './AppDrawerContent'
 
 interface Props {
     drawerOpen: boolean

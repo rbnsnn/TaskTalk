@@ -1,6 +1,5 @@
 import React from 'react'
-import MuiDrawer from '@mui/material/Drawer'
-import { styled, Theme, CSSObject } from '@mui/material'
+import { styled, Theme, CSSObject, Drawer } from '@mui/material'
 import AppDrawerContent from './AppDrawerContent'
 import { DRAWER_WIDTH } from '../../../themes/drawerWidth'
 
@@ -25,7 +24,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
     },
 })
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+const StyledDrawer = styled(Drawer, { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
         width: DRAWER_WIDTH,
         flexShrink: 0,
@@ -49,7 +48,7 @@ interface Props {
 
 const AppDrawerDesktop: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) => {
     return (
-        <Drawer
+        <StyledDrawer
             variant='permanent'
             open={drawerOpen}
             sx={{
@@ -62,7 +61,7 @@ const AppDrawerDesktop: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) =
                     handleDrawerToggle={handleDrawerToggle}
                 />
             }
-        </Drawer>
+        </StyledDrawer>
     )
 }
 

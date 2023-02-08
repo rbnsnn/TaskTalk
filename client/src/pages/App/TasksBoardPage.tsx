@@ -1,16 +1,16 @@
-import { Box, Typography, Slide } from '@mui/material'
 import React, { useState, useEffect, useContext } from 'react'
-import { DragDropContext, Droppable } from 'react-beautiful-dnd'
-import TaskColumn from '../../components/Tasks/TasksBoard/TasksColumn/TasksColumn'
-import TaskAdd from '../../components/Tasks/TaskAdd/TaskAdd'
+import { Box, Typography, Slide } from '@mui/material'
+import { DragDropContext } from 'react-beautiful-dnd'
 import { ColumnData } from '../../types/column-data.type'
 import { TaskEvent } from '../../types/task-event-enum.type'
 import { SocketContext } from '../../helpers/socket/socket-context'
-import TasksColumnAdd from '../../components/Tasks/TasksBoard/TasksColumn/TasksColumnAdd'
-import LoadingPage from '../LoadingPage'
 import { onDragEnd } from '../../helpers/TasksBoard/onDragEnd'
+import TaskAdd from '../../components/Tasks/TaskAdd/TaskAdd'
+import TasksColumnAdd from '../../components/Tasks/TasksBoard/TasksColumn/TasksColumnAdd'
+import TasksBoard from '../../components/Tasks/TasksBoard/TasksBoard'
+import LoadingPage from '../LoadingPage'
 
-const TasksBoard: React.FC = () => {
+const TasksBoardPage: React.FC = () => {
     const socket: any = useContext(SocketContext)
     const [columns, setColumns] = useState<ColumnData[]>([])
     const [loading, setLoading] = useState<boolean>(true)
@@ -45,34 +45,7 @@ const TasksBoard: React.FC = () => {
                         <TaskAdd data={columns} />
 
                         {columns.length ? (
-                            <Droppable
-                                droppableId='board'
-                                type='COLUMN'
-                                direction='horizontal'
-                            >
-                                {(provided) => (
-                                    <Box
-                                        ref={provided.innerRef}
-                                        {...provided.droppableProps}
-                                        display='flex'
-                                        flexDirection='row'
-                                        justifyContent='flex-start'
-                                        maxWidth='100%'
-                                        maxHeight='90%'
-                                        pb={-2}
-                                    >
-                                        {columns.map((column, index) => (
-                                            <TaskColumn
-                                                key={column.columnId}
-                                                data={column}
-                                                index={index}
-                                                columns={columns.length}
-                                            />
-                                        ))}
-                                        {provided.placeholder}
-                                    </Box>
-                                )}
-                            </Droppable>
+                            <TasksBoard columns={columns} />
                         ) : (
                             <Typography
                                 align='center'
@@ -89,4 +62,4 @@ const TasksBoard: React.FC = () => {
     )
 }
 
-export default TasksBoard
+export default TasksBoardPage

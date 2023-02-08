@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Avatar } from '@mui/material'
-import { stringToColor } from './stringToColor'
-import UserPopper from './UserPopper'
+import { stringToColor } from '../../../helpers/stringToColor'
 import { useApi } from '../../../hooks/useApi'
+import UserAvatarPopper from './UserAvatarPopper'
 
 interface Props {
     id: string
@@ -63,7 +63,7 @@ const UserAvatar: React.FC<Props> = ({
                 )}
 
                 {popper && (
-                    <UserPopper
+                    <UserAvatarPopper
                         id={id!}
                         open={open}
                         handleClose={handleClose}

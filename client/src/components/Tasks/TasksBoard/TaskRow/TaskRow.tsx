@@ -1,9 +1,9 @@
 import React from 'react'
 import { Box, Paper, Typography, styled } from '@mui/material'
 import { Draggable } from 'react-beautiful-dnd'
-import TaskLabel from './TaskLabel'
-import TaskTitle from './TaskRowTitle'
 import { setPriorityColor } from '../../../../helpers/setPriorityColor'
+import TaskLabel from './TaskLabel'
+import TaskRowTitle from './TaskRowTitle'
 
 const TaskRowContainer = styled(Box)<{ priority: string }>(({ theme, priority }) => ({
     margin: '10px 0',
@@ -46,7 +46,7 @@ const TaskRow: React.FC<Props> = ({ index, task }) => {
                                 alignItems='center'
                                 justifyContent='space-between'
                             >
-                                <TaskTitle
+                                <TaskRowTitle
                                     taskId={task.taskId}
                                     columnId={task.assignedColumn}
                                     title={task.title}

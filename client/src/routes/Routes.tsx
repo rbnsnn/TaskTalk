@@ -1,14 +1,14 @@
 import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { useAppSelector } from '../hooks/redux-hooks'
+import { RootState } from '../store/store'
 import AppPage from '../pages/App/AppPage'
 import LoginPage from '../pages/Auth/LoginPage'
 import RegisterPage from '../pages/Auth/RegisterPage'
 import LogoutPage from '../pages/Auth/LogoutPage'
 import DashBoardPage from '../pages/App/DashboardPage'
 import UsersTablePage from '../pages/App/UsersTablePage'
-import TasksBoard from '../pages/App/TasksBoardPage'
-import { RootState } from '../store/store'
+import TasksBoardPage from '../pages/App/TasksBoardPage'
 import TaskPage from '../pages/App/TaskPage'
 import TasksTablePage from '../pages/App/TasksTablePage'
 
@@ -32,7 +32,7 @@ const AppRoutes: React.FC = () => {
                         />
                         <Route
                             path='board'
-                            element={<TasksBoard />}
+                            element={<TasksBoardPage />}
                         />
                         <Route
                             path='tasks'

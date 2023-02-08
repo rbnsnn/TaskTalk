@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
-import { Card, CardContent, Divider } from '@mui/material'
+import { Card, CardContent, Divider, Box } from '@mui/material'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
-import ColumnTitle from './TasksColumnTitle'
+import TasksColumnTitle from './TasksColumnTitle'
 import TaskRow from '../TaskRow/TaskRow'
-
-import DeleteColumnDialog from './TasksColumnDeleteDialog'
-import { Box } from '@mui/system'
+import TasksDeleteColumnDialog from './TasksColumnDeleteDialog'
 
 interface Props {
     data: any
@@ -49,7 +47,7 @@ const TasksColumn: React.FC<Props> = ({ data, index, columns }) => {
                     }}
                 >
                     <Card elevation={2}>
-                        <ColumnTitle
+                        <TasksColumnTitle
                             dragHandle={provided.dragHandleProps}
                             name={data.name}
                             columnId={data.columnId}
@@ -87,7 +85,7 @@ const TasksColumn: React.FC<Props> = ({ data, index, columns }) => {
                                 </CardContent>
                             )}
                         </Droppable>
-                        <DeleteColumnDialog
+                        <TasksDeleteColumnDialog
                             open={deleteDialogOpen}
                             close={handleDeleteDialogClose}
                             name={data.name}

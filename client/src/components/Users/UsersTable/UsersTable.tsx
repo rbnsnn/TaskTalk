@@ -10,9 +10,9 @@ import {
     Slide,
     Box,
 } from '@mui/material'
+import { UserData } from '../../../types/user-data.type'
 import UserRow from './UserRow'
 import UsersTableTitle from './UsersTableTitle'
-import { UserData } from '../../../types/user-data.type'
 
 interface Props {
     data: UserData[]

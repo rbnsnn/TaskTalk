@@ -7,12 +7,12 @@ import {
     ListItemText,
     Button,
 } from '@mui/material'
-import BadgeIcon from '@mui/icons-material/Badge'
-import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew'
-import PhoneIcon from '@mui/icons-material/Phone'
 import { UserData } from '../../../types/user-data.type'
 import { useAppSelector } from '../../../hooks/redux-hooks'
 import { RootState } from '../../../store/store'
+import BadgeIcon from '@mui/icons-material/Badge'
+import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew'
+import PhoneIcon from '@mui/icons-material/Phone'
 import UserDelete from '../UserDelete/UserDelete'
 
 interface Props {

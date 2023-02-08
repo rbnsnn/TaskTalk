@@ -1,6 +1,6 @@
 import React from 'react'
-import AppBarDesktop from './AppMainBarDesktop'
-import AppBarMobile from './AppMainBarMobile'
+import AppMainBarDesktop from './AppMainBarDesktop'
+import AppMainBarMobile from './AppMainBarMobile'
 
 interface Props {
     drawerOpen: boolean
@@ -10,11 +10,11 @@ interface Props {
 const AppMainBar: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) => {
     return (
         <>
-            <AppBarDesktop
+            <AppMainBarDesktop
                 drawerOpen={drawerOpen}
                 handleDrawerToggle={handleDrawerToggle}
             />
-            <AppBarMobile
+            <AppMainBarMobile
                 drawerOpen={drawerOpen}
                 handleDrawerToggle={handleDrawerToggle}
             />

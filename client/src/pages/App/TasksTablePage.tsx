@@ -1,9 +1,8 @@
 import React from 'react'
-
-import TasksTable from '../../components/Tasks/TasksTable/TasksTable'
 import { useTasksTableHandler } from '../../hooks/useTasksTableHandler'
-import LoadingPage from '../LoadingPage'
 import { Typography } from '@mui/material'
+import TasksTable from '../../components/Tasks/TasksTable/TasksTable'
+import LoadingPage from '../LoadingPage'
 
 const TasksTablePage: React.FC = () => {
     const { state, loading, dispatch } = useTasksTableHandler()

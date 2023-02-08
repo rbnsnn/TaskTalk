@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box } from '@mui/material'
 import { AppBar } from './AppMainBarStyled'
-import AppBarContent from './AppMainBarContent'
+import AppMainBarContent from './AppMainBarContent'
 
 interface Props {
     drawerOpen: boolean
@@ -19,7 +19,7 @@ const AppMainBarMobile: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) =
                     width: { xs: '100%' },
                 }}
             >
-                <AppBarContent handleDrawerToggle={handleDrawerToggle} />
+                <AppMainBarContent handleDrawerToggle={handleDrawerToggle} />
             </AppBar>
         </Box>
     )

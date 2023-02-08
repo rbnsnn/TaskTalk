@@ -1,10 +1,10 @@
+import React from 'react'
 import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-
 interface Props {
     to: string
-    text: string,
+    text: string
     icon: React.ReactElement
 }
 
@@ -19,10 +19,11 @@ const ListItemLink: React.FC<Props> = ({ to, text, icon }) => {
     }
 
     return (
-        <ListItemButton selected={routeMatch} onClick={handleNavigate} >
-            <ListItemIcon>
-                {icon}
-            </ListItemIcon>
+        <ListItemButton
+            selected={routeMatch}
+            onClick={handleNavigate}
+        >
+            <ListItemIcon>{icon}</ListItemIcon>
             <ListItemText primary={text} />
         </ListItemButton>
     )

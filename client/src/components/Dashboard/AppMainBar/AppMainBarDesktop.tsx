@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box } from '@mui/material'
 import { AppBar } from './AppMainBarStyled'
-import AppBarContent from './AppMainBarContent'
+import AppMainBarContent from './AppMainBarContent'
 
 interface Props {
     drawerOpen: boolean
@@ -18,7 +18,7 @@ const AppMainBarDesktop: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) 
                     display: { xs: 'none', sm: 'block' },
                 }}
             >
-                <AppBarContent
+                <AppMainBarContent
                     drawerOpen={drawerOpen}
                     handleDrawerToggle={handleDrawerToggle}
                 />

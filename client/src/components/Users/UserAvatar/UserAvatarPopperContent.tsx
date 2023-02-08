@@ -3,7 +3,7 @@ import { Card, CardActions, CardHeader, CardContent, IconButton } from '@mui/mat
 import ShareIcon from '@mui/icons-material/Share'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import UserAvatar from './UserAvatar'
-import UserPopperLoading from './UserPopperLoading'
+import UserAvatarPopperLoading from './UserAvatarPopperLoading'
 
 interface Props {
     id: string
@@ -41,7 +41,7 @@ const UserPopperContent: React.FC<Props> = ({ id, data }) => {
                     </CardActions>
                 </>
             ) : (
-                <UserPopperLoading />
+                <UserAvatarPopperLoading />
             )}
         </Card>
     )

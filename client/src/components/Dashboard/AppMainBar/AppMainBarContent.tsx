@@ -1,10 +1,11 @@
+import React from 'react'
 import { Menu } from '@mui/icons-material'
 import { Toolbar, Box, IconButton, Badge } from '@mui/material'
+import { useAppSelector } from '../../../hooks/redux-hooks'
+import { RootState } from '../../../store/store'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import MailIcon from '@mui/icons-material/Mail'
 import UserAvatar from '../../Users/UserAvatar/UserAvatar'
-import { useAppSelector } from '../../../hooks/redux-hooks'
-import { RootState } from '../../../store/store'
 
 interface Props {
     drawerOpen?: boolean

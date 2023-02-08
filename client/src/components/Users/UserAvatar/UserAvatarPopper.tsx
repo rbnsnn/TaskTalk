@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Fade, Box, styled } from '@mui/material'
-import UserPopperContent from './UserPopperContent'
+import UserAvatarPopperContent from './UserAvatarPopperContent'
 import PopperUnstyled from '@mui/base/PopperUnstyled'
 
 const PopperArrow = styled('div')(({ theme }) => ({
@@ -124,7 +124,7 @@ const UserPopper: React.FC<Props> = ({
                             ref={setArrowRef}
                         />
 
-                        <UserPopperContent
+                        <UserAvatarPopperContent
                             id={id}
                             data={data}
                         />
