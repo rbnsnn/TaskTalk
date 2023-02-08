@@ -8,7 +8,7 @@ import { onDragEnd } from '../../helpers/TasksBoard/onDragEnd'
 import TaskAdd from '../../components/Tasks/TaskAdd/TaskAdd'
 import TasksColumnAdd from '../../components/Tasks/TasksBoard/TasksColumn/TasksColumnAdd'
 import TasksBoard from '../../components/Tasks/TasksBoard/TasksBoard'
-import LoadingPage from '../LoadingPage'
+import LoadingPage from './LoadingPage'
 
 const TasksBoardPage: React.FC = () => {
     const socket: any = useContext(SocketContext)
