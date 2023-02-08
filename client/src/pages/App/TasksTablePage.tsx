@@ -3,11 +3,10 @@ import { useTasksTableHandler } from '../../hooks/useTasksTableHandler'
 import { Typography } from '@mui/material'
 import TasksTable from '../../components/Tasks/TasksTable/TasksTable'
 import LoadingPage from './LoadingPage'
-import { getTextContrast } from '../../helpers/getTextContrast'
 
 const TasksTablePage: React.FC = () => {
     const { state, loading, dispatch } = useTasksTableHandler()
-    console.log(getTextContrast('ffffffff'))
+
     return (
         <>
             {!loading && (
