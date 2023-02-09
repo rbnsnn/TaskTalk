@@ -17,17 +17,20 @@ import TasksColumnTitleMenu from './TasksColumnTitleMenu'
 import { TaskEvent } from '../../../../types/task-event-enum.type'
 import { SocketContext } from '../../../../helpers/socket/socket-context'
 import { DraggableStateSnapshot } from 'react-beautiful-dnd'
+import ColorPicker from './ColorPicker/ColorPicker'
 
-const TitleContainer = styled(Box)<{ dragging: boolean | undefined }>(
-    ({ theme, dragging }) => ({
+const TitleContainer = styled(Box)<{ dragging: number; color: string; contrast: string }>(
+    ({ theme, dragging, color, contrast }) => ({
         display: 'flex',
         flexDirection: 'column',
+        backgroundColor: color,
+        color: contrast,
         width: '100%',
         boxShadow:
             dragging && theme.palette.mode === 'dark'
                 ? 'inset 0 0 0 10em rgba(255, 255, 255, 0.1)'
                 : 'inset 0 0 0 10em rgba(0, 0, 0, 0.1)',
-
+        transition: 'box-shadow 0.3s ease-in-out',
         ':hover': {
             boxShadow:
                 theme.palette.mode === 'dark'
@@ -49,6 +52,11 @@ interface Props {
     handleMenuClose: () => void
 }
 
+interface ColumnColorI {
+    background: string
+    contrast: string
+}
+
 const TasksColumnTitle: React.FC<Props> = ({
     dragHandle,
     name,
@@ -61,15 +69,21 @@ const TasksColumnTitle: React.FC<Props> = ({
     snapshot,
 }) => {
     const socket: any = useContext(SocketContext)
+    const [colorOpen, setColorOpen] = useState<boolean>(false)
+    const [columnColor, setColumnColor] = useState<ColumnColorI>({} as any)
     const [editing, setEditing] = useState<boolean>(false)
     const [columnName, setColumnName] = useState<string>(name)
-
+    const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null)
     const [success, setSuccess] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<boolean>(false)
 
     const handleEdit = (): void => {
         setEditing(true)
+    }
+
+    const handleColorOpen = (): void => {
+        setColorOpen(true)
     }
 
     const handleTitleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -121,13 +135,25 @@ const TasksColumnTitle: React.FC<Props> = ({
     }, [success, socket, handleReset, columnId])
 
     return (
-        <TitleContainer dragging={snapshot.isDragging ? snapshot.isDragging : undefined}>
+        <TitleContainer
+            color={columnColor.background}
+            contrast={columnColor.contrast}
+            dragging={snapshot.isDragging ? 1 : 0}
+        >
             <Box
                 display='flex'
                 justifyContent='space-between'
                 alignItems='center'
                 padding='0 20px'
+                onMouseOver={(e) => setAnchorEl(e.currentTarget)}
             >
+                <ColorPicker
+                    columnColor={columnColor}
+                    setColumnColor={setColumnColor}
+                    open={colorOpen}
+                    id={columnId}
+                    anchorEl={anchorEl}
+                />
                 <Box
                     flex={1}
                     {...dragHandle}
@@ -168,6 +194,7 @@ const TasksColumnTitle: React.FC<Props> = ({
                                 menuOpen={menuOpen}
                                 handleClose={handleMenuClose}
                                 handleEdit={handleEdit}
+                                handleColorOpen={handleColorOpen}
                                 deleteDialogOpen={deleteDialogOpen}
                             />
                         </>

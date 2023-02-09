@@ -90,7 +90,7 @@ const UserPopper: React.FC<Props> = ({
                     name: 'preventOverflow',
                     enabled: true,
                     options: {
-                        altAxis: true,
+                        altAxis: false,
                         altBoundary: true,
                         tether: true,
                         rootBoundary: 'viewport',

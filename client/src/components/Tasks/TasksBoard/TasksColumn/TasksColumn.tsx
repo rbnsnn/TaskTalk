@@ -16,6 +16,8 @@ const StyledCardContent = styled(CardContent)<{ dragging: string | null | undefi
             dragging && theme.palette.mode === 'dark'
                 ? 'inset 0 0 0 20em rgba(255, 255, 255, 0.1)'
                 : 'inset 0 0 0 20em rgba(0, 0, 0, 0.1)',
+
+        transition: 'box-shadow 0.3s ease-in-out',
     })
 )
 

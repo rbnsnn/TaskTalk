@@ -8,6 +8,7 @@ interface Props {
     menuOpen: null | HTMLElement
     handleClose: () => void
     handleEdit: () => void
+    handleColorOpen: () => void
     deleteDialogOpen: () => void
 }
 
@@ -16,11 +17,16 @@ const TasksColumnTitleMenu: React.FC<Props> = ({
     handleClose,
     handleEdit,
     deleteDialogOpen,
+    handleColorOpen,
 }) => {
     const open = Boolean(menuOpen)
 
-    const handleClick = () => {
+    const handleRename = () => {
         handleEdit()
+        handleClose()
+    }
+    const handleColor = () => {
+        handleColorOpen()
         handleClose()
     }
 
@@ -30,13 +36,13 @@ const TasksColumnTitleMenu: React.FC<Props> = ({
             onClose={handleClose}
             anchorEl={menuOpen}
         >
-            <MenuItem onClick={handleClick}>
+            <MenuItem onClick={handleRename}>
                 <ListItemIcon>
                     <DriveFileRenameOutlineIcon />
                 </ListItemIcon>
                 <ListItemText>Rename</ListItemText>
             </MenuItem>
-            <MenuItem onClick={handleClick}>
+            <MenuItem onClick={handleColor}>
                 <ListItemIcon>
                     <PaletteIcon />
                 </ListItemIcon>

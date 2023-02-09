@@ -16,6 +16,6 @@ export const getTextContrast = (color: string): string | Error => {
 
         const contrast = Math.round((rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000)
 
-        return contrast > 125 ? 'black' : 'white'
+        return contrast > 200 ? 'black' : 'white'
     }
 }

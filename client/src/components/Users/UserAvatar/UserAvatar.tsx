@@ -38,10 +38,9 @@ const UserAvatar: React.FC<Props> = ({
         setOpen(true)
         setAnchorRef(event.currentTarget)
     }
-    const handleMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
+    const handleMouseEnter = () => {
         executeFetch()
     }
-
     return (
         <>
             <Avatar
