@@ -11,7 +11,6 @@ const Search = styled('div')(({ theme }) => ({
                 ? 'inset 0 0 0 10em rgba(255, 255, 255, 0.05)'
                 : 'inset 0 0 0 10em rgba(0, 0, 0, 0.05)',
     },
-    marginRight: theme.spacing(2),
     marginLeft: 0,
     width: '100%',
     [theme.breakpoints.up('sm')]: {

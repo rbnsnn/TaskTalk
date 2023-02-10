@@ -30,7 +30,7 @@ const UserPopperContent: React.FC<Props> = ({ id, data }) => {
                             </IconButton>
                         }
                         title={`${data.firstName} ${data.lastName}`}
-                        subheader='September 14, 2016'
+                        subheader={data.username}
                     />
 
                     <CardContent></CardContent>

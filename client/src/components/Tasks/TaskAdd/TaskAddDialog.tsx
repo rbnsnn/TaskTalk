@@ -26,6 +26,8 @@ import { isNotEmpty } from '../../../helpers/formHelper'
 // import { TaskLabel } from '../../../types/task-label.type'
 import { ColumnData } from '../../../types/column-data.type'
 import { SocketContext } from '../../../helpers/socket/socket-context'
+import { capitalize } from '../../../helpers/capitalize'
+import { setPriorityColor } from '../../../helpers/setPriorityColor'
 
 interface Props {
     open: boolean
@@ -189,9 +191,21 @@ const TaskAddDialog: React.FC<Props> = ({ open, close }) => {
                 <Autocomplete
                     sx={{ mt: 2 }}
                     multiple
+                    limitTags={4}
                     id='assigned-users'
                     options={usersData ? usersData : []}
                     getOptionLabel={(option: UserData) => option.username}
+                    renderOption={(props, option) => (
+                        <Box
+                            component='li'
+                            {...props}
+                        >
+                            {option.username}{' '}
+                            {option.firstName && option.lastName
+                                ? `(${option.firstName} ${option.lastName})`
+                                : ''}
+                        </Box>
+                    )}
                     filterSelectedOptions
                     value={assignedUsers}
                     onChange={(event: any, newValue: UserData[] | [], reason: string) => {
@@ -203,7 +217,7 @@ const TaskAddDialog: React.FC<Props> = ({ open, close }) => {
                             setAssignedUsersHasError(false)
                         }
                     }}
-                    onBlur={(event: any) => {
+                    onBlur={() => {
                         if (assignedUsers.length === 0) {
                             setAssignedUsersHasError(true)
                         }
@@ -223,7 +237,7 @@ const TaskAddDialog: React.FC<Props> = ({ open, close }) => {
 
                 <Autocomplete
                     sx={{ mt: 2 }}
-                    id='assigned-users'
+                    id='assigned-status'
                     options={statusData ? statusData : []}
                     getOptionLabel={(option: ColumnData) => option.name}
                     filterSelectedOptions
@@ -239,7 +253,7 @@ const TaskAddDialog: React.FC<Props> = ({ open, close }) => {
                             setAssignedStatusTouched(true)
                         }
                     }}
-                    onBlur={(event: any) => {
+                    onBlur={() => {
                         if (!assignedStatus) {
                             setAssignedStatusHasError(true)
                             setAssignedStatusTouched(true)
@@ -263,52 +277,11 @@ const TaskAddDialog: React.FC<Props> = ({ open, close }) => {
                         display: { sx: 'block', sm: 'flex' },
                     }}
                 >
-                    <FormControl
-                        sx={{ width: '30%' }}
-                        required
-                        margin='normal'
-                        variant='standard'
-                        error={priorityHasError}
-                    >
-                        <InputLabel id='priorityLabel'>Priority</InputLabel>
-                        <Select
-                            value={priorityValue || ''}
-                            label='Priority'
-                            labelId='priorityLabel'
-                            id='priority'
-                            onChange={priorityChangeHandler}
-                            onBlur={priorityBlurHandler}
-                        >
-                            <MenuItem value={Priority.UNDEFINED}>Undefined</MenuItem>
-                            <MenuItem value={Priority.LOW}>Low</MenuItem>
-                            <MenuItem value={Priority.MEDIUM}>Medium</MenuItem>
-                            <MenuItem value={Priority.HIGH}>High</MenuItem>
-                        </Select>
-                        {priorityHasError && (
-                            <FormHelperText>priority not valid</FormHelperText>
-                        )}
-                    </FormControl>
-
-                    <TextField
-                        required
-                        multiline
-                        margin='normal'
-                        id='description'
-                        label='Description'
-                        variant='standard'
-                        fullWidth
-                        error={descriptionHasError}
-                        helperText={descriptionHasError ? 'description not valid' : ''}
-                        onChange={(e) => descriptionChangeHandler(e)}
-                        onBlur={(e) => descriptionBlurHandler(e)}
-                    />
-                </Box>
-                <Box>
                     <Autocomplete
                         sx={{ mt: 2 }}
                         multiple
                         fullWidth
-                        id='task-labels'
+                        id='assigned-labels'
                         options={['New']}
                         // getOptionLabel={}
                         filterSelectedOptions
@@ -322,6 +295,58 @@ const TaskAddDialog: React.FC<Props> = ({ open, close }) => {
                                 label='Labels'
                             />
                         )}
+                    />
+                    <FormControl
+                        sx={{ width: '30%' }}
+                        required
+                        margin='normal'
+                        error={priorityHasError}
+                    >
+                        <InputLabel id='priorityLabel'>Priority</InputLabel>
+                        <Select
+                            value={priorityValue || ''}
+                            label='Priority'
+                            labelId='priorityLabel'
+                            id='priority'
+                            onChange={priorityChangeHandler}
+                            onBlur={priorityBlurHandler}
+                        >
+                            {(Object.keys(Priority) as Array<keyof typeof Priority>).map(
+                                (item) => {
+                                    return (
+                                        <MenuItem
+                                            key={item}
+                                            value={item}
+                                            sx={{
+                                                color: setPriorityColor(
+                                                    item.toLowerCase()
+                                                ),
+                                            }}
+                                        >
+                                            {capitalize(item)}
+                                        </MenuItem>
+                                    )
+                                }
+                            )}
+                        </Select>
+                        {priorityHasError && (
+                            <FormHelperText>priority not valid</FormHelperText>
+                        )}
+                    </FormControl>
+                </Box>
+                <Box>
+                    <TextField
+                        required
+                        multiline
+                        margin='normal'
+                        id='description'
+                        label='Description'
+                        variant='standard'
+                        fullWidth
+                        error={descriptionHasError}
+                        helperText={descriptionHasError ? 'description not valid' : ''}
+                        onChange={(e) => descriptionChangeHandler(e)}
+                        onBlur={(e) => descriptionBlurHandler(e)}
                     />
                 </Box>
             </DialogContent>

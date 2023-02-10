@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import { Button } from '@mui/material'
-import { ColumnData } from '../../../types/column-data.type'
 import TaskAddDialog from './TaskAddDialog'
 import AddTaskIcon from '@mui/icons-material/AddTask'
 
 interface props {
-    data: ColumnData[]
+    disabled: boolean
 }
 
-const TaskAdd: React.FC<props> = ({ data }) => {
+const TaskAdd: React.FC<props> = ({ disabled }) => {
     const [addTaskOpen, setAddTaskOpen] = useState<boolean>(false)
 
     const handleClose = (): void => {
@@ -23,12 +22,10 @@ const TaskAdd: React.FC<props> = ({ data }) => {
         <>
             <Button
                 onClick={handleOpen}
-                disabled={!data.length}
+                disabled={disabled}
                 variant='contained'
                 sx={{
-                    mb: 2,
                     ml: 2,
-                    mt: 2,
                 }}
             >
                 <AddTaskIcon sx={{ mr: 2 }} />

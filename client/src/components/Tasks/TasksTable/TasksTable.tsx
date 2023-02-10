@@ -22,8 +22,6 @@ interface Props {
 }
 
 const TasksTable: React.FC<Props> = ({ state, dispatch }) => {
-    const handleOpen = () => ''
-
     const [searchValue, setSearchValue] = useState<string>('')
 
     const filteredTasksData = state.filtered.length ? (
@@ -61,7 +59,6 @@ const TasksTable: React.FC<Props> = ({ state, dispatch }) => {
                 }}
             >
                 <TasksTableTitle
-                    handleOpen={handleOpen}
                     dispatch={dispatch}
                     setSearchValue={setSearchValue}
                 />

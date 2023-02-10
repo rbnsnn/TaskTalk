@@ -19,7 +19,7 @@ import { RootState } from '../../store/store'
 
 const RegisterForm: React.FC = () => {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
-    const colorMode = prefersDarkMode ? 'dark' : 'light'
+    const colorMode: 'light' | 'dark' | '' = prefersDarkMode ? 'dark' : 'light'
 
     const {
         value: companyValue,

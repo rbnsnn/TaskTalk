@@ -3,5 +3,5 @@ export interface UserRegister {
     username: string
     email: string
     password: string
-    colorMode: string
+    colorMode: 'light' | 'dark' | ''
 }

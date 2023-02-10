@@ -31,7 +31,7 @@ export class LoginSerializeDto {
     assignedTasks: TaskInterface[]
 
     @Expose()
-    colorMode: string
+    colorMode: 'light' | 'dark' | ''
 
     @Expose()
     firstName: string

@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Paper, Typography, styled } from '@mui/material'
 import { Draggable } from 'react-beautiful-dnd'
 import { setPriorityColor } from '../../../../helpers/setPriorityColor'
-import TaskLabel from './TaskLabel'
+import TaskLabel from '../../TaskLabel/TaskLabel'
 import TaskRowTitle from './TaskRowTitle'
 
 const TaskRowContainer = styled(Box)<{ priority: string }>(({ theme, priority }) => ({
@@ -57,10 +57,7 @@ const TaskRow: React.FC<Props> = ({ index, task }) => {
                             <Box ml={1}>
                                 <Typography fontSize='large'>{task.title}</Typography>
                             </Box>
-                            <Box
-                                mt={2}
-                                ml={1}
-                            >
+                            <Box ml={2}>
                                 <Typography
                                     fontSize='small'
                                     sx={{

@@ -9,6 +9,7 @@ import TaskAdd from '../../components/Tasks/TaskAdd/TaskAdd'
 import TasksColumnAdd from '../../components/Tasks/TasksBoard/TasksColumn/TasksColumnAdd'
 import TasksBoard from '../../components/Tasks/TasksBoard/TasksBoard'
 import LoadingPage from './LoadingPage'
+import TaskLabelsEdit from '../../components/Tasks/TaskLabel/TaskLabelsEdit'
 
 const TasksBoardPage: React.FC = () => {
     const socket: any = useContext(SocketContext)
@@ -42,7 +43,8 @@ const TasksBoardPage: React.FC = () => {
                         height='100%'
                     >
                         <TasksColumnAdd />
-                        <TaskAdd data={columns} />
+                        <TaskAdd disabled={Boolean(!columns.length)} />
+                        <TaskLabelsEdit />
 
                         {columns.length ? (
                             <TasksBoard columns={columns} />

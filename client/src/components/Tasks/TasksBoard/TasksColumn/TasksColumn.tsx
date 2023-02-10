@@ -62,7 +62,7 @@ const TasksColumn: React.FC<Props> = ({ data, index, columns }) => {
                         width: 100 / columns + '%',
                         maxWidth: '50%',
                         minWidth: 350,
-                        margin: '20px 20px 0px 20px',
+                        margin: '10px 10px 0px 10px',
                         height: 'max-content',
                     }}
                 >

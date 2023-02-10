@@ -6,7 +6,6 @@ import LoadingPage from './LoadingPage'
 
 const TasksTablePage: React.FC = () => {
     const { state, loading, dispatch } = useTasksTableHandler()
-
     return (
         <>
             {!loading && (

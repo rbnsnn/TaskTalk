@@ -47,7 +47,7 @@ export class User {
     assignedTasks: TaskInterface[]
 
     @Prop()
-    colorMode: string
+    colorMode: 'light' | 'dark' | ''
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)

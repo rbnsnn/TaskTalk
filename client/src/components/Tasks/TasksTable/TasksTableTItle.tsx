@@ -1,16 +1,16 @@
 import React from 'react'
-import { Button, Typography, Box } from '@mui/material'
+import { Typography, Box } from '@mui/material'
 import { useAppSelector } from '../../../hooks/redux-hooks'
 import { RootState } from '../../../store/store'
 import TasksTableSearch from './TasksTableSearch'
+import TaskAdd from '../TaskAdd/TaskAdd'
 
 interface Props {
-    handleOpen: () => void
     dispatch: any
     setSearchValue: any
 }
 
-const TasksTableTitle: React.FC<Props> = ({ handleOpen, dispatch, setSearchValue }) => {
+const TasksTableTitle: React.FC<Props> = ({ dispatch, setSearchValue }) => {
     const { companyName } = useAppSelector((state: RootState) => state.auth.user)
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -41,13 +41,7 @@ const TasksTableTitle: React.FC<Props> = ({ handleOpen, dispatch, setSearchValue
             >
                 <TasksTableSearch onChange={handleSearchChange} />
 
-                <Button
-                    variant='contained'
-                    size='large'
-                    onClick={handleOpen}
-                >
-                    Add task
-                </Button>
+                <TaskAdd disabled={false} />
             </Box>
         </Box>
     )

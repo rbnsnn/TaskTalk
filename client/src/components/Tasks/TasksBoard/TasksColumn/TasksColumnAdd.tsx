@@ -22,6 +22,7 @@ const TasksColumnAdd: React.FC = () => {
                 sx={{
                     mb: 2,
                     mt: 2,
+                    ml: '10px',
                 }}
             >
                 <PostAddIcon sx={{ mr: 2 }} />

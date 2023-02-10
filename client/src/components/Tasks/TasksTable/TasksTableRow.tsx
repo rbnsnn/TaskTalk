@@ -44,7 +44,16 @@ const TasksTableRow: React.FC<Props> = ({ task }) => {
                 </Box>
             </TableCell>
             <TableCell align='right'>
-                <AvatarGroup max={3}>
+                <AvatarGroup
+                    max={6}
+                    sx={{
+                        avatar: {
+                            width: '24px',
+                            height: '24px',
+                            fontSize: '12px',
+                        },
+                    }}
+                >
                     {task.assignedUsers.map((user: CompanyUsers) => (
                         <UserAvatar
                             popper
