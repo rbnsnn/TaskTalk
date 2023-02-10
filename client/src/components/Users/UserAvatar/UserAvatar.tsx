@@ -52,7 +52,10 @@ const UserAvatar: React.FC<Props> = ({
                     width: size,
                     height: size,
                     fontSize: size / 2,
-                    bgcolor: stringToColor(`${firstName} ${lastName}`),
+                    bgcolor:
+                        firstName && lastName
+                            ? stringToColor(`${firstName} ${lastName}`)
+                            : '',
                 }}
             >
                 {firstName.length && lastName.length ? (

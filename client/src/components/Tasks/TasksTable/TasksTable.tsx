@@ -13,6 +13,8 @@ import { TasksTableState } from '../../../hooks/useTasksTableHandler'
 import TasksTableRow from './TasksTableRow'
 import TasksTableHead from './TasksTableHead'
 import TasksTableTitle from './TasksTableTItle'
+import TableCell from '@mui/material/TableCell'
+import Typography from '@mui/material/Typography'
 
 interface Props {
     state: TasksTableState
@@ -32,7 +34,11 @@ const TasksTable: React.FC<Props> = ({ state, dispatch }) => {
             />
         ))
     ) : (
-        <TableRow>No tasks matching...</TableRow>
+        <TableRow>
+            <TableCell colSpan={6}>
+                <Typography textAlign='center'>No tasks matching...</Typography>
+            </TableCell>
+        </TableRow>
     )
 
     const tasksData = state.data.map((task: TaskData) => (
@@ -77,7 +83,7 @@ const TasksTable: React.FC<Props> = ({ state, dispatch }) => {
                         />
 
                         <TableBody>
-                            {searchValue.length ? filteredTasksData : tasksData}
+                            {searchValue ? filteredTasksData : tasksData}
                         </TableBody>
                     </Table>
                 </TableContainer>

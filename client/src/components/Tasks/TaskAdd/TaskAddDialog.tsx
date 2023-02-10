@@ -58,7 +58,6 @@ const TaskAddDialog: React.FC<Props> = ({ open, close }) => {
         'POST',
         false
     )
-
     const fetchData = async () => {
         await refetchStatus()
         await refetchUsers()
@@ -102,7 +101,7 @@ const TaskAddDialog: React.FC<Props> = ({ open, close }) => {
         const newTask: TaskData = {
             taskId: '',
             assignedUsers: assignes,
-            status: assignedStatus!.name,
+            status: { name: assignedStatus!.name, color: assignedStatus!.color },
             assignedColumn: assignedStatus!.columnId,
             priority: priorityValue,
             labels: [],

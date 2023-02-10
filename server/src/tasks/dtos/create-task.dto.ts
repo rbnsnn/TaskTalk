@@ -1,5 +1,6 @@
-import { IsArray, IsString } from 'class-validator'
-import { CompanyUsers } from 'src/companies/types/company-users.interface'
+import { IsArray, IsObject, IsString } from 'class-validator'
+import { CompanyUsers } from '../../companies/types/company-users.interface'
+import { StatusI } from '../../tasks/types/status.type'
 import { Priority } from '../types/priority.enum'
 import { TaskLabel } from '../types/task-label.type'
 
@@ -7,8 +8,8 @@ export class CreateTaskDto {
     @IsArray()
     assignedUsers: CompanyUsers[]
 
-    @IsString()
-    status: string
+    @IsObject()
+    status: StatusI
 
     @IsString()
     assignedColumn: string

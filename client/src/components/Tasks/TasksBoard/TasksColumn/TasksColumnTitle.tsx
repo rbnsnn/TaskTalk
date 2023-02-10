@@ -11,69 +11,58 @@ import {
     Alert,
     styled,
 } from '@mui/material'
-import DoneIcon from '@mui/icons-material/Done'
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
-import TasksColumnTitleMenu from './TasksColumnTitleMenu'
+import { TasksColumnTitleContainer } from './TasksColumnTitleContainer'
 import { TaskEvent } from '../../../../types/task-event-enum.type'
 import { SocketContext } from '../../../../helpers/socket/socket-context'
 import { DraggableStateSnapshot } from 'react-beautiful-dnd'
+import DoneIcon from '@mui/icons-material/Done'
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
+import TasksColumnTitleMenu from './TasksColumnTitleMenu'
 import ColorPicker from './ColorPicker/ColorPicker'
+import { ColumnData } from '../../../../types/column-data.type'
 
-const TitleContainer = styled(Box)<{ dragging: number; color: string; contrast: string }>(
-    ({ theme, dragging, color, contrast }) => ({
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: color,
-        color: contrast,
-        width: '100%',
-        boxShadow:
-            dragging && theme.palette.mode === 'dark'
-                ? 'inset 0 0 0 10em rgba(255, 255, 255, 0.1)'
-                : 'inset 0 0 0 10em rgba(0, 0, 0, 0.1)',
-        transition: 'box-shadow 0.3s ease-in-out',
-        ':hover': {
-            boxShadow:
-                theme.palette.mode === 'dark'
-                    ? 'inset 0 0 0 10em rgba(255, 255, 255, 0.1)'
-                    : 'inset 0 0 0 10em rgba(0, 0, 0, 0.1)',
+const RenameTextField = styled(TextField)<{ contrast: string }>(
+    ({ theme, contrast }) => ({
+        input: {
+            color: contrast ? theme.palette.getContrastText(contrast) : '',
         },
     })
 )
 
+const MenuButton = styled(IconButton)<{ contrast: string }>(({ theme, contrast }) => ({
+    color: contrast ? theme.palette.getContrastText(contrast) : '',
+}))
+
 interface Props {
+    column: ColumnData
+    columnColor: string
     dragHandle: any
-    name: string
-    columnId: string
-    count: number
     snapshot: DraggableStateSnapshot
     menuOpen: HTMLElement | null
+    setColumnColor: any
     deleteDialogOpen: () => void
     handleMenuOpen: (e: any) => void
     handleMenuClose: () => void
 }
 
-interface ColumnColorI {
-    background: string
-    contrast: string
-}
-
 const TasksColumnTitle: React.FC<Props> = ({
+    column,
+    columnColor,
     dragHandle,
-    name,
-    count,
-    columnId,
     deleteDialogOpen,
     menuOpen,
     handleMenuOpen,
     handleMenuClose,
     snapshot,
+    setColumnColor,
 }) => {
+    const { name, columnId, color } = column
+
     const socket: any = useContext(SocketContext)
     const [colorOpen, setColorOpen] = useState<boolean>(false)
-    const [columnColor, setColumnColor] = useState<ColumnColorI>({} as any)
     const [editing, setEditing] = useState<boolean>(false)
     const [columnName, setColumnName] = useState<string>(name)
-    const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null)
+    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
     const [success, setSuccess] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<boolean>(false)
@@ -85,6 +74,9 @@ const TasksColumnTitle: React.FC<Props> = ({
     const handleColorOpen = (): void => {
         setColorOpen(true)
     }
+    const handleColorClose = (): void => {
+        setColorOpen(false)
+    }
 
     const handleTitleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         setColumnName(e.target.value)
@@ -95,7 +87,7 @@ const TasksColumnTitle: React.FC<Props> = ({
             setEditing(false)
             return
         }
-        socket.emit('rename_column', { columnName, columnId })
+        socket.emit(TaskEvent.RenameColumn, { columnName, color, columnId })
     }
 
     const handleOnEnterKey: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
@@ -135,9 +127,8 @@ const TasksColumnTitle: React.FC<Props> = ({
     }, [success, socket, handleReset, columnId])
 
     return (
-        <TitleContainer
-            color={columnColor.background}
-            contrast={columnColor.contrast}
+        <TasksColumnTitleContainer
+            color={columnColor}
             dragging={snapshot.isDragging ? 1 : 0}
         >
             <Box
@@ -152,7 +143,10 @@ const TasksColumnTitle: React.FC<Props> = ({
                     setColumnColor={setColumnColor}
                     open={colorOpen}
                     id={columnId}
+                    name={columnName}
                     anchorEl={anchorEl}
+                    socket={socket}
+                    handleClose={handleColorClose}
                 />
                 <Box
                     flex={1}
@@ -160,7 +154,8 @@ const TasksColumnTitle: React.FC<Props> = ({
                 >
                     {!editing && <Typography fontWeight='bold'>{name}</Typography>}
                     {editing && (
-                        <TextField
+                        <RenameTextField
+                            contrast={columnColor}
                             id='column-name'
                             variant='standard'
                             size='small'
@@ -174,7 +169,7 @@ const TasksColumnTitle: React.FC<Props> = ({
                 </Box>
                 <Box>
                     <Badge
-                        badgeContent={count}
+                        badgeContent={column.tasks.length}
                         color='primary'
                         sx={{
                             mr: 2,
@@ -183,12 +178,13 @@ const TasksColumnTitle: React.FC<Props> = ({
 
                     {!editing && (
                         <>
-                            <IconButton
+                            <MenuButton
+                                contrast={columnColor}
                                 onClick={handleMenuOpen}
                                 size='small'
                             >
                                 <MoreHorizIcon />
-                            </IconButton>
+                            </MenuButton>
 
                             <TasksColumnTitleMenu
                                 menuOpen={menuOpen}
@@ -223,7 +219,7 @@ const TasksColumnTitle: React.FC<Props> = ({
             </Box>
 
             <Snackbar
-                open={error}
+                open={Boolean(error)}
                 autoHideDuration={6000}
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
             >
@@ -235,7 +231,7 @@ const TasksColumnTitle: React.FC<Props> = ({
                     Column already exists!
                 </Alert>
             </Snackbar>
-        </TitleContainer>
+        </TasksColumnTitleContainer>
     )
 }
 

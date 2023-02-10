@@ -14,7 +14,7 @@ export const handleSearch = (
             .some(Boolean)
 
         const filterPriority = task.priority.toLowerCase().includes(input)
-        const filterStatus = task.status.toLowerCase().includes(input)
+        const filterStatus = task.status.name.toLowerCase().includes(input)
         const filterId = task.taskId.includes(input)
         const filterDate = date.includes(input)
         const filterLabel = task.labels

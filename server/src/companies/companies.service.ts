@@ -88,16 +88,19 @@ export class CompaniesService {
 
     async findOneColumnAndUpdate(
         companyId: string,
-        columnName: string,
+        payload: any,
         columnId: string
     ): Promise<boolean> {
         try {
+            const prop = Object.keys(payload)[0]
+            const value = payload[prop]
+
             await this.companyModel.findOneAndUpdate(
                 {
                     companyId,
                     'taskColumns.columnId': columnId,
                 },
-                { 'taskColumns.$.name': columnName }
+                { [`taskColumns.$.${prop}`]: value }
             )
             return true
         } catch (err) {

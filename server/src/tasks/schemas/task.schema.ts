@@ -3,6 +3,7 @@ import { Document } from 'mongoose'
 import { CompanyUsers } from 'src/companies/types/company-users.interface'
 import { CreatedBy } from '../types/created-by-interface'
 import { Priority } from '../types/priority.enum'
+import { StatusI } from '../types/status.type'
 import { TaskLabel } from '../types/task-label.type'
 
 export type TaskDocument = Task & Document
@@ -30,8 +31,8 @@ export class Task {
     @Prop()
     assignedUsers: CompanyUsers[] | null
 
-    @Prop()
-    status: string
+    @Prop({ type: Object })
+    status: StatusI
 
     @Prop()
     priority: Priority

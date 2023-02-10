@@ -4,6 +4,7 @@ import { Droppable, Draggable } from 'react-beautiful-dnd'
 import TasksColumnTitle from './TasksColumnTitle'
 import TaskRow from '../TaskRow/TaskRow'
 import TasksDeleteColumnDialog from './TasksColumnDeleteDialog'
+import { ColumnData } from '../../../../types/column-data.type'
 
 const StyledCardContent = styled(CardContent)<{ dragging: string | null | undefined }>(
     ({ theme, dragging }) => ({
@@ -12,17 +13,18 @@ const StyledCardContent = styled(CardContent)<{ dragging: string | null | undefi
         alignItems: 'center',
         maxHeight: '77vh',
         overflow: 'auto',
-        boxShadow:
-            dragging && theme.palette.mode === 'dark'
-                ? 'inset 0 0 0 20em rgba(255, 255, 255, 0.1)'
-                : 'inset 0 0 0 20em rgba(0, 0, 0, 0.1)',
+        boxShadow: dragging
+            ? theme.palette.mode === 'dark'
+                ? 'inset 0 0 0 20em rgba(255, 255, 255, 0.05)'
+                : 'inset 0 0 0 20em rgba(0, 0, 0, 0.05)'
+            : '',
 
         transition: 'box-shadow 0.3s ease-in-out',
     })
 )
 
 interface Props {
-    data: any
+    data: ColumnData
     index: number
     columns: number
 }
@@ -45,6 +47,8 @@ const TasksColumn: React.FC<Props> = ({ data, index, columns }) => {
         setDeleteDialogOpen(false)
     }
 
+    const [columnColor, setColumnColor] = useState<string>(data.color)
+
     return (
         <Draggable
             draggableId={data.columnId}
@@ -65,9 +69,9 @@ const TasksColumn: React.FC<Props> = ({ data, index, columns }) => {
                     <Card elevation={2}>
                         <TasksColumnTitle
                             dragHandle={provided.dragHandleProps}
-                            name={data.name}
-                            columnId={data.columnId}
-                            count={data.tasks.length}
+                            setColumnColor={setColumnColor}
+                            column={data}
+                            columnColor={columnColor}
                             deleteDialogOpen={handleDeleteDialogOpen}
                             menuOpen={menuOpen}
                             handleMenuOpen={handleMenuOpen}
@@ -80,20 +84,28 @@ const TasksColumn: React.FC<Props> = ({ data, index, columns }) => {
                             droppableId={data.columnId}
                         >
                             {(provided, snapshot) => (
-                                <StyledCardContent
-                                    dragging={snapshot.draggingOverWith}
-                                    ref={provided.innerRef}
-                                    {...provided.droppableProps}
+                                <Box
+                                    sx={{
+                                        boxShadow: columnColor
+                                            ? `0px 0px 100px -70px ${columnColor} inset`
+                                            : '',
+                                    }}
                                 >
-                                    {data.tasks.map((task: any, index: number) => (
-                                        <TaskRow
-                                            index={index}
-                                            key={task.taskId}
-                                            task={task}
-                                        />
-                                    ))}
-                                    {provided.placeholder}
-                                </StyledCardContent>
+                                    <StyledCardContent
+                                        dragging={snapshot.draggingOverWith}
+                                        ref={provided.innerRef}
+                                        {...provided.droppableProps}
+                                    >
+                                        {data.tasks.map((task: any, index: number) => (
+                                            <TaskRow
+                                                index={index}
+                                                key={task.taskId}
+                                                task={task}
+                                            />
+                                        ))}
+                                        {provided.placeholder}
+                                    </StyledCardContent>
+                                </Box>
                             )}
                         </Droppable>
                         <TasksDeleteColumnDialog

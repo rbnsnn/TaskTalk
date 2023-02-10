@@ -12,6 +12,7 @@ import { ChangeTaskDto } from '../tasks/dtos/change-task.dto'
 import { TasksService } from '../tasks/tasks.service'
 import { DeleteTaskDto } from '../tasks/dtos/delete-task.dto'
 import { TaskEvent } from './types/task-event-enum.type'
+import { ColorChangeDto } from 'src/companies/dtos/column-color-change.dto'
 
 @WebSocketGateway({
     cors: {
@@ -73,10 +74,10 @@ export class EventsGateway implements OnGatewayConnection {
     @SubscribeMessage(TaskEvent.RenameColumn)
     async renameColumn(
         @ConnectedSocket() client: Socket,
-        @MessageBody() column: { columnName: string; columnId: string }
+        @MessageBody() column: { columnName: string; columnId: string; color: string }
     ) {
         const { companyId } = client.handshake.auth
-        const { columnName, columnId } = column
+        const { columnName, columnId, color } = column
 
         const columnExists = await this.companiesService.findOneColumn(
             companyId,
@@ -92,10 +93,13 @@ export class EventsGateway implements OnGatewayConnection {
         } else {
             await this.companiesService.findOneColumnAndUpdate(
                 companyId,
-                columnName,
+                { name: columnName },
                 columnId
             )
-            await this.tasksService.updateMany(companyId, columnId, columnName)
+            await this.tasksService.updateMany(companyId, columnId, {
+                name: columnName,
+                color,
+            })
 
             const data = await this.tasksService.getAllTasks(companyId)
             this.server.in(companyId).emit(TaskEvent.SetTasks, data)
@@ -153,6 +157,22 @@ export class EventsGateway implements OnGatewayConnection {
 
         await this.companiesService.deleteColumn(companyId, columnId)
         await this.tasksService.deleteTasks(companyId, columnId)
+
+        const data = await this.tasksService.getAllTasks(companyId)
+
+        this.server.in(companyId).emit(TaskEvent.SetTasks, data)
+    }
+
+    @SubscribeMessage(TaskEvent.ColumnColorChange)
+    async changeColumnColor(
+        @ConnectedSocket() client: Socket,
+        @MessageBody() colorChangeDto: ColorChangeDto
+    ) {
+        const { companyId } = client.handshake.auth
+        const { columnId, color, name } = colorChangeDto
+
+        await this.companiesService.findOneColumnAndUpdate(companyId, { color }, columnId)
+        await this.tasksService.updateMany(companyId, columnId, { name, color })
 
         const data = await this.tasksService.getAllTasks(companyId)
 

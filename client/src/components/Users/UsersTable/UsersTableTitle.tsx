@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Typography, Box } from '@mui/material'
 import { useAppSelector } from '../../../hooks/redux-hooks'
 import { RootState } from '../../../store/store'
+import PersonAddIcon from '@mui/icons-material/PersonAdd'
 
 interface Props {
     handleOpen: () => void
@@ -29,6 +30,7 @@ const UsersTableTitle: React.FC<Props> = ({ handleOpen }) => {
                 size='large'
                 onClick={handleOpen}
             >
+                <PersonAddIcon sx={{ mr: 2 }} />
                 Add User
             </Button>
         </Box>

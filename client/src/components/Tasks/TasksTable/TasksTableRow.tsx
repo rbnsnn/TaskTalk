@@ -1,10 +1,15 @@
 import React from 'react'
-import { TableCell, TableRow, Chip, Box, AvatarGroup } from '@mui/material'
+import { TableCell, TableRow, Chip, Box, AvatarGroup, styled } from '@mui/material'
 import { TaskData } from '../../../types/task-data.type'
 import { setPriorityColor } from '../../../helpers/setPriorityColor'
 import { CompanyUsers } from '../../../types/company-users.type'
 import UserAvatar from '../../Users/UserAvatar/UserAvatar'
 import TextLink from '../../Links/TextLink'
+
+const TableChip = styled(Chip)<{ contrast: string }>(({ theme, contrast }) => ({
+    color: contrast ? theme.palette.getContrastText(contrast) : '',
+    textAlign: 'center',
+}))
 
 interface Props {
     task: TaskData
@@ -63,9 +68,13 @@ const TasksTableRow: React.FC<Props> = ({ task }) => {
                 />
             </TableCell>
             <TableCell align='right'>
-                <Chip
-                    label={task.status}
+                <TableChip
+                    contrast={task.status.color}
+                    label={task.status.name}
                     size='small'
+                    sx={{
+                        backgroundColor: task.status.color,
+                    }}
                 />
             </TableCell>
             <TableCell align='right'>{task.taskId}</TableCell>

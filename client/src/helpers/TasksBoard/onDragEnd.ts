@@ -47,7 +47,7 @@ export const onDragEnd = (
                 taskToChange: {
                     taskId: draggableId,
                     assignedColumn: destColumn.columnId,
-                    status: destColumn.name,
+                    status: { name: destColumn.name, color: destColumn.color },
                 },
             })
 

@@ -6,6 +6,7 @@ import { CreateTaskDto } from './dtos/create-task.dto'
 import ShortUniqueId from 'short-unique-id'
 import { CompaniesService } from 'src/companies/companies.service'
 import { TaskInterface } from './types/task.interface'
+import { StatusI } from './types/status.type'
 
 @Injectable()
 export class TasksService {
@@ -57,7 +58,7 @@ export class TasksService {
 
     async updateTask(
         taskId: string,
-        status: string,
+        status: StatusI,
         assignedColumn: string
     ): Promise<boolean> {
         try {
@@ -71,7 +72,7 @@ export class TasksService {
     async updateMany(
         companyId: string,
         assignedColumn: string,
-        status: string
+        status: StatusI
     ): Promise<boolean> {
         try {
             await this.taskModel.updateMany(
