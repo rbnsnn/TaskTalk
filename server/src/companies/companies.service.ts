@@ -79,9 +79,14 @@ export class CompaniesService {
     }
 
     async findOneColumn(companyId: string, columnName: string): Promise<boolean> {
-        const column = await this.companyModel.findOne({
-            $and: [{ companyId }, { taskColumns: { $elemMatch: { name: columnName } } }],
-        })
+        const column = await this.companyModel
+            .findOne({
+                $and: [
+                    { companyId },
+                    { taskColumns: { $elemMatch: { name: columnName } } },
+                ],
+            })
+            .collation({ locale: 'en', strength: 1 })
 
         return column ? true : false
     }

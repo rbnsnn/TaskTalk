@@ -70,7 +70,7 @@ const TasksTableHead: React.FC<Props> = ({ data, dispatch }) => {
                         active={data.order === TaskOrder.status}
                         direction={data.order === TaskOrder.status ? data.dir : 'asc'}
                     >
-                        Status
+                        Status/Column
                     </TableSortLabel>
                 </TableCell>
                 <TableCell

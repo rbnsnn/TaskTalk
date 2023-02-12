@@ -20,8 +20,6 @@ const TasksColumnAdd: React.FC = () => {
                 onClick={handleOpen}
                 variant='contained'
                 sx={{
-                    mb: 2,
-                    mt: 2,
                     ml: '10px',
                 }}
             >

@@ -45,13 +45,9 @@ const TasksTableRow: React.FC<Props> = ({ task }) => {
             </TableCell>
             <TableCell align='right'>
                 <AvatarGroup
-                    max={6}
+                    max={4}
                     sx={{
-                        avatar: {
-                            width: '24px',
-                            height: '24px',
-                            fontSize: '12px',
-                        },
+                        '& .MuiAvatar-root': { width: 24, height: 24, fontSize: 12 },
                     }}
                 >
                     {task.assignedUsers.map((user: CompanyUsers) => (

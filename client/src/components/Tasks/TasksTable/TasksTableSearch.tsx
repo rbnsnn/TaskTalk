@@ -44,7 +44,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const TasksTableSearch = (props: any) => {
     return (
-        <Search>
+        <Search sx={{ mr: 1 }}>
             <SearchIconWrapper>
                 <SearchIcon />
             </SearchIconWrapper>

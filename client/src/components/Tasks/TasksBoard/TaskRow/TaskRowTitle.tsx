@@ -57,8 +57,11 @@ const TaskRowTitle: React.FC<Props> = ({
                 <TextLink to={`../task/${taskId}`}>{taskId}</TextLink>
             </Box>
             <AvatarGroup
-                sx={{ ml: 'auto' }}
-                max={3}
+                max={4}
+                sx={{
+                    ml: 'auto',
+                    '& .MuiAvatar-root': { width: 24, height: 24, fontSize: 12 },
+                }}
             >
                 {assignedUsers.map((user: CompanyUsers) => (
                     <UserAvatar

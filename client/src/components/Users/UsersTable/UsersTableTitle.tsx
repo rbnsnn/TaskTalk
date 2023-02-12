@@ -13,7 +13,6 @@ const UsersTableTitle: React.FC<Props> = ({ handleOpen }) => {
 
     return (
         <Box
-            p={4}
             display='flex'
             flexDirection='row'
             justifyContent='space-between'

@@ -23,6 +23,15 @@ export const lightTheme = createTheme({
         },
     },
     components: {
+        MuiDialog: {
+            styleOverrides: {
+                root: {
+                    '& .MuiDialog-container': {
+                        alignItems: 'flex-start',
+                    },
+                },
+            },
+        },
         MuiLink: {
             styleOverrides: {
                 root: {

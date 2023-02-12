@@ -24,6 +24,7 @@ const TasksBoard: React.FC<Props> = ({ columns }) => {
                     justifyContent='flex-start'
                     maxWidth='100%'
                     maxHeight='90%'
+                    mt={2}
                     pb={-2}
                 >
                     {columns.map((column, index) => (

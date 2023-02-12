@@ -75,17 +75,16 @@ const UsersTable: React.FC<Props> = ({ data, handleOpen, handleUpdate }) => {
                                 ))}
                         </TableBody>
                     </Table>
+                    <TablePagination
+                        rowsPerPageOptions={[5, 10, 25]}
+                        component='div'
+                        count={data.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
                 </TableContainer>
-
-                <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    component='div'
-                    count={data.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
             </Box>
         </Slide>
     )

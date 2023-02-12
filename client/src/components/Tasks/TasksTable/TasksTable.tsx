@@ -18,10 +18,11 @@ import Typography from '@mui/material/Typography'
 
 interface Props {
     state: TasksTableState
+    columns: boolean
     dispatch: any
 }
 
-const TasksTable: React.FC<Props> = ({ state, dispatch }) => {
+const TasksTable: React.FC<Props> = ({ state, columns, dispatch }) => {
     const [searchValue, setSearchValue] = useState<string>('')
 
     const filteredTasksData = state.filtered.length ? (
@@ -60,6 +61,7 @@ const TasksTable: React.FC<Props> = ({ state, dispatch }) => {
             >
                 <TasksTableTitle
                     dispatch={dispatch}
+                    columns={columns}
                     setSearchValue={setSearchValue}
                 />
                 <TableContainer

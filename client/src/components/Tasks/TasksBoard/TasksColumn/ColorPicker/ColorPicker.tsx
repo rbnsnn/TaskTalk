@@ -1,9 +1,10 @@
 import React from 'react'
 import { Popper, Fade, Paper, Box } from '@mui/material'
-import { CustomPicker, GithubPicker } from 'react-color'
+import { CustomPicker } from 'react-color'
 import { TaskEvent } from '../../../../../types/task-event-enum.type'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore'
+import StyledPicker from './StyledPicker'
 
 interface Props {
     columnColor: string
@@ -72,10 +73,10 @@ const ColorPicker: React.FC<Props> = ({
                             alignItems: 'center',
                         }}
                     >
-                        <GithubPicker
-                            width='215px'
-                            color={columnColor}
-                            onChangeComplete={handleChangeColor}
+                        <StyledPicker
+                        // width='215px'
+                        // color={columnColor}
+                        // onChangeComplete={handleChangeColor}
                         />
                         <Box
                             sx={{

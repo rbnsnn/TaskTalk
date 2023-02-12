@@ -4,13 +4,15 @@ import { useAppSelector } from '../../../hooks/redux-hooks'
 import { RootState } from '../../../store/store'
 import TasksTableSearch from './TasksTableSearch'
 import TaskAdd from '../TaskAdd/TaskAdd'
+import TasksColumnAdd from '../TasksBoard/TasksColumn/TasksColumnAdd'
 
 interface Props {
     dispatch: any
     setSearchValue: any
+    columns: boolean
 }
 
-const TasksTableTitle: React.FC<Props> = ({ dispatch, setSearchValue }) => {
+const TasksTableTitle: React.FC<Props> = ({ dispatch, setSearchValue, columns }) => {
     const { companyName } = useAppSelector((state: RootState) => state.auth.user)
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -20,7 +22,6 @@ const TasksTableTitle: React.FC<Props> = ({ dispatch, setSearchValue }) => {
 
     return (
         <Box
-            p={4}
             display='flex'
             flexDirection='row'
             justifyContent='space-between'
@@ -40,8 +41,8 @@ const TasksTableTitle: React.FC<Props> = ({ dispatch, setSearchValue }) => {
                 justifyContent='space-between'
             >
                 <TasksTableSearch onChange={handleSearchChange} />
-
-                <TaskAdd disabled={false} />
+                <TasksColumnAdd />
+                <TaskAdd disabled={!columns} />
             </Box>
         </Box>
     )

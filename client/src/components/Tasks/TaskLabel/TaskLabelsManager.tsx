@@ -9,6 +9,7 @@ import {
     DialogTitle,
     CircularProgress,
 } from '@mui/material'
+import TaskLabel from './TaskLabel'
 
 interface Props {
     open: boolean
@@ -30,7 +31,9 @@ const TaskLabelsManager: React.FC<Props> = ({ open, close }) => {
             open={open}
         >
             <DialogTitle align='center'>Labels Manager</DialogTitle>
-            <DialogContent></DialogContent>
+            <DialogContent>
+                <TaskLabel label='Enchancements' />
+            </DialogContent>
 
             <DialogActions
                 sx={{

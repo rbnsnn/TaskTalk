@@ -114,6 +114,7 @@ export const useTasksTableHandler = () => {
     })
     const socket: any = useContext(SocketContext)
 
+    const [columns, setColumns] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
@@ -123,6 +124,7 @@ export const useTasksTableHandler = () => {
                 .map((column: ColumnData) => column.tasks)
                 .flat()
             dispatch({ type: 'change', data: tasksData })
+            setColumns(Boolean(socketData.length))
             setLoading(false)
         }
         socket.on(TaskEvent.SetTasks, dataHandle)
@@ -132,5 +134,5 @@ export const useTasksTableHandler = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    return { state, loading, dispatch }
+    return { state, columns, loading, dispatch }
 }

@@ -5,7 +5,8 @@ import TasksTable from '../../components/Tasks/TasksTable/TasksTable'
 import LoadingPage from './LoadingPage'
 
 const TasksTablePage: React.FC = () => {
-    const { state, loading, dispatch } = useTasksTableHandler()
+    const { state, columns, loading, dispatch } = useTasksTableHandler()
+
     return (
         <>
             {!loading && (
@@ -13,6 +14,7 @@ const TasksTablePage: React.FC = () => {
                     {state.data.length ? (
                         <TasksTable
                             state={state}
+                            columns={columns}
                             dispatch={dispatch}
                         />
                     ) : (
