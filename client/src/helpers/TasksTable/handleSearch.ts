@@ -1,6 +1,6 @@
 import { CompanyUsers } from '../../types/company-users.type'
 import { TaskData } from '../../types/task-data.type'
-import { TaskLabel } from '../../types/task-label.type'
+import { LabelI } from '../../types/task-label.type'
 
 export const handleSearch = (
     data: TaskData[],
@@ -18,7 +18,7 @@ export const handleSearch = (
         const filterId = task.taskId.includes(input)
         const filterDate = date.includes(input)
         const filterLabel = task.labels
-            .map((element: TaskLabel) => element.label.toLowerCase())
+            .map((element: LabelI) => element.label.toLowerCase())
             .includes(input)
 
         if (

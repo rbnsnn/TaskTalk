@@ -16,6 +16,7 @@ const UsersTableTitle: React.FC<Props> = ({ handleOpen }) => {
             display='flex'
             flexDirection='row'
             justifyContent='space-between'
+            mb={2}
         >
             <Typography
                 variant='h4'

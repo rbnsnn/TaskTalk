@@ -25,6 +25,7 @@ const TasksTableTitle: React.FC<Props> = ({ dispatch, setSearchValue, columns })
             display='flex'
             flexDirection='row'
             justifyContent='space-between'
+            mb={2}
             sx={{
                 width: { xs: '95%', sm: '100%', xl: '85%' },
             }}

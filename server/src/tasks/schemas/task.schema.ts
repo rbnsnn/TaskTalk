@@ -4,7 +4,7 @@ import { CompanyUsers } from 'src/companies/types/company-users.interface'
 import { CreatedBy } from '../types/created-by-interface'
 import { Priority } from '../types/priority.enum'
 import { StatusI } from '../types/status.type'
-import { TaskLabel } from '../types/task-label.type'
+import { LabelI } from '../types/task-label.type'
 
 export type TaskDocument = Task & Document
 
@@ -38,7 +38,7 @@ export class Task {
     priority: Priority
 
     @Prop()
-    labels: TaskLabel[] | null
+    labels: LabelI[] | null
 
     @Prop({ required: true })
     assignedColumn: string

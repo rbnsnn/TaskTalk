@@ -25,27 +25,31 @@ interface Props {
 const TasksTable: React.FC<Props> = ({ state, columns, dispatch }) => {
     const [searchValue, setSearchValue] = useState<string>('')
 
-    const filteredTasksData = state.filtered.length ? (
-        state.filtered.map((task: TaskData) => (
-            <TasksTableRow
-                key={task.taskId}
-                task={task}
-            />
-        ))
-    ) : (
+    const tasksNotFound = (
         <TableRow>
             <TableCell colSpan={6}>
-                <Typography textAlign='center'>No tasks matching...</Typography>
+                <Typography textAlign='center'>No tasks found</Typography>
             </TableCell>
         </TableRow>
     )
 
-    const tasksData = state.data.map((task: TaskData) => (
-        <TasksTableRow
-            key={task.taskId}
-            task={task}
-        />
-    ))
+    const filteredTasksData = state.filtered.length
+        ? state.filtered.map((task: TaskData) => (
+              <TasksTableRow
+                  key={task.taskId}
+                  task={task}
+              />
+          ))
+        : tasksNotFound
+
+    const tasksData = state.data.length
+        ? state.data.map((task: TaskData) => (
+              <TasksTableRow
+                  key={task.taskId}
+                  task={task}
+              />
+          ))
+        : tasksNotFound
 
     return (
         <Slide

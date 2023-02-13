@@ -11,6 +11,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ViewKanbanIcon from '@mui/icons-material/ViewKanban'
 import ListIcon from '@mui/icons-material/List'
 import AppDrawerThemeSwitch from './AppDrawerThemeSwitch'
+import BookmarksIcon from '@mui/icons-material/Bookmarks'
 
 interface Props {
     drawerOpen?: boolean
@@ -53,6 +54,11 @@ const AppDrawerContent: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) =
                 <>
                     <Divider />
                     <List>
+                        <ListItemLink
+                            to={'/labels'}
+                            text='Labels'
+                            icon={<BookmarksIcon />}
+                        />
                         <ListItemLink
                             to={'/users'}
                             text='Users'

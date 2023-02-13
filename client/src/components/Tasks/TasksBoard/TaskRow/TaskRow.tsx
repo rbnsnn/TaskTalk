@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Paper, Typography, styled } from '@mui/material'
 import { Draggable } from 'react-beautiful-dnd'
 import { setPriorityColor } from '../../../../helpers/setPriorityColor'
-import TaskLabel from '../../TaskLabel/TaskLabel'
+import Label from '../../../Labels/Label'
 import TaskRowTitle from './TaskRowTitle'
 
 const TaskRowContainer = styled(Box)<{ priority: string }>(({ theme, priority }) => ({
@@ -68,7 +68,7 @@ const TaskRow: React.FC<Props> = ({ index, task }) => {
                                 </Typography>
                             </Box>
                             {task.labels.map((label: string) => (
-                                <TaskLabel
+                                <Label
                                     key={label}
                                     label={label}
                                 />

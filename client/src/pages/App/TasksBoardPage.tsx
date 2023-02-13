@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Box, Typography, Slide } from '@mui/material'
+import { Box, Button, Typography, Slide } from '@mui/material'
 import { DragDropContext } from 'react-beautiful-dnd'
 import { ColumnData } from '../../types/column-data.type'
 import { TaskEvent } from '../../types/task-event-enum.type'
@@ -9,7 +9,7 @@ import TaskAdd from '../../components/Tasks/TaskAdd/TaskAdd'
 import TasksColumnAdd from '../../components/Tasks/TasksBoard/TasksColumn/TasksColumnAdd'
 import TasksBoard from '../../components/Tasks/TasksBoard/TasksBoard'
 import LoadingPage from './LoadingPage'
-import TaskLabelsEdit from '../../components/Tasks/TaskLabel/TaskLabelsEdit'
+import BookmarkIcon from '@mui/icons-material/Bookmark'
 
 const TasksBoardPage: React.FC = () => {
     const socket: any = useContext(SocketContext)
@@ -44,7 +44,16 @@ const TasksBoardPage: React.FC = () => {
                     >
                         <TasksColumnAdd />
                         <TaskAdd disabled={Boolean(!columns.length)} />
-                        <TaskLabelsEdit />
+                        <Button
+                            // onClick={handleOpen}
+                            variant='contained'
+                            sx={{
+                                ml: 2,
+                            }}
+                        >
+                            <BookmarkIcon sx={{ mr: 2 }} />
+                            Manage Labels
+                        </Button>
 
                         {columns.length ? (
                             <TasksBoard columns={columns} />

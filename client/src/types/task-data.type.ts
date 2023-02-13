@@ -1,6 +1,6 @@
 import { CompanyUsers } from './company-users.type'
 import { StatusI } from './status.type'
-import { TaskLabel } from './task-label.type'
+import { LabelI } from './task-label.type'
 
 export interface TaskData {
     taskId: string
@@ -10,6 +10,6 @@ export interface TaskData {
     priority: string
     title: string
     description: string
-    labels: TaskLabel[]
+    labels: LabelI[]
     created?: string
 }

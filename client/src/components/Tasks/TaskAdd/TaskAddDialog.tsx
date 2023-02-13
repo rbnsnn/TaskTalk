@@ -316,7 +316,7 @@ const TaskAddDialog: React.FC<Props> = ({ open, close }) => {
                                     return (
                                         <MenuItem
                                             key={item}
-                                            value={item}
+                                            value={item.toLowerCase()}
                                             sx={{
                                                 color: setPriorityColor(
                                                     item.toLowerCase()

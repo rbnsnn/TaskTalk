@@ -1,7 +1,7 @@
 import { Expose } from 'class-transformer'
 import { CompanyUsers } from 'src/companies/types/company-users.interface'
 import { CreatedBy } from '../types/created-by-interface'
-import { TaskLabel } from '../types/task-label.type'
+import { LabelI } from '../types/task-label.type'
 
 export class TaskSerializeDto {
     @Expose()
@@ -20,7 +20,7 @@ export class TaskSerializeDto {
     description: string
 
     @Expose()
-    labels: TaskLabel[] | null
+    labels: LabelI[] | null
 
     @Expose()
     priority: string

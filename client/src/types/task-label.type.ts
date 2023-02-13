@@ -1,4 +1,4 @@
-export interface TaskLabel {
+export interface LabelI {
     label: string
     color: string
 }
