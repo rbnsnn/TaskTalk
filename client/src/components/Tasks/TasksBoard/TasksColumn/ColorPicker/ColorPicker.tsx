@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Popper, Fade, Paper, Box } from '@mui/material'
-import { CustomPicker } from 'react-color'
 import { TaskEvent } from '../../../../../types/task-event-enum.type'
+import { PopperArrow } from '../../../../Users/UserAvatar/UserAvatarPopper'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore'
 import StyledPicker from './StyledPicker'
+import ClickAwayListener from '@mui/material/ClickAwayListener'
 
 interface Props {
     columnColor: string
@@ -27,8 +28,9 @@ const ColorPicker: React.FC<Props> = ({
     socket,
     handleClose,
 }) => {
+    const [arrowRef, setArrowRef] = useState<HTMLElement | null>(null)
     const handleChangeColor = (color: any): void => {
-        setColumnColor(color.hex)
+        setColumnColor(color)
     }
 
     const handleApply = (): void => {
@@ -44,76 +46,97 @@ const ColorPicker: React.FC<Props> = ({
         setColumnColor('')
     }
     return (
-        <Popper
-            transition
-            id={id}
-            className='popper'
-            open={open}
-            anchorEl={anchorEl}
-            placement='bottom'
-            disablePortal={false}
-            sx={{ zIndex: 2000 }}
-            modifiers={[
-                {
-                    name: 'offset',
-                    options: {
-                        offset: [100, 10],
+        <ClickAwayListener onClickAway={handleClose}>
+            <Popper
+                transition
+                id={id}
+                className='popper'
+                open={open}
+                anchorEl={anchorEl}
+                placement='bottom'
+                disablePortal={false}
+                sx={{ zIndex: 2000 }}
+                modifiers={[
+                    {
+                        name: 'offset',
+                        options: {
+                            offset: [100, 5],
+                        },
                     },
-                },
-            ]}
-        >
-            {({ TransitionProps }) => (
-                <Fade
-                    {...TransitionProps}
-                    timeout={200}
-                >
-                    <Paper
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                        }}
+                    {
+                        name: 'arrow',
+                        enabled: true,
+                        options: {
+                            element: arrowRef,
+                        },
+                    },
+                ]}
+            >
+                {({ TransitionProps }) => (
+                    <Fade
+                        {...TransitionProps}
+                        timeout={200}
                     >
-                        <StyledPicker
-                        // width='215px'
-                        // color={columnColor}
-                        // onChangeComplete={handleChangeColor}
-                        />
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <CheckCircleIcon
-                                onClick={handleApply}
-                                sx={{
-                                    cursor: 'pointer',
-                                    margin: '5px',
-                                    width: '25px',
-                                    height: '25px',
-                                    color: '#33A095',
-                                    transition: 'ease-in-out 0.2s',
-                                    '&:hover': {
-                                        color: '#005F56',
-                                    },
-                                }}
+                        <Box>
+                            <PopperArrow
+                                sx={{}}
+                                className='arrow'
+                                ref={setArrowRef}
                             />
-                            <SettingsBackupRestoreIcon
-                                onClick={handleDefault}
+                            <Paper
                                 sx={{
-                                    cursor: 'pointer',
-                                    margin: '5px',
-                                    width: '25px',
-                                    height: '25px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    pl: 1,
+                                    pr: 1,
                                 }}
-                            />
+                            >
+                                <StyledPicker
+                                    active={columnColor}
+                                    onChangeComplete={handleChangeColor}
+                                />
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                    }}
+                                >
+                                    <CheckCircleIcon
+                                        onClick={handleApply}
+                                        sx={{
+                                            cursor: 'pointer',
+                                            margin: '5px',
+                                            width: '25px',
+                                            height: '25px',
+                                            color: '#33A095',
+                                            transition: 'ease-in-out 0.2s',
+                                            '&:hover': {
+                                                color: '#005F56',
+                                            },
+                                        }}
+                                    />
+                                    <SettingsBackupRestoreIcon
+                                        onClick={handleDefault}
+                                        sx={{
+                                            cursor: 'pointer',
+                                            margin: '5px',
+                                            width: '25px',
+                                            height: '25px',
+                                            transition: 'ease-in-out 0.2s',
+                                            '&:hover': {
+                                                color: '#33A095',
+                                            },
+                                        }}
+                                    />
+                                </Box>
+                            </Paper>
                         </Box>
-                    </Paper>
-                </Fade>
-            )}
-        </Popper>
+                    </Fade>
+                )}
+            </Popper>
+        </ClickAwayListener>
     )
 }
 
-export default CustomPicker(ColorPicker)
+export default ColorPicker

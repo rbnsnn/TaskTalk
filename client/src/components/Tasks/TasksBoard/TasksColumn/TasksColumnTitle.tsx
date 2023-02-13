@@ -138,16 +138,18 @@ const TasksColumnTitle: React.FC<Props> = ({
                 padding='0 20px'
                 onMouseOver={(e) => setAnchorEl(e.currentTarget)}
             >
-                <ColorPicker
-                    columnColor={columnColor}
-                    setColumnColor={setColumnColor}
-                    open={colorOpen}
-                    id={columnId}
-                    name={columnName}
-                    anchorEl={anchorEl}
-                    socket={socket}
-                    handleClose={handleColorClose}
-                />
+                {colorOpen && (
+                    <ColorPicker
+                        columnColor={columnColor}
+                        setColumnColor={setColumnColor}
+                        open={colorOpen}
+                        id={columnId}
+                        name={columnName}
+                        anchorEl={anchorEl}
+                        socket={socket}
+                        handleClose={handleColorClose}
+                    />
+                )}
                 <Box
                     flex={1}
                     {...dragHandle}

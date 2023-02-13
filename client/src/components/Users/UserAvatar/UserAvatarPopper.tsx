@@ -3,7 +3,7 @@ import { Fade, Box, styled } from '@mui/material'
 import UserAvatarPopperContent from './UserAvatarPopperContent'
 import PopperUnstyled from '@mui/base/PopperUnstyled'
 
-const PopperArrow = styled('div')(({ theme }) => ({
+export const PopperArrow = styled('div')(({ theme }) => ({
     '&::before': {
         content: '""',
         background: theme.palette.mode === 'dark' ? '#1e1e1e' : '#fff',

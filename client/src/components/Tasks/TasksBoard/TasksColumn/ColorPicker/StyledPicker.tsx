@@ -20,24 +20,48 @@ const colors = [
     '#D4C4FB',
 ]
 
-const ColorsContainer = styled(Box)(({ theme }) => ({
-    width: '500px',
-    display: 'flex',
+const ColorsContainer = styled('div')(({ theme }) => ({
+    boxSizing: 'content-box',
+    padding: '5px',
+    display: 'inline-flex',
     flexWrap: 'wrap',
-    flex: `0 0 50%`,
+    flex: 'suto',
     gap: '5px',
+    maxWidth: '227px',
+    zIndex: 1,
 }))
-const Color = styled(Box)<{ color: string }>(({ theme, color }) => ({
-    height: '24px',
-    width: '24px',
-    backgroundColor: color,
-}))
+const Color = styled(Box)<{ color: string; active: number }>(
+    ({ theme, color, active }) => ({
+        boxSizing: 'border-box',
+        height: '24px',
+        width: '24px',
+        backgroundColor: color,
+        border:
+            theme.palette.mode === 'dark'
+                ? active
+                    ? '2px solid white'
+                    : 'none'
+                : active
+                ? '2px solid black'
+                : 'none',
+        '&:hover': {
+            border: theme.palette.mode === 'dark' ? '2px solid white' : '2px solid black',
+        },
+    })
+)
 
-const StyledPicker: React.FC = () => {
+interface Props {
+    active: string
+    onChangeComplete: (color: any) => void
+}
+
+const StyledPicker: React.FC<Props> = ({ onChangeComplete, active }) => {
     return (
         <ColorsContainer>
             {colors.map((color) => (
                 <Color
+                    active={color === active ? 1 : 0}
+                    onClick={() => onChangeComplete(color)}
                     key={color}
                     color={color}
                 ></Color>
