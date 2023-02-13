@@ -5,6 +5,7 @@ import { ColumnData } from '../../types/column-data.type'
 import { TaskEvent } from '../../types/task-event-enum.type'
 import { SocketContext } from '../../helpers/socket/socket-context'
 import { onDragEnd } from '../../helpers/TasksBoard/onDragEnd'
+import { useNavigate } from 'react-router-dom'
 import TaskAdd from '../../components/Tasks/TaskAdd/TaskAdd'
 import TasksColumnAdd from '../../components/Tasks/TasksBoard/TasksColumn/TasksColumnAdd'
 import TasksBoard from '../../components/Tasks/TasksBoard/TasksBoard'
@@ -13,6 +14,7 @@ import BookmarkIcon from '@mui/icons-material/Bookmark'
 
 const TasksBoardPage: React.FC = () => {
     const socket: any = useContext(SocketContext)
+    const navigate = useNavigate()
     const [columns, setColumns] = useState<ColumnData[]>([])
     const [loading, setLoading] = useState<boolean>(true)
 
@@ -45,7 +47,7 @@ const TasksBoardPage: React.FC = () => {
                         <TasksColumnAdd />
                         <TaskAdd disabled={Boolean(!columns.length)} />
                         <Button
-                            // onClick={handleOpen}
+                            onClick={() => navigate('../labels')}
                             variant='contained'
                             sx={{
                                 ml: 2,
