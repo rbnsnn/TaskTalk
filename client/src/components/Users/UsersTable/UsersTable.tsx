@@ -2,9 +2,6 @@ import React, { useState } from 'react'
 import {
     Table,
     TableContainer,
-    TableCell,
-    TableRow,
-    TableHead,
     TableBody,
     TablePagination,
     Slide,
@@ -13,6 +10,7 @@ import {
 import { UserData } from '../../../types/user-data.type'
 import UserRow from './UserRow'
 import UsersTableTitle from './UsersTableTitle'
+import UsersTableHead from './UsersTableHead'
 
 interface Props {
     data: UserData[]
@@ -50,16 +48,7 @@ const UsersTable: React.FC<Props> = ({ data, handleOpen, handleUpdate }) => {
                         size='small'
                         stickyHeader
                     >
-                        <TableHead>
-                            <TableRow>
-                                <TableCell />
-                                <TableCell>Username</TableCell>
-                                <TableCell align='right'>User ID</TableCell>
-                                <TableCell align='right'>Role</TableCell>
-                                <TableCell align='right'>Email</TableCell>
-                                <TableCell align='right'>Tasks</TableCell>
-                            </TableRow>
-                        </TableHead>
+                        <UsersTableHead />
                         <TableBody>
                             {data
                                 .slice(

@@ -18,6 +18,10 @@ export class CompaniesController {
 
     @Get('/labels')
     async getLabels(@Request() req) {
-        return true
+        const { companyId } = req.user
+
+        const labels = await this.companiesService.findLabels(companyId)
+
+        return labels
     }
 }

@@ -3,6 +3,8 @@ import { TableCell, TableRow, Chip, Box, AvatarGroup, styled } from '@mui/materi
 import { TaskData } from '../../../types/task-data.type'
 import { setPriorityColor } from '../../../helpers/setPriorityColor'
 import { CompanyUsers } from '../../../types/company-users.type'
+import { LabelI } from '../../../types/task-label.type'
+import Label from '../../Labels/Label'
 import UserAvatar from '../../Users/UserAvatar/UserAvatar'
 import TextLink from '../../Links/TextLink'
 
@@ -36,11 +38,21 @@ const TasksTableRow: React.FC<Props> = ({ task }) => {
                     </TextLink>
                 </Box>
 
-                <Box mt={1}>
-                    <Chip
-                        label='label'
-                        size='small'
-                    />
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        mt: 2,
+                    }}
+                >
+                    {task.labels.map((label: LabelI) => (
+                        <Label
+                            key={label.label}
+                            label={label.label}
+                            description={label.description}
+                            color={label.color}
+                        />
+                    ))}
                 </Box>
             </TableCell>
             <TableCell align='right'>

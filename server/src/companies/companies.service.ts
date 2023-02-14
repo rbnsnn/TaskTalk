@@ -6,6 +6,7 @@ import { TaskColumn } from 'src/tasks/types/task-column'
 import { CreateCompanyDto } from './dtos/create-company.dto'
 import { Company, CompanyDocument } from './schemas/company.schema'
 import ShortUniqueId from 'short-unique-id'
+import { LabelI } from 'src/tasks/types/task-label.type'
 
 @Injectable()
 export class CompaniesService {
@@ -114,9 +115,12 @@ export class CompaniesService {
     }
 
     async findColumns(companyId: string): Promise<ColumnInterface[]> {
-        const columns = await this.companyModel.findOne({ companyId }).lean()
-
-        return columns.taskColumns ? columns.taskColumns : []
+        try {
+            const columns = await this.companyModel.findOne({ companyId }).lean()
+            return columns.taskColumns ? columns.taskColumns : []
+        } catch (err) {
+            return err
+        }
     }
 
     async deleteUserFromCompany(userId: string): Promise<boolean> {
@@ -165,6 +169,58 @@ export class CompaniesService {
         try {
             await this.findOneAndUpdateById(companyId, { taskColumns: newColumns })
 
+            return true
+        } catch (err) {
+            return err
+        }
+    }
+
+    async findLabels(companyId: string): Promise<LabelI[]> {
+        try {
+            const company = await this.companyModel.findOne({ companyId }).lean()
+            return company.labels ? company.labels : []
+        } catch (err) {
+            return err
+        }
+    }
+
+    async addLabel(companyId: string, label: LabelI): Promise<boolean> {
+        try {
+            await this.companyModel.findOneAndUpdate(
+                { companyId },
+                { $push: { labels: label } }
+            )
+            return true
+        } catch (err) {
+            return err
+        }
+    }
+
+    async deleteLabel(companyId: string, label: string): Promise<boolean> {
+        try {
+            await this.companyModel.findOneAndUpdate(
+                { companyId },
+                { $pull: { labels: { label } } }
+            )
+            return true
+        } catch (err) {
+            return err
+        }
+    }
+
+    async updateLabel(
+        companyId: string,
+        label: string,
+        payload: LabelI
+    ): Promise<boolean> {
+        try {
+            await this.companyModel.findOneAndUpdate(
+                {
+                    companyId,
+                    'labels.label': label,
+                },
+                { [`labels.$.label`]: payload }
+            )
             return true
         } catch (err) {
             return err

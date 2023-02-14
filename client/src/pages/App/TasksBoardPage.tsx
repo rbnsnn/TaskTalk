@@ -10,7 +10,7 @@ import TaskAdd from '../../components/Tasks/TaskAdd/TaskAdd'
 import TasksColumnAdd from '../../components/Tasks/TasksBoard/TasksColumn/TasksColumnAdd'
 import TasksBoard from '../../components/Tasks/TasksBoard/TasksBoard'
 import LoadingPage from './LoadingPage'
-import BookmarkIcon from '@mui/icons-material/Bookmark'
+import BookmarksIcon from '@mui/icons-material/Bookmarks'
 
 const TasksBoardPage: React.FC = () => {
     const socket: any = useContext(SocketContext)
@@ -53,7 +53,7 @@ const TasksBoardPage: React.FC = () => {
                                 ml: 2,
                             }}
                         >
-                            <BookmarkIcon sx={{ mr: 2 }} />
+                            <BookmarksIcon sx={{ mr: 2 }} />
                             Manage Labels
                         </Button>
 

@@ -1,11 +1,16 @@
 import React, { useState } from 'react'
 import { Box } from '@mui/material'
 import LabelsTable from './LabelsTable/LabelsTable'
+import { LabelI } from '../../types/task-label.type'
 
-const LabelsManager: React.FC = () => {
+interface Props {
+    data: LabelI[]
+}
+
+const LabelsManager: React.FC<Props> = ({ data }) => {
     return (
         <Box>
-            <LabelsTable />
+            <LabelsTable data={data} />
         </Box>
     )
 }

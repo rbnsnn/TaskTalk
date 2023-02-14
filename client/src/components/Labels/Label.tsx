@@ -1,9 +1,10 @@
 import React from 'react'
-import { styled, lighten } from '@mui/material'
+import { styled, lighten, Tooltip } from '@mui/material'
 import { hexToRgb, Irgb } from '../../helpers/hexToRgb'
 
 interface Props {
     label: string
+    description?: string
     size?: number
     color?: string
 }
@@ -16,7 +17,7 @@ const StyledLabel = styled('div')<{ size: number; rgb: Irgb | null; color: strin
                 fontWeight: 'bold',
                 backgroundColor: rgb ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.1)` : '',
                 textTransform: 'capitalize',
-                color: rgb ? lighten(color, 0.2) : '',
+                color: rgb ? lighten(color, 0.3) : '',
                 border: `0.5px solid`,
                 borderColor: rgb ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.4)` : '',
                 borderRadius: size,
@@ -56,17 +57,27 @@ const StyledLabel = styled('div')<{ size: number; rgb: Irgb | null; color: strin
     }
 )
 
-const Label: React.FC<Props> = ({ label, size = 24, color = '#10FDDB' }) => {
+const Label: React.FC<Props> = ({
+    label,
+    description = '',
+    size = 24,
+    color = '#EFEFEF',
+}) => {
     const rgb = hexToRgb(color)
 
     return (
-        <StyledLabel
-            size={size}
-            rgb={rgb}
-            color={color}
+        <Tooltip
+            title={description}
+            arrow
         >
-            {label}
-        </StyledLabel>
+            <StyledLabel
+                size={size}
+                rgb={rgb}
+                color={color}
+            >
+                {label}
+            </StyledLabel>
+        </Tooltip>
     )
 }
 

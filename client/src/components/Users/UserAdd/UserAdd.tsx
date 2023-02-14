@@ -285,7 +285,6 @@ const UserAdd: React.FC<Props> = ({ open, handleClose }) => {
                         <Button
                             color='error'
                             variant='contained'
-                            size='large'
                             onClick={handleCancel}
                         >
                             Cancel
@@ -293,7 +292,6 @@ const UserAdd: React.FC<Props> = ({ open, handleClose }) => {
                         <Button
                             disabled={!formIsValid}
                             variant='contained'
-                            size='large'
                             onClick={handleSubmit}
                         >
                             Submit

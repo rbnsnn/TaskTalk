@@ -15,11 +15,11 @@ import { TasksColumnTitleContainer } from './TasksColumnTitleContainer'
 import { TaskEvent } from '../../../../types/task-event-enum.type'
 import { SocketContext } from '../../../../helpers/socket/socket-context'
 import { DraggableStateSnapshot } from 'react-beautiful-dnd'
+import { ColumnData } from '../../../../types/column-data.type'
 import DoneIcon from '@mui/icons-material/Done'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import TasksColumnTitleMenu from './TasksColumnTitleMenu'
 import ColorPicker from './ColorPicker/ColorPicker'
-import { ColumnData } from '../../../../types/column-data.type'
 
 const RenameTextField = styled(TextField)<{ contrast: string }>(
     ({ theme, contrast }) => ({

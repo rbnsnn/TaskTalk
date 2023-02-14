@@ -45,8 +45,13 @@ const ColorPicker: React.FC<Props> = ({
     const handleDefault = (): void => {
         setColumnColor('')
     }
+
+    const handleClickAway = (): void => {
+        handleDefault()
+        handleClose()
+    }
     return (
-        <ClickAwayListener onClickAway={handleClose}>
+        <ClickAwayListener onClickAway={handleClickAway}>
             <Popper
                 transition
                 id={id}

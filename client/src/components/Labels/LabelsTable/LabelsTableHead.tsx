@@ -6,30 +6,30 @@ const LabelsTableHead: React.FC = () => {
         <TableHead>
             <TableRow>
                 <TableCell
-                    width='35%'
+                    width='30%'
                     align='left'
                 >
                     <TableSortLabel>Label</TableSortLabel>
                 </TableCell>
                 <TableCell
-                    width='13%'
-                    align='right'
+                    width='40%'
+                    align='left'
                 >
                     Description
                 </TableCell>
                 <TableCell
-                    width='13%'
-                    align='right'
+                    width='20%'
+                    align='left'
                 >
                     Active
                 </TableCell>
                 <TableCell
-                    width='13%'
-                    align='right'
+                    width='5%'
+                    align='center'
                 ></TableCell>
                 <TableCell
-                    width='13%'
-                    align='right'
+                    width='5%'
+                    align='center'
                 ></TableCell>
             </TableRow>
         </TableHead>

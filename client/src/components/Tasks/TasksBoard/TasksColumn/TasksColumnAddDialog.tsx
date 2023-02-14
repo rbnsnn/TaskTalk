@@ -70,12 +70,12 @@ const TasksColumnAddDialog: React.FC<Props> = ({ open, close }) => {
         if (!success) {
             return
         }
-        const userAdded = setTimeout(() => {
+        const columnAdded = setTimeout(() => {
             handleCancel()
         }, 1000)
 
         return () => {
-            clearTimeout(userAdded)
+            clearTimeout(columnAdded)
             socket.off(TaskEvent.CreateColumn)
         }
     }, [success, handleCancel, socket])

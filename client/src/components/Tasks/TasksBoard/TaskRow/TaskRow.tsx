@@ -2,6 +2,7 @@ import React from 'react'
 import { Box, Paper, Typography, styled } from '@mui/material'
 import { Draggable } from 'react-beautiful-dnd'
 import { setPriorityColor } from '../../../../helpers/setPriorityColor'
+import { LabelI } from '../../../../types/task-label.type'
 import Label from '../../../Labels/Label'
 import TaskRowTitle from './TaskRowTitle'
 
@@ -57,7 +58,10 @@ const TaskRow: React.FC<Props> = ({ index, task }) => {
                             <Box ml={1}>
                                 <Typography fontSize='large'>{task.title}</Typography>
                             </Box>
-                            <Box ml={2}>
+                            <Box
+                                ml={2}
+                                mt={1}
+                            >
                                 <Typography
                                     fontSize='small'
                                     sx={{
@@ -67,12 +71,22 @@ const TaskRow: React.FC<Props> = ({ index, task }) => {
                                     {task.description}
                                 </Typography>
                             </Box>
-                            {task.labels.map((label: string) => (
-                                <Label
-                                    key={label}
-                                    label={label}
-                                />
-                            ))}
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    mt: 2,
+                                }}
+                            >
+                                {task.labels.map((label: LabelI) => (
+                                    <Label
+                                        key={label.label}
+                                        label={label.label}
+                                        description={label.description}
+                                        color={label.color}
+                                    />
+                                ))}
+                            </Box>
                         </Box>
                     </Paper>
                 </TaskRowContainer>

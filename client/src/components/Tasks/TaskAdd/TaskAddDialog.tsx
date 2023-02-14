@@ -23,11 +23,12 @@ import { isLongerThan } from '../../../helpers/formHelper'
 import { TaskData } from '../../../types/task-data.type'
 import { Priority } from '../../../types/priority-enum'
 import { isNotEmpty } from '../../../helpers/formHelper'
-// import { TaskLabel } from '../../../types/task-label.type'
+import { LabelI } from '../../../types/task-label.type'
 import { ColumnData } from '../../../types/column-data.type'
 import { SocketContext } from '../../../helpers/socket/socket-context'
 import { capitalize } from '../../../helpers/capitalize'
 import { setPriorityColor } from '../../../helpers/setPriorityColor'
+import Label from '../../Labels/Label'
 
 interface Props {
     open: boolean
@@ -53,7 +54,12 @@ const TaskAddDialog: React.FC<Props> = ({ open, close }) => {
         executeFetch: refetchStatus,
     } = useApi('companies/names', 'GET', false)
 
-    // const [labels, setLabels] = useState<TaskLabel[]>([])
+    const [assignedLabels, setAssignedLabels] = useState<LabelI[]>([])
+    const {
+        data: labelsData,
+        reset: resetLabels,
+        executeFetch: refetchLabels,
+    } = useApi('companies/labels', 'GET', false)
 
     const { success, error, loading, executeFetch, reset } = useApi(
         'tasks/new',
@@ -63,6 +69,7 @@ const TaskAddDialog: React.FC<Props> = ({ open, close }) => {
     const fetchData = async () => {
         await refetchStatus()
         await refetchUsers()
+        await refetchLabels()
     }
 
     const {
@@ -106,7 +113,7 @@ const TaskAddDialog: React.FC<Props> = ({ open, close }) => {
             status: { name: assignedStatus!.name, color: assignedStatus!.color },
             assignedColumn: assignedStatus!.columnId,
             priority: priorityValue,
-            labels: [],
+            labels: assignedLabels,
             title: titleValue,
             description: descriptionValue,
         }
@@ -121,9 +128,18 @@ const TaskAddDialog: React.FC<Props> = ({ open, close }) => {
         setAssignedStatus(null)
         priorityReset()
         resetStatus()
+        resetLabels()
         resetUsers()
         reset()
-    }, [titleReset, descriptionReset, reset, priorityReset, resetStatus, resetUsers])
+    }, [
+        titleReset,
+        descriptionReset,
+        reset,
+        priorityReset,
+        resetStatus,
+        resetLabels,
+        resetUsers,
+    ])
 
     const handleCancel = useCallback((): void => {
         close()
@@ -234,42 +250,6 @@ const TaskAddDialog: React.FC<Props> = ({ open, close }) => {
                         />
                     )}
                 />
-
-                <Autocomplete
-                    sx={{ mt: 2 }}
-                    id='assigned-status'
-                    options={statusData ? statusData : []}
-                    getOptionLabel={(option: ColumnData) => option.name}
-                    filterSelectedOptions
-                    value={assignedStatus}
-                    onChange={(event: any, newValue: any, reason: string) => {
-                        if (reason === 'clear') {
-                            setAssignedStatus(null)
-                            setAssignedStatusHasError(true)
-                            setAssignedStatusTouched(true)
-                        } else {
-                            setAssignedStatus(newValue)
-                            setAssignedStatusHasError(false)
-                            setAssignedStatusTouched(true)
-                        }
-                    }}
-                    onBlur={() => {
-                        if (!assignedStatus) {
-                            setAssignedStatusHasError(true)
-                            setAssignedStatusTouched(true)
-                        }
-                    }}
-                    renderInput={(params) => (
-                        <TextField
-                            error={assignedStatusHasError}
-                            helperText={assignedStatusHasError ? 'status not valid' : ''}
-                            required
-                            {...params}
-                            label='Status'
-                        />
-                    )}
-                />
-
                 <Box
                     justifyContent='space-around'
                     gap='5%'
@@ -278,26 +258,44 @@ const TaskAddDialog: React.FC<Props> = ({ open, close }) => {
                     }}
                 >
                     <Autocomplete
-                        sx={{ mt: 2 }}
-                        multiple
                         fullWidth
-                        id='assigned-labels'
-                        options={['New']}
-                        // getOptionLabel={}
+                        sx={{ mt: 2 }}
+                        id='assigned-status'
+                        options={statusData ? statusData : []}
+                        getOptionLabel={(option: ColumnData) => option.name}
                         filterSelectedOptions
-                        // value={assignedUsers}
-                        // onChange={(event: any, newValue: UserData[] | []) => {
-                        //     setAssignedUsers(newValue)
-                        // }}
+                        value={assignedStatus}
+                        onChange={(event: any, newValue: any, reason: string) => {
+                            if (reason === 'clear') {
+                                setAssignedStatus(null)
+                                setAssignedStatusHasError(true)
+                                setAssignedStatusTouched(true)
+                            } else {
+                                setAssignedStatus(newValue)
+                                setAssignedStatusHasError(false)
+                                setAssignedStatusTouched(true)
+                            }
+                        }}
+                        onBlur={() => {
+                            if (!assignedStatus) {
+                                setAssignedStatusHasError(true)
+                                setAssignedStatusTouched(true)
+                            }
+                        }}
                         renderInput={(params) => (
                             <TextField
+                                error={assignedStatusHasError}
+                                helperText={
+                                    assignedStatusHasError ? 'status not valid' : ''
+                                }
+                                required
                                 {...params}
-                                label='Labels'
+                                label='Status'
                             />
                         )}
                     />
                     <FormControl
-                        sx={{ width: '30%' }}
+                        fullWidth
                         required
                         margin='normal'
                         error={priorityHasError}
@@ -334,6 +332,42 @@ const TaskAddDialog: React.FC<Props> = ({ open, close }) => {
                         )}
                     </FormControl>
                 </Box>
+                <Autocomplete
+                    sx={{ mt: 2 }}
+                    fullWidth
+                    multiple
+                    limitTags={4}
+                    id='assigned-labels'
+                    options={labelsData ? labelsData : []}
+                    getOptionLabel={(option: LabelI) => option.label}
+                    renderOption={(props, option) => (
+                        <Box
+                            component='li'
+                            {...props}
+                        >
+                            <Label
+                                label={option.label}
+                                color={option.color}
+                            />
+                        </Box>
+                    )}
+                    filterSelectedOptions
+                    value={assignedLabels}
+                    onChange={(event: any, newValue: LabelI[] | [], reason: string) => {
+                        if (reason === 'clear') {
+                            setAssignedLabels([])
+                        } else {
+                            setAssignedLabels(newValue)
+                        }
+                    }}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label='Labels'
+                        />
+                    )}
+                />
+
                 <Box>
                     <TextField
                         required
