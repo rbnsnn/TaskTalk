@@ -366,6 +366,16 @@ const TaskAddDialog: React.FC<Props> = ({ open, close }) => {
                             label='Labels'
                         />
                     )}
+                    renderTags={(value: LabelI[], getTagProps) =>
+                        value.map((option: LabelI, index) => (
+                            <Label
+                                key={option.label}
+                                label={option.label}
+                                color={option.color}
+                                tagProps={{ ...getTagProps({ index }) }}
+                            />
+                        ))
+                    }
                 />
 
                 <Box>
