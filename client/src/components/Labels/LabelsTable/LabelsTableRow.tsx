@@ -14,7 +14,7 @@ const LabelsTableRow: React.FC<Props> = ({ label }) => {
                 <Label
                     label={label.label}
                     color={label.color}
-                ></Label>
+                />
             </TableCell>
             <TableCell>
                 <Typography>{label.description}</Typography>

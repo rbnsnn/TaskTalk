@@ -14,12 +14,12 @@ const StyledChip = styled(Chip)<{ background: string; rgb: Irgb | null }>(
     ({ theme, background, rgb }) => {
         if (theme.palette.mode === 'dark') {
             return {
-                padding: 0,
+                padding: 5,
                 fontWeight: 'bold',
                 backgroundColor: rgb ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.1)` : '',
                 textTransform: 'capitalize',
                 color: rgb ? lighten(background, 0.3) : '',
-                border: `0.5px solid`,
+                border: `1px solid`,
                 borderColor: rgb ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.4)` : '',
                 width: 'max-content',
                 display: 'flex',
@@ -30,17 +30,18 @@ const StyledChip = styled(Chip)<{ background: string; rgb: Irgb | null }>(
             }
         } else {
             return {
+                padding: 5,
                 fontWeight: 'bold',
                 backgroundColor: rgb ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.4)` : '',
                 textTransform: 'capitalize',
                 color: rgb ? theme.palette.getContrastText(background) : '',
-                border: `0.5px solid`,
+                border: `1px solid`,
                 borderColor: rgb ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 1)` : '',
                 width: 'max-content',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                marginRight: '5px',
+                marginRight: '10px',
                 cursor: 'pointer',
             }
         }
@@ -52,7 +53,7 @@ const Label: React.FC<Props> = ({
     description = '',
     size = 'small',
     color = '#EFEFEF',
-    tagProps,
+    tagProps = null,
 }) => {
     const rgb = hexToRgb(color)
 
