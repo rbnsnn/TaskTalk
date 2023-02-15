@@ -17,13 +17,14 @@ import LabelsTableTitle from './LabelsTableTitle'
 
 interface Props {
     data: LabelI[]
+    handleUpdate: () => void
 }
 
-const LabelsTable: React.FC<Props> = ({ data }) => {
+const LabelsTable: React.FC<Props> = ({ data, handleUpdate }) => {
     const labelsNotFound = (
         <TableRow>
             <TableCell colSpan={6}>
-                <Typography textAlign='center'>No tasks found</Typography>
+                <Typography textAlign='center'>No labels found</Typography>
             </TableCell>
         </TableRow>
     )
@@ -33,6 +34,7 @@ const LabelsTable: React.FC<Props> = ({ data }) => {
               <LabelsTableRow
                   key={label.label}
                   label={label}
+                  handleUpdate={handleUpdate}
               />
           ))
         : labelsNotFound
@@ -49,7 +51,7 @@ const LabelsTable: React.FC<Props> = ({ data }) => {
                     alignItems: 'center',
                 }}
             >
-                <LabelsTableTitle />
+                <LabelsTableTitle handleUpdate={handleUpdate} />
                 <TableContainer
                     component={Paper}
                     sx={{

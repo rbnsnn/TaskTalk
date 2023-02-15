@@ -1,5 +1,17 @@
-import { Controller, Get, NotFoundException, Request } from '@nestjs/common'
+import {
+    Controller,
+    Get,
+    Post,
+    NotFoundException,
+    ConflictException,
+    Request,
+    Body,
+    Delete,
+    Param,
+    BadRequestException,
+} from '@nestjs/common'
 import { CompaniesService } from './companies.service'
+import { CreateLabelDto } from './dtos/create-label.dto'
 
 @Controller('companies')
 export class CompaniesController {
@@ -23,5 +35,30 @@ export class CompaniesController {
         const labels = await this.companiesService.findLabels(companyId)
 
         return labels
+    }
+
+    @Post('/labels/new')
+    async addLabel(@Request() req, @Body() createLabelDto: CreateLabelDto) {
+        const { companyId } = req.user
+        const labelExists = await this.companiesService.findOneLabel(
+            companyId,
+            createLabelDto.label
+        )
+        if (labelExists) {
+            throw new ConflictException('Label already exists')
+        } else {
+            return await this.companiesService.addLabel(companyId, createLabelDto)
+        }
+    }
+
+    @Delete('/labels/:label')
+    async deleteLabel(@Request() req, @Param('label') label) {
+        const { companyId } = req.user
+        const labelExists = await this.companiesService.findOneLabel(companyId, label)
+        if (labelExists) {
+            await this.companiesService.deleteLabel(companyId, label)
+        } else {
+            throw new BadRequestException('Something went wrong')
+        }
     }
 }

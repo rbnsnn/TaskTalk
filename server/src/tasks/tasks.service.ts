@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable, NotFoundException, Inject, forwardRef } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Task, TaskDocument } from './schemas/task.schema'
 import { Model } from 'mongoose'
@@ -12,6 +12,7 @@ import { StatusI } from './types/status.type'
 export class TasksService {
     constructor(
         @InjectModel(Task.name) private taskModel: Model<TaskDocument>,
+        @Inject(forwardRef(() => CompaniesService))
         private companiesService: CompaniesService
     ) {}
     async getAllTasks(companyId) {
@@ -130,6 +131,22 @@ export class TasksService {
                 throw new NotFoundException('Tasks not found')
             }
             return tasks
+        } catch (err) {
+            return err
+        }
+    }
+
+    async deleteLabelFromTasks(companyId: string, label: string): Promise<boolean> {
+        try {
+            await this.taskModel.updateMany(
+                {
+                    companyId,
+                },
+                {
+                    $pull: { labels: { label } },
+                }
+            )
+            return true
         } catch (err) {
             return err
         }

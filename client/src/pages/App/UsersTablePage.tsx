@@ -29,7 +29,7 @@ const UsersTablePage: React.FC = () => {
                     handleUpdate={handleUpdate}
                 />
             )}
-            {error && <p>error</p>}
+            {error && <p>Something went wrong</p>}
             {loading && <LoadingPage />}
             <UserAdd
                 open={addUserOpen}

@@ -1,14 +1,23 @@
 import React from 'react'
 import { useApi } from '../../hooks/useApi'
-import LabelsManager from '../../components/Labels/LabelsManager'
+import LabelsTable from '../../components/Labels/LabelsTable/LabelsTable'
 import LoadingPage from './LoadingPage'
 
 const LabelsPage: React.FC = () => {
-    const { data, loading } = useApi(`companies/labels`, 'GET')
+    const { data, loading, executeFetch } = useApi(`companies/labels`, 'GET')
+
+    const handleUpdate = (): void => {
+        executeFetch()
+    }
 
     return (
         <>
-            {!loading && data && <LabelsManager data={data} />}
+            {data && (
+                <LabelsTable
+                    data={data}
+                    handleUpdate={handleUpdate}
+                />
+            )}
             {loading && <LoadingPage />}
         </>
     )

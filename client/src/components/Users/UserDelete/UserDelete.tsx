@@ -64,7 +64,7 @@ const UserDelete: React.FC<Props> = ({ deleteOpen, handleDeleteClose, user }) =>
                 }}
             >
                 {error && <Alert severity='error'>{error}</Alert>}
-                {success && <Alert severity='error'>User deleted successfully!</Alert>}
+                {success && <Alert severity='success'>User deleted successfully!</Alert>}
                 {loading && <CircularProgress />}
                 {!success && (
                     <>

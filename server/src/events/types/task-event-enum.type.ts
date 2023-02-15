@@ -8,4 +8,5 @@ export enum TaskEvent {
     DeleteTask = 'delete_task',
     TaskChange = 'task_change',
     ColumnColorChange = 'column_color_change',
+    LabelUpdate = 'label_update',
 }

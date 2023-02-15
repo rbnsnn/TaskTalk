@@ -4,7 +4,11 @@ import { useAppSelector } from '../../../hooks/redux-hooks'
 import { RootState } from '../../../store/store'
 import LabelAdd from '../LabelAdd/LabelAdd'
 
-const LabelsTableTitle: React.FC = () => {
+interface Props {
+    handleUpdate: () => void
+}
+
+const LabelsTableTitle: React.FC<Props> = ({ handleUpdate }) => {
     const { companyName } = useAppSelector((state: RootState) => state.auth.user)
     return (
         <Box
@@ -22,7 +26,7 @@ const LabelsTableTitle: React.FC = () => {
             >
                 {companyName} labels manager
             </Typography>
-            <LabelAdd />
+            <LabelAdd handleUpdate={handleUpdate} />
         </Box>
     )
 }

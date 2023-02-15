@@ -25,7 +25,7 @@ const LabelAddDialog: React.FC<Props> = ({ open, close }) => {
     const [color, setColor] = useState<string>(randomColor())
     const [colorIsValid, setColorIsValid] = useState<boolean>(true)
     const { loading, error, success, executeFetch } = useApi(
-        'companies/tasks/new',
+        'companies/labels/new',
         'POST',
         false
     )
@@ -91,8 +91,12 @@ const LabelAddDialog: React.FC<Props> = ({ open, close }) => {
     }
 
     const handleSubmit = (): void => {
-        executeFetch()
-        console.log(labelValue, descriptionValue)
+        const newLabel = {
+            label: labelValue,
+            color,
+            description: descriptionValue,
+        }
+        executeFetch(newLabel)
     }
 
     useEffect(() => {

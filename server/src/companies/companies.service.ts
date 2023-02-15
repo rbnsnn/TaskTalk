@@ -1,17 +1,20 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, Inject, forwardRef } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { ColumnInterface } from 'src/tasks/types/column.interface'
 import { TaskColumn } from 'src/tasks/types/task-column'
 import { CreateCompanyDto } from './dtos/create-company.dto'
 import { Company, CompanyDocument } from './schemas/company.schema'
-import ShortUniqueId from 'short-unique-id'
 import { LabelI } from 'src/tasks/types/task-label.type'
+import { TasksService } from 'src/tasks/tasks.service'
+import ShortUniqueId from 'short-unique-id'
 
 @Injectable()
 export class CompaniesService {
     constructor(
-        @InjectModel(Company.name) private companyModel: Model<CompanyDocument>
+        @InjectModel(Company.name) private companyModel: Model<CompanyDocument>,
+        @Inject(forwardRef(() => TasksService))
+        private tasksService: TasksService
     ) {}
 
     async create(createCompanyDto: CreateCompanyDto): Promise<any> {
@@ -184,6 +187,16 @@ export class CompaniesService {
         }
     }
 
+    async findOneLabel(companyId: string, label: string): Promise<boolean> {
+        const labelExists = await this.companyModel
+            .findOne({
+                $and: [{ companyId }, { labels: { $elemMatch: { label: label } } }],
+            })
+            .collation({ locale: 'en', strength: 1 })
+
+        return labelExists ? true : false
+    }
+
     async addLabel(companyId: string, label: LabelI): Promise<boolean> {
         try {
             await this.companyModel.findOneAndUpdate(
@@ -198,6 +211,7 @@ export class CompaniesService {
 
     async deleteLabel(companyId: string, label: string): Promise<boolean> {
         try {
+            await this.tasksService.deleteLabelFromTasks(companyId, label)
             await this.companyModel.findOneAndUpdate(
                 { companyId },
                 { $pull: { labels: { label } } }
