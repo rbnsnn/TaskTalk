@@ -103,7 +103,7 @@ export class TasksService {
             const users = allTasksInColumn.flatMap((task) => task.assignedUsers)
             const tasksToDelete = allTasksInColumn.map((task) => task.taskId)
 
-            // await this.taskModel.deleteMany({ $and: [{ companyId }, { assignedColumn }] })
+            await this.taskModel.deleteMany({ $and: [{ companyId }, { assignedColumn }] })
             await this.usersService.deleteAllAssignedTasks(users, tasksToDelete)
             return true
         } catch (err) {
