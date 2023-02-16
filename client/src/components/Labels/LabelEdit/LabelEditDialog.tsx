@@ -135,7 +135,7 @@ const LabelEditDialog: React.FC<Props> = ({ open, close, label }) => {
                     gap: '20px',
                 }}
             >
-                Edit label{' '}
+                Edit label:
                 <Label
                     label={label.label}
                     color={label.color}

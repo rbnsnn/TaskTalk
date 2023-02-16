@@ -155,7 +155,7 @@ export class EventsGateway implements OnGatewayConnection {
     ) {
         const { companyId } = client.handshake.auth
 
-        await this.companiesService.deleteColumn(companyId, columnId)
+        // await this.companiesService.deleteColumn(companyId, columnId)
         await this.tasksService.deleteTasks(companyId, columnId)
 
         const data = await this.tasksService.getAllTasks(companyId)

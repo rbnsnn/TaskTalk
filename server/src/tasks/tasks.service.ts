@@ -8,13 +8,15 @@ import { CompaniesService } from 'src/companies/companies.service'
 import { TaskInterface } from './types/task.interface'
 import { StatusI } from './types/status.type'
 import { LabelI } from './types/task-label.type'
+import { UsersService } from 'src/users/users.service'
 
 @Injectable()
 export class TasksService {
     constructor(
         @InjectModel(Task.name) private taskModel: Model<TaskDocument>,
         @Inject(forwardRef(() => CompaniesService))
-        private companiesService: CompaniesService
+        private companiesService: CompaniesService,
+        private usersService: UsersService
     ) {}
     async getAllTasks(companyId) {
         const tasks = await this.taskModel.find({ companyId })
@@ -37,6 +39,7 @@ export class TasksService {
     async createTask(createTaskDto: CreateTaskDto, user: any) {
         const taskUid = new ShortUniqueId({ length: 10 })
         const generatedTaskUid = taskUid()
+        const { assignedUsers } = createTaskDto
 
         const newTask = {
             ...createTaskDto,
@@ -55,6 +58,7 @@ export class TasksService {
             user.companyId,
             generatedTaskUid
         )
+        await this.usersService.addAssignedTask(assignedUsers, generatedTaskUid)
         return true
     }
 
@@ -93,7 +97,14 @@ export class TasksService {
 
     async deleteTasks(companyId: string, assignedColumn: string): Promise<boolean> {
         try {
-            await this.taskModel.deleteMany({ $and: [{ companyId }, { assignedColumn }] })
+            const allTasksInColumn = await this.taskModel.find({
+                $and: [{ companyId }, { assignedColumn }],
+            })
+            const users = allTasksInColumn.flatMap((task) => task.assignedUsers)
+            const tasksToDelete = allTasksInColumn.map((task) => task.taskId)
+
+            // await this.taskModel.deleteMany({ $and: [{ companyId }, { assignedColumn }] })
+            await this.usersService.deleteAllAssignedTasks(users, tasksToDelete)
             return true
         } catch (err) {
             return err
@@ -119,7 +130,11 @@ export class TasksService {
 
     async deleteOneTask(companyId: string, taskId: string): Promise<boolean> {
         try {
-            await this.taskModel.deleteOne({ $and: [{ companyId, taskId }] })
+            const { assignedUsers } = await this.taskModel.findOneAndDelete({
+                $and: [{ companyId, taskId }],
+            })
+
+            await this.usersService.deleteAssignedTask(assignedUsers, taskId)
         } catch (err) {
             return err
         }

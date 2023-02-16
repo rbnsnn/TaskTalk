@@ -1,17 +1,25 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common'
+import {
+    Injectable,
+    NotFoundException,
+    ConflictException,
+    Inject,
+    forwardRef,
+} from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { User, UserDocument } from './schemas/user.schema'
 import { Model } from 'mongoose'
 import { RegisterUserDto } from './dtos/register-user.dto'
 import { AddUserDto } from './dtos/add-user.dto'
+import { CompaniesService } from 'src/companies/companies.service'
+import { CompanyUsers } from 'src/companies/types/company-users.interface'
 import ShortUniqueId from 'short-unique-id'
 import * as bcrypt from 'bcrypt'
-import { CompaniesService } from 'src/companies/companies.service'
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectModel(User.name) private userModel: Model<UserDocument>,
+        @Inject(forwardRef(() => CompaniesService))
         private companiesService: CompaniesService
     ) {}
 
@@ -104,5 +112,47 @@ export class UsersService {
         }
         await this.companiesService.deleteUserFromCompany(userId)
         return true
+    }
+
+    async addAssignedTask(users: CompanyUsers[], taskId: string) {
+        const usersToUpdate = users.map((user) => user.userId)
+        await this.userModel.updateMany(
+            {
+                userId: {
+                    $in: usersToUpdate,
+                },
+            },
+            {
+                $push: { assignedTasks: taskId },
+            }
+        )
+    }
+
+    async deleteAssignedTask(users: CompanyUsers[], taskId: string) {
+        const usersToUpdate = users.map((user) => user.userId)
+        await this.userModel.updateMany(
+            {
+                userId: {
+                    $in: usersToUpdate,
+                },
+            },
+            {
+                $pull: { assignedTasks: taskId },
+            }
+        )
+    }
+
+    async deleteAllAssignedTasks(users: CompanyUsers[], tasks: string[]) {
+        const usersToUpdate = users.map((user) => user.userId)
+        await this.userModel.updateMany(
+            {
+                userId: {
+                    $in: usersToUpdate,
+                },
+            },
+            {
+                $pull: { assignedTasks: { $in: tasks } },
+            }
+        )
     }
 }

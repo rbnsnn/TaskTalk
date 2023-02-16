@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { Role } from '../../roles/enums/role.enum'
 import { Document } from 'mongoose'
-import { TaskInterface } from 'src/tasks/types/task.interface'
 
 export type UserDocument = User & Document
 
@@ -44,7 +43,7 @@ export class User {
     lastName: string
 
     @Prop()
-    assignedTasks: TaskInterface[]
+    assignedTasks: string[]
 
     @Prop()
     colorMode: 'light' | 'dark' | ''
