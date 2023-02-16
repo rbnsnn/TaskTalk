@@ -14,19 +14,21 @@ import { useInput } from '../../../hooks/useInput'
 import { isLongerThan } from '../../../helpers/formHelper'
 import { useApi } from '../../../hooks/useApi'
 import { randomColor } from '../../../helpers/randomColor'
+import { LabelI } from '../../../types/task-label.type'
 import LoopIcon from '@mui/icons-material/Loop'
 import Label from '../Label'
 
 interface Props {
     open: boolean
     close: () => void
+    label: LabelI
 }
-const LabelAddDialog: React.FC<Props> = ({ open, close }) => {
-    const [color, setColor] = useState<string>(randomColor())
+const LabelEditDialog: React.FC<Props> = ({ open, close, label }) => {
+    const [color, setColor] = useState<string>(label.color)
     const [colorIsValid, setColorIsValid] = useState<boolean>(true)
     const { loading, error, success, executeFetch } = useApi(
-        'companies/labels/new',
-        'POST',
+        `companies/labels/${label.label}`,
+        'PATCH',
         false
     )
 
@@ -35,13 +37,13 @@ const LabelAddDialog: React.FC<Props> = ({ open, close }) => {
         isValid: labelIsValid,
         valueChangeHandler: labelChangeHandler,
         reset: labelReset,
-    } = useInput(isLongerThan(4))
+    } = useInput(isLongerThan(4), label.label)
 
     const {
         value: descriptionValue,
         valueChangeHandler: descriptionChangeHandler,
         reset: descriptionReset,
-    } = useInput(isLongerThan(0))
+    } = useInput(isLongerThan(0), label.description)
 
     const colorChangeHandler: React.ChangeEventHandler<
         HTMLInputElement | HTMLTextAreaElement
@@ -86,17 +88,23 @@ const LabelAddDialog: React.FC<Props> = ({ open, close }) => {
 
     let formIsValid = false
 
-    if (labelIsValid && colorIsValid) {
+    if (
+        labelIsValid &&
+        colorIsValid &&
+        (label.label !== labelValue ||
+            label.description !== descriptionValue ||
+            label.color !== color)
+    ) {
         formIsValid = true
     }
 
     const handleSubmit = (): void => {
-        const newLabel = {
+        const updatedLabel = {
             label: labelValue,
             color,
             description: descriptionValue,
         }
-        executeFetch(newLabel)
+        executeFetch(updatedLabel)
     }
 
     useEffect(() => {
@@ -118,7 +126,21 @@ const LabelAddDialog: React.FC<Props> = ({ open, close }) => {
             maxWidth='lg'
             open={open}
         >
-            <DialogTitle align='center'>Add new label</DialogTitle>
+            <DialogTitle
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: '20px',
+                }}
+            >
+                Edit label{' '}
+                <Label
+                    label={label.label}
+                    color={label.color}
+                />
+            </DialogTitle>
             <DialogContent>
                 <Box
                     justifyContent='space-around'
@@ -150,6 +172,7 @@ const LabelAddDialog: React.FC<Props> = ({ open, close }) => {
                         id='label'
                         label='label'
                         fullWidth
+                        value={labelValue}
                         onChange={(e) => labelChangeHandler(e)}
                     />
                     <TextField
@@ -158,6 +181,7 @@ const LabelAddDialog: React.FC<Props> = ({ open, close }) => {
                         id='description'
                         label='Description'
                         fullWidth
+                        value={descriptionValue}
                         onChange={(e) => descriptionChangeHandler(e)}
                     />
 
@@ -236,4 +260,4 @@ const LabelAddDialog: React.FC<Props> = ({ open, close }) => {
     )
 }
 
-export default LabelAddDialog
+export default LabelEditDialog

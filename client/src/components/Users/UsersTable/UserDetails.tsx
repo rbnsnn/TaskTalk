@@ -14,6 +14,8 @@ import BadgeIcon from '@mui/icons-material/Badge'
 import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew'
 import PhoneIcon from '@mui/icons-material/Phone'
 import UserDelete from '../UserDelete/UserDelete'
+import LockResetIcon from '@mui/icons-material/LockReset'
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove'
 
 interface Props {
     user: UserData
@@ -61,7 +63,9 @@ const UserDetails: React.FC<Props> = ({ user, handleUpdate }) => {
                     <ListItemText
                         primary='Name'
                         secondary={
-                            user.firstName ? `${user.firstName} ${user.lastName}` : 'ND'
+                            user.firstName
+                                ? `${user.firstName} ${user.lastName}`
+                                : 'Not provided'
                         }
                     />
                 </ListItem>
@@ -96,18 +100,20 @@ const UserDetails: React.FC<Props> = ({ user, handleUpdate }) => {
                     >
                         <Button
                             size='small'
-                            variant='contained'
+                            variant='text'
                             onClick={handlePasswordReset}
                         >
+                            <LockResetIcon sx={{ mr: 1 }} />
                             Reset Password
                         </Button>
 
                         <Button
                             size='small'
-                            variant='contained'
+                            variant='text'
                             color='error'
                             onClick={handleDeleteOpen}
                         >
+                            <PersonRemoveIcon sx={{ mr: 1 }} />
                             Delete User
                         </Button>
                     </ListItem>

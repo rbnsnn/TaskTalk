@@ -9,7 +9,12 @@ import {
     Delete,
     Param,
     BadRequestException,
+    Patch,
 } from '@nestjs/common'
+import { UseGuards } from '@nestjs/common/decorators'
+import { Role } from 'src/roles/enums/role.enum'
+import { Roles } from 'src/roles/decorators/roles.decorator'
+import { RolesGuard } from 'src/roles/guards/roles.guard'
 import { CompaniesService } from './companies.service'
 import { CreateLabelDto } from './dtos/create-label.dto'
 
@@ -37,7 +42,9 @@ export class CompaniesController {
         return labels
     }
 
+    @UseGuards(RolesGuard)
     @Post('/labels/new')
+    @Roles(Role.MODERATOR)
     async addLabel(@Request() req, @Body() createLabelDto: CreateLabelDto) {
         const { companyId } = req.user
         const labelExists = await this.companiesService.findOneLabel(
@@ -51,12 +58,27 @@ export class CompaniesController {
         }
     }
 
+    @UseGuards(RolesGuard)
     @Delete('/labels/:label')
+    @Roles(Role.MODERATOR)
     async deleteLabel(@Request() req, @Param('label') label) {
         const { companyId } = req.user
         const labelExists = await this.companiesService.findOneLabel(companyId, label)
         if (labelExists) {
             await this.companiesService.deleteLabel(companyId, label)
+        } else {
+            throw new BadRequestException('Something went wrong')
+        }
+    }
+
+    @UseGuards(RolesGuard)
+    @Patch('/labels/:label')
+    @Roles(Role.MODERATOR)
+    async updateLabel(@Request() req, @Param('label') label, @Body() body) {
+        const { companyId } = req.user
+        const labelExists = await this.companiesService.findOneLabel(companyId, label)
+        if (labelExists) {
+            await this.companiesService.updateLabel(companyId, label, body)
         } else {
             throw new BadRequestException('Something went wrong')
         }

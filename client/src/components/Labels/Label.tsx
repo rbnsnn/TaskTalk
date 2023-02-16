@@ -16,7 +16,7 @@ const StyledChip = styled(Chip)<{ background: string; rgb: Irgb | null }>(
             return {
                 padding: 5,
                 fontWeight: 'bold',
-                backgroundColor: rgb ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.1)` : '',
+                backgroundColor: rgb ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.2)` : '',
                 textTransform: 'capitalize',
                 color: rgb ? lighten(background, 0.3) : '',
                 border: `1px solid`,
@@ -36,7 +36,7 @@ const StyledChip = styled(Chip)<{ background: string; rgb: Irgb | null }>(
                 textTransform: 'capitalize',
                 color: rgb ? theme.palette.getContrastText(background) : '',
                 border: `1px solid`,
-                borderColor: rgb ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 1)` : '',
+                borderColor: rgb ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.4)` : '',
                 width: 'max-content',
                 display: 'flex',
                 alignItems: 'center',

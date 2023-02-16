@@ -228,12 +228,15 @@ export class CompaniesService {
         payload: LabelI
     ): Promise<boolean> {
         try {
+            await this.tasksService.updateLabelInTasks(companyId, label, payload)
             await this.companyModel.findOneAndUpdate(
                 {
                     companyId,
                     'labels.label': label,
                 },
-                { [`labels.$.label`]: payload }
+                {
+                    [`labels.$`]: { ...payload },
+                }
             )
             return true
         } catch (err) {

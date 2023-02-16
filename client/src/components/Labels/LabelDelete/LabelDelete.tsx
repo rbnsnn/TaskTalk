@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Button } from '@mui/material'
 import { LabelI } from '../../../types/task-label.type'
 import LabelDeleteDialog from './LabelDeleteDialog'
+import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove'
 
 interface Props {
     label: LabelI
@@ -27,6 +28,7 @@ const LabelDelete: React.FC<Props> = ({ label, handleUpdate }) => {
                 color='error'
                 onClick={handleOpen}
             >
+                <BookmarkRemoveIcon sx={{ mr: 1 }} />
                 Delete
             </Button>
             <LabelDeleteDialog

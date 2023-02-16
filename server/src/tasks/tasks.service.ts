@@ -7,6 +7,7 @@ import ShortUniqueId from 'short-unique-id'
 import { CompaniesService } from 'src/companies/companies.service'
 import { TaskInterface } from './types/task.interface'
 import { StatusI } from './types/status.type'
+import { LabelI } from './types/task-label.type'
 
 @Injectable()
 export class TasksService {
@@ -144,6 +145,27 @@ export class TasksService {
                 },
                 {
                     $pull: { labels: { label } },
+                }
+            )
+            return true
+        } catch (err) {
+            return err
+        }
+    }
+
+    async updateLabelInTasks(
+        companyId: string,
+        label: string,
+        payload: LabelI
+    ): Promise<boolean> {
+        try {
+            await this.taskModel.updateMany(
+                {
+                    companyId,
+                    'labels.label': label,
+                },
+                {
+                    [`labels.$`]: { ...payload },
                 }
             )
             return true

@@ -1,8 +1,9 @@
 import React from 'react'
-import { TableRow, TableCell, Typography, Button } from '@mui/material'
+import { TableRow, TableCell, Typography } from '@mui/material'
 import { LabelI } from '../../../types/task-label.type'
 import Label from '../Label'
 import LabelDelete from '../LabelDelete/LabelDelete'
+import LabelEdit from '../LabelEdit/LabelEdit'
 
 interface Props {
     label: LabelI
@@ -23,7 +24,10 @@ const LabelsTableRow: React.FC<Props> = ({ label, handleUpdate }) => {
             </TableCell>
             <TableCell>0</TableCell>
             <TableCell align='center'>
-                <Button size='small'>Edit</Button>
+                <LabelEdit
+                    handleUpdate={handleUpdate}
+                    label={label}
+                />
             </TableCell>
             <TableCell align='center'>
                 <LabelDelete

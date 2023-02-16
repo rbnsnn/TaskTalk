@@ -20,6 +20,7 @@ interface Props {
 
 const AppDrawerContent: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) => {
     const admin = useRole(Role.ADMIN)
+    const moderator = useRole(Role.MODERATOR)
 
     return (
         <div>
@@ -50,23 +51,25 @@ const AppDrawerContent: React.FC<Props> = ({ drawerOpen, handleDrawerToggle }) =
                     icon={<ListIcon />}
                 />
             </List>
-            {admin && (
-                <>
-                    <Divider />
-                    <List>
-                        <ListItemLink
-                            to={'/labels'}
-                            text='Labels'
-                            icon={<BookmarksIcon />}
-                        />
-                        <ListItemLink
-                            to={'/users'}
-                            text='Users'
-                            icon={<PeopleIcon />}
-                        />
-                    </List>
-                </>
-            )}
+
+            <Divider />
+            <List>
+                {moderator && (
+                    <ListItemLink
+                        to={'/labels'}
+                        text='Labels'
+                        icon={<BookmarksIcon />}
+                    />
+                )}
+                {admin && (
+                    <ListItemLink
+                        to={'/users'}
+                        text='Users'
+                        icon={<PeopleIcon />}
+                    />
+                )}
+            </List>
+
             <Divider />
             <ListItemLink
                 to={'/logout'}
