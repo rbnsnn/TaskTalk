@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Box } from '@mui/material'
-import { useAppSelector } from '../../hooks/redux-hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks'
 import { RootState } from '../../store/store'
 import { SocketContext } from '../../helpers/socket/socket-context'
 import { Outlet } from 'react-router-dom'
@@ -8,9 +8,11 @@ import AppMainBar from '../../components/Dashboard/AppMainBar/AppMainBar'
 import AppDrawer from '../../components/Dashboard/AppDrawer/AppDrawer'
 import AppContent from '../../components/Dashboard/AppContent/AppContent'
 import io from 'socket.io-client'
+import { authActions } from '../../components/Auth/authSlice'
 
 const AppPage: React.FC = () => {
     const [drawerOpen, setDrawerOpen] = useState(false)
+    const dispatch = useAppDispatch()
     const { username, userId, companyId } = useAppSelector(
         (state: RootState) => state.auth.user
     )
@@ -31,6 +33,10 @@ const AppPage: React.FC = () => {
         })
         socket.on('disconnect', () => {
             socket.emit('leave_room')
+        })
+        socket.on('update_user', (data: any) => {
+            // dispatch(authActions.update(data))
+            console.log('user')
         })
         return () => {
             socket.off('connect')

@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react'
+import React, { useEffect, useCallback, useState, useContext } from 'react'
 import {
     Alert,
     Dialog,
@@ -15,6 +15,8 @@ import { isLongerThan } from '../../../helpers/formHelper'
 import { useApi } from '../../../hooks/useApi'
 import { randomColor } from '../../../helpers/randomColor'
 import { LabelI } from '../../../types/task-label.type'
+import { SocketContext } from '../../../helpers/socket/socket-context'
+import { TaskEvent } from '../../../types/task-event-enum.type'
 import LoopIcon from '@mui/icons-material/Loop'
 import Label from '../Label'
 
@@ -24,6 +26,7 @@ interface Props {
     label: LabelI
 }
 const LabelEditDialog: React.FC<Props> = ({ open, close, label }) => {
+    const socket: any = useContext(SocketContext)
     const [color, setColor] = useState<string>(label.color)
     const [colorIsValid, setColorIsValid] = useState<boolean>(true)
     const { loading, error, success, executeFetch } = useApi(
@@ -98,13 +101,14 @@ const LabelEditDialog: React.FC<Props> = ({ open, close, label }) => {
         formIsValid = true
     }
 
-    const handleSubmit = (): void => {
+    const handleSubmit = async (): Promise<void> => {
         const updatedLabel = {
             label: labelValue,
             color,
             description: descriptionValue,
         }
-        executeFetch(updatedLabel)
+        await executeFetch(updatedLabel)
+        socket.emit(TaskEvent.LabelUpdate)
     }
 
     useEffect(() => {

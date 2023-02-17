@@ -189,6 +189,7 @@ export class EventsGateway implements OnGatewayConnection {
     @SubscribeMessage(TaskEvent.LabelUpdate)
     async updateLabel(@ConnectedSocket() client: Socket) {
         const { companyId } = client.handshake.auth
-        this.server.in(companyId).emit(TaskEvent.LabelUpdate)
+        const data = await this.tasksService.getAllTasks(companyId)
+        this.server.in(companyId).emit(TaskEvent.SetTasks, data)
     }
 }

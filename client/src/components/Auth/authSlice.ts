@@ -40,6 +40,11 @@ const authSlice = createSlice({
                 ...payload,
             }
         },
+        update(state, { payload }: any) {
+            state.user = {
+                ...payload,
+            }
+        },
         removeErrAndSucc(state) {
             state.success = false
             state.error = null

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import {
     Button,
     Dialog,
@@ -11,6 +11,8 @@ import {
 } from '@mui/material'
 import { useApi } from '../../../hooks/useApi'
 import { LabelI } from '../../../types/task-label.type'
+import { SocketContext } from '../../../helpers/socket/socket-context'
+import { TaskEvent } from '../../../types/task-event-enum.type'
 import Label from '../Label'
 
 interface Props {
@@ -19,14 +21,16 @@ interface Props {
     handleClose: () => void
 }
 const LabelDeleteDialog: React.FC<Props> = ({ open, label, handleClose }) => {
+    const socket: any = useContext(SocketContext)
     const { success, loading, error, executeFetch } = useApi(
         `companies/labels/${label.label}`,
         'DELETE',
         false
     )
 
-    const handleDelete = (): void => {
-        executeFetch()
+    const handleDelete = async (): Promise<void> => {
+        await executeFetch()
+        socket.emit(TaskEvent.LabelUpdate)
     }
 
     useEffect(() => {

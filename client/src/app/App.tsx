@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { CssBaseline } from '@mui/material'
+import { CssBaseline, useMediaQuery } from '@mui/material'
 import { retrieveStoredTokens } from '../helpers/auth/token-helper'
 import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks'
 import { authActions } from '../components/Auth/authSlice'
@@ -13,9 +13,10 @@ import AppLoading from './AppLoading'
 
 const App: React.FC = () => {
     const dispatch = useAppDispatch()
-    const { data, error } = useApi('auth/userdata', 'GET')
     const [loading, setLoading] = useState<boolean>(true)
+    const { data, error } = useApi('auth/userdata', 'GET')
     const { colorMode } = useAppSelector((state: RootState) => state.auth.user)
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
 
     useEffect(() => {
         setLoading(true)
@@ -39,7 +40,9 @@ const App: React.FC = () => {
     }, [dispatch, data, error])
 
     return (
-        <ThemeProvider theme={colorMode === 'dark' ? darkTheme : lightTheme}>
+        <ThemeProvider
+            theme={colorMode === 'dark' || prefersDarkMode ? darkTheme : lightTheme}
+        >
             <div className='App'>
                 <CssBaseline />
                 {!loading && <AppRoutes />}
