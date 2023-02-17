@@ -21,7 +21,7 @@ const LabelsTableTitle: React.FC<Props> = ({ handleUpdate }) => {
             }}
         >
             <Typography
-                variant='h4'
+                variant='h5'
                 component='p'
             >
                 {companyName} labels manager

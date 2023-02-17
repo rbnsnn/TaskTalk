@@ -19,7 +19,7 @@ const UsersTableTitle: React.FC<Props> = ({ handleOpen }) => {
             mb={2}
         >
             <Typography
-                variant='h4'
+                variant='h5'
                 component='p'
             >
                 {companyName} users

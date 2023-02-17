@@ -7,24 +7,21 @@ import TaskDetails from '../../components/Tasks/TaskDetails/TaskDetails'
 
 const TaskDetailPage: React.FC = () => {
     const { taskId } = useParams()
-    const { data, loading } = useApi(`tasks/id/${taskId}`, 'GET')
+    const { data, loading, error } = useApi(`tasks/id/${taskId}`, 'GET')
 
     return (
         <>
-            {!loading && (
-                <>
-                    {data.length ? (
-                        <TaskDetails />
-                    ) : (
-                        <Typography
-                            align='center'
-                            variant='h4'
-                        >
-                            No tasks found!
-                        </Typography>
-                    )}
-                </>
+            {data ? (
+                <TaskDetails data={data} />
+            ) : (
+                <Typography
+                    align='center'
+                    variant='h5'
+                >
+                    {error && error}
+                </Typography>
             )}
+
             {loading && <LoadingPage />}
         </>
     )

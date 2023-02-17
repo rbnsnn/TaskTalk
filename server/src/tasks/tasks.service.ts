@@ -123,8 +123,8 @@ export class TasksService {
             }
 
             return task
-        } catch (err) {
-            return err
+        } catch {
+            throw new NotFoundException('Task not found')
         }
     }
 

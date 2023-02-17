@@ -62,7 +62,7 @@ const TasksBoardPage: React.FC = () => {
                         ) : (
                             <Typography
                                 align='center'
-                                variant='h4'
+                                variant='h5'
                             >
                                 No tasks found!
                             </Typography>

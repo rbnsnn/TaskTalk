@@ -31,7 +31,7 @@ const TasksTableTitle: React.FC<Props> = ({ dispatch, setSearchValue, columns })
             }}
         >
             <Typography
-                variant='h4'
+                variant='h5'
                 component='p'
             >
                 {companyName} tasks
@@ -39,7 +39,8 @@ const TasksTableTitle: React.FC<Props> = ({ dispatch, setSearchValue, columns })
             <Box
                 display='flex'
                 flexDirection='row'
-                justifyContent='space-between'
+                height='auto'
+                // justifyContent='space-between'
             >
                 <TasksTableSearch onChange={handleSearchChange} />
                 <TasksColumnAdd />
