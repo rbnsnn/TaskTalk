@@ -38,11 +38,13 @@ const TaskDetailsInfo: React.FC<Props> = ({ data }) => {
                     <TaskDetailsElement
                         caption='Task ID'
                         value={data.taskId}
+                        copy
                     />
 
                     <TaskDetailsElement
                         caption='description'
                         value={description}
+                        setValue={setDescription}
                         editable
                         flex={4}
                     />
@@ -51,14 +53,18 @@ const TaskDetailsInfo: React.FC<Props> = ({ data }) => {
                     <TaskDetailsElement
                         caption='Priority'
                         value={priority}
+                        setValue={setPriority}
                         editable
+                        variant='select'
                         color={setPriorityColor(data.priority)}
                     />
 
                     <TaskDetailsElement
                         caption='Status'
                         value={status}
+                        setValue={setStatus}
                         editable
+                        variant='select'
                         color={data.status.color}
                     />
 

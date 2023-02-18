@@ -3,6 +3,7 @@ import { Typography, Paper, Box, Button, styled } from '@mui/material'
 import { hexToRgb } from '../../../../helpers/hexToRgb'
 import { CompanyUsers } from '../../../../types/company-users.type'
 import { LabelI } from '../../../../types/task-label.type'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import EditIcon from '@mui/icons-material/Edit'
 import UserAvatar from '../../../Users/UserAvatar/UserAvatar'
 import Label from '../../../Labels/Label'
@@ -41,7 +42,9 @@ const StyledButton = styled(Button)(({ theme }) => ({
 interface Props {
     caption: string
     value: string | CompanyUsers[] | LabelI[]
-    variant?: 'typography' | 'labels' | 'users'
+    setValue?: any
+    copy?: boolean
+    variant?: 'typography' | 'select' | 'labels' | 'users'
     editable?: boolean
     flex?: number
     color?: string
@@ -50,6 +53,8 @@ interface Props {
 const TaskDetailsElement: React.FC<Props> = ({
     caption,
     value,
+    setValue = null,
+    copy = false,
     variant = 'typography',
     editable = false,
     flex = 1,
@@ -80,17 +85,33 @@ const TaskDetailsElement: React.FC<Props> = ({
                 }}
             >
                 <Typography variant='caption'>{caption}</Typography>
-                {editable ? (
-                    <StyledButton size='small'>
-                        <EditIcon sx={{ mr: 2 }} />
-                        Edit
-                    </StyledButton>
+                {editable || copy ? (
+                    <>
+                        {editable && (
+                            <StyledButton size='small'>
+                                <EditIcon sx={{ mr: 2 }} />
+                                Edit
+                            </StyledButton>
+                        )}
+
+                        {copy && (
+                            <StyledButton
+                                size='small'
+                                onClick={() => {
+                                    navigator.clipboard.writeText(value as string)
+                                }}
+                            >
+                                <ContentCopyIcon sx={{ mr: 2 }} />
+                                Copy
+                            </StyledButton>
+                        )}
+                    </>
                 ) : (
                     <Box height='32px'></Box>
                 )}
             </Box>
 
-            {variant === 'typography' && (
+            {(variant === 'typography' || variant === 'select') && (
                 <TypographyContainer>
                     <Typography
                         variant='h5'
