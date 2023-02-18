@@ -5,7 +5,7 @@ import { useApi } from '../../hooks/useApi'
 import LoadingPage from './LoadingPage'
 import TaskDetails from '../../components/Tasks/TaskDetails/TaskDetails'
 
-const TaskDetailPage: React.FC = () => {
+const TaskDetailsPage: React.FC = () => {
     const { taskId } = useParams()
     const { data, loading, error } = useApi(`tasks/id/${taskId}`, 'GET')
 
@@ -27,4 +27,4 @@ const TaskDetailPage: React.FC = () => {
     )
 }
 
-export default TaskDetailPage
+export default TaskDetailsPage

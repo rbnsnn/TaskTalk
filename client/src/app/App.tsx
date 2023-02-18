@@ -16,7 +16,6 @@ const App: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true)
     const { data, error } = useApi('auth/userdata', 'GET')
     const { colorMode } = useAppSelector((state: RootState) => state.auth.user)
-    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
 
     useEffect(() => {
         setLoading(true)
@@ -40,9 +39,7 @@ const App: React.FC = () => {
     }, [dispatch, data, error])
 
     return (
-        <ThemeProvider
-            theme={colorMode === 'dark' || prefersDarkMode ? darkTheme : lightTheme}
-        >
+        <ThemeProvider theme={colorMode === 'dark' ? darkTheme : lightTheme}>
             <div className='App'>
                 <CssBaseline />
                 {!loading && <AppRoutes />}

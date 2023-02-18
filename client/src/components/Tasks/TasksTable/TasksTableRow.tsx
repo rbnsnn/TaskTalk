@@ -1,5 +1,13 @@
 import React from 'react'
-import { TableCell, TableRow, Chip, Box, AvatarGroup, styled } from '@mui/material'
+import {
+    TableCell,
+    TableRow,
+    Chip,
+    Box,
+    AvatarGroup,
+    styled,
+    Typography,
+} from '@mui/material'
 import { TaskData } from '../../../types/task-data.type'
 import { setPriorityColor } from '../../../helpers/setPriorityColor'
 import { CompanyUsers } from '../../../types/company-users.type'
@@ -31,11 +39,17 @@ const TasksTableRow: React.FC<Props> = ({ task }) => {
             >
                 <Box textAlign='left'>
                     <TextLink
-                        variant='h6'
+                        variant='h5'
                         to={`../task/${task.taskId}`}
                     >
                         {task.title}
                     </TextLink>
+                    <Typography
+                        ml={1}
+                        mt={1}
+                    >
+                        {task.description}
+                    </Typography>
                 </Box>
 
                 <Box

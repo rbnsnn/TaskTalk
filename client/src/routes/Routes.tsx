@@ -11,7 +11,7 @@ import LogoutPage from '../pages/Auth/LogoutPage'
 import DashBoardPage from '../pages/App/DashboardPage'
 import UsersTablePage from '../pages/App/UsersTablePage'
 import TasksBoardPage from '../pages/App/TasksBoardPage'
-import TaskDetailPage from '../pages/App/TaskDetailPage'
+import TaskDetailsPage from '../pages/App/TaskDetailsPage'
 import TasksTablePage from '../pages/App/TasksTablePage'
 import LabelsPage from '../pages/App/LabelsPage'
 
@@ -57,7 +57,7 @@ const AppRoutes: React.FC = () => {
                         )}
                         <Route
                             path='task/:taskId'
-                            element={<TaskDetailPage />}
+                            element={<TaskDetailsPage />}
                         />
                     </Route>
                     <Route

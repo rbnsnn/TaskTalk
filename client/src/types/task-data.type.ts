@@ -1,4 +1,5 @@
 import { CompanyUsers } from './company-users.type'
+import { CreatedBy } from './created-by.type'
 import { StatusI } from './status.type'
 import { LabelI } from './task-label.type'
 
@@ -12,4 +13,5 @@ export interface TaskData {
     description: string
     labels: LabelI[]
     created?: string
+    createdBy?: CreatedBy[]
 }

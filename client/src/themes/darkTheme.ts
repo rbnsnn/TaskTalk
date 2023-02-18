@@ -21,6 +21,10 @@ export const darkTheme = createTheme({
             light: '#33a095',
             contrastText: '#fff',
         },
+        text: {
+            primary: '#eee',
+            secondary: '#eee',
+        },
     },
     components: {
         MuiDialog: {
