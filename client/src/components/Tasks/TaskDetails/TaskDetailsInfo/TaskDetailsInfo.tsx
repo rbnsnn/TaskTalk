@@ -1,13 +1,29 @@
-import React from 'react'
-import { Box, Typography } from '@mui/material'
+import React, { useState } from 'react'
+import { Box, Typography, styled } from '@mui/material'
+import { setPriorityColor } from '../../../../helpers/setPriorityColor'
 import { TaskData } from '../../../../types/task-data.type'
+import { CompanyUsers } from '../../../../types/company-users.type'
+import { LabelI } from '../../../../types/task-label.type'
 import TaskDetailsElement from './TaskDetailsElement'
+
+const DetailElementsContainer = styled(Box)(() => ({
+    maxWidth: 'min-content',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '20px',
+}))
 
 interface Props {
     data: TaskData
 }
 
 const TaskDetailsInfo: React.FC<Props> = ({ data }) => {
+    const [description, setDescription] = useState<string>(data.description)
+    const [priority, setPriority] = useState<string>(data.priority)
+    const [status, setStatus] = useState<string>(data.status.name)
+    const [assignedUsers, setAssignedUsers] = useState<CompanyUsers[]>(data.assignedUsers)
+    const [labels, setLabels] = useState<LabelI[]>(data.labels)
+
     const date = new Date(data.created!).toLocaleString()
     return (
         <Box>
@@ -18,53 +34,58 @@ const TaskDetailsInfo: React.FC<Props> = ({ data }) => {
                 {data.title}
             </Typography>
             <Box sx={{ display: 'flex', gap: '20px' }}>
-                <Box
-                    sx={{
-                        maxWidth: 'min-content',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '20px',
-                    }}
-                >
-                    <TaskDetailsElement
-                        caption='description'
-                        editable
-                    >
-                        {data.description}
-                    </TaskDetailsElement>
+                <DetailElementsContainer>
                     <TaskDetailsElement
                         caption='Task ID'
+                        value={data.taskId}
+                    />
+
+                    <TaskDetailsElement
+                        caption='description'
+                        value={description}
+                        editable
                         flex={4}
-                    >
-                        {data.taskId}
-                    </TaskDetailsElement>
-                </Box>
-                <Box
-                    sx={{
-                        maxWidth: 'min-content',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '20px',
-                    }}
-                >
+                    />
+                </DetailElementsContainer>
+                <DetailElementsContainer>
                     <TaskDetailsElement
                         caption='Priority'
+                        value={priority}
                         editable
-                    >
-                        {data.priority}
-                    </TaskDetailsElement>
+                        color={setPriorityColor(data.priority)}
+                    />
+
                     <TaskDetailsElement
                         caption='Status'
+                        value={status}
                         editable
-                    >
-                        {data.status.name}
-                    </TaskDetailsElement>
-                    <TaskDetailsElement caption='Created by'>
-                        {data.createdBy![0].username}
-                    </TaskDetailsElement>
-                    <TaskDetailsElement caption='Created'>{date}</TaskDetailsElement>
-                </Box>
-                <Box></Box>
+                        color={data.status.color}
+                    />
+
+                    <TaskDetailsElement
+                        caption='Created by'
+                        value={data.createdBy![0].username}
+                    />
+
+                    <TaskDetailsElement
+                        caption='Created'
+                        value={date}
+                    />
+                </DetailElementsContainer>
+                <DetailElementsContainer>
+                    <TaskDetailsElement
+                        caption='Assigned users'
+                        value={assignedUsers}
+                        editable
+                        variant='users'
+                    />
+                    <TaskDetailsElement
+                        caption='Assigned labels'
+                        value={labels}
+                        editable
+                        variant='labels'
+                    />
+                </DetailElementsContainer>
             </Box>
         </Box>
     )

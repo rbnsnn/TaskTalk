@@ -1,8 +1,20 @@
 import React, { useState } from 'react'
-import { Avatar } from '@mui/material'
+import { Avatar, Box, styled } from '@mui/material'
 import { stringToColor } from '../../../helpers/stringToColor'
 import { useApi } from '../../../hooks/useApi'
 import UserAvatarPopper from './UserAvatarPopper'
+import PersonIcon from '@mui/icons-material/Person'
+
+const StyledAvatar = styled(Avatar)<{ size: number; stringcolor: string }>(
+    ({ theme, size, stringcolor }) => ({
+        cursor: 'pointer',
+        width: size,
+        height: size,
+        fontSize: size / 2,
+        backgroundColor: stringcolor,
+        color: theme.palette.getContrastText(stringcolor),
+    })
+)
 
 interface Props {
     id: string
@@ -26,6 +38,8 @@ const UserAvatar: React.FC<Props> = ({
     > | null>(null)
     const [anchorEl, setAnchorRef] = useState<HTMLElement | null>(null)
 
+    const stringColor = stringToColor(`${firstName} ${lastName}`)
+
     const handleClose = () => {
         setDelayHandler(
             setTimeout(() => {
@@ -43,25 +57,30 @@ const UserAvatar: React.FC<Props> = ({
     }
     return (
         <>
-            <Avatar
+            <StyledAvatar
                 onMouseLeave={popper ? handleClose : undefined}
                 onMouseMove={popper ? handleMouseMove : undefined}
                 onMouseEnter={popper ? handleMouseEnter : undefined}
-                sx={{
-                    cursor: 'pointer',
-                    width: size,
-                    height: size,
-                    fontSize: size / 2,
-                    bgcolor:
-                        firstName && lastName
-                            ? stringToColor(`${firstName} ${lastName}`)
-                            : '',
-                }}
+                size={size}
+                stringcolor={stringColor}
             >
                 {firstName.length && lastName.length ? (
-                    `${firstName[0]}${lastName[0]}`
+                    `${firstName[0].toUpperCase()}${lastName[0].toUpperCase()}`
                 ) : (
-                    <Avatar sx={{ width: size, height: size }} />
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            height: size + 10,
+                            width: size + 10,
+                            backgroundColor: '#999',
+                        }}
+                    >
+                        <PersonIcon
+                            sx={{ width: size - 5, height: size - 5, color: '#121212' }}
+                        />
+                    </Box>
                 )}
 
                 {popper && (
@@ -74,7 +93,7 @@ const UserAvatar: React.FC<Props> = ({
                         data={data}
                     />
                 )}
-            </Avatar>
+            </StyledAvatar>
         </>
     )
 }
