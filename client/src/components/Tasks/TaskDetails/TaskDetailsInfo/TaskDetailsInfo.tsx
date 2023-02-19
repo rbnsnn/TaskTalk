@@ -55,8 +55,8 @@ const TaskDetailsInfo: React.FC<Props> = ({ data }) => {
                         value={priority}
                         setValue={setPriority}
                         editable
-                        variant='select'
-                        color={setPriorityColor(data.priority)}
+                        variant='selectPriority'
+                        color={setPriorityColor(priority)}
                     />
 
                     <TaskDetailsElement
@@ -64,7 +64,7 @@ const TaskDetailsInfo: React.FC<Props> = ({ data }) => {
                         value={status}
                         setValue={setStatus}
                         editable
-                        variant='select'
+                        variant='selectStatus'
                         color={data.status.color}
                     />
 

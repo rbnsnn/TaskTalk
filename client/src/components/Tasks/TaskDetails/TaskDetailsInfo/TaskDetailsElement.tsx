@@ -1,12 +1,28 @@
-import React from 'react'
-import { Typography, Paper, Box, Button, styled } from '@mui/material'
+import React, { useState } from 'react'
+import {
+    Typography,
+    Paper,
+    Box,
+    Button,
+    TextField,
+    Select,
+    FormControl,
+    Autocomplete,
+    MenuItem,
+    styled,
+} from '@mui/material'
 import { hexToRgb } from '../../../../helpers/hexToRgb'
 import { CompanyUsers } from '../../../../types/company-users.type'
 import { LabelI } from '../../../../types/task-label.type'
+import { Priority } from '../../../../types/priority-enum'
+import { setPriorityColor } from '../../../../helpers/setPriorityColor'
+import { capitalize } from '../../../../helpers/capitalize'
+import { useApi } from '../../../../hooks/useApi'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import EditIcon from '@mui/icons-material/Edit'
 import UserAvatar from '../../../Users/UserAvatar/UserAvatar'
 import Label from '../../../Labels/Label'
+import { ColumnData } from '../../../../types/column-data.type'
 
 const TypographyContainer = styled(Box)(() => ({
     display: 'flex',
@@ -41,10 +57,10 @@ const StyledButton = styled(Button)(({ theme }) => ({
 
 interface Props {
     caption: string
-    value: string | CompanyUsers[] | LabelI[]
+    value: string | CompanyUsers[] | LabelI[] | ColumnData[] | null
     setValue?: any
     copy?: boolean
-    variant?: 'typography' | 'select' | 'labels' | 'users'
+    variant?: 'typography' | 'selectPriority' | 'selectStatus' | 'labels' | 'users'
     editable?: boolean
     flex?: number
     color?: string
@@ -60,6 +76,24 @@ const TaskDetailsElement: React.FC<Props> = ({
     flex = 1,
     color = '',
 }) => {
+    const {
+        data: statusData,
+        reset: resetStatus,
+        executeFetch: refetchStatus,
+    } = useApi('companies/names', 'GET')
+    const [edit, setEdit] = useState<boolean>(false)
+    console.log(statusData)
+    const handleEditStart = (): void => {
+        setEdit(true)
+    }
+    const handleEditEnd = (): void => {
+        setEdit(false)
+    }
+
+    const handleChange = (event: any) => {
+        setValue(event.target.value)
+    }
+
     const rgb = hexToRgb(color)
     return (
         <Paper
@@ -88,7 +122,10 @@ const TaskDetailsElement: React.FC<Props> = ({
                 {editable || copy ? (
                     <>
                         {editable && (
-                            <StyledButton size='small'>
+                            <StyledButton
+                                size='small'
+                                onClick={handleEditStart}
+                            >
                                 <EditIcon sx={{ mr: 2 }} />
                                 Edit
                             </StyledButton>
@@ -111,18 +148,135 @@ const TaskDetailsElement: React.FC<Props> = ({
                 )}
             </Box>
 
-            {(variant === 'typography' || variant === 'select') && (
+            {variant === 'typography' && (
                 <TypographyContainer>
-                    <Typography
-                        variant='h5'
-                        sx={{
-                            mt: 1,
-                            wordBreak: 'break-word',
-                            maxWidth: '100%',
-                        }}
-                    >
-                        {value as string}
-                    </Typography>
+                    {edit ? (
+                        <TextField
+                            id={caption}
+                            autoFocus
+                            variant='standard'
+                            multiline
+                            value={value}
+                            onChange={handleChange}
+                            onBlur={handleEditEnd}
+                        />
+                    ) : (
+                        <Typography
+                            variant='h5'
+                            sx={{
+                                mt: 1,
+                                wordBreak: 'break-word',
+                                maxWidth: '100%',
+                            }}
+                        >
+                            {value as string}
+                        </Typography>
+                    )}
+                </TypographyContainer>
+            )}
+
+            {variant === 'selectPriority' && (
+                <TypographyContainer>
+                    {edit ? (
+                        <FormControl
+                            fullWidth
+                            required
+                        >
+                            <Select
+                                value={value}
+                                labelId='priorityLabel'
+                                variant='standard'
+                                id='priority'
+                                onChange={handleChange}
+                                onBlur={handleEditEnd}
+                            >
+                                {(
+                                    Object.keys(Priority) as Array<keyof typeof Priority>
+                                ).map((item) => {
+                                    return (
+                                        <MenuItem
+                                            key={item}
+                                            value={item.toLowerCase()}
+                                            sx={{
+                                                color: setPriorityColor(
+                                                    item.toLowerCase()
+                                                ),
+                                            }}
+                                        >
+                                            {capitalize(item)}
+                                        </MenuItem>
+                                    )
+                                })}
+                            </Select>
+                        </FormControl>
+                    ) : (
+                        <Typography
+                            variant='h5'
+                            sx={{
+                                mt: 1,
+                                wordBreak: 'break-word',
+                                maxWidth: '100%',
+                            }}
+                        >
+                            {value as string}
+                        </Typography>
+                    )}
+                </TypographyContainer>
+            )}
+
+            {variant === 'selectStatus' && (
+                <TypographyContainer>
+                    {edit ? (
+                        <Autocomplete
+                            fullWidth
+                            sx={{ mt: 2 }}
+                            id='assigned-status'
+                            options={statusData ? statusData : []}
+                            getOptionLabel={(option: any) => option.name}
+                            filterSelectedOptions
+                            value={value as ColumnData[]}
+                            onChange={(event: any, newValue: any, reason: string) => {
+                                if (reason === 'clear') {
+                                    setValue(null)
+                                    // setAssignedStatusHasError(true)
+                                    // setAssignedStatusTouched(true)
+                                } else {
+                                    setValue(newValue)
+                                    // setAssignedStatusHasError(false)
+                                    // setAssignedStatusTouched(true)
+                                }
+                            }}
+                            onBlur={() => {
+                                handleEditEnd()
+                                // if (!assignedStatus) {
+                                //     setAssignedStatusHasError(true)
+                                //     setAssignedStatusTouched(true)
+                                // }
+                            }}
+                            renderInput={(params) => (
+                                <TextField
+                                    // error={assignedStatusHasError}
+                                    // helperText={
+                                    //     assignedStatusHasError ? 'status not valid' : ''
+                                    // }
+                                    required
+                                    {...params}
+                                    label='Status'
+                                />
+                            )}
+                        />
+                    ) : (
+                        <Typography
+                            variant='h5'
+                            sx={{
+                                mt: 1,
+                                wordBreak: 'break-word',
+                                maxWidth: '100%',
+                            }}
+                        >
+                            {value as string}
+                        </Typography>
+                    )}
                 </TypographyContainer>
             )}
 
