@@ -15,6 +15,7 @@ import { LabelI } from '../../../types/task-label.type'
 import Label from '../../Labels/Label'
 import UserAvatar from '../../Users/UserAvatar/UserAvatar'
 import TextLink from '../../Links/TextLink'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 
 const TableChip = styled(Chip)<{ contrast: string }>(({ theme, contrast }) => ({
     color: contrast ? theme.palette.getContrastText(contrast) : '',
@@ -108,7 +109,15 @@ const TasksTableRow: React.FC<Props> = ({ task }) => {
                     }}
                 />
             </TableCell>
-            <TableCell align='right'>{task.taskId}</TableCell>
+            <TableCell align='right'>
+                {task.taskId}
+                <ContentCopyIcon
+                    onClick={() => {
+                        navigator.clipboard.writeText(task.taskId)
+                    }}
+                    sx={{ ml: 2, cursor: 'pointer', '&:hover': { color: '#33A095' } }}
+                />
+            </TableCell>
             <TableCell align='right'>{date}</TableCell>
         </TableRow>
     )
