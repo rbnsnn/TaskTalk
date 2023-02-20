@@ -3,22 +3,19 @@ import { FormControl, InputLabel, Select, MenuItem, FormHelperText } from '@mui/
 import { Priority } from '../../types/priority-enum'
 import { setPriorityColor } from '../../helpers/setPriorityColor'
 import { capitalize } from '../../helpers/capitalize'
-import { useTaskPrioritySelect } from '../../hooks/useTaskPriorityelect'
+import { UsePriorityReturnI } from '../../hooks/usePriorityInput'
 
 interface Props {
-    priorityValue: string
-    priorityHasError: boolean
-    priorityBlurHandler: () => void
-    priorityChangeHandler: () => void
+    priorityHandler: UsePriorityReturnI
 }
 
-const TaskPrioritySelect: React.FC<Props> = ({
-    priorityValue,
-    priorityHasError,
-    priorityBlurHandler,
-    priorityChangeHandler,
-}) => {
-    const [TaskPrioritySelect, setTaskPrioritySelect] = useTaskPrioritySelect()
+const TaskPrioritySelect: React.FC<Props> = ({ priorityHandler }) => {
+    const {
+        priorityValue,
+        priorityHasError,
+        priorityBlurHandler,
+        priorityChangeHandler,
+    } = priorityHandler.priority
     return (
         <FormControl
             fullWidth

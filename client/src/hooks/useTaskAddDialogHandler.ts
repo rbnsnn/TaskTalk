@@ -1,15 +1,14 @@
 import { useEffect, useCallback, useContext } from 'react'
-
 import { UserData } from '../types/user-data.type'
 import { TaskData } from '../types/task-data.type'
 import { SocketContext } from '../helpers/socket/socket-context'
 import { isLongerThan } from '../helpers/formHelper'
-import { isNotEmpty } from '../helpers/formHelper'
 import { useApi } from './useApi'
-import { useInput } from './useInput'
 import { useStatusInput } from './useStatusInput'
 import { useLabelsInput } from './useLabelsInput'
 import { useUsersInput } from './useUsersInput'
+import { usePriorityInput } from './usePriorityInput'
+import { useTaskInput } from './useTaskInput'
 
 export const useTaskAddDialogHandler = (close: () => void) => {
     const socket: any = useContext(SocketContext)
@@ -18,6 +17,12 @@ export const useTaskAddDialogHandler = (close: () => void) => {
         'POST',
         false
     )
+
+    const titleHandler = useTaskInput('Title', isLongerThan(4))
+    const { input: title } = titleHandler
+
+    const descriptionHandler = useTaskInput('Title', isLongerThan(8))
+    const { input: description } = descriptionHandler
 
     const usersHandler = useUsersInput()
     const { users, usersApi } = usersHandler
@@ -28,38 +33,14 @@ export const useTaskAddDialogHandler = (close: () => void) => {
     const labelsHandler = useLabelsInput()
     const { labels, labelsApi } = labelsHandler
 
+    const priorityHandler = usePriorityInput()
+    const { priority } = priorityHandler
+
     const fetchData = async () => {
         await statusApi.refetchStatus()
         await usersApi.refetchUsers()
         await labelsApi.refetchLabels()
     }
-
-    const {
-        value: titleValue,
-        isValid: titleIsValid,
-        hasError: titleHasError,
-        valueChangeHandler: titleChangeHandler,
-        inputBlurHandler: titleBlurHandler,
-        reset: titleReset,
-    } = useInput(isLongerThan(4))
-
-    const {
-        value: descriptionValue,
-        isValid: descriptionIsValid,
-        hasError: descriptionHasError,
-        valueChangeHandler: descriptionChangeHandler,
-        inputBlurHandler: descriptionBlurHandler,
-        reset: descriptionReset,
-    } = useInput(isLongerThan(10))
-
-    const {
-        value: priorityValue,
-        isValid: priorityIsValid,
-        hasError: priorityHasError,
-        valueChangeHandler: priorityChangeHandler,
-        inputBlurHandler: priorityBlurHandler,
-        reset: priorityReset,
-    } = useInput(isNotEmpty)
 
     const handleSubmit = async (): Promise<any> => {
         const assignes = users.assignedUsers.map((user: UserData) => ({
@@ -77,22 +58,19 @@ export const useTaskAddDialogHandler = (close: () => void) => {
                 color: status.assignedStatus!.color,
             },
             assignedColumn: status.assignedStatus!.columnId,
-            priority: priorityValue,
+            priority: priority.priorityValue,
             labels: labels.assignedLabels,
-            title: titleValue,
-            description: descriptionValue,
+            title: title.value,
+            description: description.value,
         }
         await executeFetch(newTask)
         socket.emit('create_task')
     }
 
-    const descriptionHandler = {}
-    const titleHandler = {}
-
     const handleReset = useCallback((): void => {
-        titleReset()
-        descriptionReset()
-        priorityReset()
+        title.reset()
+        description.reset()
+        priority.priorityReset()
         users.setAssignedUsers([])
         status.setAssignedStatus(null)
         statusApi.resetStatus()
@@ -100,10 +78,10 @@ export const useTaskAddDialogHandler = (close: () => void) => {
         usersApi.resetUsers()
         reset()
     }, [
-        titleReset,
-        descriptionReset,
+        title,
+        description,
         reset,
-        priorityReset,
+        priority,
         users,
         usersApi,
         status,
@@ -119,9 +97,9 @@ export const useTaskAddDialogHandler = (close: () => void) => {
     let formIsValid = false
 
     if (
-        titleIsValid &&
-        descriptionIsValid &&
-        priorityIsValid &&
+        title.isValid &&
+        description.isValid &&
+        priority.priorityIsValid &&
         users.assignedUsers.length > 0 &&
         !status.assignedStatusHasError &&
         status.assignedStatusTouched
@@ -154,6 +132,7 @@ export const useTaskAddDialogHandler = (close: () => void) => {
             labelsHandler,
             titleHandler,
             descriptionHandler,
+            priorityHandler,
         },
         dialog: {
             handleCancel,

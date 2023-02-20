@@ -1,26 +1,27 @@
 import React from 'react'
 import { TextField } from '@mui/material'
-// import inputHandler
+import { UseTaskInputReturnI } from '../../hooks/useTaskInput'
 
 interface Props {
-    inputHandler: any
-    tittle: string
+    inputHandler: UseTaskInputReturnI
 }
 
-const TaskInput: React.FC<Props> = ({ inputHandler, tittle }) => {
-    const { hasError, changeHandler, blurHandler } = inputHandler()
+const TaskInput: React.FC<Props> = ({ inputHandler }) => {
+    const { hasError, valueChangeHandler, inputBlurHandler } = inputHandler.input
+    const { label } = inputHandler
+
     return (
         <TextField
             required
             margin='normal'
-            id={tittle}
-            label={tittle}
+            id={label}
+            label={label}
             variant='standard'
             fullWidth
             error={hasError}
-            helperText={hasError ? 'title not valid' : ''}
-            onChange={(e) => changeHandler(e)}
-            onBlur={(e) => blurHandler(e)}
+            helperText={hasError ? `${label} not valid` : ''}
+            onChange={(e) => valueChangeHandler(e)}
+            onBlur={(e) => inputBlurHandler(e)}
         />
     )
 }

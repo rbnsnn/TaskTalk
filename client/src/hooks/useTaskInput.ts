@@ -1,41 +1,30 @@
-import { useState } from 'react'
-import { useApi } from './useApi'
-import { UserData } from '../types/user-data.type'
+import { useInput } from './useInput'
 
-export interface UseTaskReturnI {
-    users: {
-        assignedUsers: UserData[]
-        setAssignedUsers: any
-        assignedUsersHasError: boolean
-        setAssignedUsersHasError: any
+export interface UseTaskInputReturnI {
+    input: {
+        value: string
+        isValid: boolean
+        hasError: boolean
+        valueChangeHandler: (e: any) => void
+        inputBlurHandler: (e: any) => void
+        reset: () => void
     }
-    usersApi: {
-        usersData: UserData[]
-        resetUsers: () => void
-        refetchUsers: () => void
-    }
+    label: string
 }
 
-export const useUsersInput = (): UseTaskReturnI => {
-    const [assignedUsers, setAssignedUsers] = useState<UserData[]>([])
-    const [assignedUsersHasError, setAssignedUsersHasError] = useState<boolean>(false)
-    const {
-        data: usersData,
-        reset: resetUsers,
-        executeFetch: refetchUsers,
-    } = useApi('users/all', 'GET', false)
+export const useTaskInput = (label: string, conditions: any): UseTaskInputReturnI => {
+    const { value, isValid, hasError, valueChangeHandler, inputBlurHandler, reset } =
+        useInput(conditions)
 
     return {
-        users: {
-            assignedUsers,
-            setAssignedUsers,
-            assignedUsersHasError,
-            setAssignedUsersHasError,
+        input: {
+            value,
+            isValid,
+            hasError,
+            valueChangeHandler,
+            inputBlurHandler,
+            reset,
         },
-        usersApi: {
-            usersData,
-            resetUsers,
-            refetchUsers,
-        },
+        label,
     }
 }
