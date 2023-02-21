@@ -50,7 +50,9 @@ const TaskDetailsInfo: React.FC<Props> = ({ data }) => {
 
     const handlersValues = {
         title: title.value,
+        titleHasError: title.hasError,
         description: description.value,
+        descriptionHasError: description.hasError,
         priority: priority.priorityValue,
         status: status.assignedStatus,
         users: users.assignedUsers,

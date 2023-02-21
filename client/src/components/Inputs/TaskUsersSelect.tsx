@@ -5,9 +5,10 @@ import { UseUsersReturnI } from '../../hooks/useUsersInput'
 
 interface Props {
     usersHandler: UseUsersReturnI
+    taskEdit?: boolean
 }
 
-const TaskUsersSelect: React.FC<Props> = ({ usersHandler }) => {
+const TaskUsersSelect: React.FC<Props> = ({ usersHandler, taskEdit = false }) => {
     const {
         assignedUsers,
         setAssignedUsers,
@@ -20,7 +21,7 @@ const TaskUsersSelect: React.FC<Props> = ({ usersHandler }) => {
         <Autocomplete
             sx={{ mt: 2 }}
             multiple
-            limitTags={4}
+            limitTags={taskEdit ? -1 : 4}
             id='assigned-users'
             options={usersData ? usersData : []}
             getOptionLabel={(option: UserData) => option.username}
@@ -43,7 +44,11 @@ const TaskUsersSelect: React.FC<Props> = ({ usersHandler }) => {
                     setAssignedUsersHasError(true)
                 } else {
                     setAssignedUsers(newValue)
-                    setAssignedUsersHasError(false)
+                    if (newValue.length < 1) {
+                        setAssignedUsersHasError(true)
+                    } else {
+                        setAssignedUsersHasError(false)
+                    }
                 }
             }}
             onBlur={() => {
@@ -54,7 +59,7 @@ const TaskUsersSelect: React.FC<Props> = ({ usersHandler }) => {
             renderInput={(params) => (
                 <TextField
                     error={assignedUsersHasError}
-                    helperText={assignedUsersHasError ? 'Assigned users not valid' : ''}
+                    helperText={assignedUsersHasError ? 'Assigned cannot be empty' : ''}
                     required
                     {...params}
                     label='Assign task to'

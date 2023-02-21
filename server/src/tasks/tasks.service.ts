@@ -1,4 +1,10 @@
-import { Injectable, NotFoundException, Inject, forwardRef } from '@nestjs/common'
+import {
+    Injectable,
+    NotFoundException,
+    BadRequestException,
+    Inject,
+    forwardRef,
+} from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Task, TaskDocument } from './schemas/task.schema'
 import { Model } from 'mongoose'
@@ -9,6 +15,7 @@ import { TaskInterface } from './types/task.interface'
 import { StatusI } from './types/status.type'
 import { LabelI } from './types/task-label.type'
 import { UsersService } from 'src/users/users.service'
+import { UpdateTaskDto } from './dtos/update-task.dto'
 
 @Injectable()
 export class TasksService {
@@ -148,7 +155,7 @@ export class TasksService {
             }
             return tasks
         } catch (err) {
-            return err
+            throw new NotFoundException('Tasks not found')
         }
     }
 
@@ -186,6 +193,45 @@ export class TasksService {
             return true
         } catch (err) {
             return err
+        }
+    }
+
+    async updateOneTaskById(
+        companyId: string,
+        taskId: string,
+        payload: UpdateTaskDto
+    ): Promise<boolean> {
+        try {
+            const taskBeforeUpdate = await this.taskModel
+                .findOne({
+                    $and: [{ companyId }, { taskId }],
+                })
+                .lean()
+
+            if (!taskBeforeUpdate) {
+                throw new Error()
+            }
+
+            if (taskBeforeUpdate.assignedColumn !== payload.assignedColumn) {
+                await this.companiesService.removeTask(
+                    taskBeforeUpdate.assignedColumn,
+                    companyId,
+                    taskId
+                )
+                await this.companiesService.addTask(
+                    payload.assignedColumn,
+                    companyId,
+                    taskId
+                )
+            }
+
+            await this.taskModel.updateOne(
+                { $and: [{ companyId }, { taskId }] },
+                { ...payload }
+            )
+            return true
+        } catch (err) {
+            throw new BadRequestException('Something went wrong')
         }
     }
 }

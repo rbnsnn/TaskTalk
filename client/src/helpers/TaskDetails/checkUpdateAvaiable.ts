@@ -8,7 +8,9 @@ export interface CheckUpdate {
     data: TaskData
     handlersValues: {
         title: string
+        titleHasError: boolean
         description: string
+        descriptionHasError: boolean
         priority: Priority
         status: ColumnData | null
         users: UserData[]
@@ -17,7 +19,16 @@ export interface CheckUpdate {
 }
 
 export const checkUpdateAvaiable = ({ handlersValues, data }: CheckUpdate): boolean => {
-    const { title, description, priority, status, users, labels } = handlersValues
+    const {
+        title,
+        titleHasError,
+        description,
+        descriptionHasError,
+        priority,
+        status,
+        users,
+        labels,
+    } = handlersValues
 
     const {
         title: oldTitle,
@@ -36,11 +47,13 @@ export const checkUpdateAvaiable = ({ handlersValues, data }: CheckUpdate): bool
     const labelsChanged = labels.toString() === oldLabels.toString() || !labels.length
 
     return (
-        titleChanged &&
-        descriptionChanged &&
-        priorityChanged &&
-        statusChanged &&
-        usersChanged &&
-        labelsChanged
+        titleHasError ||
+        descriptionHasError ||
+        (titleChanged &&
+            descriptionChanged &&
+            priorityChanged &&
+            statusChanged &&
+            usersChanged &&
+            labelsChanged)
     )
 }

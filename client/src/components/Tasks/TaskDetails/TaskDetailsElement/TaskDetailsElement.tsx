@@ -1,5 +1,15 @@
 import React, { useState } from 'react'
-import { Typography, Paper, Box, styled } from '@mui/material'
+import {
+    Typography,
+    Button,
+    Paper,
+    Box,
+    styled,
+    Dialog,
+    DialogTitle,
+    DialogActions,
+    DialogContent,
+} from '@mui/material'
 import { hexToRgb } from '../../../../helpers/hexToRgb'
 import { CompanyUsers } from '../../../../types/company-users.type'
 import { LabelI } from '../../../../types/task-label.type'
@@ -17,6 +27,8 @@ import TaskPrioritySelect from '../../../Inputs/TaskPrioritySelect'
 import ElementEditButton from './ElementEditButton'
 import ElementCopyButton from './ElementCopyButton'
 import TaskInput from '../../../Inputs/TaskInput'
+import TaskUsersSelect from '../../../Inputs/TaskUsersSelect'
+import TaskLabelsSelect from '../../../Inputs/TaskLabelsSelect'
 
 const TypographyContainer = styled(Box)(() => ({
     display: 'flex',
@@ -228,6 +240,40 @@ const TaskDetailsElement: React.FC<Props> = ({
                             </Box>
                         </Box>
                     ))}
+                    {edit && (
+                        <Dialog
+                            fullWidth
+                            maxWidth='md'
+                            open={edit}
+                        >
+                            <DialogTitle>Edit assigned users</DialogTitle>
+                            <DialogContent>
+                                <TaskUsersSelect
+                                    usersHandler={handler as UseUsersReturnI}
+                                    taskEdit
+                                />
+                            </DialogContent>
+                            <DialogActions
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    gap: '80px',
+                                    mb: 2,
+                                }}
+                            >
+                                <Button
+                                    onClick={handleEditEnd}
+                                    variant='contained'
+                                    disabled={
+                                        (handler as UseUsersReturnI).users
+                                            .assignedUsersHasError
+                                    }
+                                >
+                                    Change
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+                    )}
                 </UsersContainer>
             )}
 
@@ -241,6 +287,38 @@ const TaskDetailsElement: React.FC<Props> = ({
                             description={label.description}
                         />
                     ))}
+                    {(value as LabelI[]).length === 0 && (
+                        <Typography>No assigned labels</Typography>
+                    )}
+                    {edit && (
+                        <Dialog
+                            fullWidth
+                            maxWidth='md'
+                            open={edit}
+                        >
+                            <DialogTitle>Edit assigned labels</DialogTitle>
+                            <DialogContent>
+                                <TaskLabelsSelect
+                                    labelsHandler={handler as UseLabelsReturnI}
+                                />
+                            </DialogContent>
+                            <DialogActions
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    gap: '80px',
+                                    mb: 2,
+                                }}
+                            >
+                                <Button
+                                    onClick={handleEditEnd}
+                                    variant='contained'
+                                >
+                                    Change
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+                    )}
                 </LabelsContainer>
             )}
         </Paper>

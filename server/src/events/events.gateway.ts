@@ -192,4 +192,11 @@ export class EventsGateway implements OnGatewayConnection {
         const data = await this.tasksService.getAllTasks(companyId)
         this.server.in(companyId).emit(TaskEvent.SetTasks, data)
     }
+
+    @SubscribeMessage(TaskEvent.UpdateTask)
+    async updateTask(@ConnectedSocket() client: Socket) {
+        const { companyId } = client.handshake.auth
+        const data = await this.tasksService.getAllTasks(companyId)
+        this.server.in(companyId).emit(TaskEvent.SetTasks, data)
+    }
 }

@@ -26,7 +26,10 @@ export const useLabelsInput = (active?: LabelI[]): UseLabelsReturnI => {
 
     useEffect(() => {
         if (labelsData && active) {
-            setAssignedLabels(active)
+            const activeLabels = labelsData.filter((label: LabelI) =>
+                active.find((activeLabel) => activeLabel.label === label.label)
+            )
+            setAssignedLabels(activeLabels)
         }
     }, [labelsData, active])
 
