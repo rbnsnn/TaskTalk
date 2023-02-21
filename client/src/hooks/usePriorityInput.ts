@@ -13,7 +13,7 @@ export interface UsePriorityReturnI {
     }
 }
 
-export const usePriorityInput = () => {
+export const usePriorityInput = (active?: string) => {
     const {
         value: priorityValue,
         isValid: priorityIsValid,
@@ -21,8 +21,7 @@ export const usePriorityInput = () => {
         valueChangeHandler: priorityChangeHandler,
         inputBlurHandler: priorityBlurHandler,
         reset: priorityReset,
-    } = useInput(isNotEmpty)
-
+    } = useInput(isNotEmpty, active)
     return {
         priority: {
             priorityValue,

@@ -7,9 +7,15 @@ import { UsePriorityReturnI } from '../../hooks/usePriorityInput'
 
 interface Props {
     priorityHandler: UsePriorityReturnI
+    taskEdit?: boolean
+    handleEditEnd?: () => void
 }
 
-const TaskPrioritySelect: React.FC<Props> = ({ priorityHandler }) => {
+const TaskPrioritySelect: React.FC<Props> = ({
+    priorityHandler,
+    taskEdit = false,
+    handleEditEnd,
+}) => {
     const {
         priorityValue,
         priorityHasError,
@@ -23,14 +29,16 @@ const TaskPrioritySelect: React.FC<Props> = ({ priorityHandler }) => {
             margin='normal'
             error={priorityHasError}
         >
-            <InputLabel id='priorityLabel'>Priority</InputLabel>
+            {!taskEdit && <InputLabel id='priorityLabel'>Priority</InputLabel>}
             <Select
+                autoFocus={taskEdit}
                 value={priorityValue || ''}
-                label='Priority'
+                label={taskEdit ? null : 'Priority'}
+                variant={taskEdit ? 'standard' : 'outlined'}
                 labelId='priorityLabel'
                 id='priority'
                 onChange={priorityChangeHandler}
-                onBlur={priorityBlurHandler}
+                onBlur={taskEdit ? handleEditEnd : priorityBlurHandler}
             >
                 {(Object.keys(Priority) as Array<keyof typeof Priority>).map((item) => {
                     return (

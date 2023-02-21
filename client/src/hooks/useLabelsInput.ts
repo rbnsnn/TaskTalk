@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { LabelI } from '../types/task-label.type'
 import { useApi } from './useApi'
 
@@ -9,18 +9,26 @@ export interface UseLabelsReturnI {
     }
     labelsApi: {
         labelsData: LabelI[]
+        labelsLoading: boolean
         resetLabels: () => void
         refetchLabels: () => void
     }
 }
 
-export const useLabelsInput = (): UseLabelsReturnI => {
+export const useLabelsInput = (active?: LabelI[]): UseLabelsReturnI => {
     const [assignedLabels, setAssignedLabels] = useState<LabelI[]>([])
     const {
         data: labelsData,
+        loading: labelsLoading,
         reset: resetLabels,
         executeFetch: refetchLabels,
-    } = useApi('companies/labels', 'GET', false)
+    } = useApi('companies/labels', 'GET')
+
+    useEffect(() => {
+        if (labelsData && active) {
+            setAssignedLabels(active)
+        }
+    }, [labelsData, active])
 
     return {
         labels: {
@@ -29,6 +37,7 @@ export const useLabelsInput = (): UseLabelsReturnI => {
         },
         labelsApi: {
             labelsData,
+            labelsLoading,
             resetLabels,
             refetchLabels,
         },

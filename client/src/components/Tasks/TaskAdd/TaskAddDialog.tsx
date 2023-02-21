@@ -14,7 +14,6 @@ interface Props {
 }
 const TaskAddDialog: React.FC<Props> = ({ open, close }) => {
     const { handlers, dialog, dialogApi } = useTaskAddDialogHandler(close)
-
     const {
         statusHandler,
         usersHandler,

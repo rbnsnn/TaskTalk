@@ -41,20 +41,20 @@ export const useApi: Arguments = (url, method, immediate = true) => {
             setLoading(true)
             try {
                 const response = await axiosApi(config)
-                setError('')
-                setSuccess(true)
-                setData(response.data)
+                await setError('')
+                await setSuccess(true)
+                await setData(response.data)
             } catch (error: any) {
                 if (error.response.status === 403) {
-                    dispatch(authActions.logout())
+                    await dispatch(authActions.logout())
                 }
                 if (error.response && error.response.data) {
-                    setError(error.response.data.message)
+                    await setError(error.response.data.message)
                 } else {
-                    setError(error.message)
+                    await setError(error.message)
                 }
             } finally {
-                setLoading(false)
+                await setLoading(false)
             }
         },
         [dispatch, method, url]

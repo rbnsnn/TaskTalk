@@ -21,7 +21,7 @@ export const useTaskAddDialogHandler = (close: () => void) => {
     const titleHandler = useTaskInput('Title', isLongerThan(4))
     const { input: title } = titleHandler
 
-    const descriptionHandler = useTaskInput('Title', isLongerThan(8))
+    const descriptionHandler = useTaskInput('Description', isLongerThan(8))
     const { input: description } = descriptionHandler
 
     const usersHandler = useUsersInput()
@@ -35,12 +35,6 @@ export const useTaskAddDialogHandler = (close: () => void) => {
 
     const priorityHandler = usePriorityInput()
     const { priority } = priorityHandler
-
-    const fetchData = async () => {
-        await statusApi.refetchStatus()
-        await usersApi.refetchUsers()
-        await labelsApi.refetchLabels()
-    }
 
     const handleSubmit = async (): Promise<any> => {
         const assignes = users.assignedUsers.map((user: UserData) => ({
@@ -106,11 +100,6 @@ export const useTaskAddDialogHandler = (close: () => void) => {
     ) {
         formIsValid = true
     }
-
-    useEffect(() => {
-        fetchData()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
 
     useEffect(() => {
         if (!success) {

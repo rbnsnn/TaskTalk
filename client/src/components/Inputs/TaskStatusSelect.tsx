@@ -5,9 +5,15 @@ import { UseStatusReturnI } from '../../hooks/useStatusInput'
 
 interface Props {
     statusHandler: UseStatusReturnI
+    taskEdit?: boolean
+    handleEditEnd?: () => void
 }
 
-const TaskStatusSelect: React.FC<Props> = ({ statusHandler }) => {
+const TaskStatusSelect: React.FC<Props> = ({
+    statusHandler,
+    taskEdit = false,
+    handleEditEnd,
+}) => {
     const {
         assignedStatus,
         setAssignedStatus,
@@ -20,6 +26,7 @@ const TaskStatusSelect: React.FC<Props> = ({ statusHandler }) => {
 
     return (
         <Autocomplete
+            disableClearable={taskEdit}
             fullWidth
             sx={{ mt: 2 }}
             id='assigned-status'
@@ -43,14 +50,19 @@ const TaskStatusSelect: React.FC<Props> = ({ statusHandler }) => {
                     setAssignedStatusHasError(true)
                     setAssignedStatusTouched(true)
                 }
+                if (taskEdit) {
+                    handleEditEnd!()
+                }
             }}
             renderInput={(params) => (
                 <TextField
+                    autoFocus={taskEdit}
+                    variant={taskEdit ? 'standard' : 'outlined'}
                     error={assignedStatusHasError}
                     helperText={assignedStatusHasError ? 'status not valid' : ''}
                     required
                     {...params}
-                    label='Status'
+                    label={taskEdit ? null : 'Status'}
                 />
             )}
         />

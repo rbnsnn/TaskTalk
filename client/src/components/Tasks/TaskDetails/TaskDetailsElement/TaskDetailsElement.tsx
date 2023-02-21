@@ -1,28 +1,22 @@
 import React, { useState } from 'react'
-import {
-    Typography,
-    Paper,
-    Box,
-    Button,
-    TextField,
-    Select,
-    FormControl,
-    Autocomplete,
-    MenuItem,
-    styled,
-} from '@mui/material'
+import { Typography, Paper, Box, styled } from '@mui/material'
 import { hexToRgb } from '../../../../helpers/hexToRgb'
 import { CompanyUsers } from '../../../../types/company-users.type'
 import { LabelI } from '../../../../types/task-label.type'
-import { Priority } from '../../../../types/priority-enum'
-import { setPriorityColor } from '../../../../helpers/setPriorityColor'
+import { UseStatusReturnI } from '../../../../hooks/useStatusInput'
+import { UsePriorityReturnI } from '../../../../hooks/usePriorityInput'
+import { UseLabelsReturnI } from '../../../../hooks/useLabelsInput'
+import { UseUsersReturnI } from '../../../../hooks/useUsersInput'
+import { UserData } from '../../../../types/user-data.type'
+import { UseTaskInputReturnI } from '../../../../hooks/useTaskInput'
 import { capitalize } from '../../../../helpers/capitalize'
-import { useApi } from '../../../../hooks/useApi'
-import ContentCopyIcon from '@mui/icons-material/ContentCopy'
-import EditIcon from '@mui/icons-material/Edit'
 import UserAvatar from '../../../Users/UserAvatar/UserAvatar'
 import Label from '../../../Labels/Label'
-import { ColumnData } from '../../../../types/column-data.type'
+import TaskStatusSelect from '../../../Inputs/TaskStatusSelect'
+import TaskPrioritySelect from '../../../Inputs/TaskPrioritySelect'
+import ElementEditButton from './ElementEditButton'
+import ElementCopyButton from './ElementCopyButton'
+import TaskInput from '../../../Inputs/TaskInput'
 
 const TypographyContainer = styled(Box)(() => ({
     display: 'flex',
@@ -51,47 +45,43 @@ const UsersContainer = styled(Box)(() => ({
     justifyContent: 'flex-start',
 }))
 
-const StyledButton = styled(Button)(({ theme }) => ({
-    color: theme.palette.mode === 'dark' ? '#eee' : '',
-}))
-
 interface Props {
-    caption: string
-    value: string | CompanyUsers[] | LabelI[] | ColumnData[] | null
-    setValue?: any
+    caption?: string
+    value: string | UserData[] | LabelI[]
+    handler?:
+        | UsePriorityReturnI
+        | UseStatusReturnI
+        | UsePriorityReturnI
+        | UseStatusReturnI
+        | UseLabelsReturnI
+        | UseUsersReturnI
+        | UseTaskInputReturnI
+        | null
     copy?: boolean
-    variant?: 'typography' | 'selectPriority' | 'selectStatus' | 'labels' | 'users'
+    variant?: 'default' | 'selectPriority' | 'selectStatus' | 'labels' | 'users'
     editable?: boolean
     flex?: number
     color?: string
 }
 
 const TaskDetailsElement: React.FC<Props> = ({
-    caption,
     value,
-    setValue = null,
+    caption = '',
+    handler = null,
     copy = false,
-    variant = 'typography',
+    variant = 'default',
     editable = false,
     flex = 1,
     color = '',
 }) => {
-    const {
-        data: statusData,
-        reset: resetStatus,
-        executeFetch: refetchStatus,
-    } = useApi('companies/names', 'GET')
     const [edit, setEdit] = useState<boolean>(false)
-    console.log(statusData)
+
     const handleEditStart = (): void => {
         setEdit(true)
     }
+
     const handleEditEnd = (): void => {
         setEdit(false)
-    }
-
-    const handleChange = (event: any) => {
-        setValue(event.target.value)
     }
 
     const rgb = hexToRgb(color)
@@ -122,43 +112,26 @@ const TaskDetailsElement: React.FC<Props> = ({
                 {editable || copy ? (
                     <>
                         {editable && (
-                            <StyledButton
-                                size='small'
-                                onClick={handleEditStart}
-                            >
-                                <EditIcon sx={{ mr: 2 }} />
-                                Edit
-                            </StyledButton>
+                            <ElementEditButton
+                                edit={edit}
+                                handleEditStart={handleEditStart}
+                            />
                         )}
 
-                        {copy && (
-                            <StyledButton
-                                size='small'
-                                onClick={() => {
-                                    navigator.clipboard.writeText(value as string)
-                                }}
-                            >
-                                <ContentCopyIcon sx={{ mr: 2 }} />
-                                Copy
-                            </StyledButton>
-                        )}
+                        {copy && <ElementCopyButton value={value as string} />}
                     </>
                 ) : (
                     <Box height='32px'></Box>
                 )}
             </Box>
 
-            {variant === 'typography' && (
+            {variant === 'default' && (
                 <TypographyContainer>
                     {edit ? (
-                        <TextField
-                            id={caption}
-                            autoFocus
-                            variant='standard'
-                            multiline
-                            value={value}
-                            onChange={handleChange}
-                            onBlur={handleEditEnd}
+                        <TaskInput
+                            inputHandler={handler as UseTaskInputReturnI}
+                            taskEdit
+                            handleEditEnd={handleEditEnd}
                         />
                     ) : (
                         <Typography
@@ -178,37 +151,11 @@ const TaskDetailsElement: React.FC<Props> = ({
             {variant === 'selectPriority' && (
                 <TypographyContainer>
                     {edit ? (
-                        <FormControl
-                            fullWidth
-                            required
-                        >
-                            <Select
-                                value={value}
-                                labelId='priorityLabel'
-                                variant='standard'
-                                id='priority'
-                                onChange={handleChange}
-                                onBlur={handleEditEnd}
-                            >
-                                {(
-                                    Object.keys(Priority) as Array<keyof typeof Priority>
-                                ).map((item) => {
-                                    return (
-                                        <MenuItem
-                                            key={item}
-                                            value={item.toLowerCase()}
-                                            sx={{
-                                                color: setPriorityColor(
-                                                    item.toLowerCase()
-                                                ),
-                                            }}
-                                        >
-                                            {capitalize(item)}
-                                        </MenuItem>
-                                    )
-                                })}
-                            </Select>
-                        </FormControl>
+                        <TaskPrioritySelect
+                            priorityHandler={handler as UsePriorityReturnI}
+                            taskEdit
+                            handleEditEnd={handleEditEnd}
+                        />
                     ) : (
                         <Typography
                             variant='h5'
@@ -218,7 +165,7 @@ const TaskDetailsElement: React.FC<Props> = ({
                                 maxWidth: '100%',
                             }}
                         >
-                            {value as string}
+                            {capitalize(value as string)}
                         </Typography>
                     )}
                 </TypographyContainer>
@@ -227,43 +174,10 @@ const TaskDetailsElement: React.FC<Props> = ({
             {variant === 'selectStatus' && (
                 <TypographyContainer>
                     {edit ? (
-                        <Autocomplete
-                            fullWidth
-                            sx={{ mt: 2 }}
-                            id='assigned-status'
-                            options={statusData ? statusData : []}
-                            getOptionLabel={(option: any) => option.name}
-                            filterSelectedOptions
-                            value={value as ColumnData[]}
-                            onChange={(event: any, newValue: any, reason: string) => {
-                                if (reason === 'clear') {
-                                    setValue(null)
-                                    // setAssignedStatusHasError(true)
-                                    // setAssignedStatusTouched(true)
-                                } else {
-                                    setValue(newValue)
-                                    // setAssignedStatusHasError(false)
-                                    // setAssignedStatusTouched(true)
-                                }
-                            }}
-                            onBlur={() => {
-                                handleEditEnd()
-                                // if (!assignedStatus) {
-                                //     setAssignedStatusHasError(true)
-                                //     setAssignedStatusTouched(true)
-                                // }
-                            }}
-                            renderInput={(params) => (
-                                <TextField
-                                    // error={assignedStatusHasError}
-                                    // helperText={
-                                    //     assignedStatusHasError ? 'status not valid' : ''
-                                    // }
-                                    required
-                                    {...params}
-                                    label='Status'
-                                />
-                            )}
+                        <TaskStatusSelect
+                            statusHandler={handler as UseStatusReturnI}
+                            taskEdit
+                            handleEditEnd={handleEditEnd}
                         />
                     ) : (
                         <Typography
