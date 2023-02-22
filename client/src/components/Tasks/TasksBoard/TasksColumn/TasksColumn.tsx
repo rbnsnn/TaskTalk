@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, CardContent, Divider, Box, styled } from '@mui/material'
 import { Droppable, Draggable } from 'react-beautiful-dnd'
 import TasksColumnTitle from './TasksColumnTitle'
@@ -48,6 +48,10 @@ const TasksColumn: React.FC<Props> = ({ data, index, columns }) => {
     }
 
     const [columnColor, setColumnColor] = useState<string>(data.color)
+
+    useEffect(() => {
+        setColumnColor(data.color)
+    }, [data])
 
     return (
         <Draggable
