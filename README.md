@@ -15,6 +15,8 @@ Fullstack app for managing tasks with kanban board.
 Link for live demo: [tasktalk.rbnsnn.com](https://tasktalk.rbnsnn.com)
 
 ![demo gif](./images/demo.gif)
+
+
 ![demo gif](./images/demo2.gif)
 
 ## Tech Stack
